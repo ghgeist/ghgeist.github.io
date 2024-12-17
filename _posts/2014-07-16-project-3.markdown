@@ -1,11 +1,11 @@
 ---
-title: Golden
+title: Urbanism
 subtitle: Website Design
 layout: default
 modal-id: 3
 date: 2014-07-16
-img: golden.png
-thumbnail: golden-thumbnail.png
+img: urbanism_project_header.png
+thumbnail: urbanism_project_header.png
 alt: image-alt
 project-date: April 2014
 client: Start Bootstrap

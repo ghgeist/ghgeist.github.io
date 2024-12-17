@@ -1,7 +1,7 @@
- <!-- Portfolio Modals -->
- {% for post in site.posts %}
-    <div class="portfolio-modal modal fade" id="portfolioModal{{ post.modal-id }}" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
+<!-- Portfolio Modals -->
+{% for post in site.posts %}
+    <div class="portfolio-modal modal fade" id="portfolioModal{{ post.modal-id }}" tabindex="-1" role="dialog">
+        <div class="modal-content" role="document">
             <div class="close-modal" data-dismiss="modal">
                 <div class="lr">
                     <div class="rl">
@@ -36,5 +36,43 @@
                 </div>
             </div>
         </div>
+        <script>
+            // Wait for all scripts to be loaded
+            window.addEventListener('load', function() {
+                // Store the default section
+                let defaultSection = '#portfolio';
+                let $modal = $('#portfolioModal{{ post.modal-id }}');
+
+                // Handle modal state changes
+                $modal
+                    .on('show.bs.modal', function () {
+                        window.history.pushState({modal: true}, '', '#portfolioModal{{ post.modal-id }}');
+                        $(this).removeAttr('aria-hidden');
+                    })
+                    .on('hidden.bs.modal', function () {
+                        window.history.pushState({modal: false}, '', defaultSection);
+                        // Ensure focus is returned to the trigger element
+                        $('.portfolio-link[href="#portfolioModal{{ post.modal-id }}"]').focus();
+                    });
+
+                // Handle browser back button
+                $(window).on('popstate', function(event) {
+                    if ($modal.is(':visible')) {
+                        $modal.modal('hide');
+                    }
+                    if (!window.location.hash || 
+                        window.location.hash === '#team' || 
+                        window.location.hash === '#services' ||
+                        window.location.pathname === '/') {
+                        window.history.replaceState(null, '', defaultSection);
+                    }
+                });
+
+                // Additional check on page load
+                if (!window.location.hash) {
+                    window.history.replaceState(null, '', defaultSection);
+                }
+            });
+        </script>
     </div>
 {% endfor %}
