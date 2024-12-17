@@ -501,6 +501,22 @@ section h3.section-subheading {
     background-color: #{{ site.data.template.color.primary }};
 }
 
+.seedling-icon {
+    width: 70% !important;
+    height: 70% !important;
+    position: relative !important;
+    border: none !important;
+    margin: 15% !important;  
+}
+
+.img-small {
+    width: 60% !important;
+    height: 60% !important;
+    position: relative !important;
+    border: none !important;
+    margin: 20% !important;  
+}
+
 .timeline>li .timeline-image h4 {
     margin-top: 12px;
     font-size: 10px;
