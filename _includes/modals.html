@@ -15,22 +15,39 @@
                             <h2>{{ post.title }}</h2>
                             <hr class="star-primary">
                             <img src="img/portfolio/{{ post.img }}" class="img-responsive img-centered" alt="{{ post.alt }}">
-                            <p>{{ post.description }}</p>
-                            <ul class="list-inline item-details">
-                                <li>Client:
-                                    <strong><a href="http://startbootstrap.com">{{ post.client }}</a>
-                                    </strong>
-                                </li>
-                                <li>Date:
-                                    <strong><a href="http://startbootstrap.com">{{ post.project-date }}</a>
-                                    </strong>
-                                </li>
-                                <li>Service:
-                                    <strong><a href="http://startbootstrap.com">{{ post.category }}</a>
-                                    </strong>
-                                </li>
-                            </ul>
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            
+                            <div class="project-content">
+                                {{ post.description | markdownify }}
+                                
+                                {% if post.tools_used %}
+                                <div class="tools-used">
+                                    <h4>Technologies Used:</h4>
+                                    <ul class="tools-list">
+                                        {% for tool in post.tools_used %}
+                                        <li>{{ tool }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="project-links">
+                                {% if post.github %}
+                                <a href="{{ post.github }}" class="btn btn-github" target="_blank">
+                                    <i class="fab fa-github"></i> View on GitHub
+                                </a>
+                                {% endif %}
+                                
+                                {% if post.demo %}
+                                <a href="{{ post.demo }}" class="btn btn-demo" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                </a>
+                                {% endif %}
+                            </div>
+                            
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                <i class="fa fa-times"></i> Close
+                            </button>
                         </div>
                     </div>
                 </div>

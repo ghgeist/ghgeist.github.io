@@ -15,5 +15,9 @@
     {% include modals.html %}
     {% include js.html %}
 
+    <div class="project-description">
+      {{ page.description | markdownify }}
+    </div>
+
     </body>
 </html>
