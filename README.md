@@ -2,20 +2,11 @@
 
 Welcome to my portfolio website repository! This site showcases my projects and professional experience.
 
-## Structure
+## Features
 
-- `index.html` - Main landing page
-- `css/` - Stylesheet files
-- `js/` - JavaScript files
-- `assets/` - Images, documents, and other media
-- `pages/` - Additional HTML pages
-
-## Local Development
-
-1. Clone the repository
-2. Open index.html in your browser
-3. Make changes and test locally
-4. Push changes to deploy to GitHub Pages
+- Responsive design for optimal viewing on all devices.
+- Interactive elements to enhance user experience.
+- Easy navigation to different sections and projects.
 
 ## Technologies Used
 
@@ -23,3 +14,7 @@ Welcome to my portfolio website repository! This site showcases my projects and 
 - CSS3
 - JavaScript
 - GitHub Pages
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
