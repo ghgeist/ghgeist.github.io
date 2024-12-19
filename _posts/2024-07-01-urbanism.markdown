@@ -1,0 +1,26 @@
+---
+title: Exploring the National Walkability Index
+subtitle: Data Analysis & Urban Planning
+layout: default
+modal-id: 3
+date: 2024-07-01
+img: urbanism_project.png
+thumbnail: urbanism_project_thumbnail.png
+alt: Urban walkability heatmap visualization
+tags: [Python, GIS, Data Visualization]
+github: https://github.com/ghgeist/urbanism_project
+demo: https://citybot.streamlit.app/
+category: Data Analytics
+description: |
+  A data-driven exploration of walkability patterns across US cities using the EPA's National Walkability Index. 
+  
+  #### Key highlights:
+
+  - Created interactive visualizations using Python and Folium
+
+tools_used:
+  - Python (geopandas, geopy, pandas, shapely, sqlalchemy)
+  - Folium for interactive mapping
+  - Streamlit for web application
+  - Neon PostgreSQL for database management
+---

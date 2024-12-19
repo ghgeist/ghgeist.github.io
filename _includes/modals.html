@@ -32,14 +32,19 @@
                             </div>
                             
                             <div class="project-links">
+                                {% if post.project %}
+                                <a href="{{ post.project }}" class="btn btn-primary" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> View Project PDF
+                                </a>
+                                {% endif %}
                                 {% if post.github %}
-                                <a href="{{ post.github }}" class="btn btn-github" target="_blank">
+                                <a href="{{ post.github }}" class="btn btn-primary" target="_blank">
                                     <i class="fab fa-github"></i> View on GitHub
                                 </a>
                                 {% endif %}
                                 
                                 {% if post.demo %}
-                                <a href="{{ post.demo }}" class="btn btn-demo" target="_blank">
+                                <a href="{{ post.demo }}" class="btn btn-primary" target="_blank">
                                     <i class="fas fa-external-link-alt"></i> Live Demo
                                 </a>
                                 {% endif %}

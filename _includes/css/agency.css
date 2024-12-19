@@ -6,16 +6,16 @@
 
 body {
     overflow-x: hidden;
-    font-family: "Roboto Slab","Helvetica Neue",Helvetica,Arial,sans-serif;
-    color: #{{ site.data.template.color.secondary-dark }};
+    font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #{{ site.data.template.color.secondary-dark | default: '000000' }};
 }
 
 .text-muted {
-    color: #{{ site.data.template.color.muted }};
+    color: #{{ site.data.template.color.muted | default: '999999' }};
 }
 
 .text-primary {
-    color: #{{ site.data.template.color.primary }};
+    color: #{{ site.data.template.color.primary | default: '333333' }};
 }
 
 p {
@@ -180,11 +180,17 @@ fieldset[disabled] .btn-xl.active {
     color: #{{ site.data.template.color.primary }};
 }
 
+.navbar-brand.site-title {
+    font-family: Montserrat,cursive;
+    color:  #fff;
+}
+
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus,
 .navbar-default .navbar-brand:active,
 .navbar-default .navbar-brand.active {
-    color: #{{ site.data.template.color.secondary }};
+    font-family: "Kaushan Script","Helvetica Neue",Helvetica,Arial,cursive;
+    color: #{{ site.data.template.color.primary }};
 }
 
 .navbar-default .navbar-collapse {
@@ -269,7 +275,7 @@ header {
     text-align: center;
     color: #fff;
     background-attachment: scroll;
-    background-image: url('{{ site.baseurl }}/img/header-bg.jpg');
+    background-image: url('{{ site.baseurl }}/img/header_v5.jpg');
     background-position: center center;
     background-repeat: none;
     -webkit-background-size: cover;
@@ -364,6 +370,12 @@ section h3.section-subheading {
     position: relative;
     margin: 0 auto;
     max-width: 400px;
+}
+
+#portfolio .portfolio-item .portfolio-link img {
+    max-height: 250px;
+    width: auto;
+    object-fit: cover;
 }
 
 #portfolio .portfolio-item .portfolio-link .portfolio-hover {
@@ -494,11 +506,16 @@ section h3.section-subheading {
     width: 80px;
     height: 80px;
     margin-left: 0;
-    border: 7px solid #f1f1f1;
+    border: 7px solid #f1f1f1;  
     border-radius: 100%;
     text-align: center;
     color: #fff;
-    background-color: #{{ site.data.template.color.primary }};
+    background-color: #fff;  /* Keeping white background */
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);  /* Optional: adds subtle depth */
 }
 
 .seedling-icon {
@@ -856,6 +873,24 @@ ul.social-buttons li a:active {
     line-height: 1.6;
 }
 
+/* Style links only within post descriptions */
+.description a {
+    color: #0366d6;
+    text-decoration: underline;
+}
+
+.description a:hover {
+    color: #0056b3;
+}
+
+/* Preserve original styling for project links */
+.project-links a,     /* Add this class if you have one */
+[href*="github.com"],  /* Matches GitHub links */
+[href*="demo"] {      /* Matches demo links */
+    /* Add your original link styling here */
+    color: initial;   /* or whatever color you currently use */
+}
+
 /* Style the tools section */
 .tools-used {
     margin-top: 2rem;
@@ -886,14 +921,6 @@ ul.social-buttons li a:active {
     justify-content: center;
 }
 
-.btn-github,
-.btn-demo {
-    padding: 0.75rem 1.5rem;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
 
 .tools-list {
     list-style: none;
@@ -916,19 +943,6 @@ ul.social-buttons li a:active {
     justify-content: center;
 }
 
-.btn-github,
-.btn-demo {
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.btn-github:hover,
-.btn-demo:hover {
-    transform: translateY(-2px);
-}
-
 ::-moz-selection {
     text-shadow: none;
     background: #{{ site.data.template.color.primary }};
@@ -949,4 +963,23 @@ img::-moz-selection {
 
 body {
     webkit-tap-highlight-color: #{{ site.data.template.color.primary }};
+}
+
+/* Style links within project descriptions - using !important to override template colors */
+.portfolio-modal .project-content a {
+    color: #0366d6 !important;
+    text-decoration: underline;
+}
+
+.portfolio-modal .project-content a:hover {
+    color: #0056b3 !important;
+}
+
+/* Preserve original styling for project buttons and social links */
+.project-links a,
+.social-buttons a,
+[href*="github.com"].btn,
+[href*="demo"].btn {
+    color: inherit !important;
+    text-decoration: none;
 }
