@@ -425,6 +425,10 @@ section h3.section-subheading {
     clear: both;
 }
 
+.timeline > li.last-item:after {
+    display: none;
+}
+
 /* Timeline Panels */
 .timeline > li .timeline-panel {
     float: right;
