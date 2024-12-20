@@ -9,7 +9,7 @@ thumbnail: embodied_ai_thumbnail.png
 alt: Embodied A.I.
 tags: [Product Design, AI, Embodied A.I.]
 project: assets/risd_capstone.pdf
-demo:  # Add link to the 3D rendering of the product
+demo:  https://sketchfab.com/3d-models/embodied-ai-fc2d32e53e074a6c8963db94fa0c63e4
 category: Product Design
 description: |
   An exploration into the future of embodied artificial intelligence through product design. 
