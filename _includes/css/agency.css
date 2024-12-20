@@ -134,6 +134,18 @@ p.large {
     color: var(--color-primary);
 }
 
+/* Site Title Override */
+.navbar-default .navbar-brand.site-title {
+    color: #ffffff;
+    cursor: default;
+    pointer-events: none;
+}
+
+.navbar-default .navbar-brand.site-title:hover,
+.navbar-default .navbar-brand.site-title:focus {
+    color: #ffffff;
+}
+
 .navbar-default .nav li a:hover,
 .navbar-default .nav li a:focus {
     color: var(--color-primary);
