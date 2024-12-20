@@ -4,18 +4,89 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
+/* ==========================================================================
+   Table of Contents:
+   
+   1. Core Variables & Mixins
+   2. Global Styles
+   3. Typography
+   4. Navigation
+   5. Header/Hero
+   6. Sections Common
+   7. Portfolio Grid
+   8. Portfolio Modals
+   9. Timeline
+   10. Contact & Social
+   11. Buttons
+   12. Media Queries
+   ========================================================================== */
+
+/* ==========================================================================
+   1. Core Variables & Mixins
+   ========================================================================== */
+:root {
+    --color-primary: #{{ site.data.template.color.primary }};
+    --color-secondary: #{{ site.data.template.color.secondary }};
+    --color-text: #{{ site.data.template.color.secondary-dark }};
+    --color-muted: #{{ site.data.template.color.muted }};
+    --font-primary: {{ site.data.template.font.primary }};
+    --font-secondary: {{ site.data.template.font.secondary }};
+}
+
+/* ==========================================================================
+   2. Global Styles
+   ========================================================================== */
 body {
     overflow-x: hidden;
     font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #{{ site.data.template.color.secondary-dark | default: '000000' }};
+    color: var(--color-text);
+    -webkit-tap-highlight-color: var(--color-primary);
 }
 
-.text-muted {
-    color: #{{ site.data.template.color.muted | default: '999999' }};
+.bg-light-gray { background-color: #f7f7f7; }
+.bg-darkest-gray { background-color: #222; }
+.img-centered { margin: 0 auto; }
+
+/* Text colors */
+.text-muted { color: var(--color-muted); }
+.text-primary { color: var(--color-primary); }
+
+/* Links */
+a {
+    color: var(--color-primary);
 }
 
-.text-primary {
-    color: #{{ site.data.template.color.primary | default: '333333' }};
+a:hover,
+a:focus,
+a:active,
+a.active {
+    color: var(--color-secondary);
+    outline: 0;
+}
+
+/* Selection styles */
+::-moz-selection {
+    text-shadow: none;
+    background: var(--color-primary);
+}
+
+::selection {
+    text-shadow: none;
+    background: var(--color-primary);
+}
+
+img::selection,
+img::-moz-selection {
+    background: 0 0;
+}
+
+/* ==========================================================================
+   3. Typography
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6 {
+    text-transform: uppercase;
+    font-family: var(--font-primary);
+    font-weight: 700;
 }
 
 p {
@@ -27,149 +98,9 @@ p.large {
     font-size: 16px;
 }
 
-a,
-a:hover,
-a:focus,
-a:active,
-a.active {
-    outline: 0;
-}
-
-a {
-    color: #{{ site.data.template.color.primary }};
-}
-
-a:hover,
-a:focus,
-a:active,
-a.active {
-    color: #{{ site.data.template.color.secondary }};
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    text-transform: uppercase;
-    font-family: {{ site.data.template.font.primary }};
-    font-weight: 700;
-}
-
-.img-centered {
-    margin: 0 auto;
-}
-
-.bg-light-gray {
-    background-color: #f7f7f7;
-}
-
-.bg-darkest-gray {
-    background-color: #222;
-}
-
-.btn-primary {
-    border-color: #{{ site.data.template.color.primary }};
-    text-transform: uppercase;
-    font-family: {{ site.data.template.font.primary }};
-    font-weight: 700;
-    color: #fff;
-    background-color: #{{ site.data.template.color.primary }};
-}
-
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary:active,
-.btn-primary.active,
-.open .dropdown-toggle.btn-primary {
-    border-color: #{{ site.data.template.color.primary }};
-    color: #fff;
-    background-color: #{{ site.data.template.color.secondary }};
-}
-
-.btn-primary:active,
-.btn-primary.active,
-.open .dropdown-toggle.btn-primary {
-    background-image: none;
-}
-
-.btn-primary.disabled,
-.btn-primary[disabled],
-fieldset[disabled] .btn-primary,
-.btn-primary.disabled:hover,
-.btn-primary[disabled]:hover,
-fieldset[disabled] .btn-primary:hover,
-.btn-primary.disabled:focus,
-.btn-primary[disabled]:focus,
-fieldset[disabled] .btn-primary:focus,
-.btn-primary.disabled:active,
-.btn-primary[disabled]:active,
-fieldset[disabled] .btn-primary:active,
-.btn-primary.disabled.active,
-.btn-primary[disabled].active,
-fieldset[disabled] .btn-primary.active {
-    border-color: #{{ site.data.template.color.primary }};
-    background-color: #{{ site.data.template.color.primary }};
-}
-
-.btn-primary .badge {
-    color: #{{ site.data.template.color.primary }};
-    background-color: #fff;
-}
-
-.btn-xl {
-    padding: 20px 40px;
-    border-color: #{{ site.data.template.color.primary }};
-    border-radius: 3px;
-    text-transform: uppercase;
-    font-family: {{ site.data.template.font.primary }};
-    font-size: 18px;
-    font-weight: 700;
-    color: #fff;
-    background-color: #{{ site.data.template.color.primary }};
-}
-
-.btn-xl:hover,
-.btn-xl:focus,
-.btn-xl:active,
-.btn-xl.active,
-.open .dropdown-toggle.btn-xl {
-    border-color: #{{ site.data.template.color.primary }};
-    color: #fff;
-    background-color: #{{ site.data.template.color.secondary }};
-}
-
-.btn-xl:active,
-.btn-xl.active,
-.open .dropdown-toggle.btn-xl {
-    background-image: none;
-}
-
-.btn-xl.disabled,
-.btn-xl[disabled],
-fieldset[disabled] .btn-xl,
-.btn-xl.disabled:hover,
-.btn-xl[disabled]:hover,
-fieldset[disabled] .btn-xl:hover,
-.btn-xl.disabled:focus,
-.btn-xl[disabled]:focus,
-fieldset[disabled] .btn-xl:focus,
-.btn-xl.disabled:active,
-.btn-xl[disabled]:active,
-fieldset[disabled] .btn-xl:active,
-.btn-xl.disabled.active,
-.btn-xl[disabled].active,
-fieldset[disabled] .btn-xl.active {
-    border-color: #{{ site.data.template.color.primary }};
-    background-color: #{{ site.data.template.color.primary }};
-}
-
-.btn-xl .badge {
-    color: #{{ site.data.template.color.primary }};
-    background-color: #fff;
-}
-
+/* ==========================================================================
+   4. Navigation
+   ========================================================================== */
 .navbar-default {
     border-color: transparent;
     background-color: #222;
@@ -177,29 +108,54 @@ fieldset[disabled] .btn-xl.active {
 
 .navbar-default .navbar-brand {
     font-family: "Kaushan Script","Helvetica Neue",Helvetica,Arial,cursive;
-    color: #{{ site.data.template.color.primary }};
+    color: var(--color-primary);
 }
 
 .navbar-brand.site-title {
     font-family: Montserrat,cursive;
-    color:  #fff;
+    color: #fff;
 }
 
+/* Navigation Links */
+.navbar-default .nav li a {
+    text-transform: uppercase;
+    font-family: var(--font-primary);
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: #fff;
+    transition: all ease .35s;
+}
+
+/* Navigation States */
 .navbar-default .navbar-brand:hover,
 .navbar-default .navbar-brand:focus,
 .navbar-default .navbar-brand:active,
 .navbar-default .navbar-brand.active {
-    font-family: "Kaushan Script","Helvetica Neue",Helvetica,Arial,cursive;
-    color: #{{ site.data.template.color.primary }};
+    color: var(--color-primary);
 }
 
-.navbar-default .navbar-collapse {
-    border-color: rgba(255,255,255,.02);
+.navbar-default .nav li a:hover,
+.navbar-default .nav li a:focus {
+    color: var(--color-primary);
+    outline: 0;
 }
 
+.navbar-default .navbar-nav>.active>a {
+    border-radius: 0;
+    color: #fff;
+    background-color: var(--color-primary);
+}
+
+.navbar-default .navbar-nav>.active>a:hover,
+.navbar-default .navbar-nav>.active>a:focus {
+    color: #fff;
+    background-color: var(--color-secondary);
+}
+
+/* Mobile Navigation */
 .navbar-default .navbar-toggle {
-    border-color: #{{ site.data.template.color.primary }};
-    background-color: #{{ site.data.template.color.primary }};
+    border-color: var(--color-primary);
+    background-color: var(--color-primary);
 }
 
 .navbar-default .navbar-toggle .icon-bar {
@@ -208,69 +164,16 @@ fieldset[disabled] .btn-xl.active {
 
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-    background-color: #{{ site.data.template.color.primary }};
+    background-color: var(--color-primary);
 }
 
-.navbar-default .nav li a {
-    text-transform: uppercase;
-    font-family: {{ site.data.template.font.primary }};
-    font-weight: 400;
-    letter-spacing: 1px;
-    color: #fff;
-    -webkit-transition: all ease .35s;
-    -moz-transition: all ease .35s;
-    transition: all ease .35s;
+.navbar-default .navbar-collapse {
+    border-color: rgba(255,255,255,.02);
 }
 
-.navbar-default .nav li a:hover,
-.navbar-default .nav li a:focus {
-    outline: 0;
-    color: #{{ site.data.template.color.primary }};
-}
-
-.navbar-default .navbar-nav>.active>a {
-    border-radius: 0;
-    color: #fff;
-    background-color: #{{ site.data.template.color.primary }};
-}
-
-.navbar-default .navbar-nav>.active>a:hover,
-.navbar-default .navbar-nav>.active>a:focus {
-    color: #fff;
-    background-color: #{{ site.data.template.color.secondary }};
-}
-
-@media(min-width:768px) {
-    .navbar-default {
-        padding: 25px 0;
-        border: 0;
-        background-color: transparent;
-        -webkit-transition: padding .3s;
-        -moz-transition: padding .3s;
-        transition: padding .3s;
-    }
-
-    .navbar-default .navbar-brand {
-        font-size: 2em;
-        -webkit-transition: all .3s;
-        -moz-transition: all .3s;
-        transition: all .3s;
-    }
-
-    .navbar-default .navbar-nav>.active>a {
-        border-radius: 3px;
-    }
-
-    .navbar-default.navbar-shrink {
-        padding: 10px 0;
-        background-color: #222;
-    }
-
-    .navbar-default.navbar-shrink .navbar-brand {
-        font-size: 1.5em;
-    }
-}
-
+/* ==========================================================================
+   5. Header/Hero
+   ========================================================================== */
 header {
     text-align: center;
     color: #fff;
@@ -278,10 +181,7 @@ header {
     background-image: url('{{ site.baseurl }}/img/header_v5.jpg');
     background-position: center center;
     background-repeat: none;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
     background-size: cover;
-    -o-background-size: cover;
 }
 
 header .intro-text {
@@ -291,7 +191,7 @@ header .intro-text {
 
 header .intro-text .intro-lead-in {
     margin-bottom: 25px;
-    font-family: {{ site.data.template.font.secondary }};
+    font-family: var(--font-secondary);
     font-size: 22px;
     font-style: italic;
     line-height: 22px;
@@ -300,36 +200,15 @@ header .intro-text .intro-lead-in {
 header .intro-text .intro-heading {
     margin-bottom: 25px;
     text-transform: uppercase;
-    font-family: {{ site.data.template.font.primary }};
+    font-family: var(--font-primary);
     font-size: 50px;
     font-weight: 700;
     line-height: 50px;
 }
 
-@media(min-width:768px) {
-    header .intro-text {
-        padding-top: 300px;
-        padding-bottom: 200px;
-    }
-
-    header .intro-text .intro-lead-in {
-        margin-bottom: 25px;
-        font-family: {{ site.data.template.font.secondary }};
-        font-size: 40px;
-        font-style: italic;
-        line-height: 40px;
-    }
-
-    header .intro-text .intro-heading {
-        margin-bottom: 50px;
-        text-transform: uppercase;
-        font-family: {{ site.data.template.font.primary }};
-        font-size: 75px;
-        font-weight: 700;
-        line-height: 75px;
-    }
-}
-
+/* ==========================================================================
+   6. Sections Common
+   ========================================================================== */
 section {
     padding: 100px 0;
 }
@@ -343,28 +222,21 @@ section h2.section-heading {
 section h3.section-subheading {
     margin-bottom: 75px;
     text-transform: none;
-    font-family: {{ site.data.template.font.secondary }};
+    font-family: var(--font-secondary);
     font-size: 16px;
     font-style: italic;
     font-weight: 400;
 }
 
-@media(min-width:768px) {
-    section {
-        padding: 150px 0;
-    }
-}
-
-.service-heading {
-    margin: 15px 0;
-    text-transform: none;
-}
-
+/* ==========================================================================
+   7. Portfolio Grid
+   ========================================================================== */
 #portfolio .portfolio-item {
     right: 0;
     margin: 0 0 15px;
 }
 
+/* Portfolio Item Container */
 #portfolio .portfolio-item .portfolio-link {
     display: block;
     position: relative;
@@ -372,28 +244,28 @@ section h3.section-subheading {
     max-width: 400px;
 }
 
+/* Portfolio Images */
 #portfolio .portfolio-item .portfolio-link img {
     max-height: 250px;
     width: auto;
     object-fit: cover;
 }
 
+/* Hover State */
 #portfolio .portfolio-item .portfolio-link .portfolio-hover {
     position: absolute;
     width: 100%;
     height: 100%;
     opacity: 0;
-    -webkit-transition: all ease .5s;
-    -moz-transition: all ease .5s;
-    transition: all ease .5s;
-    background: rgba(254,209,54,.9); /* Fallback when no plugin support */
     background: rgba({{ site.data.template.color.primary | hex_to_rgb | join: ',' }}, .9);
+    transition: all ease .5s;
 }
 
 #portfolio .portfolio-item .portfolio-link .portfolio-hover:hover {
     opacity: 1;
 }
 
+/* Hover Content */
 #portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content {
     position: absolute;
     top: 50%;
@@ -405,15 +277,7 @@ section h3.section-subheading {
     color: #fff;
 }
 
-#portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content i {
-    margin-top: -12px;
-}
-
-#portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content h3,
-#portfolio .portfolio-item .portfolio-link .portfolio-hover .portfolio-hover-content h4 {
-    margin: 0;
-}
-
+/* Portfolio Captions */
 #portfolio .portfolio-item .portfolio-caption {
     margin: 0 auto;
     padding: 25px;
@@ -429,21 +293,92 @@ section h3.section-subheading {
 
 #portfolio .portfolio-item .portfolio-caption p {
     margin: 0;
-    font-family: {{ site.data.template.font.secondary }};
+    font-family: var(--font-secondary);
     font-size: 16px;
     font-style: italic;
 }
 
-#portfolio * {
-    z-index: 2;
+/* ==========================================================================
+   8. Portfolio Modals
+   ========================================================================== */
+.portfolio-modal .modal-content {
+    padding: 100px 0;
+    min-height: 100%;
+    border: 0;
+    border-radius: 0;
+    text-align: center;
+    background-clip: border-box;
+    box-shadow: none;
 }
 
-@media(min-width:767px) {
-    #portfolio .portfolio-item {
-        margin: 0 0 30px;
-    }
+.portfolio-modal .modal-content h2 {
+    margin-bottom: 15px;
+    font-size: 3em;
 }
 
+.portfolio-modal .close-modal {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    width: 75px;
+    height: 75px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/* Close Modal Animation */
+.portfolio-modal .close-modal:hover {
+    opacity: .3;
+}
+
+.portfolio-modal .close-modal .lr {
+    z-index: 1051;
+    width: 1px;
+    height: 75px;
+    margin-left: 35px;
+    background-color: #222;
+    transform: rotate(45deg);
+}
+
+.portfolio-modal .close-modal .lr .rl {
+    z-index: 1052;
+    width: 1px;
+    height: 75px;
+    background-color: #222;
+    transform: rotate(90deg);
+}
+
+/* Project Content */
+.project-content {
+    margin: 2rem 0;
+    text-align: left;
+}
+
+.project-content p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+/* Tools List */
+.tools-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.tools-list li {
+    background: #f5f5f5;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+}
+
+/* ==========================================================================
+   9. Timeline
+   ========================================================================== */
 .timeline {
     position: relative;
     padding: 0;
@@ -461,23 +396,25 @@ section h3.section-subheading {
     background-color: #f1f1f1;
 }
 
-.timeline>li {
+/* Timeline Items */
+.timeline > li {
     position: relative;
     margin-bottom: 50px;
     min-height: 50px;
 }
 
-.timeline>li:before,
-.timeline>li:after {
+.timeline > li:before,
+.timeline > li:after {
     content: " ";
     display: table;
 }
 
-.timeline>li:after {
+.timeline > li:after {
     clear: both;
 }
 
-.timeline>li .timeline-panel {
+/* Timeline Panels */
+.timeline > li .timeline-panel {
     float: right;
     position: relative;
     width: 100%;
@@ -485,45 +422,32 @@ section h3.section-subheading {
     text-align: left;
 }
 
-.timeline>li .timeline-panel:before {
-    right: auto;
-    left: -15px;
-    border-right-width: 15px;
-    border-left-width: 0;
-}
-
-.timeline>li .timeline-panel:after {
-    right: auto;
-    left: -14px;
-    border-right-width: 14px;
-    border-left-width: 0;
-}
-
-.timeline>li .timeline-image {
+/* Timeline Images */
+.timeline > li .timeline-image {
     z-index: 100;
     position: absolute;
     left: 0;
     width: 80px;
     height: 80px;
     margin-left: 0;
-    border: 7px solid #f1f1f1;  
+    border: 7px solid #f1f1f1;
     border-radius: 100%;
     text-align: center;
     color: #fff;
-    background-color: #fff;  /* Keeping white background */
-    
+    background-color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);  /* Optional: adds subtle depth */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
+/* Timeline Image Variations */
 .seedling-icon {
     width: 70% !important;
     height: 70% !important;
     position: relative !important;
     border: none !important;
-    margin: 15% !important;  
+    margin: 15% !important;
 }
 
 .img-small {
@@ -531,149 +455,22 @@ section h3.section-subheading {
     height: 60% !important;
     position: relative !important;
     border: none !important;
-    margin: 20% !important;  
+    margin: 20% !important;
 }
 
-.timeline>li .timeline-image h4 {
-    margin-top: 12px;
-    font-size: 10px;
-    line-height: 14px;
-}
-
-.timeline>li.timeline-inverted>.timeline-panel {
-    float: right;
-    padding: 0 20px 0 100px;
-    text-align: left;
-}
-
-.timeline>li.timeline-inverted>.timeline-panel:before {
-    right: auto;
-    left: -15px;
-    border-right-width: 15px;
-    border-left-width: 0;
-}
-
-.timeline>li.timeline-inverted>.timeline-panel:after {
-    right: auto;
-    left: -14px;
-    border-right-width: 14px;
-    border-left-width: 0;
-}
-
-.timeline>li:last-child {
-    margin-bottom: 0;
-}
-
-.timeline .timeline-heading h4 {
-    margin-top: 0;
-    color: inherit;
-}
-
-.timeline .timeline-heading h4.subheading {
-    text-transform: none;
-}
-
-.timeline .timeline-body>p,
-.timeline .timeline-body>ul {
-    margin-bottom: 0;
-}
-
-@media(min-width:768px) {
-    .timeline:before {
-        left: 50%;
-    }
-
-    .timeline>li {
-        margin-bottom: 100px;
-        min-height: 100px;
-    }
-
-    .timeline>li .timeline-panel {
-        float: left;
-        width: 41%;
-        padding: 0 20px 20px 30px;
-        text-align: right;
-    }
-
-    .timeline>li .timeline-image {
-        left: 50%;
-        width: 100px;
-        height: 100px;
-        margin-left: -50px;
-    }
-
-    .timeline>li .timeline-image h4 {
-        margin-top: 16px;
-        font-size: 13px;
-        line-height: 18px;
-    }
-
-    .timeline>li.timeline-inverted>.timeline-panel {
-        float: right;
-        padding: 0 30px 20px 20px;
-        text-align: left;
-    }
-}
-
-@media(min-width:992px) {
-    .timeline>li {
-        min-height: 150px;
-    }
-
-    .timeline>li .timeline-panel {
-        padding: 0 20px 20px;
-    }
-
-    .timeline>li .timeline-image {
-        width: 150px;
-        height: 150px;
-        margin-left: -75px;
-    }
-
-    .timeline>li .timeline-image h4 {
-        margin-top: 30px;
-        font-size: 18px;
-        line-height: 26px;
-    }
-
-    .timeline>li.timeline-inverted>.timeline-panel {
-        padding: 0 20px 20px;
-    }
-}
-
-@media(min-width:1200px) {
-    .timeline>li {
-        min-height: 170px;
-    }
-
-    .timeline>li .timeline-panel {
-        padding: 0 20px 20px 100px;
-    }
-
-    .timeline>li .timeline-image {
-        width: 170px;
-        height: 170px;
-        margin-left: -85px;
-    }
-
-    .timeline>li .timeline-image h4 {
-        margin-top: 40px;
-    }
-
-    .timeline>li.timeline-inverted>.timeline-panel {
-        padding: 0 100px 20px 20px;
-    }
-}
-
+/* ==========================================================================
+   10. Contact & Social
+   ========================================================================== */
 #contact {
     padding: 100px 0;
-    background-color: #f7f7f7;  /* Light gray background */
+    background-color: #f7f7f7;
 }
 
 #contact h3.section-subheading {
     margin-bottom: 10px;
 }
 
+/* Contact Links */
 .contact-links {
     display: flex;
     justify-content: center;
@@ -699,54 +496,10 @@ section h3.section-subheading {
 .contact-item i {
     font-size: 3em;
     margin-bottom: 10px;
-    color: #{{ site.data.template.color.primary }};
+    color: var(--color-primary);
 }
 
-.contact-item h4 {
-    margin: 10px 0 5px;
-    font-size: 1.2em;
-}
-
-.contact-item p {
-    color: #777;
-    margin: 0;
-}
-
-/* Make it responsive */
-@media(max-width: 768px) {
-    .contact-links {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
-    
-    .contact-item {
-        width: 100%;
-        max-width: 300px;
-    }
-}
-
-
-footer {
-    padding: 25px 0;
-    text-align: center;
-}
-
-footer span.copyright {
-    text-transform: uppercase;
-    text-transform: none;
-    font-family: {{ site.data.template.font.primary }};
-    line-height: 40px;
-}
-
-footer ul.quicklinks {
-    margin-bottom: 0;
-    text-transform: uppercase;
-    text-transform: none;
-    font-family: {{ site.data.template.font.primary }};
-    line-height: 40px;
-}
-
+/* Social Buttons */
 ul.social-buttons {
     margin-bottom: 0;
 }
@@ -761,225 +514,175 @@ ul.social-buttons li a {
     outline: 0;
     color: #fff;
     background-color: #222;
-    -webkit-transition: all .3s;
-    -moz-transition: all .3s;
     transition: all .3s;
 }
 
-ul.social-buttons li a:hover,
-ul.social-buttons li a:focus,
-ul.social-buttons li a:active {
-    background-color: #{{ site.data.template.color.primary }};
+ul.social-buttons li a:hover {
+    background-color: var(--color-primary);
 }
 
-.btn:focus,
-.btn:active,
-.btn.active,
-.btn:active:focus {
-    outline: 0;
+/* ==========================================================================
+   11. Buttons
+   ========================================================================== */
+.btn-primary {
+    border-color: var(--color-primary);
+    text-transform: uppercase;
+    font-family: var(--font-primary);
+    font-weight: 700;
+    color: #fff;
+    background-color: var(--color-primary);
 }
 
-.portfolio-modal .modal-content {
-    padding: 100px 0;
-    min-height: 100%;
-    border: 0;
-    border-radius: 0;
-    text-align: center;
-    background-clip: border-box;
-    -webkit-box-shadow: none;
-    box-shadow: none;
+.btn-xl {
+    padding: 20px 40px;
+    border-color: var(--color-primary);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-family: var(--font-primary);
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    background-color: var(--color-primary);
 }
 
-.portfolio-modal .modal-content h2 {
-    margin-bottom: 15px;
-    font-size: 3em;
+/* Button States */
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.btn-xl:hover,
+.btn-xl:focus,
+.btn-xl:active,
+.btn-xl.active {
+    border-color: var(--color-primary);
+    color: #fff;
+    background-color: var(--color-secondary);
 }
 
-.portfolio-modal .modal-content p {
-    margin-bottom: 30px;
+/* ==========================================================================
+   12. Media Queries
+   ========================================================================== */
+@media(min-width:768px) {
+    /* Navigation */
+    .navbar-default {
+        padding: 25px 0;
+        border: 0;
+        background-color: transparent;
+        transition: padding .3s;
+    }
+
+    .navbar-default .navbar-brand {
+        font-size: 2em;
+        transition: all .3s;
+    }
+
+    .navbar-default .navbar-nav>.active>a {
+        border-radius: 3px;
+    }
+
+    .navbar-default.navbar-shrink {
+        padding: 10px 0;
+        background-color: #222;
+    }
+
+    .navbar-default.navbar-shrink .navbar-brand {
+        font-size: 1.5em;
+    }
+
+    /* Header */
+    header .intro-text {
+        padding-top: 300px;
+        padding-bottom: 200px;
+    }
+
+    header .intro-text .intro-lead-in {
+        margin-bottom: 25px;
+        font-family: var(--font-secondary);
+        font-size: 40px;
+        font-style: italic;
+        line-height: 40px;
+    }
+
+    header .intro-text .intro-heading {
+        margin-bottom: 50px;
+        text-transform: uppercase;
+        font-family: var(--font-primary);
+        font-size: 75px;
+        font-weight: 700;
+        line-height: 75px;
+    }
+
+    /* Timeline */
+    .timeline:before {
+        left: 50%;
+    }
+
+    .timeline > li {
+        margin-bottom: 100px;
+        min-height: 100px;
+    }
+
+    .timeline > li .timeline-panel {
+        float: left;
+        width: 41%;
+        padding: 0 20px 20px 30px;
+        text-align: right;
+    }
+
+    .timeline > li .timeline-image {
+        left: 50%;
+        width: 100px;
+        height: 100px;
+        margin-left: -50px;
+    }
+
+    .timeline > li.timeline-inverted > .timeline-panel {
+        float: right;
+        padding: 0 30px 20px 20px;
+        text-align: left;
+    }
+
+    /* Contact */
+    .contact-links {
+        flex-direction: row;
+        gap: 20px;
+    }
 }
 
-.portfolio-modal .modal-content p.item-intro {
-    margin: 20px 0 30px;
-    font-family: {{ site.data.template.font.secondary }};
-    font-size: 16px;
-    font-style: italic;
+@media(min-width:992px) {
+    /* Timeline */
+    .timeline > li {
+        min-height: 150px;
+    }
+
+    .timeline > li .timeline-panel {
+        padding: 0 20px 20px;
+    }
+
+    .timeline > li .timeline-image {
+        width: 150px;
+        height: 150px;
+        margin-left: -75px;
+    }
 }
 
-.portfolio-modal .modal-content ul.list-inline {
-    margin-top: 0;
-    margin-bottom: 30px;
-}
+@media(min-width:1200px) {
+    /* Timeline */
+    .timeline > li {
+        min-height: 170px;
+    }
 
-.portfolio-modal .modal-content img {
-    margin-bottom: 30px;
-}
+    .timeline > li .timeline-panel {
+        padding: 0 20px 20px 100px;
+    }
 
-.portfolio-modal .close-modal {
-    position: absolute;
-    top: 25px;
-    right: 25px;
-    width: 75px;
-    height: 75px;
-    background-color: transparent;
-    cursor: pointer;
-}
+    .timeline > li .timeline-image {
+        width: 170px;
+        height: 170px;
+        margin-left: -85px;
+    }
 
-.portfolio-modal .close-modal:hover {
-    opacity: .3;
-}
-
-.portfolio-modal .close-modal .lr {
-    z-index: 1051;
-    width: 1px;
-    height: 75px;
-    margin-left: 35px;
-    background-color: #222;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-
-.portfolio-modal .close-modal .lr .rl {
-    z-index: 1052;
-    width: 1px;
-    height: 75px;
-    background-color: #222;
-    -webkit-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    transform: rotate(90deg);
-}
-
-.project-content {
-    margin: 2rem 0;
-    text-align: left;  /* Left-align the text instead of center */
-}
-
-.project-content p {
-    font-size: 16px;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-}
-
-/* Style the bullet points */
-.project-content ul {
-    text-align: left;
-    padding-left: 20px;
-    margin-bottom: 1.5rem;
-}
-
-.project-content li {
-    margin-bottom: 0.5rem;
-    line-height: 1.6;
-}
-
-/* Style links only within post descriptions */
-.description a {
-    color: #0366d6;
-    text-decoration: underline;
-}
-
-.description a:hover {
-    color: #0056b3;
-}
-
-/* Preserve original styling for project links */
-.project-links a,     /* Add this class if you have one */
-[href*="github.com"],  /* Matches GitHub links */
-[href*="demo"] {      /* Matches demo links */
-    /* Add your original link styling here */
-    color: initial;   /* or whatever color you currently use */
-}
-
-/* Style the tools section */
-.tools-used {
-    margin-top: 2rem;
-}
-
-.tools-list {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    justify-content: center;
-}
-
-.tools-list li {
-    background: #f5f5f5;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 14px;
-    margin: 0;  /* Reset margin since we're using gap */
-}
-
-/* Style the buttons */
-.project-links {
-    margin: 2rem 0;
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-}
-
-
-.tools-list {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.tools-list li {
-    background: #f5f5f5;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-}
-
-.project-links {
-    margin: 2rem 0;
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-}
-
-::-moz-selection {
-    text-shadow: none;
-    background: #{{ site.data.template.color.primary }};
-}
-
-::selection {
-    text-shadow: none;
-    background: #{{ site.data.template.color.primary }};
-}
-
-img::selection {
-    background: 0 0;
-}
-
-img::-moz-selection {
-    background: 0 0;
-}
-
-body {
-    webkit-tap-highlight-color: #{{ site.data.template.color.primary }};
-}
-
-/* Style links within project descriptions - using !important to override template colors */
-.portfolio-modal .project-content a {
-    color: #0366d6 !important;
-    text-decoration: underline;
-}
-
-.portfolio-modal .project-content a:hover {
-    color: #0056b3 !important;
-}
-
-/* Preserve original styling for project buttons and social links */
-.project-links a,
-.social-buttons a,
-[href*="github.com"].btn,
-[href*="demo"].btn {
-    color: inherit !important;
-    text-decoration: none;
+    .timeline > li.timeline-inverted > .timeline-panel {
+        padding: 0 100px 20px 20px;
+    }
 }
