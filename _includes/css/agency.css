@@ -490,51 +490,73 @@ section h3.section-subheading {
 .contact-links {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-top: 30px;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 30px 0;
 }
 
 .contact-item {
-    padding: 15px;
+    flex: 0 1 auto;
     text-align: center;
-    transition: all 0.3s ease;
-}
-
-.contact-item:hover {
-    transform: translateY(-10px);
+    min-width: 150px;
 }
 
 .contact-item a {
+    display: block;
+    padding: 15px;
+    color: var(--color-primary); /* Use your theme's primary color */
     text-decoration: none;
-    color: inherit;
+    transition: all 0.3s ease;
+}
+
+.contact-item a:hover {
+    color: var(--color-secondary); /* Use your theme's secondary color for hover */
 }
 
 .contact-item i {
-    font-size: 3em;
+    font-size: 2em;
     margin-bottom: 10px;
-    color: var(--color-primary);
+    display: block;
+}
+
+.contact-item h4 {
+    margin: 10px 0;
+}
+
+.contact-item p {
+    margin: 0;
+    font-size: 0.9em;
+    color: var(--color-muted); /* Use your theme's muted color */
 }
 
 /* Social Buttons */
 ul.social-buttons {
-    margin-bottom: 0;
+    margin: 30px 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+ul.social-buttons li {
+    margin: 0;
+    padding: 0;
 }
 
 ul.social-buttons li a {
-    display: block;
-    width: 40px;
-    height: 40px;
-    border-radius: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
     font-size: 20px;
-    line-height: 40px;
-    outline: 0;
     color: #fff;
     background-color: #222;
     transition: all .3s;
-}
-
-ul.social-buttons li a:hover {
-    background-color: var(--color-primary);
 }
 
 /* ==========================================================================
