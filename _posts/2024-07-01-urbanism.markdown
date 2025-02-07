@@ -9,7 +9,7 @@ thumbnail: urbanism_project_thumbnail.png
 alt: Urban walkability heatmap visualization
 tags: [Python, GIS, Data Visualization]
 github: https://github.com/ghgeist/urbanism_project
-demo: https://citybot.streamlit.app/
+demo: https://urbanismproject.streamlit.app/
 category: Data Analytics
 description: |
   A data-driven exploration of walkability patterns across US cities using the EPA's National Walkability Index. 
