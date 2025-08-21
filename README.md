@@ -50,3 +50,6 @@ Then, open your browser and go to [http://localhost:4000](http://localhost:4000)
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
+
+## Open Graph Image
+Default OG image path is `/assets/og/og-default.jpg`. If missing, create a 1200x630 JPEG named `og-default.jpg`.
