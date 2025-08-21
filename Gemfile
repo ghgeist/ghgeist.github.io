@@ -10,7 +10,7 @@ gem "webrick", "~> 1.7"
 gem "stringio", "~> 3.1.2"
 
 # Windows specific gems
-gem 'wdm', '>= 0.1.0' if Gem.win_platform?
+gem 'wdm', '>= 0.1.0', platforms: [:mingw, :mswin, :x64_mingw]
 
 # Timezone support (required when `timezone` is set in _config.yml)
 gem "tzinfo", "~> 2.0"
@@ -23,3 +23,8 @@ group :jekyll_plugins do
   gem "jekyll-feed"
   gem "jekyll-seo-tag"
 end 
+
+# Development and test dependencies
+group :development, :test do
+  gem "html-proofer", require: false
+end
