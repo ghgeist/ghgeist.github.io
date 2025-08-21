@@ -1,3 +1,28 @@
 ---
 layout: style
 ---
+ 
+.skip-link {
+position: absolute;
+left: -9999px;
+top: auto;
+width: 1px;
+height: 1px;
+overflow: hidden;
+}
+
+.skip-link:focus,
+.skip-link:active {
+position: fixed;
+left: 1rem;
+top: 1rem;
+width: auto;
+height: auto;
+overflow: visible;
+background: #ffffff;
+color: #000000;
+padding: 8px 12px;
+border-radius: 4px;
+z-index: 10000;
+box-shadow: 0 2px 6px rgba(0,0,0,.2);
+}
