@@ -16,12 +16,14 @@
     // Navigation handlers
     const navigation = {
         initSmoothScroll: function() {
-            $('a.page-scroll').bind('click', function(event) {
-                var $anchor = $(this);
-                $('html, body').stop().animate({
-                    scrollTop: $($anchor.attr('href')).offset().top
-                }, CONFIG.scrollDuration, CONFIG.scrollEasing);
-                event.preventDefault();
+            $('a.page-scroll').on('click', function(event) {
+                var target = this.hash;
+                if (target && $(target).length) {
+                    $('html, body').stop().animate({
+                        scrollTop: $(target).offset().top
+                    }, CONFIG.scrollDuration, CONFIG.scrollEasing);
+                    event.preventDefault();
+                }
             });
         },
 
