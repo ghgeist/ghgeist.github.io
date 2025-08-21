@@ -8,6 +8,8 @@ on:
 jobs:
   qa:
     runs-on: ubuntu-latest
+    env:
+      BUNDLE_WITH: "development:test"
     steps:
       - uses: actions/checkout@v4
 
@@ -20,8 +22,7 @@ jobs:
 
       - name: Run html-proofer
         run: |
-          gem install html-proofer --no-document
-          htmlproofer ./_site \
+          bundle exec htmlproofer ./_site \
             --checks Links,Images,Scripts \
             --enforce_https --url-ignore "https://localhost"
 

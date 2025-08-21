@@ -23,3 +23,8 @@ group :jekyll_plugins do
   gem "jekyll-feed"
   gem "jekyll-seo-tag"
 end 
+
+# Development and test dependencies
+group :development, :test do
+  gem "html-proofer", require: false
+end
