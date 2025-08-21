@@ -3,21 +3,29 @@
 
   {% include head.html %}
 
+    <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <body id="page-top" class="index">
+    {% if page.url == "/" or page.layout == "home" %}
+      {% include header.html %}
+      {% include skills.html %}
+      {% include portfolio_grid.html %}
+      {% include about.html %}
+      {% include contact.html %}
+    {% endif %}
 
-    {% include header.html %}
-    {% include skills.html %}
-    {% include portfolio_grid.html %}
-    {% include about.html %}
-    {% include contact.html %}
+    <main id="main" role="main">
+      {% if page.description %}
+        <div class="project-description">
+          {{ page.description | markdownify }}
+        </div>
+      {% endif %}
+      {{ content }}
+    </main>
+
     {% include footer.html %}
     {% include modals.html %}
     {% include js.html %}
-
-    <div class="project-description">
-      {{ page.description | markdownify }}
-    </div>
 
     </body>
 </html>

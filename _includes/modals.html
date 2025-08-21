@@ -14,7 +14,7 @@
                         <div class="modal-body">
                             <h2>{{ post.title }}</h2>
                             <hr class="star-primary">
-                            <img src="img/portfolio/{{ post.img }}" class="img-responsive img-centered" alt="{{ post.alt }}">
+                            <img src="{{ 'img/portfolio/' | append: post.img | relative_url }}" class="img-responsive img-centered" alt="{{ post.alt }}">
                             
                             <div class="project-content">
                                 {{ post.description | markdownify }}
@@ -33,18 +33,18 @@
                             
                             <div class="project-links">
                                 {% if post.project %}
-                                <a href="{{ post.project }}" class="btn btn-primary" target="_blank">
+                                <a href="{{ post.project }}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                                     <i class="fas fa-file-pdf"></i> View Project PDF
                                 </a>
                                 {% endif %}
                                 {% if post.github %}
-                                <a href="{{ post.github }}" class="btn btn-primary" target="_blank">
+                                <a href="{{ post.github }}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                                     <i class="fab fa-github"></i> View on GitHub
                                 </a>
                                 {% endif %}
                                 
                                 {% if post.demo %}
-                                <a href="{{ post.demo }}" class="btn btn-primary" target="_blank">
+                                <a href="{{ post.demo }}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                                     <i class="fas fa-external-link-alt"></i> Live Demo
                                 </a>
                                 {% endif %}
