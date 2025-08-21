@@ -3,11 +3,12 @@
 
   {% include head.html %}
 
-    <body>
+    <body id="page-top" class="index">
     <a class="skip-link" href="#main">Skip to content</a>
 
-    {% if page.url == "/" or page.layout == "home" %}
-      {% include header.html %}
+    {% include header.html %}
+
+    {% if page.home %}
       {% include skills.html %}
       {% include portfolio_grid.html %}
       {% include about.html %}

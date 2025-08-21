@@ -9,26 +9,26 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand page-scroll site-title" href="#page-top" lang="en">{{site.title}}</a>
+                <a class="navbar-brand page-scroll site-title" href="{{ '/' | relative_url }}#page-top" lang="en">{{site.title}}</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="hidden">
-                        <a href="#page-top"></a>
+                        <a href="{{ '/' | relative_url }}#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#skills" lang="en">Skills</a>
+                        <a class="page-scroll" href="{{ '/' | relative_url }}#skills" lang="en">Skills</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#portfolio" lang="en">Portfolio</a>
+                        <a class="page-scroll" href="{{ '/' | relative_url }}#portfolio" lang="en">Portfolio</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#about">About</a>
+                        <a class="page-scroll" href="{{ '/' | relative_url }}#about">About</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#contact">Contact</a>
+                        <a class="page-scroll" href="{{ '/' | relative_url }}#contact">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -37,8 +37,9 @@
         <!-- /.container-fluid -->
     </nav>
 
-    <!-- Header -->
-    <header id="page-top" role="banner">
+    {% if page.home %}
+    <!-- Header / Hero -->
+    <header role="banner">
         <div class="container">
             <div class="intro-text">
                 <div class="intro-lead-in" lang="en">Turning Data and Ideas into Solutions That Work</div>
@@ -47,3 +48,4 @@
             </div>
         </div>
     </header>
+    {% endif %}
