@@ -1,0 +1,30 @@
+name: Verify Site Build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.1'
+        bundler-cache: true
+    
+    - name: Install Bundler version
+      run: gem install bundler -v 2.5.23
+    
+    - name: Install dependencies
+      run: bundle install --path vendor/bundle
+    
+    - name: Run verification
+      run: ./script/verify
