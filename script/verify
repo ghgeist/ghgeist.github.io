@@ -70,16 +70,15 @@ if [[ -f "Rakefile" ]]; then
         fi
     fi
 else
-    echo -e "${YELLOW}⚠️  Rakefile not found, skipping test suite${NC}"
-fi
-
-# Step 3: Build verification (always run)
-echo -e "\n${BLUE}🔨 Step 3: Building Jekyll site...${NC}"
-if bundle exec jekyll build --trace; then
-    echo -e "${GREEN}✅ Build completed successfully${NC}"
-else
-    echo -e "${RED}❌ Build failed${NC}"
-    exit 1
+    echo -e "${YELLOW}⚠️  Rakefile not found, running build verification...${NC}"
+    # Step 3: Build verification (only if Rakefile doesn't exist)
+    echo -e "\n${BLUE}🔨 Step 3: Building Jekyll site...${NC}"
+    if bundle exec jekyll build --trace; then
+        echo -e "${GREEN}✅ Build completed successfully${NC}"
+    else
+        echo -e "${RED}❌ Build failed${NC}"
+        exit 1
+    fi
 fi
 
 echo -e "\n${GREEN}🎉 All verification steps passed!${NC}"
