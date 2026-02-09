@@ -18,13 +18,10 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: '3.1'
+        bundler-version: '2.5.23'
         bundler-cache: true
-    
-    - name: Install Bundler version
-      run: gem install bundler -v 2.5.23
-    
-    - name: Install dependencies
-      run: bundle install --path vendor/bundle
+      env:
+        BUNDLE_PATH: vendor/bundle
     
     - name: Run verification
       run: ./script/verify
