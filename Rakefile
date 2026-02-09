@@ -52,8 +52,21 @@ namespace :test do
 
   desc "Validate HTML including external links (requires libcurl)"
   task "html:external" => :build do
-    require 'html-proofer'
     puts "🔍 Validating HTML and checking all links (including external)..."
+    
+    # Try to load html-proofer, handle libcurl issues gracefully
+    begin
+      require 'html-proofer'
+    rescue LoadError => e
+      if e.message.include?('libcurl') || e.message.include?('typhoeus')
+        puts "❌ External link checking requires libcurl/typhoeus"
+        puts "💡 On Windows, install libcurl or use 'rake test:html' for internal links only"
+        raise
+      else
+        raise
+      end
+    end
+    
     begin
       options = {
         :allow_hash_href => true,
@@ -68,10 +81,6 @@ namespace :test do
       
       HTMLProofer.check_directory("_site", options).run
       puts "✅ HTML validation passed!"
-    rescue LoadError => e
-      puts "❌ External link checking requires libcurl/typhoeus"
-      puts "💡 On Windows, install libcurl or use 'rake test:html' for internal links only"
-      raise
     rescue => e
       puts "❌ HTML validation failed: #{e.message}"
       raise

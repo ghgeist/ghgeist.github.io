@@ -1,7 +1,7 @@
 # Agent Infrastructure Migration Notes
 
 **Date**: 2026-02-09  
-**Source**: `C:\Users\grant\OneDrive\Documents\udacity_data_science_program\05_disaster_response_project\docs\agents`  
+**Source**: `[Previous Project]/docs/agents` (Disaster Response Project repository)  
 **Destination**: `docs/agents/` in `ghgeist.github.io` (Jekyll portfolio repository)
 
 ---
