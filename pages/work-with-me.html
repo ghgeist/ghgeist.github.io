@@ -1,0 +1,145 @@
+---
+layout: default
+title: Work with me
+permalink: /work-with-me/
+---
+
+<section id="work-with-me" role="region" aria-labelledby="work-with-me-heading">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading" id="work-with-me-heading">Work with me</h2>
+            </div>
+        </div>
+
+        <!-- Framing Paragraph -->
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="text-center">
+                    <p class="large text-muted">
+                        I work on messy, ambiguous problems where clarity, structure, and ownership matter. Most engagements involve stabilizing a system, defining what "good" looks like, and delivering concrete artifacts that make progress possible.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Engagement Flow -->
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="text-center">
+                    <p class="large text-muted">
+                        We clarify the problem, define what a good outcome looks like, and agree on the scope of responsibility.
+                    </p>
+                    <p class="large text-muted">
+                        I then build the models, workflows, or prototypes needed to turn that ambiguity into something usable and durable.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="text-center">
+                    <p class="large text-muted">
+                        If this sounds like the kind of work you're trying to move forward, feel free to reach out.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendation Slot (Empty by design, for Phase 2) -->
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="panel panel-default" style="background-color: #f9f9f9;">
+                    <div class="panel-body text-center">
+                        <p class="text-muted" style="font-style: italic;">
+                            <!-- Phase 2: Recommendation slot - empty by design -->
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Structured Intake Form -->
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <p class="text-muted text-center">Get in touch</p>
+                <form name="work-with-me" id="workWithMeForm" onsubmit="return handleWorkWithMeSubmit(event)">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Your Name *" id="name" required>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Your Email *" id="email" required>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Organization / Company" id="organization">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <textarea class="form-control" placeholder="Tell me about the problem or opportunity *" id="problem" rows="5" required></textarea>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <textarea class="form-control" placeholder="What kind of engagement are you considering? (FTE, contract, timeline)" id="engagement" rows="3"></textarea>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <div id="success"></div>
+                            <button type="submit" class="btn btn-default">Get in touch</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+<script>
+function handleWorkWithMeSubmit(event) {
+    event.preventDefault();
+    
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const organization = document.getElementById('organization').value || 'Not provided';
+    const problem = document.getElementById('problem').value;
+    const engagement = document.getElementById('engagement').value || 'Not specified';
+    
+    const subject = encodeURIComponent('Work with me inquiry from ' + name);
+    const body = encodeURIComponent(
+        'Name: ' + name + '\n' +
+        'Email: ' + email + '\n' +
+        'Organization: ' + organization + '\n\n' +
+        'Problem/Opportunity:\n' + problem + '\n\n' +
+        'Engagement Type:\n' + engagement
+    );
+    
+    window.location.href = 'mailto:granthgeist@gmail.com?subject=' + subject + '&body=' + body;
+    
+    // Show success message
+    document.getElementById('success').innerHTML = '<div class="alert alert-success">Opening your email client...</div>';
+    
+    return false;
+}
+</script>
+    </div>
+</section>
