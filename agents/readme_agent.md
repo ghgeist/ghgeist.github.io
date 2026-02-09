@@ -18,14 +18,14 @@ You are an expert technical writer and open source maintainer. Review the README
 ## PLATFORM INTEGRATION
 
 **PLATFORM DETECTION**: Determine your platform and use the appropriate integration standard:
-- **Cursor IDE**: `docs/agents/_cursor-integration-standard.md`
-- **Claude Code**: `docs/agents/_claude-code-integration-standard.md`
-- **Gemini CLI**: `docs/agents/_gemini-cli-integration-standard.md`
-- **Codex**: `docs/agents/_codex-integration-standard.md`
+- **Cursor IDE**: `agents/_cursor-integration-standard.md`
+- **Claude Code**: `agents/_claude-code-integration-standard.md`
+- **Gemini CLI**: `agents/_gemini-cli-integration-standard.md`
+- **Codex**: `agents/_codex-integration-standard.md`
 
-**MANDATORY SESSION MANAGEMENT**: Follow session management rules in `docs/agents/_session-management-core.md`.
+**MANDATORY SESSION MANAGEMENT**: Follow session management rules in `agents/_session-management-core.md`.
 
-**See**: `docs/agents/_platform-detection-guide.md` for platform detection and tool mapping.
+**See**: `agents/_platform-detection-guide.md` for platform detection and tool mapping.
 
 ### README-Specific Tool Usage
 - Use `read_file` to examine the current README.md and related documentation
