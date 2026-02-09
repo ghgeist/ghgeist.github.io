@@ -27,11 +27,11 @@ fi
 echo -e "${BLUE}📋 Reading verification configuration from .verify.yml${NC}"
 
 # Extract Bundler version from .verify.yml (simple grep approach)
-BUNDLER_VERSION=$(grep -E "^bundler_version:" .verify.yml | sed 's/.*"\(.*\)"/\1/' || echo "2.5.23")
+BUNDLER_VERSION=$(grep -E "^bundler_version:" .verify.yml | sed 's/.*"\(.*\)"/\1/' | tr -d '[:space:]' || echo "2.5.23")
 
 echo -e "${BLUE}🔍 Checking Bundler version...${NC}"
 if command -v bundle &> /dev/null; then
-    CURRENT_BUNDLER=$(bundle --version | awk '{print $3}')
+    CURRENT_BUNDLER=$(bundle --version | awk '{print $3}' | tr -d '[:space:]')
     if [[ "$CURRENT_BUNDLER" != "$BUNDLER_VERSION" ]]; then
         echo -e "${YELLOW}⚠️  Warning: Bundler version mismatch${NC}"
         echo -e "   Required: ${BUNDLER_VERSION}"
@@ -48,7 +48,9 @@ fi
 
 # Step 1: Install dependencies
 echo -e "\n${BLUE}📦 Step 1: Installing dependencies...${NC}"
-if bundle install --path vendor/bundle; then
+# Configure bundle path to avoid deprecation warning
+bundle config set --local path vendor/bundle
+if bundle install; then
     echo -e "${GREEN}✅ Dependencies installed${NC}"
 else
     echo -e "${RED}❌ Failed to install dependencies${NC}"
