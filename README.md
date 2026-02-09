@@ -35,6 +35,19 @@ bundle exec jekyll serve
 ```
 Then, open your browser and go to [http://localhost:4000](http://localhost:4000).
 
+### Testing
+Run the test suite to validate builds and check HTML/links:
+```
+bundle exec rake test
+```
+
+Or run individual test tasks:
+- `bundle exec rake test:build` - Build validation only (always works)
+- `bundle exec rake test:html` - HTML validation and link checking (requires build)
+- `bundle exec rake test:all` - Run all tests
+
+**Note for Windows users**: HTML validation requires libcurl. If libcurl is not available, the test suite will skip HTML validation and only run build validation. This is sufficient for catching most common errors during development.
+
 ## Project Structure
 
 ```
