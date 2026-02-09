@@ -25,8 +25,9 @@ Based on user preferences [[memory:8730623]] [[memory:8730527]]:
 **Format**: `YYYY-MM-DD-[session-type]-[description].md`
 
 **Examples**:
+
 - `2025-09-12-deploy-production-model.md`
-- `2025-09-12-debug-authentication-issue.md` 
+- `2025-09-12-debug-authentication-issue.md`
 - `2025-09-12-refactor-database-queries.md`
 
 ## 🔧 Agent Output Guidelines
@@ -34,6 +35,7 @@ Based on user preferences [[memory:8730623]] [[memory:8730527]]:
 ### 1. Session Artifact Creation
 
 **All agents should** (platform-agnostic approach):
+
 ```markdown
 ## Session Artifacts Management
 
@@ -77,11 +79,13 @@ When starting work:
 ### 3. Session State Management
 
 **Active Sessions (1-2 maximum)**:
+
 - Current work in progress
 - Updated in real-time during agent interactions
 - Moved to `completed/` when finished
 
 **Session Lifecycle**:
+
 ```markdown
 1. **Create**: Agent creates new session in `active/`
 2. **Update**: Agent updates session throughout work
@@ -92,6 +96,7 @@ When starting work:
 ## 🚀 Agent Implementation Patterns
 
 ### Pattern 1: Session-Aware Agent Start
+
 ```markdown
 Every agent should begin with:
 
@@ -112,6 +117,7 @@ Every agent should begin with:
 ```
 
 ### Pattern 2: Work Documentation
+
 ```markdown
 Throughout agent work:
 
@@ -132,6 +138,7 @@ Throughout agent work:
 ```
 
 ### Pattern 3: Session Completion
+
 ```markdown
 When agent completes work:
 
@@ -154,6 +161,7 @@ When agent completes work:
 ## 📝 Session Template Integration
 
 ### Enhanced Agent Prompts
+
 All agents should include this session management pattern:
 
 ```markdown
@@ -181,24 +189,28 @@ All agents should include this session management pattern:
 ## 🎯 Specific Agent Behaviors
 
 ### Code Improvement Agent
+
 - **Always** check `docs/code_improvement_log/` for previous work
 - **Create session** in `docs/sessions/active/` for current improvement work
 - **Link** to improvement log entries from session
 - **Move** session to `completed/` when improvement is done
 
 ### Deployment Agents
+
 - **Create detailed deployment session** with rollback plans
 - **Track deployment progress** in real-time
 - **Document** all deployment steps and outcomes
 - **Keep** deployment sessions for audit trail
 
 ### Debug Agents  
+
 - **Create debug session** with problem description
 - **Document** debugging process and findings
 - **Track** reproduction steps and solutions
 - **Link** to any code fixes made
 
 ### Planning Agents
+
 - **Create planning session** with objectives and approach
 - **Break down** work into implementable tasks
 - **Create follow-up sessions** in `backlog/` for execution
@@ -206,7 +218,8 @@ All agents should include this session management pattern:
 
 ## 🔍 Session Quality Checklist
 
-### Every Session Should Have:
+### Every Session Should Have
+
 - [ ] **Clear title** following naming convention
 - [ ] **Session type** clearly identified
 - [ ] **Objectives** or goals stated
@@ -215,7 +228,8 @@ All agents should include this session management pattern:
 - [ ] **Links** to related files/sessions
 - [ ] **Next steps** or follow-up actions
 
-### Session Metadata:
+### Session Metadata
+
 ```yaml
 ---
 title: "Session Title"
@@ -231,14 +245,16 @@ related: ["path/to/related/sessions"]
 
 ## 🚨 Common Pitfalls to Avoid
 
-### DON'T:
+### DON'T
+
 ❌ Create multiple active sessions for the same type of work  
 ❌ Skip session creation for significant agent work  
 ❌ Leave sessions in `active/` after work is complete  
 ❌ Create sessions without clear objectives  
 ❌ Forget to link related work and artifacts  
 
-### DO:
+### DO
+
 ✅ Keep active sessions to 1-2 maximum  
 ✅ Update sessions throughout agent work  
 ✅ Move completed sessions promptly  
@@ -247,13 +263,15 @@ related: ["path/to/related/sessions"]
 
 ## 🎉 Expected Benefits
 
-### For Users:
+### For Users
+
 - **Clear work tracking** across all agent interactions
 - **Session continuity** between different agent types
 - **Audit trail** of all development work
 - **Context preservation** for future work
 
-### For Agents:
+### For Agents
+
 - **Better context awareness** of ongoing work
 - **Reduced duplicate effort** through session discovery
 - **Consistent output patterns** across agent types

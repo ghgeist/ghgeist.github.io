@@ -33,7 +33,7 @@
                             
                             <div class="project-links">
                                 {% if post.project %}
-                                <a href="{{ post.project }}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                                <a href="{{ post.project | relative_url }}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                                     <i class="fas fa-file-pdf"></i> View Project PDF
                                 </a>
                                 {% endif %}

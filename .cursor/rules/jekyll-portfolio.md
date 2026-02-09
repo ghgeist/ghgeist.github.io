@@ -11,6 +11,7 @@ alwaysApply: false
 Create new project posts in `_posts/` directory. Projects automatically appear in the portfolio grid - no manual registration needed.
 
 ### File Naming
+
 - Format: `YYYY-MM-DD-project-name.markdown` or `.md`
 - Use project completion/publication date (not necessarily today)
 - Use descriptive, snake_case names: `2024-07-01-urbanism-project.markdown`
@@ -18,6 +19,7 @@ Create new project posts in `_posts/` directory. Projects automatically appear i
 ### Front Matter Pattern
 
 **Required fields:**
+
 ```yaml
 ---
 title: Project Name                    # Display title
@@ -32,6 +34,7 @@ alt: Descriptive alt text               # Accessibility description
 ```
 
 **Optional fields (add as needed):**
+
 ```yaml
 tags: [Tag1, Tag2, Tag3]               # For filtering/categorization
 category: Category Name                 # Project category
@@ -53,6 +56,7 @@ tools_used:                             # Array of tools/technologies
 ### Examples
 
 **Design Project:**
+
 ```yaml
 ---
 title: Embodied A.I.
@@ -76,6 +80,7 @@ tools_used:
 ```
 
 **Technical Project:**
+
 ```yaml
 ---
 title: Exploring the National Walkability Index
@@ -101,6 +106,7 @@ tools_used:
 ## Content Guidelines
 
 ### Description Field
+
 - Use markdown formatting for readability
 - Include headers (`#### Key highlights:`)
 - Use bullet lists for features
@@ -108,12 +114,14 @@ tools_used:
 - Focus on what makes the project interesting
 
 ### Image Requirements
+
 - Full image: `img/portfolio/project_name.png` (referenced as `img:`)
 - Thumbnail: `img/portfolio/project_name_thumbnail.png` (referenced as `thumbnail:`)
 - Use descriptive, snake_case filenames
 - Images should be optimized but don't block on perfect assets initially
 
 ### Iteration-Friendly Practices
+
 - ✅ Experiment with new front matter fields - Jekyll is flexible
 - ✅ Update existing projects anytime - just edit the markdown file
 - ✅ Reorder projects by changing dates (newest first by default)

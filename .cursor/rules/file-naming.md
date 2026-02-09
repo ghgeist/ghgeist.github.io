@@ -12,6 +12,7 @@ alwaysApply: true
 ### Examples
 
 **✅ Correct:**
+
 - `contact_me.js`
 - `header_v2.jpg`
 - `embodied_ai_thumbnail.png`
@@ -19,6 +20,7 @@ alwaysApply: true
 - `session-management-best-practices.md`
 
 **❌ Incorrect:**
+
 - `contactMe.js` (camelCase)
 - `Header-V2.jpg` (PascalCase/kebab-case)
 - `embodiedAI.png` (camelCase)
@@ -27,43 +29,52 @@ alwaysApply: true
 ## File Type Patterns
 
 ### JavaScript Files (`js/`)
+
 - Use snake_case: `contact_me.js`, `agency.js`
 - Descriptive names: `jq_bootstrap_validation.js`
 
 ### Image Files (`img/`)
+
 - Use snake_case: `embodied_ai.png`, `header_v2.jpg`
 - Include version numbers: `header_v3.jpg`, `header_v4.jpg`
 - Thumbnails: `project_name_thumbnail.png`
 
 ### HTML Includes (`_includes/`)
+
 - Use snake_case: `portfolio_grid.html`, `contact_form.html`
 - Descriptive component names
 
 ### Jekyll Posts (`_posts/`)
+
 - Format: `YYYY-MM-DD-project-name.markdown`
 - Date prefix, then snake_case: `2024-07-01-urbanism_project.markdown`
 
 ### CSS/SCSS Files
+
 - Use snake_case: `main.scss`, `agency.css`
 - Match component names when possible
 
 ### Ruby Plugins (`_plugins/`)
+
 - Use snake_case: `hex_to_rgb.rb`
 - Descriptive of functionality
 
 ### Session Files (`docs/sessions/`)
+
 - Format: `YYYY-MM-DD-[type]-[description].md`
 - Use snake_case for description: `2024-02-09-refactor-portfolio-grid.md`
 
 ## Directory Naming
 
 **✅ Correct:**
+
 - `img/portfolio/`
 - `assets/og/`
 - `docs/dev_notes/`
 - `agents/prompt_checks/`
 
 **❌ Incorrect:**
+
 - `img/Portfolio/` (PascalCase)
 - `assets/OpenGraph/` (PascalCase)
 - `docs/devNotes/` (camelCase)
@@ -71,14 +82,17 @@ alwaysApply: true
 ## Special Cases
 
 ### Versioned Files
+
 - Use `_v2`, `_v3` suffix: `header_v2.jpg`, `header_v3.jpg`
 - Or descriptive suffixes: `embodied_ai_compressed.gltf`
 
 ### Thumbnails
+
 - Use `_thumbnail` suffix: `project_name_thumbnail.png`
 - Keep same base name as full image
 
 ### Compressed Assets
+
 - Use `compressed/` subdirectory: `assets/rhino/compressed/`
 - Keep original names: `embodied_ai_compressed.bin`
 

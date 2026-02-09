@@ -7,6 +7,7 @@
 ## 🎯 MANDATORY SESSION WORKFLOW
 
 ### Phase 1: Session Discovery (ALWAYS FIRST)
+
 ```markdown
 1. Use `list_dir` to check `docs/sessions/active/` for existing sessions
 2. Use `grep` to search for related work in `backlog/` and `completed/`
@@ -14,6 +15,7 @@
 ```
 
 ### Phase 2: Session Management (REQUIRED)
+
 ```markdown
 IF no relevant session exists:
 - Use `write` to create new session in `docs/sessions/active/`
@@ -27,6 +29,7 @@ IF relevant session exists:
 ```
 
 ### Phase 3: Session Updates (THROUGHOUT WORK)
+
 ```markdown
 - Update session file with progress using `search_replace`
 - Document decisions, blockers, and solutions
@@ -35,6 +38,7 @@ IF relevant session exists:
 ```
 
 ### Phase 4: Session Completion (WHEN DONE)
+
 ```markdown
 - Mark session as completed with final outcomes
 - Document next steps or follow-up work needed
@@ -89,7 +93,8 @@ related: ["paths/to/related/sessions"]
 
 ## 🚨 ENFORCEMENT RULES
 
-### MUST DO:
+### MUST DO
+
 ✅ Check for existing sessions before creating new ones  
 ✅ Use standardized naming convention: `YYYY-MM-DD-[type]-[description].md`  
 ✅ **ALWAYS store session files in `docs/sessions/active/`** - This is mandatory for all agents  
@@ -98,7 +103,8 @@ related: ["paths/to/related/sessions"]
 ✅ Move completed sessions to `completed/` directory  
 ✅ Link session to any files created or modified  
 
-### MUST NOT:
+### MUST NOT
+
 ❌ Create sessions without checking for existing ones  
 ❌ Skip session creation for significant work  
 ❌ Store session files anywhere other than `docs/sessions/active/`  
@@ -136,6 +142,7 @@ related: ["paths/to/related/sessions"]
 ## 🎯 QUALITY GATES
 
 Before completing any session, verify:
+
 - [ ] Objective clearly achieved or reason for incompletion documented
 - [ ] All success criteria addressed
 - [ ] Related files and sessions linked

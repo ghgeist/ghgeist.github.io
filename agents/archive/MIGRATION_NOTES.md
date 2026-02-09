@@ -11,6 +11,7 @@
 ### ✅ Infrastructure Files (Copied Successfully)
 
 **Platform Integration Standards:**
+
 - `_cursor-integration-standard.md` - Cursor IDE tool usage patterns
 - `_claude-code-integration-standard.md` - Claude Code tool usage patterns
 - `_gemini-cli-integration-standard.md` - Gemini CLI tool usage patterns
@@ -18,10 +19,12 @@
 - `_platform-detection-guide.md` - Platform detection and tool mapping guide
 
 **Session Management:**
+
 - `_session-management-core.md` - Mandatory session management rules
 - `session-management-best-practices.md` - Comprehensive session management guide
 
 **Documentation:**
+
 - `README.md` - Agent directory overview
 
 ### ✅ Directory Structure Created
@@ -35,6 +38,7 @@
 ## Context Differences
 
 ### Source Repository (Disaster Response Project)
+
 - **Type**: Python Flask web application with ML models
 - **Complexity**: Database operations, API endpoints, ML pipelines
 - **Testing**: Python pytest, unit tests, integration tests
@@ -42,6 +46,7 @@
 - **Performance**: Database queries, API response times, model inference
 
 ### This Repository (Jekyll Portfolio)
+
 - **Type**: Static Jekyll site (HTML, CSS, JavaScript, Markdown)
 - **Complexity**: Static site generation, no backend, no database
 - **Testing**: HTML validation, link checking, build verification
@@ -55,6 +60,7 @@
 ### 1. Agent Prompts Already Copied
 
 The following agents were already copied to `agents/` directory:
+
 - `dev_note_agent.md` ✅
 - `performance-agent.md` ✅
 - `testing_agent.md` ✅
@@ -66,14 +72,17 @@ The following agents were already copied to `agents/` directory:
 From the source directory, these agents might be useful:
 
 **Potentially Useful:**
+
 - `readme-agent.md` - Could help maintain README.md
 - `security-agent.md` - Could adapt for Jekyll security (HTTPS, CSP headers, etc.)
 
 **Less Relevant (but could adapt):**
+
 - `code-improvement-agent.md` - Could adapt for Jekyll code quality
 - `debug-agent.md` - Could adapt for Jekyll build debugging
 
 **Not Relevant:**
+
 - `machine-learning-engineer-agent.md` - No ML in this repo
 - `flask-ui-ux-agent.md` - Not a Flask app
 - `planning-agent.md` - Might be useful for general planning
@@ -83,6 +92,7 @@ From the source directory, these agents might be useful:
 ### 3. Session Management
 
 **Status**: ✅ Fully compatible
+
 - Session management works the same way regardless of repository type
 - Agents will create session files in `docs/sessions/active/`
 - No changes needed
@@ -90,6 +100,7 @@ From the source directory, these agents might be useful:
 ### 4. Platform Integration
 
 **Status**: ✅ Fully compatible
+
 - Platform integration standards work across all repository types
 - Tool mappings are platform-specific, not project-specific
 - No changes needed

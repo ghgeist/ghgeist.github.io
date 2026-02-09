@@ -163,6 +163,7 @@ This check applies when:
 * The same structure produces qualitatively different intent without explicit modification
 
 ---
+
 ## Interpretation Rules
 
 * Failing **one** check does not invalidate a system

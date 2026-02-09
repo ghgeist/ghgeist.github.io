@@ -13,29 +13,34 @@ This repository is a GitHub Pages (Jekyll) site that uses Bundler with a pinned 
 ### Shell/Terminal Handling
 
 **Script Compatibility:**
+
 - The repository includes bash scripts (`script/verify`, `script/dev`) designed for Unix-like environments (Linux, macOS, Git Bash).
 - These scripts may not run directly in PowerShell or other Windows shells.
 - **Agents should adapt commands for the current shell environment.**
 
 **When executing commands:**
+
 - **If bash scripts are unavailable** (e.g., PowerShell environment): Execute the underlying Ruby/Bundler/Jekyll commands directly:
-  - Instead of `./script/verify`, run: `bundle install --path vendor/bundle` then `bundle exec rake test` then `bundle exec jekyll build --trace`
-  - Instead of `./script/dev`, run: `bundle exec jekyll serve --livereload --host 0.0.0.0`
+    - Instead of `./script/verify`, run: `bundle install --path vendor/bundle` then `bundle exec rake test` then `bundle exec jekyll build --trace`
+    - Instead of `./script/dev`, run: `bundle exec jekyll serve --livereload --host 0.0.0.0`
 - **Read the scripts** (`script/verify`, `script/dev`) to understand what commands they execute, then run those commands directly in the available shell.
 - **Core Ruby/Jekyll commands work in all shells** - the scripts are convenience wrappers, not requirements.
 
 **For verification:**
+
 - Agents can read `.verify.yml` to understand required steps and execute them directly.
 - If scripts cannot be run, note: "Verify locally with: ./script/verify" (for users with bash) or execute the verification steps manually.
 
 ### Source of Truth for Verification
 
 **`.verify.yml` is the single source of truth** for verification requirements. This declarative config file defines:
+
 - Required Bundler version
 - Verification steps (dependency installation, test suite, build)
 - Development server configuration
 
 **Verification Execution:**
+
 - **Local development**: Run `./script/verify` to execute all verification steps
 - **CI**: Secondary verification layer, treated as final correctness signal on push/PR
 - **Agent sandboxes**: May not be capable of running full builds/tests and should not block changes solely due to environment limitations
@@ -47,10 +52,41 @@ When making changes:
 1. Prefer small, targeted edits.
 2. Do not introduce dependency upgrades unless explicitly requested.
 3. Do not modify the lockfile unless the task specifically requires dependency changes.
-4. If tests/build cannot be run due to environment restrictions:
+4. **Run linters when modifying CSS or JavaScript files:**
+   - After editing CSS/SCSS files: Run `npm run lint:css` or `bundle exec rake lint:css`
+   - After editing JavaScript files: Run `npm run lint:js` or `bundle exec rake lint:js`
+   - Use `npm run lint:fix` or `bundle exec rake lint:fix` to auto-fix issues, but always review changes
+   - If npm is unavailable, note linting verification in output
+5. If tests/build cannot be run due to environment restrictions:
    - Read `.verify.yml` to understand verification requirements
    - Provide the patch and note: "Verify locally with: ./script/verify"
    - Reference the verification steps from `.verify.yml` in your output
+
+### Code Quality & Linting
+
+**Linting Tools Available:**
+
+- **Stylelint** - CSS/SCSS files (`.stylelintrc.json`)
+- **ESLint** - JavaScript files (`.eslintrc.json`)
+
+**When to run linters:**
+
+- After modifying CSS, SCSS, or JavaScript files
+- Before committing changes (if environment supports npm)
+- Linters automatically ignore minified files and vendor libraries
+
+**Linting commands:**
+
+- `npm run lint` - Run all linters
+- `npm run lint:fix` - Auto-fix issues (review before committing)
+- `bundle exec rake lint` - Run all linters via Rake
+- Individual linters: `npm run lint:css/js` or `bundle exec rake lint:css/js`
+
+**Agent guidance:**
+
+- If npm/node is unavailable, note linting verification in output
+- Prefer fixing linting issues directly in code when possible
+- Use auto-fix sparingly and always review changes
 
 ### Safe Edit Loop
 
@@ -60,8 +96,9 @@ Typical workflow:
 
 1. Agent reads `.verify.yml` to understand verification requirements.
 2. Agent proposes code/content changes.
-3. Human runs local verification (`./script/verify` or `bundle exec …`) if needed.
-4. Changes are pushed.
-5. CI confirms build + test integrity.
+3. Agent runs linters if modifying CSS/JS (if npm available).
+4. Human runs local verification (`./script/verify` or `bundle exec …`) if needed.
+5. Changes are pushed.
+6. CI confirms build + test integrity.
 
 Agents should optimize for correctness of edits and minimal surface area rather than attempting to fully reproduce the local toolchain.

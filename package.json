@@ -1,0 +1,21 @@
+{
+  "name": "ghgeist-portfolio",
+  "version": "1.0.0",
+  "description": "Grant Geist's Portfolio Website",
+  "scripts": {
+    "lint:css": "stylelint \"**/*.{css,scss}\" --ignore-path .gitignore",
+    "lint:css:fix": "stylelint \"**/*.{css,scss}\" --fix --ignore-path .gitignore",
+    "lint:js": "eslint \"js/**/*.js\" --ignore-pattern \"*.min.js\" --ignore-pattern \"**/bootstrap.js\" --ignore-pattern \"**/cbpAnimatedHeader.js\" --ignore-pattern \"**/classie.js\" --ignore-pattern \"**/jqBootstrapValidation.js\" --ignore-pattern \"**/jquery*.js\"",
+    "lint:js:fix": "eslint \"js/**/*.js\" --fix --ignore-pattern \"*.min.js\" --ignore-pattern \"**/bootstrap.js\" --ignore-pattern \"**/cbpAnimatedHeader.js\" --ignore-pattern \"**/classie.js\" --ignore-pattern \"**/jqBootstrapValidation.js\" --ignore-pattern \"**/jquery*.js\"",
+    "lint": "npm run lint:css && npm run lint:js",
+    "lint:fix": "npm run lint:css:fix && npm run lint:js:fix"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "stylelint": "^16.0.0",
+    "stylelint-config-standard-scss": "^13.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

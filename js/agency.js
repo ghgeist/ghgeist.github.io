@@ -17,7 +17,7 @@
     const navigation = {
         initSmoothScroll: function() {
             $('a.page-scroll').on('click', function(event) {
-                var target = this.hash;
+                const target = this.hash;
                 if (target && $(target).length) {
                     $('html, body').stop().animate({
                         scrollTop: $(target).offset().top
@@ -45,7 +45,7 @@
         if (!window.location.hash) {
             window.scrollTo(0, 0);
         }
-        
+
         navigation.initSmoothScroll();
         navigation.initScrollspy();
         navigation.initMobileMenu();

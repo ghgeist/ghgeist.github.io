@@ -95,3 +95,42 @@ end
 
 desc "Run all tests"
 task :test => "test:all"
+
+namespace :lint do
+  desc "Lint CSS/SCSS files using stylelint"
+  task :css do
+    puts "🎨 Linting CSS/SCSS files..."
+    if system("npm run lint:css")
+      puts "✅ CSS linting passed!"
+    else
+      puts "❌ CSS linting failed!"
+      raise "CSS linting failed"
+    end
+  end
+
+  desc "Lint JavaScript files using ESLint"
+  task :js do
+    puts "📜 Linting JavaScript files..."
+    if system("npm run lint:js")
+      puts "✅ JavaScript linting passed!"
+    else
+      puts "❌ JavaScript linting failed!"
+      raise "JavaScript linting failed"
+    end
+  end
+
+  desc "Run all linters (CSS, JS)"
+  task :all => [:css, :js] do
+    puts "\n🎉 All linting passed!"
+  end
+
+  desc "Fix auto-fixable linting issues"
+  task :fix do
+    puts "🔧 Fixing auto-fixable linting issues..."
+    system("npm run lint:fix")
+    puts "✅ Auto-fix completed!"
+  end
+end
+
+desc "Run all linters"
+task :lint => "lint:all"

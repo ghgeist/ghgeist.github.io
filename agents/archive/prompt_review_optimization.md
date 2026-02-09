@@ -19,6 +19,7 @@ The three agent prompts are well-structured but contain **critical mismatches** 
 All three agents reference files that **do not exist** in this repository:
 
 **Missing Platform Integration Files:**
+
 - `docs/agents/_cursor-integration-standard.md`
 - `docs/agents/_claude-code-integration-standard.md`
 - `docs/agents/_gemini-cli-integration-standard.md`
@@ -26,20 +27,23 @@ All three agents reference files that **do not exist** in this repository:
 - `docs/agents/_platform-detection-guide.md`
 
 **Missing Session Management:**
+
 - `docs/agents/_session-management-core.md`
 - `docs/sessions/completed/` directory
 - `docs/sessions/active/` directory
 
 **Impact**: Agents will fail when trying to follow "MANDATORY" instructions that reference non-existent files.
 
-**Recommendation**: 
+**Recommendation**:
+
 - **Option A**: Remove platform integration sections if not needed for this repo
 - **Option B**: Create stub/placeholder files that gracefully handle missing infrastructure
 - **Option C**: Make platform integration optional with fallback behavior
 
 ### 2. Context Mismatch
 
-**Repository Reality**: 
+**Repository Reality**:
+
 - Static Jekyll site (HTML, CSS, JavaScript, Markdown)
 - No database operations
 - No API endpoints (except contact form)
@@ -48,6 +52,7 @@ All three agents reference files that **do not exist** in this repository:
 - Simple GitHub Pages deployment
 
 **Agent Assumptions**:
+
 - Database query optimization (performance-agent.md)
 - API testing (testing_agent.md)
 - Complex session management workflows (dev_note_agent.md)
@@ -58,6 +63,7 @@ All three agents reference files that **do not exist** in this repository:
 **Impact**: Agents will attempt to optimize/test things that don't exist or aren't relevant.
 
 **Recommendation**: Adapt agent scopes to Jekyll-specific concerns:
+
 - **Performance**: Image optimization, CSS/JS minification, page load times, asset bundling
 - **Testing**: HTML validation, link checking, Jekyll build verification, responsive design testing
 - **Dev Notes**: Focus on content updates, design changes, blog posts, asset additions
@@ -67,12 +73,15 @@ All three agents reference files that **do not exist** in this repository:
 Using the **Topology Read** framework, several structural issues emerge:
 
 #### Connectedness Problem
+
 **Issue**: Agents mix multiple disconnected concerns:
+
 - Platform detection (infrastructure)
 - Session management (workflow)
 - Core agent functionality (domain logic)
 
 **Example**: `dev_note_agent.md` combines:
+
 - Git commit analysis (works for any repo)
 - Session file synthesis (requires non-existent infrastructure)
 - Platform-specific tool usage (requires missing standards)
@@ -80,7 +89,9 @@ Using the **Topology Read** framework, several structural issues emerge:
 **Fix**: Separate concerns into optional vs. required sections.
 
 #### Boundary Bleeding
+
 **Issue**: Unmarked transitions between phases:
+
 - Discovery → Execution (agents jump to implementation without explicit phase markers)
 - Analysis → Optimization (performance agent doesn't clearly separate measurement from optimization)
 
@@ -89,7 +100,9 @@ Using the **Topology Read** framework, several structural issues emerge:
 **Fix**: Add explicit phase completion criteria and validation gates.
 
 #### Discontinuities
+
 **Issue**: Silent assumptions about infrastructure:
+
 - "and then it understands" the platform (platform detection)
 - "obviously it shouldn't" break existing functionality (assumes test infrastructure exists)
 
@@ -104,6 +117,7 @@ Using the **Topology Read** framework, several structural issues emerge:
 ### For `dev_note_agent.md`
 
 **1. Make Session Management Optional**
+
 ```markdown
 ## SESSION FILES (OPTIONAL)
 If `docs/sessions/completed/` and `docs/sessions/active/` directories exist:
@@ -117,11 +131,13 @@ If session directories don't exist:
 ```
 
 **2. Simplify for Jekyll Context**
+
 - Remove references to PR numbers (unless using GitHub PRs)
 - Focus on commit themes: "Content Updates", "Design Changes", "Asset Additions", "Blog Posts"
 - Adapt template to Jekyll-specific metrics: page load times, image optimization, build times
 
 **3. Make Platform Integration Optional**
+
 ```markdown
 ## PLATFORM INTEGRATION (OPTIONAL)
 If platform integration standards exist in `docs/agents/_*.md`:
@@ -136,6 +152,7 @@ If standards don't exist:
 ### For `performance-agent.md`
 
 **1. Add Jekyll-Specific Performance Areas**
+
 ```markdown
 ## JEKYLL-SPECIFIC PERFORMANCE AREAS
 1. **Image Optimization**: Compress images, use modern formats (WebP), lazy loading
@@ -146,11 +163,13 @@ If standards don't exist:
 ```
 
 **2. Remove Database/API Assumptions**
+
 - Remove "Database Performance" from priority list (or mark as N/A)
 - Remove "API Performance" section (or adapt to contact form only)
 - Focus on static site optimization patterns
 
 **3. Add Fallback for Missing Profiling Tools**
+
 ```markdown
 ### Measurement Tools
 If performance profiling tools exist:
@@ -166,6 +185,7 @@ If profiling tools don't exist:
 ### For `testing_agent.md`
 
 **1. Add Jekyll-Specific Testing Strategy**
+
 ```markdown
 ## JEKYLL TESTING STRATEGY
 
@@ -191,6 +211,7 @@ If profiling tools don't exist:
 ```
 
 **2. Remove Python Test Assumptions**
+
 ```markdown
 ### Test Execution
 **For Jekyll sites:**
@@ -206,6 +227,7 @@ If profiling tools don't exist:
 
 **3. Simplify Test Patterns**
 Replace Python examples with Jekyll-relevant examples:
+
 ```markdown
 ### Link Validation Testing
 ```bash
@@ -216,12 +238,14 @@ htmltest -c .htmltest.yml
 ```
 
 ### Build Validation
+
 ```bash
 # PRESERVED: Jekyll configuration, content structure
 # TRANSFORMED: Build confidence (unknown → verified)
 # ADDED: Build verification, error detection
 bundle exec jekyll build --trace
 ```
+
 ```
 
 ---
@@ -291,18 +315,21 @@ Adapt agent behavior based on detected context:
 ## Priority Actions
 
 ### Immediate (Critical)
+
 1. ✅ **Remove or make optional** platform integration references
 2. ✅ **Remove or make optional** session management dependencies
 3. ✅ **Add fallback behavior** for missing infrastructure
 4. ✅ **Add repository context detection** to adapt agent behavior
 
 ### Short-term (High Value)
+
 5. ✅ **Add Jekyll-specific sections** to each agent
 6. ✅ **Replace Python examples** with Jekyll-relevant examples
 7. ✅ **Add explicit phase boundaries** with completion criteria
 8. ✅ **Document infrastructure dependencies** clearly
 
 ### Long-term (Nice to Have)
+
 9. Create platform integration standards if needed
 10. Create session management system if needed
 11. Add Jekyll-specific test utilities
@@ -315,23 +342,28 @@ Adapt agent behavior based on detected context:
 Using the **Compositional Sanity Check** framework:
 
 ### ✅ Object Stability: PASS
+
 - Agents are clearly named and have distinct purposes
 - Objects (dev notes, performance optimizations, tests) are well-defined
 
 ### ⚠️ Explicit Transformations: PARTIAL
+
 - Some transformations are explicit (e.g., "PRESERVED/TRANSFORMED/ADDED" in performance-agent.md)
 - Platform detection and session management transitions are implicit ("and then it understands")
 
 ### ❌ Compositional Integrity: FAIL
+
 - Agents reference non-existent infrastructure without fallbacks
 - Meaning breaks when infrastructure is missing
 - Agents can't compose with actual repository structure
 
 ### ⚠️ Identity/No-Op Validity: PARTIAL
+
 - Agents can skip optional steps, but "MANDATORY" sections create failures
 - No clear "do nothing" path when infrastructure is missing
 
 ### ❌ Intent-Preserving Mapping: FAIL
+
 - Agents assume complex software project context
 - Same prompts produce different (broken) behavior in Jekyll context
 - Intent (optimize/test/document) doesn't survive context change
