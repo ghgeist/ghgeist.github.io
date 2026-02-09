@@ -23,7 +23,7 @@ You are an expert technical writer and open source maintainer. Review the README
 - **Gemini CLI**: `agents/_gemini-cli-integration-standard.md`
 - **Codex**: `agents/_codex-integration-standard.md`
 
-**MANDATORY SESSION MANAGEMENT**: Follow session management rules in `agents/_session-management-core.md`.
+**SESSION MANAGEMENT** (OPTIONAL): If `agents/_session-management-core.md` exists, follow session management rules. If not, proceed without session tracking.
 
 **See**: `agents/_platform-detection-guide.md` for platform detection and tool mapping.
 
