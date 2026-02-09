@@ -10,6 +10,24 @@ This repository is a GitHub Pages (Jekyll) site that uses Bundler with a pinned 
 - In particular, dependency installation from RubyGems may fail in sandboxed environments.
 - Agents should not assume they can successfully run `bundle install` unless explicitly confirmed.
 
+### Shell/Terminal Handling
+
+**Script Compatibility:**
+- The repository includes bash scripts (`script/verify`, `script/dev`) designed for Unix-like environments (Linux, macOS, Git Bash).
+- These scripts may not run directly in PowerShell or other Windows shells.
+- **Agents should adapt commands for the current shell environment.**
+
+**When executing commands:**
+- **If bash scripts are unavailable** (e.g., PowerShell environment): Execute the underlying Ruby/Bundler/Jekyll commands directly:
+  - Instead of `./script/verify`, run: `bundle install --path vendor/bundle` then `bundle exec rake test` then `bundle exec jekyll build --trace`
+  - Instead of `./script/dev`, run: `bundle exec jekyll serve --livereload --host 0.0.0.0`
+- **Read the scripts** (`script/verify`, `script/dev`) to understand what commands they execute, then run those commands directly in the available shell.
+- **Core Ruby/Jekyll commands work in all shells** - the scripts are convenience wrappers, not requirements.
+
+**For verification:**
+- Agents can read `.verify.yml` to understand required steps and execute them directly.
+- If scripts cannot be run, note: "Verify locally with: ./script/verify" (for users with bash) or execute the verification steps manually.
+
 ### Source of Truth for Verification
 
 **`.verify.yml` is the single source of truth** for verification requirements. This declarative config file defines:
