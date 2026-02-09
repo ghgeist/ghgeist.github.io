@@ -1,0 +1,49 @@
+# Verification Configuration
+# This file defines the verification contract for this repository.
+# Agents should read this file to understand what verification is expected,
+# even if they cannot execute the verification steps in their environment.
+
+# Bundler version requirement (from Gemfile.lock)
+bundler_version: "2.5.23"
+
+# Ruby version requirement (infer from CI or use default)
+# Note: Jekyll 4.3.0 requires Ruby >= 2.6.0
+ruby_version: ">= 2.6.0"
+
+# Verification steps (executed in order)
+steps:
+  # Step 1: Ensure dependencies are installed
+  - name: "Install dependencies"
+    command: "bundle install"
+    args: ["--path", "vendor/bundle"]
+    required: true
+    description: "Install Ruby dependencies using Bundler to vendor/bundle"
+
+  # Step 2: Run test suite (if Rakefile exists)
+  - name: "Run test suite"
+    command: "bundle exec rake test"
+    required: true
+    description: "Run full test suite (build + HTML validation)"
+    fallback: "bundle exec rake test:build"
+    fallback_description: "If rake test fails, try build-only validation"
+
+  # Step 3: Build verification (always run)
+  - name: "Build Jekyll site"
+    command: "bundle exec jekyll build"
+    args: ["--trace"]
+    required: true
+    description: "Build Jekyll site with trace output for debugging"
+
+# Development server configuration
+dev:
+  command: "bundle exec jekyll serve"
+  args: ["--livereload", "--host", "0.0.0.0"]
+  port: 4000
+  url: "http://localhost:4000"
+
+# Notes for agents
+agent_notes: |
+  - This verification config is the single source of truth for what needs to be verified
+  - Agents in sandboxed environments should read this file and note verification steps needed
+  - Agents with execution capabilities should attempt to run script/verify
+  - If verification cannot be run, agents should note: "Verify locally with: ./script/verify"
