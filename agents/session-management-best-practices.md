@@ -1,8 +1,13 @@
-# Session Management Best Practices for Cursor Agents
+# Session Management Best Practices for All Agents
 
 **Date**: 2025-09-12  
 **Status**: Active  
-**Purpose**: Standardize how agents manage session artifacts and outputs
+**Purpose**: Supplementary guidance for session management (works with `_session-management-core.md`)  
+**Platform**: Universal - Works with Cursor, Claude Code, Gemini CLI, Codex, and other agents
+
+## 📚 Core Reference
+
+**IMPORTANT**: This document provides supplementary best practices and examples. For mandatory rules and requirements, see **`agents/_session-management-core.md`** - the canonical reference that all agents must follow.
 
 ## 🎯 Current Session Structure
 
@@ -28,15 +33,31 @@ Based on user preferences [[memory:8730623]] [[memory:8730527]]:
 
 ### 1. Session Artifact Creation
 
-**All agents should**:
+**All agents should** (platform-agnostic approach):
 ```markdown
 ## Session Artifacts Management
 
 When starting work:
-1. Use `list_dir` to check `docs/sessions/active/` for existing sessions
-2. If no relevant active session exists, create one using `write`
-3. If relevant session exists, use `read_file` to understand context
-4. Update session file throughout work using `search_replace`
+1. Check `docs/sessions/active/` for existing sessions
+   - Cursor: Use `list_dir`
+   - Claude Code: Use shell commands (`ls`, `dir`) or file navigation
+   - Gemini CLI: Use file system list tools
+   - Codex: Use IDE directory listing
+2. If no relevant active session exists, create one
+   - Cursor: Use `write`
+   - Claude Code: Use text editor tool
+   - Gemini CLI: Use file system write
+   - Codex: Use IDE file creation
+3. If relevant session exists, read to understand context
+   - Cursor: Use `read_file`
+   - Claude Code: Use text editor tool to read
+   - Gemini CLI: Use file system read
+   - Codex: Use IDE file reading
+4. Update session file throughout work
+   - Cursor: Use `search_replace`
+   - Claude Code: Use text editor tool to modify
+   - Gemini CLI: Use file system modify
+   - Codex: Use IDE editing
 ```
 
 ### 2. Session Types & Outputs
@@ -75,23 +96,19 @@ When starting work:
 Every agent should begin with:
 
 1. **Check Active Sessions**:
-   ```
-   Use `list_dir` to check docs/sessions/active/
-   Use `read_file` to understand current context
-   ```
+   - Use platform-appropriate tool to check docs/sessions/active/
+   - Use platform-appropriate tool to read and understand current context
+   - See `_platform-detection-guide.md` for tool mappings
 
 2. **Create or Update Session**:
-   ```
-   If no relevant session: Use `write` to create new session
-   If relevant session exists: Use `search_replace` to update
-   ```
+   - If no relevant session: Create new session using platform-appropriate tool
+   - If relevant session exists: Update using platform-appropriate tool
+   - Follow naming convention: YYYY-MM-DD-[type]-[description].md
 
 3. **Set Session Context**:
-   ```
-   Document what agent is doing
-   Set expected outcomes
-   Track progress throughout work
-   ```
+   - Document what agent is doing
+   - Set expected outcomes
+   - Track progress throughout work
 ```
 
 ### Pattern 2: Work Documentation
@@ -143,14 +160,16 @@ All agents should include this session management pattern:
 ## SESSION MANAGEMENT INTEGRATION
 
 ### Session Discovery
-- Use `list_dir` to check `docs/sessions/active/` for relevant work
-- Use `read_file` to understand existing session context
-- Use `grep` to find related sessions in `backlog/` and `completed/`
+- Use platform-appropriate tools to check `docs/sessions/active/` for relevant work
+- Use platform-appropriate tools to read and understand existing session context
+- Use platform-appropriate search tools to find related sessions in `backlog/` and `completed/`
+- See `_platform-detection-guide.md` for specific tool mappings
 
 ### Session Creation/Updates
-- Use `write` to create new session if none exists
-- Use `search_replace` to update existing sessions
+- Use platform-appropriate tools to create new session if none exists
+- Use platform-appropriate tools to update existing sessions
 - Follow YYYY-MM-DD-[type]-[description].md naming convention
+- Reference `_session-management-core.md` for mandatory requirements
 
 ### Session Lifecycle
 - Keep sessions in `active/` during work
@@ -242,5 +261,16 @@ related: ["path/to/related/sessions"]
 
 ---
 
-**Implementation Status**: Ready for immediate adoption by all agents  
-**Next Step**: Update agent prompts to include session management patterns
+## 🔗 Related Documents
+
+- **`agents/_session-management-core.md`** - Mandatory canonical rules (all agents must follow)
+- **`agents/_platform-detection-guide.md`** - Tool mappings for different platforms
+- **`agents/_cursor-integration-standard.md`** - Cursor-specific integration
+- **`agents/_claude-code-integration-standard.md`** - Claude Code integration
+- **`agents/_gemini-cli-integration-standard.md`** - Gemini CLI integration
+- **`agents/_codex-integration-standard.md`** - Codex integration
+
+---
+
+**Implementation Status**: Ready for immediate adoption by all agents across all platforms  
+**Platform Compatibility**: ✅ Cursor ✅ Claude Code ✅ Gemini CLI ✅ Codex ✅ Other agents
