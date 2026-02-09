@@ -5,6 +5,7 @@ Welcome to my portfolio website repository! This site showcases my projects and 
 **Live Site:** [grantgeist.com](https://grantgeist.com)
 
 ## Features
+
 - Responsive design for optimal viewing on all devices.
 - Interactive elements to enhance user experience.
 - Easy navigation to different sections and projects.
@@ -13,20 +14,27 @@ Welcome to my portfolio website repository! This site showcases my projects and 
 ## Getting Started
 
 ### Prerequisites
+
 - Ruby >= 2.6.0 (for Jekyll 4.3.0)
 - Bundler gem installed (version 2.5.23 recommended, see `.verify.yml`)
 
 ### Installation
+
 1. Clone the repository:
-   ```
+
+   ```bash
    git clone https://github.com/ghgeist/ghgeist.github.io.git
    ```
+
 2. Navigate to the project directory:
-   ```
+
+   ```bash
    cd ghgeist.github.io
    ```
+
 3. Install dependencies:
-   ```
+
+   ```bash
    bundle install
    npm install
    ```
@@ -34,12 +42,15 @@ Welcome to my portfolio website repository! This site showcases my projects and 
 ### Running the Site Locally
 
 **Quick start:**
+
 ```bash
 ./script/dev
 ```
+
 This starts the Jekyll server with live reload at [http://localhost:4000](http://localhost:4000).
 
 **Manual start:**
+
 ```bash
 bundle exec jekyll serve
 ```
@@ -48,17 +59,20 @@ bundle exec jekyll serve
 
 **Verification:**
 Before pushing changes, run the verification script:
+
 ```bash
 ./script/verify
 ```
 
 This script:
+
 - Checks Bundler version compatibility
 - Installs dependencies to `vendor/bundle` (isolated from global gems)
 - Runs the test suite (`bundle exec rake test`)
 - Builds the Jekyll site with trace output
 
 **Automated Safeguards:**
+
 - **Pre-commit hook**: Automatically runs `bundle exec rake test:build` before each commit (skip with `git commit --no-verify` if needed)
 - **CI/CD**: GitHub Actions runs full verification (`./script/verify`) on push/PR to catch issues automatically
 
@@ -66,12 +80,15 @@ This script:
 See `.verify.yml` for the complete verification contract. This file serves as the single source of truth for what needs to be verified, readable by both humans and AI agents.
 
 ### Testing
+
 Run the test suite to validate builds and check HTML/links:
-```
+
+```bash
 bundle exec rake test
 ```
 
 Or run individual test tasks:
+
 - `bundle exec rake test:build` - Build validation only (always works)
 - `bundle exec rake test:html` - HTML validation and link checking (requires build)
 - `bundle exec rake test:all` - Run all tests
@@ -80,9 +97,10 @@ Or run individual test tasks:
 
 ### Linting
 
-This project uses linting tools to maintain code quality across CSS, JavaScript, and Markdown files.
+This project uses linting tools to maintain code quality across CSS and JavaScript files.
 
 **Run all linters:**
+
 ```bash
 npm run lint
 # or
@@ -90,11 +108,12 @@ bundle exec rake lint
 ```
 
 **Run individual linters:**
+
 - `npm run lint:css` or `bundle exec rake lint:css` - Lint CSS/SCSS files
 - `npm run lint:js` or `bundle exec rake lint:js` - Lint JavaScript files
-- `npm run lint:md` or `bundle exec rake lint:md` - Lint Markdown files
 
 **Auto-fix issues:**
+
 ```bash
 npm run lint:fix
 # or
@@ -102,18 +121,19 @@ bundle exec rake lint:fix
 ```
 
 **Combine with testing:**
+
 ```bash
 bundle exec rake lint test
 ```
 
 Linters are configured to ignore minified files and vendor libraries. Configuration files:
+
 - `.stylelintrc.json` - CSS/SCSS linting rules
 - `.eslintrc.json` - JavaScript linting rules
-- `.markdownlint.json` - Markdown linting rules
 
 ## Project Structure
 
-```
+```text
 .
 ├── _config.yml          # Jekyll configuration file
 ├── .verify.yml          # Verification configuration (single source of truth)
@@ -153,7 +173,7 @@ Linters are configured to ignore minified files and vendor libraries. Configurat
 
 ## Contact
 
-- **Email:** granthgeist@gmail.com
+- **Email:** <granthgeist@gmail.com>
 - **Website:** [grantgeist.com](https://grantgeist.com)
 - **LinkedIn:** [linkedin.com/in/grantgeist](https://www.linkedin.com/in/grantgeist)
 - **X (Twitter):** [@grantgeist](https://x.com/grantgeist)

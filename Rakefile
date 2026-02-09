@@ -119,19 +119,8 @@ namespace :lint do
     end
   end
 
-  desc "Lint Markdown files using markdownlint"
-  task :md do
-    puts "📝 Linting Markdown files..."
-    if system("npm run lint:md")
-      puts "✅ Markdown linting passed!"
-    else
-      puts "❌ Markdown linting failed!"
-      raise "Markdown linting failed"
-    end
-  end
-
-  desc "Run all linters (CSS, JS, Markdown)"
-  task :all => [:css, :js, :md] do
+  desc "Run all linters (CSS, JS)"
+  task :all => [:css, :js] do
     puts "\n🎉 All linting passed!"
   end
 

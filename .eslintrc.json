@@ -32,6 +32,11 @@
   },
   "ignorePatterns": [
     "**/*.min.js",
+    "**/bootstrap.js",
+    "**/cbpAnimatedHeader.js",
+    "**/classie.js",
+    "**/jqBootstrapValidation.js",
+    "**/jquery*.js",
     "node_modules/**",
     "_site/**"
   ]

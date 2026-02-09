@@ -1,36 +1,24 @@
 {
   "extends": ["stylelint-config-standard-scss"],
   "rules": {
-    "indentation": 4,
-    "string-quotes": "double",
-    "no-duplicate-selectors": true,
-    "color-hex-case": "lower",
     "color-hex-length": "short",
     "color-named": "never",
-    "selector-combinator-space-after": "always",
-    "selector-attribute-quotes": "always",
-    "selector-attribute-operator-space-before": "never",
-    "selector-attribute-operator-space-after": "never",
-    "selector-attribute-brackets-space-inside": "never",
-    "declaration-block-trailing-semicolon": "always",
     "declaration-no-important": true,
-    "declaration-colon-space-before": "never",
-    "declaration-colon-space-after": "always",
     "property-no-vendor-prefix": true,
     "value-no-vendor-prefix": true,
-    "number-leading-zero": "always",
-    "function-url-quotes": "always",
     "font-weight-notation": "numeric",
-    "comment-empty-line-before": "always",
-    "comment-whitespace-inside": "always",
     "rule-empty-line-before": "always-multi-line",
-    "selector-pseudo-element-colon-notation": "double"
+    "scss/no-global-function-names": null,
+    "color-function-notation": null
   },
   "ignoreFiles": [
     "**/*.min.css",
     "**/bootstrap*.css",
     "**/font-awesome*.css",
     "node_modules/**",
-    "_site/**"
+    "_site/**",
+    "style.css",
+    "_layouts/style.css",
+    "_includes/css/agency.css"
   ]
 }

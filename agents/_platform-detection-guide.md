@@ -13,6 +13,7 @@ This guide helps agents detect which platform they're running on and use the app
 ### How to Detect Platform
 
 **Cursor IDE:**
+
 - Has `codebase_search` tool available
 - Has `read_lints` tool available
 - Has `update_memory` tool available
@@ -20,12 +21,14 @@ This guide helps agents detect which platform they're running on and use the app
 - **Integration Standard**: `agents/_cursor-integration-standard.md`
 
 **Claude Code (claude.ai/code):**
+
 - Has bash tool, text editor tool, memory tool
 - Does NOT have semantic code search (`codebase_search`)
 - Uses natural language + file reading for codebase exploration
 - **Integration Standard**: `agents/_claude-code-integration-standard.md`
 
 **Gemini CLI:**
+
 - Has `run_shell_command` tool (with safety measures)
 - Has file system tools (read, write, list, search)
 - Uses ReAct (reason and act) loop
@@ -33,6 +36,7 @@ This guide helps agents detect which platform they're running on and use the app
 - **Integration Standard**: `agents/_gemini-cli-integration-standard.md`
 
 **Codex (OpenAI):**
+
 - Has IDE integration capabilities
 - Has terminal/CLI tool
 - Has memory/skills system
@@ -84,6 +88,7 @@ Include platform detection logic in agent prompts:
 ### For Users
 
 When using agents in different platforms:
+
 1. **Cursor**: Agents work as-is with full tool support
 2. **Claude Code**: Agents adapt automatically, semantic search replaced with file reading + queries
 3. **Gemini CLI**: Agents adapt automatically, uses ReAct loop with file system tools
@@ -99,6 +104,7 @@ When using agents in different platforms:
 ---
 
 **See individual integration standards for platform-specific details:**
+
 - `_cursor-integration-standard.md` - Cursor IDE
 - `_claude-code-integration-standard.md` - Claude Code
 - `_gemini-cli-integration-standard.md` - Gemini CLI
