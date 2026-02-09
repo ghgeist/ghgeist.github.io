@@ -61,13 +61,9 @@ if [[ -f "Rakefile" ]]; then
     if bundle exec rake test; then
         echo -e "${GREEN}✅ Test suite passed${NC}"
     else
-        echo -e "${YELLOW}⚠️  Test suite failed, trying build-only validation...${NC}"
-        if bundle exec rake test:build; then
-            echo -e "${GREEN}✅ Build validation passed (HTML validation skipped)${NC}"
-        else
-            echo -e "${RED}❌ Build validation failed${NC}"
-            exit 1
-        fi
+        echo -e "${RED}❌ Test suite failed${NC}"
+        echo -e "${RED}   Note: The Rakefile handles missing libcurl gracefully, so this indicates real validation errors${NC}"
+        exit 1
     fi
 else
     echo -e "${YELLOW}⚠️  Rakefile not found, running build verification...${NC}"
