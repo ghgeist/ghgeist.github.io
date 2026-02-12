@@ -1,83 +1,40 @@
 #!/usr/bin/env bash
-# Verification script for Jekyll site
-# Reads .verify.yml and executes verification steps
-# Exit codes: 0 = success, 1 = failure
-
+# Verification script — Node/Vite build pipeline
 set -euo pipefail
 
-# Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# Script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 cd "$REPO_ROOT"
 
-# Check if .verify.yml exists
-if [[ ! -f ".verify.yml" ]]; then
-    echo -e "${RED}❌ Error: .verify.yml not found${NC}"
+echo -e "${BLUE}Step 1: Installing dependencies...${NC}"
+if npm ci; then
+    echo -e "${GREEN}Dependencies installed${NC}"
+else
+    echo -e "${RED}Failed to install dependencies${NC}"
     exit 1
 fi
 
-echo -e "${BLUE}📋 Reading verification configuration from .verify.yml${NC}"
-
-# Extract Bundler version from .verify.yml (simple grep approach)
-BUNDLER_VERSION=$(grep -E "^bundler_version:" .verify.yml | sed 's/.*"\(.*\)"/\1/' | tr -d '[:space:]' || echo "2.5.23")
-
-echo -e "${BLUE}🔍 Checking Bundler version...${NC}"
-if command -v bundle &> /dev/null; then
-    CURRENT_BUNDLER=$(bundle --version | awk '{print $3}' | tr -d '[:space:]')
-    if [[ "$CURRENT_BUNDLER" != "$BUNDLER_VERSION" ]]; then
-        echo -e "${YELLOW}⚠️  Warning: Bundler version mismatch${NC}"
-        echo -e "   Required: ${BUNDLER_VERSION}"
-        echo -e "   Current:  ${CURRENT_BUNDLER}"
-        echo -e "   ${YELLOW}Consider installing Bundler ${BUNDLER_VERSION}${NC}"
-        echo -e "   ${YELLOW}Command: gem install bundler -v ${BUNDLER_VERSION}${NC}"
-    else
-        echo -e "${GREEN}✅ Bundler ${BUNDLER_VERSION} detected${NC}"
-    fi
+echo -e "\n${BLUE}Step 2: Type checking...${NC}"
+if npx tsc --noEmit; then
+    echo -e "${GREEN}Type check passed${NC}"
 else
-    echo -e "${YELLOW}⚠️  Warning: Bundler not found${NC}"
-    echo -e "   ${YELLOW}Install with: gem install bundler -v ${BUNDLER_VERSION}${NC}"
-fi
-
-# Step 1: Install dependencies
-echo -e "\n${BLUE}📦 Step 1: Installing dependencies...${NC}"
-# Configure bundle path to avoid deprecation warning
-bundle config set --local path vendor/bundle
-if bundle install; then
-    echo -e "${GREEN}✅ Dependencies installed${NC}"
-else
-    echo -e "${RED}❌ Failed to install dependencies${NC}"
+    echo -e "${RED}Type check failed${NC}"
     exit 1
 fi
 
-# Step 2: Run test suite (if Rakefile exists)
-echo -e "\n${BLUE}🧪 Step 2: Running test suite...${NC}"
-if [[ -f "Rakefile" ]]; then
-    if bundle exec rake test; then
-        echo -e "${GREEN}✅ Test suite passed${NC}"
-    else
-        echo -e "${RED}❌ Test suite failed${NC}"
-        echo -e "${RED}   Note: The Rakefile handles missing libcurl gracefully, so this indicates real validation errors${NC}"
-        exit 1
-    fi
+echo -e "\n${BLUE}Step 3: Building...${NC}"
+if npm run build; then
+    echo -e "${GREEN}Build succeeded${NC}"
 else
-    echo -e "${YELLOW}⚠️  Rakefile not found, running build verification...${NC}"
-    # Step 3: Build verification (only if Rakefile doesn't exist)
-    echo -e "\n${BLUE}🔨 Step 3: Building Jekyll site...${NC}"
-    if bundle exec jekyll build --trace; then
-        echo -e "${GREEN}✅ Build completed successfully${NC}"
-    else
-        echo -e "${RED}❌ Build failed${NC}"
-        exit 1
-    fi
+    echo -e "${RED}Build failed${NC}"
+    exit 1
 fi
 
-echo -e "\n${GREEN}🎉 All verification steps passed!${NC}"
+echo -e "\n${GREEN}All verification steps passed!${NC}"
 exit 0

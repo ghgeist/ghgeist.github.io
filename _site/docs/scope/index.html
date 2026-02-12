@@ -1,0 +1,795 @@
+<h1 id="portfolio-website--updated-scope--phasing"><strong>Portfolio Website — Updated Scope &amp; Phasing</strong></h1>
+
+<h2 id="quick-reference"><strong>Quick Reference</strong></h2>
+
+<ul>
+  <li><strong>Status:</strong> Phase 1 in progress — structural scaffolding underway</li>
+  <li><strong>Priority:</strong> High</li>
+  <li><strong>Platform Decision:</strong> ✅ Complete - Proceed with Jekyll MVP</li>
+  <li><strong>Estimated Time:</strong> 1 day MVP + 0.5 day polish (timeboxed)</li>
+  <li><strong>MVP Done (for portfolio):</strong> Homepage is legible in 30 seconds; grid shows 4 flagship visual case frames with placeholders allowed; each case frame has premise + outcome; About has 3–4 line summary; fallbacks exist for brittle demos; “Work with me” page includes engagement flow, fit boundaries, structured intake, and recommendation slot (empty by design).</li>
+  <li><strong>Validation checkpoint (do early):</strong> Validate that each flagship project has a single visual capable of carrying the argument alone (even as a placeholder).</li>
+</ul>
+
+<h2 id="current-implementation-status-2026-02-09"><strong>Current Implementation Status (2026-02-09)</strong></h2>
+
+<p><strong>Completed:</strong></p>
+<ul>
+  <li>✅ Jekyll site structure exists and builds successfully</li>
+  <li>✅ Navigation updated: Home → Portfolio → About → Work with me → Contact (5 items)</li>
+  <li>✅ Homepage hero section: Positioning statement (“Data Product Strategist focused on climate, housing, and building systems. I turn ambiguous problems into clear models, workflows, and prototypes.”), solid background, refined layout, credibility anchor, and CTA to projects</li>
+  <li>✅ “Work with me” page: Created with engagement flow, framing paragraph, structured intake form, and recommendation slot (empty by design for Phase 2)</li>
+  <li>✅ Portfolio grid template exists (needs visual-first updates)</li>
+  <li>✅ About page with full timeline exists (needs 3-4 line summary addition at top)</li>
+  <li>✅ 3 portfolio projects exist in <code class="language-plaintext highlighter-rouge">_posts/</code> (Embodied AI, Walkability Index, Texas Border Report)</li>
+  <li>✅ Visual design system: Typography scale, spacing system (4px base unit), and CSS transitions implemented in <code class="language-plaintext highlighter-rouge">_includes/css/agency.css</code></li>
+</ul>
+
+<p><strong>Pending:</strong></p>
+<ul>
+  <li>⏳ Portfolio content: Confirm 4 flagship projects (Replacement Trap, Signal Storm, Walkability Index, Bantr) — currently have 3 different projects (Embodied AI, Walkability Index, Texas Border Report)</li>
+  <li>⏳ Portfolio visual-first layouts: CSS updates for visual dominance (visuals larger than text)</li>
+  <li>⏳ About page summary: Add 3-4 line summary at top (before timeline)</li>
+  <li>⏳ Fallback screenshots: Structure for fragile demos (e.g., Streamlit apps)</li>
+</ul>
+
+<hr />
+
+<h2 id="goal"><strong>Goal</strong></h2>
+
+<p>Confirm the site supports <strong>both FTE and 12–24 month contract work</strong> without increasing exhaustion, identity capture, or geographic lock-in.</p>
+
+<p><strong>Invariant:</strong> If a change does not clearly improve one of the checks below, it is out of scope.</p>
+
+<hr />
+
+<h2 id="core-design-principle"><strong>Core Design Principle</strong></h2>
+
+<p>The site is not a marketing surface or a personal brand.
+It is a <strong>low-noise trust surface</strong> and a <strong>work-intake interface</strong>.</p>
+
+<p>It must:</p>
+
+<ul>
+  <li>reduce ambiguity for the reader</li>
+  <li>reduce accidental obligations for me</li>
+  <li>allow multiple engagement interpretations without forcing identity</li>
+</ul>
+
+<hr />
+
+<h2 id="acceptance-checks-non-negotiable"><strong>Acceptance Checks (Non-Negotiable)</strong></h2>
+
+<h3 id="1-first-impression-test-30-seconds"><strong>1. First-Impression Test (≈30 seconds)</strong></h3>
+
+<p>Open the homepage and ask, without scrolling:</p>
+
+<blockquote>
+  <p>“Would I trust this person to quietly solve messy problems without supervision?”</p>
+</blockquote>
+
+<p><strong>Not optimizing for:</strong></p>
+
+<ul>
+  <li>excitement</li>
+  <li>cleverness</li>
+  <li>personality</li>
+  <li>ambition signaling</li>
+</ul>
+
+<p><strong>Optimizing for:</strong></p>
+
+<ul>
+  <li>calm competence</li>
+  <li>clarity</li>
+  <li>legibility</li>
+  <li>seriousness without drama</li>
+</ul>
+
+<p>If the page feels noisy, performative, or hustle-coded → simplify.</p>
+
+<hr />
+
+<h3 id="2-identity-capture-check-hard-constraint"><strong>2. Identity Capture Check (Hard Constraint)</strong></h3>
+
+<p>Scan headlines, bio, and section titles.</p>
+
+<p>Remove or soften anything that implies:</p>
+
+<ul>
+  <li>founder / visionary framing</li>
+  <li>fast-paced / high-growth language</li>
+  <li>“wearing many hats” energy</li>
+  <li>passion signaling</li>
+  <li>destiny or future-casting</li>
+</ul>
+
+<p>Prefer language that implies:</p>
+
+<ul>
+  <li>systems</li>
+  <li>reliability</li>
+  <li>judgment</li>
+  <li>translation</li>
+  <li>stability</li>
+</ul>
+
+<p><strong>Rule of thumb:</strong> If it sounds exhausting to live up to, it does not belong.</p>
+
+<hr />
+
+<h3 id="3-geography-neutrality-check"><strong>3. Geography Neutrality Check</strong></h3>
+
+<p>Ask explicitly:</p>
+
+<blockquote>
+  <p>“If someone in Luxembourg, Philly, or a fully remote team read this, would it still make sense?”</p>
+</blockquote>
+
+<p>Avoid:</p>
+
+<ul>
+  <li>NYC-coded assumptions</li>
+  <li>US-centric shorthand</li>
+  <li>in-office or local signaling</li>
+  <li>cultural proximity cues</li>
+</ul>
+
+<p>The site should feel <strong>placeless</strong>, not nomadic-branded.</p>
+
+<hr />
+
+<h3 id="4-contract-compatibility-check"><strong>4. Contract Compatibility Check</strong></h3>
+
+<p>Without adding a “consulting” or “services” page, confirm the site quietly supports contracts.</p>
+
+<p>Signals to include:</p>
+
+<ul>
+  <li>emphasis on outcomes and artifacts, not tenure</li>
+  <li>projects framed as deliverables, not hero narratives</li>
+  <li>language implying independence and self-direction</li>
+</ul>
+
+<p>A reader should plausibly think:</p>
+
+<blockquote>
+  <p>“We could hire this person full-time… or contract them for a year.”</p>
+</blockquote>
+
+<p>If the site forces a binary, it fails.</p>
+
+<hr />
+
+<h3 id="5-energy-profile-check-primary-gate"><strong>5. Energy Profile Check (Primary Gate)</strong></h3>
+
+<p>Read the site as a description of your future daily life.</p>
+
+<p>Red flags:</p>
+
+<ul>
+  <li>constant meetings implied</li>
+  <li>emotional labor implied</li>
+  <li>evangelizing, selling, or persuading implied</li>
+  <li>being “on” all the time</li>
+</ul>
+
+<p>Required signal:</p>
+
+<ul>
+  <li>deep work</li>
+  <li>bounded scope</li>
+  <li>calm execution</li>
+  <li>low noise</li>
+</ul>
+
+<p><strong>Invariant:</strong> No more quietly exhausting work. The site must enforce this.</p>
+
+<hr />
+
+<h3 id="6-exit-narrative-check"><strong>6. Exit Narrative Check</strong></h3>
+
+<p>Imagine entering via this site and leaving after ~18 months.</p>
+
+<p>Good narrative:</p>
+
+<ul>
+  <li>“They came in, stabilized X, left things better.”</li>
+</ul>
+
+<p>Bad narrative:</p>
+
+<ul>
+  <li>“They were supposed to be the future of Y.”</li>
+</ul>
+
+<p>If it implies destiny or permanence, it is too sticky.</p>
+
+<hr />
+
+<h3 id="7-one-sentence-sanity-test"><strong>7. One-Sentence Sanity Test</strong></h3>
+
+<p>After reviewing the site, this sentence must be easy to form:</p>
+
+<blockquote>
+  <p>“I help by <em>__ so that __</em>.”</p>
+</blockquote>
+
+<p>If this cannot be done calmly and plainly, the site is still fuzzy.
+(The sentence does not need to appear on the site.)</p>
+
+<hr />
+
+<h3 id="8-stop-condition"><strong>8. Stop Condition</strong></h3>
+
+<p>Once:</p>
+
+<ul>
+  <li>all checks above pass, and</li>
+  <li>changes feel marginal rather than structural</li>
+</ul>
+
+<p>Stop.</p>
+
+<p>Do not optimize further “just in case.”
+That is anxiety masquerading as diligence.</p>
+
+<hr />
+
+<h2 id="work-intake-layer-new-scope-addition"><strong>Work-Intake Layer (New Scope Addition)</strong></h2>
+
+<h3 id="purpose"><strong>Purpose</strong></h3>
+
+<p>Add a <strong>professional intake interface</strong> that:</p>
+
+<ul>
+  <li>supports FTE and contract interpretation</li>
+  <li>filters out high-noise or exhausting work</li>
+  <li>signals ownership and process maturity</li>
+</ul>
+
+<p>This is a funnel design choice, <strong>not</strong> a shift to firm or consultancy identity.</p>
+
+<hr />
+
+<h3 id="work-with-me-page-phase-structured"><strong>“Work with me” Page (Phase-Structured)</strong></h3>
+
+<p>The site will include a <strong>“Work with me”</strong> page that functions as an engagement interface.</p>
+
+<p>It may include:</p>
+
+<ol>
+  <li>Short framing paragraph (what kinds of work this is for)</li>
+  <li>Simple engagement flow (problem → scope → execution)</li>
+  <li>Fit / not-a-fit boundary (explicit but calm)</li>
+  <li>Structured intake (minimal friction)</li>
+</ol>
+
+<p>It must <strong>not</strong> include:</p>
+
+<ul>
+  <li>services menus</li>
+  <li>pricing</li>
+  <li>client logos</li>
+  <li>growth or scale language</li>
+  <li>aspirational positioning</li>
+</ul>
+
+<hr />
+
+<h2 id="phasing"><strong>Phasing</strong></h2>
+
+<h3 id="phase-1--structural-scaffolding-ship"><strong>Phase 1 — Structural Scaffolding (Ship)</strong></h3>
+
+<p><strong>Goal:</strong> The site is structurally complete without third-party proof.</p>
+
+<p>Includes:</p>
+
+<ul>
+  <li>“Work with me” page</li>
+  <li>engagement flow</li>
+  <li>fit / not-a-fit boundaries</li>
+  <li>structured intake</li>
+  <li>recommendation slot (empty by design)</li>
+</ul>
+
+<p>Excludes:</p>
+
+<ul>
+  <li>recommendation copy</li>
+  <li>testimonial styling</li>
+  <li>additional proof blocks</li>
+</ul>
+
+<p>Phase 1 is complete when the site functions fully <strong>without</strong> a recommendation.</p>
+
+<hr />
+
+<h3 id="phase-2--trust-insertion-deferred"><strong>Phase 2 — Trust Insertion (Deferred)</strong></h3>
+
+<p><strong>Trigger:</strong> Receipt of a single recommendation from prior consulting work.</p>
+
+<p>Action:</p>
+
+<ul>
+  <li>Insert one short, outcome-focused recommendation into the pre-defined slot</li>
+  <li>No layout or copy changes elsewhere</li>
+</ul>
+
+<p>Constraints:</p>
+
+<ul>
+  <li>one recommendation only</li>
+  <li>ownership and stabilization focused</li>
+  <li>no hype, no future promises</li>
+</ul>
+
+<p>Once inserted, Phase 2 stops.</p>
+
+<hr />
+
+<h2 id="scope-boundary-explicit"><strong>Scope Boundary (Explicit)</strong></h2>
+
+<p>This scope <strong>allows</strong>:</p>
+
+<ul>
+  <li>portfolio expansion</li>
+  <li>artifact-driven proof</li>
+  <li>quiet professional signaling</li>
+</ul>
+
+<p>This scope <strong>disallows</strong>:</p>
+
+<ul>
+  <li>identity inflation</li>
+  <li>accidental consultancy branding</li>
+  <li>sales optimization</li>
+  <li>future-casting or destiny narratives</li>
+</ul>
+
+<p>If a change increases identity capture, emotional labor, or implied permanence, it is out of scope.</p>
+
+<hr />
+
+<h2 id="key-concepts"><strong>Key Concepts</strong></h2>
+
+<p><strong>Visual Case Frame</strong> — A project presentation unit where a single decisive visual + premise + outcome dominate the first screen, turning the project into an argument rather than an entry. Aligns with design research, BIG / Red Blob / industrial design references, and what “pop” is responding to. This framing supports Acceptance Check #4 (Contract Compatibility) by emphasizing deliverables and outcomes rather than hero narratives.</p>
+
+<hr />
+
+<h2 id="execution-checklist"><strong>Execution Checklist</strong></h2>
+
+<p><strong>Note:</strong> All work must pass the 8 Acceptance Checks (see above). A Pre-Ship Validation section (below) provides a checklist to verify compliance before Phase 1 completion.</p>
+
+<h3 id="1-portfolio-grid"><strong>1. Portfolio Grid</strong></h3>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Content decision needed:</strong> Confirm 4 flagship projects (Replacement Trap, Signal Storm, Walkability Index, Bantr) — currently have 3 different projects (Embodied AI, Walkability Index, Texas Border Report)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Replace all existing tiles with 4 flagship visual case frames (Replacement Trap, Signal Storm, Walkability Index, Bantr)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />For each case frame:
+    <ul class="task-list">
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />One decisive hero visual (diagram, UI, or system map)</li>
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />One-line design premise (what problem this frames)</li>
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />One-line outcome / proof (what changed, shipped, or works)</li>
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Visual occupies more space than text (non-negotiable)</li>
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Text supports the visual argument, never competes with it</li>
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Allow placeholders: ship with “good enough” visuals first, then upgrade later</li>
+    </ul>
+  </li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Portfolio grid structure updates:
+    <ul class="task-list">
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />CSS for visual-first layouts (visuals larger than text)</li>
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Progressive disclosure patterns</li>
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Grid layout improvements</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="2-homepage"><strong>2. Homepage</strong></h3>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" /><strong>Current state:</strong> Hero section updated with positioning statement, solid background, and refined layout — ✅ Complete</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Add clear positioning statement: “Data Product Strategist focused on climate, housing, and building systems. I turn ambiguous problems into clear models, workflows, and prototypes.” — ✅ Complete</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Validate positioning statement passes litmus test: “What would he do on Monday morning?” Answer should emphasize artifacts/ownership (clarify system, ship artifact, stabilize), not meetings-only — ✅ Complete</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Ensure positioning is visible within 30 seconds (meets Acceptance Check #1: First-Impression Test) — ✅ Complete (reduced hero height)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Add visual routing to flagship work — ✅ Complete (CTA: “Selected projects”)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Optimize for reviewer scanning: fast scanning, strong hierarchy, clear project arcs — <strong>In progress</strong></li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Add optional deeper paths: links to repos, detailed case studies, or technical deep-dives</li>
+</ul>
+
+<h3 id="3-about-page"><strong>3. About Page</strong></h3>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Keep full timeline (existing) — ✅ Complete</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Add 3-4 line summary at top — <strong>Content needed</strong></li>
+</ul>
+
+<h3 id="4-reliability"><strong>4. Reliability</strong></h3>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Add fallback screenshots for projects with fragile infrastructure (e.g., Streamlit demos)</li>
+</ul>
+
+<h3 id="5-visual-design-system"><strong>5. Visual Design System</strong></h3>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Establish typography system (strong, consistent) — ✅ Complete (CSS variables in <code class="language-plaintext highlighter-rouge">agency.css</code>)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Establish spacing system (consistent) — ✅ Complete (4px base unit scale in <code class="language-plaintext highlighter-rouge">agency.css</code>)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Add subtle CSS transitions (minimal motion) — ✅ Complete (transition variables defined and used)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Ensure visual-first layouts (diagrams/screenshots lead) — <strong>Separate from design system, pending</strong></li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Implement progressive disclosure patterns (summary → details → technical deep-dive) — <strong>Separate from design system, pending</strong></li>
+</ul>
+
+<h3 id="6-navigation"><strong>6. Navigation</strong></h3>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" /><strong>Current state:</strong> Navigation updated to Home → Portfolio → About → Work with me → Contact (5 items) — ✅ Complete</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Simplify navigation (max 5-6 items) — ✅ Complete (5 items)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Final navigation structure: Home → Portfolio → About → Work with me → Contact (5 items) — ✅ Complete</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Note: “Work with me” replaces or consolidates previous “Skills” page if needed to stay within limit — ✅ Complete</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Ensure clear “Projects” nav or homepage shows work immediately — ✅ Complete (homepage has “Selected projects” CTA)</li>
+</ul>
+
+<h3 id="7-work-with-me-page-phase-1"><strong>7. “Work with me” Page (Phase 1)</strong></h3>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" /><strong>Current state:</strong> Page created at <code class="language-plaintext highlighter-rouge">pages/work-with-me.html</code> — ✅ Complete</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Create “Work with me” page with engagement interface — ✅ Complete</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Add short framing paragraph (what kinds of work this is for) — ✅ Complete (“I work on messy, ambiguous problems where clarity, structure, and ownership matter…”)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Implement simple engagement flow (problem → scope → execution) — ✅ Complete (engagement flow described in content)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Include fit / not-a-fit boundary (explicit but calm) — <strong>Content needed</strong> (currently implied but not explicit)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Add structured intake (minimal friction) — ✅ Complete (form with name, email, organization, problem, engagement type)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Add recommendation slot (empty by design, for Phase 2) — ✅ Complete (panel with placeholder comment)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Verify page does NOT include: services menus, pricing, client logos, growth/scale language, aspirational positioning — ✅ Complete (verified)</li>
+</ul>
+
+<hr />
+
+<h2 id="pre-ship-validation-phase-1"><strong>Pre-Ship Validation (Phase 1)</strong></h2>
+
+<p>Before marking Phase 1 complete, validate the site passes all 8 Acceptance Checks:</p>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Check #1 (First-Impression Test):</strong> Homepage answers “Would I trust this person to quietly solve messy problems without supervision?” within 30 seconds, without scrolling</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Check #2 (Identity Capture):</strong> No founder/visionary/fast-paced language; emphasizes systems, reliability, judgment, translation, stability</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Check #3 (Geography Neutrality):</strong> Site makes sense to readers in Luxembourg, Philly, or fully remote teams; placeless, not NYC-coded</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Check #4 (Contract Compatibility):</strong> Projects framed as deliverables/outcomes, not hero narratives; supports both FTE and contract interpretation</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Check #5 (Energy Profile):</strong> Signals deep work, bounded scope, calm execution, low noise; no implied constant meetings or emotional labor</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Check #6 (Exit Narrative):</strong> Implies “came in, stabilized X, left things better” — not “supposed to be the future of Y”</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Check #7 (One-Sentence Sanity Test):</strong> Easy to form “I help by <em>__ so that __</em>” calmly and plainly</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" /><strong>Check #8 (Stop Condition):</strong> All checks pass and changes feel marginal, not structural</li>
+</ul>
+
+<p><strong>Note:</strong> If any check fails, iterate before shipping. Acceptance Checks are non-negotiable.</p>
+
+<hr />
+
+<h2 id="context--strategy-reference"><strong>Context &amp; Strategy (Reference)</strong></h2>
+
+<h3 id="objective"><strong>Objective</strong></h3>
+
+<p>Establish a clear structure for the portfolio website that functions as a low-noise trust surface and work-intake interface. Record friction and required upgrades. No redesign or implementation now. Capture what must happen later during the execution phase.</p>
+
+<h3 id="current-state-diagnostic"><strong>Current State (Diagnostic)</strong></h3>
+
+<ul>
+  <li>Jekyll-based static site.</li>
+  <li>Minimalist design, simple IA: Home → Skills → Portfolio → About → Contact.</li>
+  <li>Portfolio contains three non-anchor projects.</li>
+  <li>Homepage lacks domain framing.</li>
+  <li>Timeline is strong but long; no fast summary.</li>
+  <li>Live demos (e.g., Streamlit) can be unreliable.</li>
+</ul>
+
+<h3 id="what-works"><strong>What Works</strong></h3>
+
+<ul>
+  <li>Clean minimal layout.</li>
+  <li>Clear page separation and navigation.</li>
+  <li>Tiles provide visual entry points.</li>
+  <li>Timeline shows depth and arc.</li>
+</ul>
+
+<h3 id="friction--gaps"><strong>Friction / Gaps</strong></h3>
+
+<ul>
+  <li>Anchor projects not visible: Replacement Trap, Signal Storm, Walkability Index, Bantr.</li>
+  <li>No domain language on homepage (climate, housing, building systems).</li>
+  <li>Tiles lack “what this demonstrates” clarity.</li>
+  <li>Mixed project quality gives equal weight to non-core work.</li>
+  <li>No fallback screenshots for brittle demos.</li>
+  <li>Unclear whether Jekyll can support the desired “pop” for your long-term direction.</li>
+</ul>
+
+<h3 id="core-constraints-non-negotiables"><strong>Core Constraints (Non-Negotiables)</strong></h3>
+
+<p><strong>Note:</strong> These constraints align with and support the Acceptance Checks above. Where Acceptance Checks provide specific criteria, they take precedence.</p>
+
+<ul>
+  <li><strong>Time-to-legibility:</strong> A reviewer should understand what you do and why you’re credible within ~30 seconds. (Maps to Acceptance Check #1)</li>
+  <li><strong>Visual dominance:</strong> Each flagship project must present as a visual case frame — a decisive hero visual with clear premise and outcome visible immediately. The project should read as an argument, not a list item. (Supports Acceptance Check #4: deliverables-focused framing)</li>
+  <li><strong>Visual-first storytelling:</strong> Diagrams, architecture visuals, and screenshots do the primary explanatory work; text supports, not leads. (Supports Acceptance Check #1: clarity and legibility)</li>
+  <li><strong>Progressive disclosure:</strong> Clarity first, depth on demand. Fast scanning layer with optional paths to deeper technical detail. (Supports Acceptance Check #1: reduce ambiguity)</li>
+  <li><strong>Reviewer-optimized front door:</strong> Optimized for fast legibility by all readers (FTE recruiters, contract leads, direct team contacts), with optional paths into signal-rich deeper content. (Supports Goal: support both FTE and contract work)</li>
+</ul>
+
+<h3 id="minimum-viable-target"><strong>Minimum Viable Target</strong></h3>
+
+<p><strong>1. Portfolio grid</strong></p>
+
+<ul>
+  <li>Replace all existing tiles with 4 flagship visual case frames.</li>
+  <li>Each case frame:
+    <ul>
+      <li>One decisive hero visual (diagram, UI, or system map)</li>
+      <li>One-line design premise (what problem this frames)</li>
+      <li>One-line outcome / proof (what changed, shipped, or works)</li>
+      <li>Visual occupies more space than text (non-negotiable)</li>
+      <li>Text supports the visual argument, never competes with it</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>2. Homepage</strong></p>
+
+<ul>
+  <li>Clear positioning in one sentence (meets 30-second legibility requirement).</li>
+  <li>Visual routing to flagship work.</li>
+  <li>Reviewer-optimized front door: Fast scanning, strong hierarchy, clear project arcs.</li>
+  <li>Optional deeper paths: Links to repos, detailed case studies, or technical deep-dives for signal-rich exploration.</li>
+</ul>
+
+<p><strong>3. About page</strong></p>
+
+<ul>
+  <li>Keep full timeline.</li>
+  <li>Add 3–4 line summary at top.</li>
+</ul>
+
+<p><strong>4. Reliability</strong></p>
+
+<ul>
+  <li>Add fallback screenshots for projects with fragile infra.</li>
+</ul>
+
+<h3 id="inspiration-pass-checklist"><strong>Inspiration Pass Checklist</strong></h3>
+
+<p><strong>Purpose:</strong> Determine whether Jekyll can be stretched far enough or if a V2 rebuild is warranted.</p>
+
+<p><strong>Status:</strong> [x] Complete</p>
+
+<p><strong>Reference portfolios:</strong> See “Portfolio swipe list” section below.</p>
+
+<h4 id="1-hero-section"><strong>1. Hero Section</strong></h4>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Evaluate positioning clarity across reference sites</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Assess visual treatment (typography, spacing, motion)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Document: What makes effective hero sections “pop”?</li>
+</ul>
+
+<p><strong>Notes:</strong></p>
+<ul>
+  <li><strong>Maggie Appleton</strong>: Clear one-line positioning (“makes visual essays about programming, design, and anthropology”) + current role. Typography-driven, minimal motion.</li>
+  <li><strong>Lee Robinson</strong>: Personal, conversational tone. Simple text hierarchy. No heavy visuals needed.</li>
+  <li><strong>Andrea Ukleja</strong>: Photo + brief intro. Simple, human-centered.</li>
+  <li><strong>Red Blob Games</strong>: Direct value prop (“interactive visual explanations of math and algorithms”). Content-first.</li>
+</ul>
+
+<p><strong>Key insight:</strong> Effective hero sections use <strong>clear positioning statements</strong> and <strong>strong typography</strong>, not complex motion. Most successful examples are text-first with minimal animation. “Pop” comes from clarity and hierarchy, not platform capabilities.</p>
+
+<h4 id="2-project-grid"><strong>2. Project Grid</strong></h4>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Evaluate differentiation between anchor and secondary projects</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Assess thumbnail patterns and visual hierarchy</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Review micro-interaction patterns (hover states, transitions)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Document: How do grids communicate project importance?</li>
+</ul>
+
+<p><strong>Notes:</strong></p>
+<ul>
+  <li><strong>Red Blob Games</strong>: Simple list format with clear categorization (Learn/Play/Ponder). Visual hierarchy through typography and grouping, not size differences.</li>
+  <li><strong>Maggie Appleton</strong>: Grid with images + titles. Clean, scannable. No complex hover effects.</li>
+  <li><strong>Andrea Ukleja</strong>: Simple navigation to projects page. No grid visible on homepage.</li>
+</ul>
+
+<p><strong>Key insight:</strong> Most effective grids use <strong>visual hierarchy through size, typography, and grouping</strong> rather than complex interactions. Simple hover states (opacity, slight scale) are sufficient. Differentiation can be achieved through layout (larger tiles for anchor projects) and visual weight, not platform-specific features.</p>
+
+<h4 id="3-case-studies"><strong>3. Case Studies</strong></h4>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Evaluate how depth is shown without overwhelming</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Assess progressive disclosure patterns</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Review visual-first storytelling approaches</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Document: How do case studies balance clarity and depth?</li>
+</ul>
+
+<p><strong>Notes:</strong></p>
+<ul>
+  <li><strong>Red Blob Games</strong>: Each article has clear structure: intro → interactive demo → explanation → implementation. Visual-first with diagrams that explain concepts. Depth through expandable sections.</li>
+  <li><strong>Maggie Appleton</strong>: Essays with strong visual hierarchy. Images support text, not overwhelm. Clear section breaks.</li>
+</ul>
+
+<p><strong>Key insight:</strong> Effective case studies use <strong>visual-first layouts</strong> (diagrams, screenshots lead) with <strong>progressive disclosure</strong> (summary → details → technical deep-dive). This is achievable with Jekyll through good content structure and CSS, not requiring complex frameworks.</p>
+
+<h4 id="4-information-architecture"><strong>4. Information Architecture</strong></h4>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Evaluate speed to core work (how fast can reviewers find projects?)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Review About-page summary examples</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Assess navigation patterns and page structure</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Document: What IA patterns optimize for reviewer time constraints?</li>
+</ul>
+
+<p><strong>Notes:</strong></p>
+<ul>
+  <li><strong>Maggie Appleton</strong>: Clear nav (Essays/Notes/Patterns). Homepage immediately shows work. About page has summary + full timeline.</li>
+  <li><strong>Lee Robinson</strong>: Homepage IS the portfolio - projects visible immediately. Simple nav.</li>
+  <li><strong>Red Blob Games</strong>: Categorized sections (Learn/Play/Ponder). Clear hierarchy.</li>
+</ul>
+
+<p><strong>Key insight:</strong> Fastest path to projects = <strong>homepage shows work immediately</strong> or <strong>clear “Projects” nav</strong>. About pages benefit from <strong>3-4 line summary at top</strong> + full timeline below. Simple navigation (max 5-6 items) is most effective. All achievable with Jekyll.</p>
+
+<h4 id="5-visual-signature"><strong>5. Visual Signature</strong></h4>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Evaluate how sites “pop” (color, layout, motion)</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Assess visual consistency and brand expression</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Review motion and animation patterns</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Document: What creates memorable visual identity?</li>
+</ul>
+
+<p><strong>Notes:</strong></p>
+<ul>
+  <li><strong>Maggie Appleton</strong>: “Pop” from strong typography, consistent spacing, gentle motion (subtle transitions). Visual identity through consistent design language, not flashy effects.</li>
+  <li><strong>Red Blob Games</strong>: Minimal design, content-first. “Pop” comes from quality of interactive demos, not site design.</li>
+  <li><strong>Lee Robinson</strong>: Ultra-minimal. “Pop” from clarity and personality in writing.</li>
+</ul>
+
+<p><strong>Key insight:</strong> “Pop” comes from <strong>strong typography, consistent spacing, and subtle motion</strong> (CSS transitions), not complex animations. Visual identity is built through <strong>consistent design language</strong> (colors, type scale, spacing system), not platform-specific features. Jekyll + CSS can deliver this.</p>
+
+<h4 id="6-platform-clues"><strong>6. Platform Clues</strong></h4>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Identify framework choices across reference sites</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Assess custom vs template approaches</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Evaluate static vs dynamic rendering patterns</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Document: What platform capabilities enable desired patterns?</li>
+</ul>
+
+<p><strong>Notes:</strong></p>
+<ul>
+  <li><strong>Maggie Appleton</strong>: Static site (likely Jekyll or similar). Custom design, minimal JavaScript.</li>
+  <li><strong>Red Blob Games</strong>: Static HTML with Vue.js for interactive demos. Base site is simple static.</li>
+  <li><strong>Lee Robinson</strong>: Likely Next.js (mentioned in reference), but design is minimal - could easily be Jekyll.</li>
+  <li><strong>Andrea Ukleja</strong>: Simple static site, likely template-based or basic HTML/CSS.</li>
+</ul>
+
+<p><strong>Key insight:</strong> Most reference sites are <strong>static sites</strong> (Jekyll, plain HTML, or Next.js static export). Interactive elements (demos, diagrams) use <strong>vanilla JS or lightweight frameworks</strong> (Vue, D3) embedded in static pages. <strong>No complex server-side rendering needed</strong> for portfolio sites. Jekyll can handle all observed patterns.</p>
+
+<h4 id="7-pattern-extraction--decision"><strong>7. Pattern Extraction &amp; Decision</strong></h4>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" /><strong>3 patterns to adopt:</strong>
+    <ol>
+      <li><strong>Clear positioning statement on homepage</strong> - One-line value prop visible immediately (Maggie Appleton, Red Blob Games)</li>
+      <li><strong>Visual-first project presentation</strong> - Architecture diagrams/screenshots lead, text supports (Red Blob Games approach)</li>
+      <li><strong>Progressive disclosure in case studies</strong> - Summary → details → technical deep-dive structure (Red Blob Games, Maggie Appleton)</li>
+    </ol>
+  </li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" /><strong>3 patterns to avoid:</strong>
+    <ol>
+      <li><strong>Heavy motion/animation</strong> - Subtle transitions sufficient; complex animations don’t add value for reviewer-optimized sites</li>
+      <li><strong>Complex navigation</strong> - Keep nav simple (5-6 items max); most effective sites have minimal navigation</li>
+      <li><strong>Over-designed interfaces</strong> - Content quality and clarity matter more than flashy design; minimal UI lets work shine</li>
+    </ol>
+  </li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" /><strong>Platform decision:</strong>
+    <ul class="task-list">
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Jekyll can deliver 80%+ of desired patterns → Proceed with Jekyll MVP</li>
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" />Jekyll limitations are significant → Log “Portfolio V2 Rebuild” as future project (Next.js/Astro recommended)</li>
+    </ul>
+
+    <p><strong>Decision rationale:</strong></p>
+
+    <p><strong>Jekyll can deliver 80%+ of desired patterns</strong> because:</p>
+
+    <ol>
+      <li>
+        <p><strong>Visual “pop” comes from design choices, not platform</strong>: Strong typography, consistent spacing, subtle CSS transitions achieve the desired visual impact. Reference sites show minimal motion is sufficient.</p>
+      </li>
+      <li>
+        <p><strong>Static site architecture fits portfolio needs</strong>: All reference sites are static (or static exports). No complex server-side rendering required. Jekyll excels at static content with good structure.</p>
+      </li>
+      <li>
+        <p><strong>Interactive elements can be embedded</strong>: For interactive demos/diagrams, vanilla JS or lightweight frameworks (Vue, D3) can be embedded in Jekyll pages. Red Blob Games demonstrates this pattern effectively.</p>
+      </li>
+      <li>
+        <p><strong>Timeline constraints favor MVP approach</strong>: Need portfolio complete before Q2 2026 job search. Jekyll MVP is faster to execute than V2 rebuild, allowing focus on content quality (which matters more than platform).</p>
+      </li>
+      <li>
+        <p><strong>Jekyll limitations are acceptable</strong>: The 20% gap (complex animations, advanced interactivity) isn’t critical for reviewer-optimized portfolio. Reference sites show that clarity and content quality matter more than platform capabilities.</p>
+      </li>
+    </ol>
+
+    <p><strong>Recommendation:</strong> Proceed with Jekyll MVP. Focus on:</p>
+    <ul>
+      <li>Strong typography and spacing system</li>
+      <li>Visual-first project layouts (diagrams/screenshots lead)</li>
+      <li>Clear positioning statement on homepage</li>
+      <li>Simple, scannable navigation</li>
+      <li>Progressive disclosure in case studies</li>
+    </ul>
+
+    <p>If future needs require more complex interactivity, V2 rebuild can be considered later. For now, Jekyll MVP delivers the required functionality efficiently.</p>
+  </li>
+</ul>
+
+<p><strong>Completion criteria:</strong> All checklist items completed, decision documented, ready to proceed with platform choice.</p>
+
+<h3 id="portfolio-swipe-list-high-signal-relevant-to-your-direction"><strong>Portfolio Swipe List (High Signal, Relevant to Your Direction)</strong></h3>
+
+<p>This set balances <em>systems</em>, <em>data product</em>, <em>technical storytelling</em>, and <em>visual punch</em>. Use these only for pattern-spotting, not copying.</p>
+
+<p><strong>Systems / Data / Product</strong></p>
+
+<ul>
+  <li>Lena Reinhard (engineering leadership, clarity-first layouts)</li>
+  <li>Guillaume Rauch (clean data/product storytelling, strong case studies)</li>
+  <li>Cassidy Williams (simple IA, strong personality on homepage)</li>
+  <li>Lee Robinson (Next.js pattern reference; sharp hero + portfolio grid)</li>
+  <li>Andy Matuschak (minimalist systems thinking presentation)</li>
+</ul>
+
+<p><strong>Design-engineering hybrids</strong></p>
+
+<ul>
+  <li>Jéroen van Eerden (hero section motion + crisp visual signature)</li>
+  <li>Ruben U. Brugnera (polished case study layouts; balance of depth and scannability)</li>
+  <li>Bruno Simon (motion-heavy – more extreme, but useful for “what pop looks like”)</li>
+  <li>Neal Agarwal (toy-like interactivity; shows how a single technical idea can be made delightful)</li>
+</ul>
+
+<p><strong>Indie dev / Experimental</strong></p>
+
+<ul>
+  <li>Matt DesLauriers (creative coding + data visualization aesthetics)</li>
+  <li>Amit Patel / Red Blob Games (systems diagrams and visual explainers)</li>
+  <li>Malcolm Ocean (personal systems + narrative + experimental UI)</li>
+</ul>
+
+<p>Purpose: expose patterns for hero layout, project hierarchy, motion, micro-interaction, and case-study structure.</p>
+
+<h3 id="open-questions"><strong>Open Questions</strong></h3>
+
+<p><del>* How many projects are optimal for the first release?</del> ✅ <strong>RESOLVED: 4 anchor projects confirmed (2026-01-19)</strong></p>
+<ul>
+  <li>What content lives behind the 30-second skim layer? (Repos? Detailed case studies? Technical deep-dives?) → <strong>DEFERRED: Decision to be made during design phase (2026-01-19)</strong><br />
+<del>* How explicitly should personal voice appear on the homepage? (Positioning statement tone and personality)</del> ✅ <strong>RESOLVED: Option B - Clear positioning + role (2026-01-19)</strong></li>
+</ul>
+
+<p><strong>Decision:</strong> Use Option B style: “Data Product Strategist focused on climate, housing, and building systems. I turn ambiguous problems into clear models, workflows, and prototypes.”</p>
+
+<p><strong>Rationale:</strong> Balances clarity, identity, and process. Aligns with positioning statement. Optimized for hiring managers under time pressure.</p>
+
+<h3 id="open-decision"><strong>Open Decision</strong></h3>
+
+<p><strong>Platform decision:</strong> See “Inspiration Pass Checklist” section above.</p>
+
+<p><strong>Status:</strong> ✅ Complete - Proceed with Jekyll MVP</p>
+
+<p><strong>Decision criteria:</strong></p>
+<ul>
+  <li>Complete Inspiration Pass Checklist (section above)</li>
+  <li>Evaluate whether Jekyll can deliver 80%+ of desired patterns</li>
+  <li>If Jekyll limitations are significant, log “Portfolio V2 Rebuild” as its own future project (Next.js / Astro recommended)</li>
+  <li>If Jekyll can deliver, proceed with Jekyll MVP approach</li>
+</ul>
+
+<hr />
+
+<h2 id="status"><strong>Status</strong></h2>
+
+<p>Approved to proceed with Phase 1 execution.
+Phase 2 intentionally deferred.</p>

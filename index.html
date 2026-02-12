@@ -1,4 +1,40 @@
----
-layout: default
-home: true
----
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grant Geist | Data Product Strategist</title>
+    <meta name="description" content="Grant Geist — data product strategist, designer, and technologist. Portfolio showcasing work in data visualization, product design, and urban analytics." />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Grant Geist | Data Product Strategist" />
+    <meta property="og:description" content="Portfolio showcasing work in data visualization, product design, and urban analytics." />
+    <meta property="og:image" content="https://grantgeist.com/assets/og/og-default.jpg" />
+    <meta property="og:url" content="https://grantgeist.com" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Grant Geist | Data Product Strategist" />
+    <meta name="twitter:description" content="Portfolio showcasing work in data visualization, product design, and urban analytics." />
+    <meta name="twitter:image" content="https://grantgeist.com/assets/og/og-default.jpg" />
+
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- SPA redirect decoder (works with public/404.html) -->
+    <script>
+      (function () {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

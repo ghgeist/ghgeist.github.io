@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://grantgeist.com/sitemap.xml

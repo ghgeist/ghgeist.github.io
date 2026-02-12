@@ -1,0 +1,99 @@
+import React from "react";
+import { motion as Motion } from "motion/react";
+import {
+  Map,
+  SquareFunction,
+  Play,
+  ArrowRight,
+} from "lucide-react";
+
+const methodology = [
+  {
+    step: "STEP 01",
+    title: "Map the System",
+    description:
+      "I make the system explicit: actors, data flows, and ownership boundaries. I turn ambiguity into a tractable structure.",
+    icon: <Map className="w-5 h-5" />,
+  },
+  {
+    step: "STEP 02",
+    title: "Build the Model",
+    description:
+      "I translate system structure into models: definitions, lifecycle math, and invariants. This is where system behavior becomes testable and predictable.",
+    icon: <SquareFunction className="w-5 h-5" />,
+  },
+  {
+    step: "STEP 03",
+    title: "Create the Prototype",
+    description:
+      "I use AI-augmented engineering to turn models into working prototypes — to prove the logic and surface edge cases.",
+    icon: <Play className="w-5 h-5" />,
+  },
+];
+
+export function Approach() {
+  return (
+    <section
+      id="skills"
+      className="py-24 bg-[#0B0E14] border-t border-white/5"
+    >
+      <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
+        <div className="max-w-5xl mx-auto md:mx-0">
+          {/* Section Header */}
+          <div className="mb-10">
+            <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">
+              Approach
+            </h2>
+            <p className="text-gray-400 font-mono text-lg max-w-2xl">
+              I use a repeatable approach to turn ambiguous
+              systems into structured models and working
+              prototypes. Each step reduces risk before the next
+              one adds cost.
+            </p>
+          </div>
+
+          {/* Methodology Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {methodology.map((item, index) => (
+              <Motion.div
+                key={item.step}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="relative p-6 bg-[#151921] h-full flex flex-col border border-white/5"
+              >
+                {/* Metadata */}
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-blue-400 font-mono text-sm font-medium uppercase tracking-widest">
+                    {item.step}
+                  </span>
+                  <div className="text-blue-400">{item.icon}</div>
+                </div>
+          
+                {/* Title */}
+                <h3 className="text-xl font-bold text-white mb-3 tracking-tight">
+                  {item.title}
+                </h3>
+          
+                {/* Body */}
+                <p className="text-gray-400 text-base leading-relaxed">
+                  {item.description}
+                </p>
+              </Motion.div>
+            ))}
+          </div>
+
+          {/* Terminal Outcome */}
+          <div className="mt-12 pt-6 border-t border-white/5">
+            <div className="flex items-start gap-3 text-gray-400 font-mono text-base max-w-3xl">
+              <p>
+                Outcome: a defined system you can operate against — clear ownership, measurable behavior, and a working proof of the model.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

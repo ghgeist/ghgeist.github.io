@@ -1,14 +1,8 @@
-# Jekyll build output
-_site/
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
+# Build output
+dist/
 
 # Dependencies
-vendor/
-.bundle/
 node_modules/
-package-lock.json
 
 # IDE
 .vscode/
