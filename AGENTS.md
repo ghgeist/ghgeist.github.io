@@ -2,13 +2,13 @@
 
 **Purpose:** This file provides essential guidance for AI agents working on this repository. Agents should read this file before making any changes to understand environment constraints, verification requirements, and expected workflows.
 
-This repository is a GitHub Pages (Jekyll) site that uses Bundler with a pinned lockfile (`BUNDLED WITH 2.5.23`). The development workflow is intentionally local-first and CI-verified.
+This repository is a React 18 + Vite 6 + Tailwind CSS v4 single-page portfolio app deployed as a GitHub Pages user site at `grantgeist.com`. The development workflow is Node-first and CI-verified.
 
 ### Environment Constraints
 
 - Some agent execution environments may have restricted outbound network access.
-- In particular, dependency installation from RubyGems may fail in sandboxed environments.
-- Agents should not assume they can successfully run `bundle install` unless explicitly confirmed.
+- In particular, dependency installation from npm may fail in sandboxed environments.
+- Agents should not assume they can successfully run `npm ci` unless explicitly confirmed.
 
 ### Shell/Terminal Handling
 
@@ -20,11 +20,11 @@ This repository is a GitHub Pages (Jekyll) site that uses Bundler with a pinned 
 
 **When executing commands:**
 
-- **If bash scripts are unavailable** (e.g., PowerShell environment): Execute the underlying Ruby/Bundler/Jekyll commands directly:
-    - Instead of `./script/verify`, run: `bundle install --path vendor/bundle` then `bundle exec rake test` then `bundle exec jekyll build --trace`
-    - Instead of `./script/dev`, run: `bundle exec jekyll serve --livereload --host 0.0.0.0`
+- **If bash scripts are unavailable** (e.g., PowerShell environment): Execute the underlying Node/Vite commands directly:
+    - Instead of `./script/verify`, run: `npm ci` then `npx tsc --noEmit` then `npm run build`
+    - Instead of `./script/dev`, run: `npm run dev`
 - **Read the scripts** (`script/verify`, `script/dev`) to understand what commands they execute, then run those commands directly in the available shell.
-- **Core Ruby/Jekyll commands work in all shells** - the scripts are convenience wrappers, not requirements.
+- **Core Node/npm commands work in all shells** - the scripts are convenience wrappers, not requirements.
 
 **For verification:**
 
@@ -35,8 +35,8 @@ This repository is a GitHub Pages (Jekyll) site that uses Bundler with a pinned 
 
 **`.verify.yml` is the single source of truth** for verification requirements. This declarative config file defines:
 
-- Required Bundler version
-- Verification steps (dependency installation, test suite, build)
+- Required Node version (>= 18.0.0)
+- Verification steps (dependency installation, TypeScript type checking, production build)
 - Development server configuration
 
 **Verification Execution:**
@@ -52,10 +52,10 @@ When making changes:
 1. Prefer small, targeted edits.
 2. Do not introduce dependency upgrades unless explicitly requested.
 3. Do not modify the lockfile unless the task specifically requires dependency changes.
-4. **Run linters when modifying CSS or JavaScript files:**
-   - After editing CSS/SCSS files: Run `npm run lint:css` or `bundle exec rake lint:css`
-   - After editing JavaScript files: Run `npm run lint:js` or `bundle exec rake lint:js`
-   - Use `npm run lint:fix` or `bundle exec rake lint:fix` to auto-fix issues, but always review changes
+4. **Run linters when modifying CSS or TypeScript/JavaScript files:**
+   - After editing CSS files: Run `npm run lint:css`
+   - After editing TypeScript/JavaScript files: Run `npm run lint:js`
+   - Use `npm run lint:fix` to auto-fix issues, but always review changes
    - If npm is unavailable, note linting verification in output
 5. If tests/build cannot be run due to environment restrictions:
    - Read `.verify.yml` to understand verification requirements
@@ -66,12 +66,12 @@ When making changes:
 
 **Linting Tools Available:**
 
-- **Stylelint** - CSS/SCSS files (`.stylelintrc.json`)
-- **ESLint** - JavaScript files (`.eslintrc.json`)
+- **Stylelint** - CSS files
+- **ESLint** - TypeScript/JavaScript files (`eslint.config.mjs`)
 
 **When to run linters:**
 
-- After modifying CSS, SCSS, or JavaScript files
+- After modifying CSS or TypeScript/JavaScript files
 - Before committing changes (if environment supports npm)
 - Linters automatically ignore minified files and vendor libraries
 
@@ -79,8 +79,7 @@ When making changes:
 
 - `npm run lint` - Run all linters
 - `npm run lint:fix` - Auto-fix issues (review before committing)
-- `bundle exec rake lint` - Run all linters via Rake
-- Individual linters: `npm run lint:css/js` or `bundle exec rake lint:css/js`
+- Individual linters: `npm run lint:css` or `npm run lint:js`
 
 **Agent guidance:**
 
@@ -96,8 +95,8 @@ Typical workflow:
 
 1. Agent reads `.verify.yml` to understand verification requirements.
 2. Agent proposes code/content changes.
-3. Agent runs linters if modifying CSS/JS (if npm available).
-4. Human runs local verification (`./script/verify` or `bundle exec …`) if needed.
+3. Agent runs linters if modifying CSS/TypeScript (if npm available).
+4. Human runs local verification (`./script/verify` or `npm run build`) if needed.
 5. Changes are pushed.
 6. CI confirms build + test integrity.
 
