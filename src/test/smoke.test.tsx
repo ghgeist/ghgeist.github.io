@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi } from "vitest";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 
@@ -50,9 +50,7 @@ describe("Home route", () => {
       </MemoryRouter>
     );
 
-    // Hero section should render
     expect(document.getElementById("hero") || document.querySelector("section")).toBeTruthy();
-    // WorkWithMe section
     expect(screen.getByText("Work With Me")).toBeTruthy();
   });
 });
@@ -104,13 +102,28 @@ describe("Project routes", () => {
 });
 
 describe("WorkWithMe form", () => {
-  it("renders the submit button", () => {
+  it("submits and calls the handler", async () => {
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+
     render(
       <MemoryRouter>
         <WorkWithMe />
       </MemoryRouter>
     );
 
-    expect(screen.getByRole("button", { name: /get in touch/i })).toBeTruthy();
+    fireEvent.change(screen.getByLabelText(/your name/i), { target: { value: "Test User" } });
+    fireEvent.change(screen.getByLabelText(/your email/i), { target: { value: "test@example.com" } });
+    fireEvent.change(screen.getByLabelText(/tell me about the problem or opportunity/i), {
+      target: { value: "Need help structuring a data product strategy." },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: /get in touch/i }));
+
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalled();
+    });
+
+    consoleSpy.mockRestore();
   });
 });
+
