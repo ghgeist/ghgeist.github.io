@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script>
+      // Single Page Apps for GitHub Pages
+      // https://github.com/rafgraph/spa-github-pages
+      // Routes defined in the SPA (e.g. /projects/bantr) don't exist as
+      // static files on GitHub Pages, so they 404. This script stores the
+      // current path in sessionStorage and redirects to index.html, which
+      // contains a decoder that restores the path via history.replaceState
+      // before React mounts.
+      sessionStorage.redirect = location.href;
+      location.replace(location.origin);
+    </script>
+  </head>
+  <body></body>
+</html>
