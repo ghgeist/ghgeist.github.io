@@ -28,7 +28,15 @@ else
     exit 1
 fi
 
-echo -e "\n${BLUE}Step 3: Building...${NC}"
+echo -e "\n${BLUE}Step 3: Running tests...${NC}"
+if npm run test:ci; then
+    echo -e "${GREEN}Tests passed${NC}"
+else
+    echo -e "${RED}Tests failed${NC}"
+    exit 1
+fi
+
+echo -e "\n${BLUE}Step 4: Building...${NC}"
 if npm run build; then
     echo -e "${GREEN}Build succeeded${NC}"
 else

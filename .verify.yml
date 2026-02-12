@@ -14,6 +14,11 @@ steps:
     required: true
     description: "TypeScript type checking"
 
+  - name: "Test"
+    command: "npm run test:ci"
+    required: true
+    description: "Run Vitest suite in CI mode"
+
   - name: "Build"
     command: "npm run build"
     required: true
@@ -27,4 +32,4 @@ dev:
 agent_notes: |
   - Run script/verify for full verification
   - npm run build must produce dist/ with index.html, 404.html, CNAME
-  - npm run test runs Vitest smoke tests
+  - npm run test:ci runs Vitest with CI-friendly verbose output
