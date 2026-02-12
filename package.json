@@ -11,7 +11,11 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:ci": "vitest run --reporter=verbose"
+    "test:ci": "vitest run --reporter=verbose",
+    "lint": "npm run lint:js && npm run lint:css",
+    "lint:js": "node node_modules/eslint/bin/eslint.js . --max-warnings=0",
+    "lint:css": "node node_modules/stylelint/bin/stylelint.mjs \"src/**/*.css\"",
+    "lint:fix": "npm run lint:js -- --fix && npm run lint:css -- --fix"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
@@ -71,15 +75,23 @@
     "vaul": "1.1.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@tailwindcss/vite": "4.1.12",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "4.7.0",
+    "eslint": "^9.39.2",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.0",
+    "globals": "^17.3.0",
     "jsdom": "^25.0.1",
+    "stylelint": "^17.2.0",
+    "stylelint-config-standard": "^40.0.0",
     "tailwindcss": "4.1.12",
     "typescript": "^5.7.2",
+    "typescript-eslint": "^8.55.0",
     "vite": "6.3.5",
     "vitest": "^2.1.8"
   },
