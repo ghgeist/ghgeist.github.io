@@ -6,17 +6,28 @@ Welcome to my portfolio website repository! This site showcases my projects and 
 
 ## Features
 
-- Responsive design for optimal viewing on all devices.
-- Interactive elements to enhance user experience.
-- Easy navigation to different sections and projects.
-- Built with Jekyll.
+- Responsive design for optimal viewing on all devices
+- Interactive elements to enhance user experience
+- Easy navigation to different sections and projects
+- Built with React 18, Vite 6, and Tailwind CSS v4
+- Single-page application (SPA) with client-side routing
+
+## Technology Stack
+
+- **React 18** - UI library
+- **Vite 6** - Build tool and dev server
+- **TypeScript** - Type safety
+- **Tailwind CSS v4** - Utility-first styling
+- **React Router** - Client-side routing
+- **Vitest** - Testing framework
+- **Radix UI** - Accessible component primitives
 
 ## Getting Started
 
 ### Prerequisites
 
-- Ruby >= 2.6.0 (for Jekyll 4.3.0)
-- Bundler gem installed (version 2.5.23 recommended, see `.verify.yml`)
+- **Node.js** >= 18.0.0
+- **npm** (comes with Node.js)
 
 ### Installation
 
@@ -35,8 +46,7 @@ Welcome to my portfolio website repository! This site showcases my projects and 
 3. Install dependencies:
 
    ```bash
-   bundle install
-   npm install
+   npm ci
    ```
 
 ### Running the Site Locally
@@ -47,17 +57,24 @@ Welcome to my portfolio website repository! This site showcases my projects and 
 ./script/dev
 ```
 
-This starts the Jekyll server with live reload at [http://localhost:4000](http://localhost:4000).
+This starts the Vite development server with hot module replacement at [http://localhost:5173](http://localhost:5173).
 
 **Manual start:**
 
 ```bash
-bundle exec jekyll serve
+npm run dev
+```
+
+**Preview production build:**
+
+```bash
+npm run preview
 ```
 
 ### Local Development
 
 **Verification:**
+
 Before pushing changes, run the verification script:
 
 ```bash
@@ -66,34 +83,55 @@ Before pushing changes, run the verification script:
 
 This script:
 
-- Checks Bundler version compatibility
-- Installs dependencies to `vendor/bundle` (isolated from global gems)
-- Runs the test suite (`bundle exec rake test`)
-- Builds the Jekyll site with trace output
-
-**Automated Safeguards:**
-
-- **Pre-commit hook**: Automatically runs `bundle exec rake test:build` before each commit (skip with `git commit --no-verify` if needed)
-- **CI/CD**: GitHub Actions runs full verification (`./script/verify`) on push/PR to catch issues automatically
+- Installs dependencies (`npm ci`)
+- Runs TypeScript type checking (`npx tsc --noEmit`)
+- Builds the production bundle (`npm run build`)
 
 **Verification Configuration:**
+
 See `.verify.yml` for the complete verification contract. This file serves as the single source of truth for what needs to be verified, readable by both humans and AI agents.
+
+**CI/CD:**
+
+GitHub Actions runs full verification on push/PR to catch issues automatically. The workflow:
+
+1. Installs dependencies
+2. Runs type checking
+3. Runs tests (non-blocking)
+4. Builds the production bundle
+5. Deploys to GitHub Pages (on push to `main`)
 
 ### Testing
 
-Run the test suite to validate builds and check HTML/links:
+Run the test suite:
 
 ```bash
-bundle exec rake test
+npm run test
 ```
 
-Or run individual test tasks:
+Run tests in watch mode:
 
-- `bundle exec rake test:build` - Build validation only (always works)
-- `bundle exec rake test:html` - HTML validation and link checking (requires build)
-- `bundle exec rake test:all` - Run all tests
+```bash
+npm run test:watch
+```
 
-**Note for Windows users**: HTML validation requires libcurl. If libcurl is not available, the test suite will skip HTML validation and only run build validation. This is sufficient for catching most common errors during development.
+Run tests with verbose output (CI mode):
+
+```bash
+npm run test:ci
+```
+
+Tests use Vitest and are located in `src/test/`. The main test suite is `src/test/smoke.test.tsx`.
+
+### Type Checking
+
+Run TypeScript type checking without building:
+
+```bash
+npm run typecheck
+# or
+npx tsc --noEmit
+```
 
 ### Linting
 
@@ -103,73 +141,108 @@ This project uses linting tools to maintain code quality across CSS and JavaScri
 
 ```bash
 npm run lint
-# or
-bundle exec rake lint
 ```
 
 **Run individual linters:**
 
-- `npm run lint:css` or `bundle exec rake lint:css` - Lint CSS/SCSS files
-- `npm run lint:js` or `bundle exec rake lint:js` - Lint JavaScript files
+- `npm run lint:css` - Lint CSS files (Stylelint)
+- `npm run lint:js` - Lint JavaScript/TypeScript files (ESLint)
 
 **Auto-fix issues:**
 
 ```bash
 npm run lint:fix
-# or
-bundle exec rake lint:fix
-```
-
-**Combine with testing:**
-
-```bash
-bundle exec rake lint test
 ```
 
 Linters are configured to ignore minified files and vendor libraries. Configuration files:
 
-- `.stylelintrc.json` - CSS/SCSS linting rules
-- `.eslintrc.json` - JavaScript linting rules
+- `stylelint.config.mjs` - CSS linting rules
+- `eslint.config.mjs` - JavaScript/TypeScript linting rules
 
 ## Project Structure
 
 ```text
 .
-├── _config.yml          # Jekyll configuration file
 ├── .verify.yml          # Verification configuration (single source of truth)
 ├── script/              # Development scripts
 │   ├── verify           # Verification script
 │   └── dev              # Development server script
-├── _includes/           # HTML includes for modular sections
-│   ├── header.html      # Site header and navigation
-│   ├── footer.html      # Site footer
-│   ├── portfolio_grid.html  # Portfolio grid display
-│   ├── about.html       # About section
-│   ├── contact.html     # Contact form and links
-│   └── skills.html      # Skills section
-├── _layouts/            # HTML layouts for pages
-│   └── default.html     # Default page layout
-├── _posts/              # Portfolio project posts
-├── _plugins/            # Jekyll plugins
-├── _sass/               # Sass stylesheets
-├── assets/              # Static assets (images, PDFs, 3D models)
-│   └── og/              # Open Graph images
-├── img/                 # Image assets
-│   ├── portfolio/       # Portfolio project images
-│   └── about/           # About section images
-├── js/                  # JavaScript files
-├── css/                 # CSS files
-├── Rakefile             # Rake tasks for testing
-├── Gemfile              # Ruby dependencies
-├── Gemfile.lock         # Locked dependency versions
+├── src/                 # Source code
+│   ├── app/             # Application code
+│   │   ├── App.tsx      # App shell and routes
+│   │   ├── components/  # React components
+│   │   │   ├── ui/      # UI primitives (Radix-based)
+│   │   │   └── ...      # Feature components
+│   │   └── projects/    # Project detail pages
+│   │       ├── Bantr.tsx
+│   │       ├── ReplacementTrap.tsx
+│   │       ├── StormSignal.tsx
+│   │       └── WalkabilityIndex.tsx
+│   ├── styles/          # Global styles
+│   │   ├── index.css    # Main stylesheet
+│   │   ├── tailwind.css # Tailwind imports
+│   │   └── theme.css    # Theme variables
+│   ├── test/            # Test files
+│   │   ├── setup.ts     # Test setup
+│   │   └── smoke.test.tsx
+│   └── main.tsx         # Entry point
+├── public/              # Static assets
+│   ├── 404.html         # SPA routing fallback
+│   ├── CNAME            # Custom domain
+│   ├── favicon.ico
+│   ├── robots.txt
+│   └── assets/          # Static assets (images, PDFs, 3D models)
+│       └── og/          # Open Graph images
 ├── .github/             # GitHub configuration
 │   └── workflows/       # CI/CD workflows
-│       └── verify.yml   # GitHub Actions verification workflow
-├── .git/hooks/          # Git hooks
-│   └── pre-commit       # Pre-commit validation hook
+│       └── deploy.yml   # GitHub Actions deployment workflow
+├── vite.config.ts       # Vite configuration
+├── tsconfig.json        # TypeScript configuration
+├── package.json         # Node dependencies
+├── package-lock.json    # Locked dependency versions
 ├── LICENSE              # MIT License
 └── README.md            # This file
 ```
+
+## Architecture
+
+### Routing
+
+The app uses React Router's `BrowserRouter` for client-side routing. Routes are defined in `src/app/App.tsx`:
+
+- `/` - Homepage
+- `/projects/walkability-index` - Walkability Index project
+- `/projects/replacement-trap` - Replacement Trap project
+- `/projects/bantr` - Bantr project
+- `/projects/signal-storm` - Signal Storm project
+
+### GitHub Pages SPA Support
+
+Since GitHub Pages doesn't natively support SPAs, the project includes:
+
+- `public/404.html` - Fallback page that redirects to the SPA
+- Redirect decoder in `index.html` - Handles deep links correctly
+
+### Component Structure
+
+- **Shared components**: `src/app/components/`
+- **Project pages**: `src/app/projects/`
+- **UI primitives**: `src/app/components/ui/` (Radix UI-based)
+- **Global styles**: `src/styles/`
+
+## Deployment
+
+The site is deployed to GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`). The workflow:
+
+1. Builds the production bundle to `dist/`
+2. Deploys to GitHub Pages on push to `main`
+
+Static deploy-critical files in `public/`:
+
+- `CNAME` - Custom domain configuration
+- `404.html` - SPA routing fallback
+- `favicon.ico` - Site favicon
+- `robots.txt` - Search engine directives
 
 ## Contact
 
