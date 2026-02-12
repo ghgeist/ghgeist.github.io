@@ -11,6 +11,9 @@ node_modules/
 *.swo
 *~
 
+# Claude AI - local settings (per-developer overrides)
+.claude/settings.local.json
+
 # OS
 .DS_Store
 Thumbs.db
