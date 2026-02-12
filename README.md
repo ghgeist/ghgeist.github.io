@@ -245,11 +245,9 @@ Static deploy-critical files in `public/`:
 - `robots.txt` - Search engine directives
 
 ## Contact
-
-- **Email:** <granthgeist@gmail.com>
 - **Website:** [grantgeist.com](https://grantgeist.com)
 - **LinkedIn:** [linkedin.com/in/grantgeist](https://www.linkedin.com/in/grantgeist)
-- **X (Twitter):** [@grantgeist](https://x.com/grantgeist)
+- **Substack:** https://substack.com/@grantgeist
 - **GitHub:** [github.com/ghgeist](https://github.com/ghgeist)
 
 ## License
