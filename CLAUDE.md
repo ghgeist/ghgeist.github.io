@@ -83,7 +83,7 @@ GitHub Actions workflow: `.github/workflows/deploy.yml`
 Build job:
 1. `npm ci`
 2. `npx tsc --noEmit`
-3. `npm run test:ci` (currently non-blocking)
+3. `npm run test:ci`
 4. `npm run build`
 5. Upload `dist/` artifact
 

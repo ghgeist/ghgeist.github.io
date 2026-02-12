@@ -38,8 +38,7 @@ jobs:
       - name: Type check
         run: npx tsc --noEmit
 
-      - name: Run tests (non-blocking)
-        continue-on-error: true
+      - name: Run tests
         run: npm run test:ci
 
       - name: Build
