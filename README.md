@@ -214,7 +214,7 @@ The app uses React Router's `BrowserRouter` for client-side routing. Routes are 
 - `/projects/walkability-index` - Walkability Index project
 - `/projects/replacement-trap` - Replacement Trap project
 - `/projects/bantr` - Bantr project
-- `/projects/signal-storm` - Signal Storm project
+- `/projects/signal-storm` - Storm Signal project
 
 ### GitHub Pages SPA Support
 

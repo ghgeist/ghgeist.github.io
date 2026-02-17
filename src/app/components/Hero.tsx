@@ -14,7 +14,7 @@ const evidenceItems = [
     link: "/projects/replacement-trap",
   },
   {
-    title: "Signal Storm",
+    title: "Storm Signal",
     subtext:
       "Critical response ML pipeline with 1000x model-size reduction.",
     tag: "ML / SYSTEMS",
