@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Suspense, lazy } from "react";
 import { Toaster } from "./components/ui/sonner";
 
 import { Navbar } from "./components/Navbar";
@@ -8,10 +9,20 @@ import { About } from "./components/About";
 import { WorkWithMe } from "./components/WorkWithMe";
 import { Footer } from "./components/footer";
 
-import { WalkabilityIndexDetail } from "./projects/WalkabilityIndex";
-import { StormSignal } from "./projects/StormSignal";
-import { Bantr } from "./projects/Bantr";
-import { ReplacementTrap } from "./projects/ReplacementTrap";
+// Lazy load project pages for better initial bundle size
+const WalkabilityIndexDetail = lazy(() => import("./projects/WalkabilityIndex").then(module => ({ default: module.WalkabilityIndexDetail })));
+const StormSignal = lazy(() => import("./projects/StormSignal").then(module => ({ default: module.StormSignal })));
+const Bantr = lazy(() => import("./projects/Bantr").then(module => ({ default: module.Bantr })));
+const ReplacementTrap = lazy(() => import("./projects/ReplacementTrap").then(module => ({ default: module.ReplacementTrap })));
+
+// Loading fallback for lazy-loaded routes
+function RouteLoadingFallback() {
+  return (
+    <div className="min-h-screen bg-[#0B0E14] flex items-center justify-center">
+      <div className="text-gray-400">Loading...</div>
+    </div>
+  );
+}
 
 // Create a Home component to keep App clean
 function Home() {
@@ -33,10 +44,38 @@ export default function App() {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/projects/walkability-index" element={<WalkabilityIndexDetail />} />
-          <Route path="/projects/replacement-trap" element={<ReplacementTrap />} />
-          <Route path="/projects/bantr" element={<Bantr />} />
-          <Route path="/projects/signal-storm" element={<StormSignal />} />
+          <Route 
+            path="/projects/walkability-index" 
+            element={
+              <Suspense fallback={<RouteLoadingFallback />}>
+                <WalkabilityIndexDetail />
+              </Suspense>
+            } 
+          />
+          <Route 
+            path="/projects/replacement-trap" 
+            element={
+              <Suspense fallback={<RouteLoadingFallback />}>
+                <ReplacementTrap />
+              </Suspense>
+            } 
+          />
+          <Route 
+            path="/projects/bantr" 
+            element={
+              <Suspense fallback={<RouteLoadingFallback />}>
+                <Bantr />
+              </Suspense>
+            } 
+          />
+          <Route 
+            path="/projects/signal-storm" 
+            element={
+              <Suspense fallback={<RouteLoadingFallback />}>
+                <StormSignal />
+              </Suspense>
+            } 
+          />
         </Routes>
 
         <Footer />
