@@ -76,8 +76,7 @@ export function Hero() {
 
             <div className="text-gray-400 mb-10 max-w-2xl font-mono text-lg leading-relaxed">
               <span className="block md:inline">
-                I turn ambiguity into structured models and
-                working prototypes
+                I design and build applied data systems for complex, regulated, real-world environments
               </span>
             </div>
           </div>

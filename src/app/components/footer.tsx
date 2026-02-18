@@ -1,6 +1,23 @@
 import React from "react";
 import { Linkedin, Github, FileText, Mail } from "lucide-react";
 
+// Substack icon component matching lucide-react icon interface
+const SubstackIcon = ({ size = 18, className }: { size?: number; className?: string }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+  >
+    <path
+      d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
 export function Footer() {
   const year = new Date().getFullYear();
 
@@ -14,6 +31,11 @@ export function Footer() {
       name: "GitHub",
       href: "https://github.com/ghgeist",
       icon: Github,
+    },
+    {
+      name: "Substack",
+      href: "https://thedonkeyaxiom.substack.com/",
+      icon: SubstackIcon,
     },
     {
       name: "Resume",
