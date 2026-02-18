@@ -55,17 +55,10 @@ export function WorkWithMe() {
 
               <div className="max-w-xl space-y-6 text-lg text-gray-400 font-light leading-relaxed">
                 <p>
-                  I work on messy, ambiguous problems where
-                  clarity, structure, and ownership matter. Most
-                  engagements involve stabilizing a system,
-                  defining what "good" looks like, and
-                  delivering the models, workflows, or
-                  prototypes that make progress possible.
+                  I work in messy, ambiguous systems where clarity, structure, and ownership are missing. I help teams define what "good" looks like, stabilize what is fragile, and build the models, workflows, or prototypes needed to move forward with confidence.
                 </p>
                 <p>
-                  If this sounds like the kind of work you're
-                  trying to move forward, feel free to reach
-                  out.
+                  If this sounds like the work you are trying to move forward, feel free to reach out.
                 </p>
               </div>
             </Motion.div>

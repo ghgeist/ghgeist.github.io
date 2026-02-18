@@ -12,21 +12,21 @@ const methodology = [
     step: "STEP 01",
     title: "Map the System",
     description:
-      "I make the system explicit: actors, data flows, and ownership boundaries. I turn ambiguity into a tractable structure.",
+      "I make the system explicit: actors, incentives, data flows, constraints, ownership boundaries, and failure modes. Ambiguity becomes tractable structure.",
     icon: <Map className="w-5 h-5" />,
   },
   {
     step: "STEP 02",
     title: "Build the Model",
     description:
-      "I translate system structure into models: definitions, lifecycle math, and invariants. This is where system behavior becomes testable and predictable.",
+      "I translate structure into formal models: definitions, lifecycle math, invariants, and measurable assumptions. System behavior becomes testable and falsifiable.",
     icon: <SquareFunction className="w-5 h-5" />,
   },
   {
     step: "STEP 03",
     title: "Create the Prototype",
     description:
-      "I use AI-augmented engineering to turn models into working prototypes — to prove the logic and surface edge cases.",
+      "I use AI-augmented engineering to turn models into operational software. Edge cases surface, logic is validated under constraint, and a working artifact emerges.",
     icon: <Play className="w-5 h-5" />,
   },
 ];
@@ -45,10 +45,7 @@ export function Approach() {
               Approach
             </h2>
             <p className="text-gray-400 font-mono text-lg max-w-2xl">
-              I use a repeatable approach to turn ambiguous
-              systems into structured models and working
-              prototypes. Each step reduces risk before the next
-              one adds cost.
+              I use a repeatable approach to turn ambiguous systems into structured models and working prototypes, reducing risk at each step before adding cost at the next
             </p>
           </div>
 
@@ -88,7 +85,7 @@ export function Approach() {
           <div className="mt-12 pt-6 border-t border-white/5">
             <div className="flex items-start gap-3 text-gray-400 font-mono text-base max-w-3xl">
               <p>
-                Outcome: a defined system you can operate against — clear ownership, measurable behavior, and a working proof of the model.
+                Outcome: A system you can operate against: clear ownership, measurable behavior, explicit assumptions, and a working artifact that withstands real-world constraints
               </p>
             </div>
           </div>
