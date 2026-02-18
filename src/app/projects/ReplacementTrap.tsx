@@ -117,8 +117,7 @@ export function ReplacementTrap() {
 
             {/* One-line framing */}
             <p className="mt-4 text-gray-400 font-mono text-lg max-w-3xl leading-relaxed">
-              A systems-level economic model showing why most home infrastructure
-              replacements never repay their cost.
+              A lifecycle cash-flow model testing when home systems die before they repay their cost.
             </p>
 
             {/* Hero visual placeholder */}
@@ -147,66 +146,131 @@ export function ReplacementTrap() {
             {/* WHY */}
             <Section kicker="01" title="Why this matters">
               <p className="text-gray-400 leading-relaxed">
-                Major home systems are marketed as “investments.” But under
-                realistic financing, lifespan, and efficiency assumptions,
-                most replacements create structural loss rather than compounding value.
+                Most major home systems are framed as “investments.”              </p>
+              <p className="mt-4 text-gray-400 leading-relaxed">
+                This project tests that claim structurally using a simple decision rule: how long the system lasts relative to how long it takes to pay for itself.
               </p>
-              <div className="mt-4 text-gray-500 font-mono text-sm">
-                The result: recurring liquidity shocks that quietly erode household wealth.
+              <div className="mt-4 text-gray-300 font-mono text-sm">
+                <strong className="text-white">R/P Ratio (Replacement / Payback):</strong> lifespan ÷ payback period
               </div>
+              <p className="mt-4 text-gray-400 leading-relaxed">
+                In plain terms:
+              </p>
+              <ul className="mt-2 space-y-2 text-gray-400">
+                <li className="flex gap-3">
+                  <span className="text-blue-400 font-mono">•</span>
+                  <span>If the ratio is <strong className="text-white">greater than 1</strong>, the system survives long enough to earn back its installed cost.</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-blue-400 font-mono">•</span>
+                  <span>If the ratio is <strong className="text-white">less than 1</strong>, it reaches end-of-life before fully repaying its capital.</span>
+                </li>
+              </ul>
+              <p className="mt-4 text-gray-400 leading-relaxed">
+                When lifespan &lt; payback, each replacement cycle resets capital before recovery, creating structural loss instead of compounding return. This was illustrated by lifespan falling short of payback in 9 of 11 modeled scenarios.
+              </p>
             </Section>
 
             {/* WHAT I BUILT */}
             <Section kicker="02" title="What I built">
+              <p className="text-gray-400 leading-relaxed mb-4">
+                A lifecycle cash-flow model covering 11 common residential systems (appliances, HVAC, lighting, insulation).
+              </p>
+              <p className="text-gray-400 leading-relaxed mb-3">
+                The model includes:
+              </p>
               <ul className="space-y-3 text-gray-300">
                 <li className="flex gap-3">
                   <span className="text-blue-400 font-mono">—</span>
                   <span>
-                    A lifecycle cash-flow model across 11 residential systems.
+                    An R/P threshold rule (lifespan ÷ payback)
                   </span>
                 </li>
                 <li className="flex gap-3">
                   <span className="text-blue-400 font-mono">—</span>
                   <span>
-                    Replacement / Payback ratio framework (R/P) to classify structural loss.
+                    A 30-year cash-flow simulation that accounts for efficiency decline over time
                   </span>
                 </li>
                 <li className="flex gap-3">
                   <span className="text-blue-400 font-mono">—</span>
                   <span>
-                    HELOC financing simulations to test liquidity amplification.
+                    HELOC financing scenarios to model replacements paid for with debt
                   </span>
                 </li>
                 <li className="flex gap-3">
                   <span className="text-blue-400 font-mono">—</span>
                   <span>
-                    Monte Carlo sensitivity analysis under price volatility.
+                    Monte Carlo stress tests under changing energy prices and interest rates
+                  </span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-blue-400 font-mono">—</span>
+                  <span>
+                    A modular Python codebase with validation tests and reproducible outputs
                   </span>
                 </li>
               </ul>
 
+              <div className="mt-6">
+                <p className="text-gray-400 leading-relaxed mb-3">
+                  Model boundaries:
+                </p>
+                <ul className="space-y-2 text-gray-300">
+                  <li className="flex gap-3">
+                    <span className="text-blue-400 font-mono">—</span>
+                    <span>Direct, measurable cash costs and savings only</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-blue-400 font-mono">—</span>
+                    <span>Installation labor included in capital cost</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="text-blue-400 font-mono">—</span>
+                    <span>Explicit lifespan assumptions with bounded volatility</span>
+                  </li>
+                </ul>
+                <p className="mt-4 text-gray-400 leading-relaxed">
+                  Comfort, carbon, and resilience premiums are excluded to keep the model focused on cash economics.
+                </p>
+              </div>
+
               <div className="mt-6 border border-white/5 bg-black/20 p-4">
                 <div className="text-gray-500 font-mono text-xs uppercase tracking-widest mb-2">
-                  Model Structure
+                  Example
                 </div>
-                <div className="text-gray-300 font-mono text-sm whitespace-pre leading-relaxed">
-{`System Input Assumptions
-      ↓
-Lifecycle Cash Flow Model
-      ↓
-Replacement / Payback Classification
-      ↓
-Sensitivity + Financing Stress Test`}
-                </div>
+                <p className="text-gray-300 leading-relaxed">
+                  A standard 3-ton AC costing ~$9,500 and saving ~$200 per year reaches end-of-life around year 13, leaving a multi-thousand-dollar shortfall before payback.
+                </p>
               </div>
             </Section>
 
             {/* TRY IT */}
             <Section kicker="03" title="Explore the work">
               <p className="text-gray-400 leading-relaxed">
-                Read the full essay for narrative framing and implications,
-                or inspect the repository for model structure, tests, and simulations.
+                The essay explains the intuition behind the Replacement / Payback threshold and the broader housing implications.
               </p>
+              <p className="mt-4 text-gray-400 leading-relaxed">
+                The repository exposes the model itself:
+              </p>
+              <ul className="mt-3 space-y-2 text-gray-300">
+                <li className="flex gap-3">
+                  <span className="text-blue-400 font-mono">—</span>
+                  <span>Full structure and assumptions</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-blue-400 font-mono">—</span>
+                  <span>Test coverage and validation logic</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-blue-400 font-mono">—</span>
+                  <span>HELOC financing scenarios</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-blue-400 font-mono">—</span>
+                  <span>Monte Carlo stress tests</span>
+                </li>
+              </ul>
 
               <div className="mt-6 flex flex-col gap-3">
                 {ctas.map((cta) => (
@@ -214,8 +278,13 @@ Sensitivity + Financing Stress Test`}
                 ))}
               </div>
 
-              <div className="mt-6 text-gray-500 font-mono text-xs">
-                If you only read one section: see the R/P ratio classification.
+              <div className="mt-6 space-y-2 text-gray-400 leading-relaxed">
+                <p>
+                  If you read one section, start with the R/P classification results and the cash-flow outputs.
+                </p>
+                <p>
+                  All assumptions, boundaries, and mechanics are inspectable. This model is designed to withstand scrutiny, not just summarize a thesis.
+                </p>
               </div>
             </Section>
 
