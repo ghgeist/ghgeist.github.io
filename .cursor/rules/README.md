@@ -1,25 +1,19 @@
 # Cursor Rules for Portfolio Site
 
-This directory contains focused, scoped rules for working with this Jekyll portfolio site. Rules are automatically applied based on file patterns and context.
+This directory contains focused, scoped rules for working with this React + Vite portfolio site. Rules are automatically applied based on file patterns and context.
 
 ## Rule Files
 
-### `jekyll-portfolio.md`
+### `design-consistency.md`
 
-- **Scope**: Portfolio project posts (`_posts/**/*.markdown`)
-- **Purpose**: Patterns for adding and managing portfolio projects
-- **Key Topics**: Front matter conventions, project structure, modal IDs
-
-### `jekyll-structure.md`
-
-- **Scope**: Jekyll structure files (`_includes/**/*`, `_layouts/**/*`, `_plugins/**/*`, `_config.yml`)
-- **Purpose**: Conventions for Jekyll includes, layouts, and site structure
-- **Key Topics**: Component patterns, Liquid templating, site configuration
+- **Scope**: Project pages (`src/app/projects/**/*.tsx`) and components (`src/app/components/**/*.tsx`)
+- **Purpose**: Maintain visual and structural consistency between landing page and project detail pages
+- **Key Topics**: Container structure, color palette, typography, spacing, component patterns
 
 ### `file-naming.md`
 
 - **Scope**: All files (always applied)
-- **Purpose**: snake_case naming conventions for files and directories
+- **Purpose**: Naming conventions for files and directories
 - **Key Topics**: Naming patterns, consistency guidelines, special cases
 
 ### `iteration-workflow.md`
@@ -33,6 +27,11 @@ This directory contains focused, scoped rules for working with this Jekyll portf
 - **Scope**: Asset directories (`img/**/*`, `assets/**/*`, `css/**/*`)
 - **Purpose**: Image and asset organization patterns
 - **Key Topics**: Image naming, optimization, organization patterns
+
+### Legacy Rules (Jekyll-era, may be outdated)
+
+- `jekyll-portfolio.md` - Legacy Jekyll patterns (may not apply to current React structure)
+- `jekyll-structure.md` - Legacy Jekyll structure patterns (may not apply to current React structure)
 
 ## How Rules Work
 
