@@ -74,7 +74,7 @@ const architectureLanes: ArchitectureLane[] = [
 
 type DesignDoctrineCard = {
   title: string;
-  description: string;
+  description: React.ReactNode;
   icon: React.ReactNode;
   iconBgColor: string;
   iconColor: string;
@@ -83,7 +83,7 @@ type DesignDoctrineCard = {
 const designDoctrineCards: DesignDoctrineCard[] = [
   {
     title: "Controlled Routing",
-    description: "Prioritizing deterministic categorization over generative flexibility. Responders need to know exactly <em>where</em> a message goes.",
+    description: <>Prioritizing deterministic categorization over generative flexibility. Responders need to know exactly <em>where</em> a message goes.</>,
     icon: <Database className="w-5 h-5" />,
     iconBgColor: "bg-blue-500/10",
     iconColor: "text-blue-400",
@@ -117,8 +117,6 @@ const modelComparisons: ModelComparison[] = [
   { label: "LR (with vocabulary filters)", sizeMB: 13.0, color: "blue" },
   { label: "LR (15K features)", sizeMB: 4.5, color: "green", isFinal: true },
 ];
-
-const MAX_MODEL_SIZE = modelComparisons[0].sizeMB;
 
 function CtaButton({ label, href, icon, variant }: CtaLink) {
   const base =
@@ -209,11 +207,13 @@ function ModelComparisonChart({ models }: { models: ModelComparison[] }) {
     green: { bg: "bg-green-500", text: "text-green-400" },
   };
 
+  const maxModelSize = Math.max(...models.map(m => m.sizeMB));
+
   return (
     <div className="bg-[#0B0E14] p-6 md:p-8 rounded-lg border border-white/5">
       <div className="space-y-4">
         {models.map((model, idx) => {
-          const widthPercent = (model.sizeMB / MAX_MODEL_SIZE) * 100;
+          const widthPercent = (model.sizeMB / maxModelSize) * 100;
           const colors = colorConfig[model.color];
 
           return (
@@ -358,10 +358,9 @@ export function StormSignal() {
                     {card.icon}
                   </div>
                   <h3 className="text-white font-bold mb-2">{card.title}</h3>
-                  <p 
-                    className="text-gray-400 text-sm leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: card.description }}
-                  />
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    {card.description}
+                  </p>
                 </div>
               ))}
           </div>

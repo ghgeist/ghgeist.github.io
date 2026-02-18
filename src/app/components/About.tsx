@@ -60,7 +60,7 @@ const timelineEvents = [
     description:
       "Completed a two-year Product Design & Manufacturing certificate while working full-time. Developed prototyping discipline across CAD, iterative physical prototyping, and constraint-driven product development, shifting from analyzing systems to making and shipping tangible artifacts under constraint. For my capstone, I studied embodied AI systems, exploring how physical interfaces can give users more tangible control over computational systems.",
     image:
-      "https://images.unsplash.com/photo-1765046255517-412341954c4c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200",
+      "https://images.unsplash.com/photo-1581092160562-40aa08e78837?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200",
     alt: "RISD",
   },
   {
