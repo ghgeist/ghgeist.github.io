@@ -64,7 +64,7 @@ export function WalkabilityIndexDetail() {
           </>
         }
         media={
-          <div className="relative h-56 w-full md:h-80">
+          <div className="relative aspect-video w-full">
             <ImageWithFallback
               src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&q=80&w=1600"
               alt="Walkability map view"

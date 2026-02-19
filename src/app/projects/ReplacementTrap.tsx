@@ -10,7 +10,6 @@ import {
   LineChart,
   CheckCircle2,
 } from "lucide-react";
-import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { CaseStudyCtaButton } from "@/app/projects/components/CaseStudyCtaButton";
 import { CaseStudyHero } from "@/app/projects/components/CaseStudyHero";
 import {
@@ -255,16 +254,24 @@ export function ReplacementTrap() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-amber-800/20 via-[#0B0E14] to-[#0B0E14]" />
         }
         media={
-          <div className="relative aspect-video w-full bg-[#151921]">
-            <ImageWithFallback
-              src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&q=80&w=1600"
-              alt="Replacement cycle analysis"
-              className="h-full w-full object-cover opacity-85"
-              lazy={false}
+          <div className="relative aspect-video w-full overflow-hidden bg-[#121722]">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,_rgba(245,158,11,0.14),_transparent_38%),radial-gradient(circle_at_80%_30%,_rgba(251,146,60,0.12),_transparent_36%),linear-gradient(155deg,#141a26_0%,#0f141d_45%,#0b0f17_100%)]" />
+            <div
+              className="absolute inset-0 opacity-20"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, rgba(148,163,184,0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(148,163,184,0.12) 1px, transparent 1px)",
+                backgroundSize: "22px 22px",
+              }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E14] via-[#0B0E14]/30 to-transparent opacity-70" />
-            <div className="absolute bottom-0 left-0 right-0 grid gap-2 border-t border-white/10 bg-[#0B0E14]/85 p-4 md:grid-cols-3">
-              <div className="rounded-md border border-white/10 bg-black/20 p-3">
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E14]/85 via-[#0B0E14]/45 to-transparent" />
+            <div className="absolute -right-16 top-6 h-40 w-40 rounded-full bg-amber-400/15 blur-3xl" />
+            <div className="absolute -left-10 bottom-12 h-28 w-28 rounded-full bg-orange-400/10 blur-2xl" />
+            <div className="absolute top-4 right-4 rounded border border-amber-300/20 bg-[#121722]/70 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-amber-300/85">
+              Replacement / Payback Model
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 grid gap-2 border-t border-white/10 bg-[#0B0E14]/92 p-4 md:grid-cols-3">
+              <div className="rounded-md border border-white/10 bg-[#121722]/85 p-3">
                 <p className="font-mono text-xs uppercase tracking-[0.12em] text-amber-300/95">
                   Threshold Rule
                 </p>
@@ -272,7 +279,7 @@ export function ReplacementTrap() {
                   R/P Ratio = lifespan / payback
                 </p>
               </div>
-              <div className="rounded-md border border-white/10 bg-black/20 p-3">
+              <div className="rounded-md border border-white/10 bg-[#121722]/85 p-3">
                 <p className="font-mono text-xs uppercase tracking-[0.12em] text-amber-300/95">
                   Break-even condition
                 </p>
@@ -280,7 +287,7 @@ export function ReplacementTrap() {
                   R/P greater than 1
                 </p>
               </div>
-              <div className="rounded-md border border-white/10 bg-black/20 p-3">
+              <div className="rounded-md border border-white/10 bg-[#121722]/85 p-3">
                 <p className="font-mono text-xs uppercase tracking-[0.12em] text-amber-300/95">
                   Structural loss condition
                 </p>

@@ -104,7 +104,7 @@ export function Bantr() {
           </>
         }
         media={
-          <div className="relative h-56 w-full md:h-80">
+          <div className="relative aspect-video w-full">
             <ImageWithFallback
               src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=1600"
               alt="Bantr mobile gameplay"
