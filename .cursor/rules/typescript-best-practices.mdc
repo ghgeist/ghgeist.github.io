@@ -1,0 +1,201 @@
+---
+description: TypeScript best practices for React components, types, and patterns
+globs: ["**/*.{ts,tsx}"]
+alwaysApply: false
+---
+
+# TypeScript Best Practices
+
+Practical TypeScript guidance that helps maintain type safety without blocking development.
+
+## Type vs Interface
+
+**Use `type` for:**
+- Unions, intersections, or mapped types: `type Status = "pending" | "success" | "error"`
+- Utility types: `type Optional<T> = T | undefined`
+- Simple object shapes that won't be extended: `type CtaLink = { label: string; href: string }`
+
+**Use `interface` for:**
+- Object shapes that might be extended or implemented: `interface FormData { ... }`
+- Public APIs or library types that benefit from declaration merging
+
+**Both are fine** - choose based on what feels right for the use case. Consistency within a file is more important than a strict rule.
+
+## Component Props
+
+**Simple components** - inline props are fine:
+```tsx
+function SubstackIcon({ size = 18, className }: { size?: number; className?: string }) {
+  // ...
+}
+```
+
+**Reusable components** - extract prop types:
+```tsx
+type ButtonProps = React.ComponentProps<"button"> & {
+  variant?: "primary" | "secondary";
+  asChild?: boolean;
+};
+
+function Button({ variant, asChild, ...props }: ButtonProps) {
+  // ...
+}
+```
+
+**Extending HTML elements** - use `React.ComponentProps<"element">`:
+```tsx
+function Card({ className, ...props }: React.ComponentProps<"div">) {
+  // Extends all div props automatically
+}
+```
+
+**Avoid `React.FC`** - prefer function declarations:
+```tsx
+// ✅ Good
+export function Hero() { ... }
+
+// ❌ Avoid
+export const Hero: React.FC = () => { ... }
+```
+
+## React Types
+
+**Children and content** - use `React.ReactNode`:
+```tsx
+type CardProps = {
+  title: string;
+  description: React.ReactNode; // Can be string, element, fragment, etc.
+  icon: React.ReactNode;
+};
+```
+
+**Event handlers** - use specific event types:
+```tsx
+const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => { ... };
+const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => { ... };
+const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => { ... };
+```
+
+**Form data** - type with interfaces or types:
+```tsx
+interface WorkWithMeFormData {
+  name: string;
+  email: string;
+  organization: string;
+}
+```
+
+## Avoiding `any`
+
+**Prefer alternatives:**
+- `unknown` - for truly unknown values (requires type narrowing)
+- `Record<string, unknown>` - for objects with unknown shape
+- Generics - when the type can be inferred or constrained
+- Specific union types - when possible values are known
+
+**When `any` is acceptable:**
+- Generic utility functions (like `lazyWithRetry`) where the constraint is at the call site
+- Third-party library types that require `any`
+- Temporary workarounds (document why)
+
+**Example improvement:**
+```tsx
+// ⚠️ Can be improved
+function lazyWithRetry<T extends ComponentType<any>>(...)
+
+// ✅ Better (if possible)
+function lazyWithRetry<T extends ComponentType<unknown>>(...)
+// Or constrain to React component props
+function lazyWithRetry<T extends ComponentType<Record<string, unknown>>>(...)
+```
+
+## Type Imports
+
+**Use `import type` for type-only imports** (helps with tree-shaking):
+```tsx
+import { clsx, type ClassValue } from "clsx";
+import type { VariantProps } from "class-variance-authority";
+```
+
+**Regular imports** for values that exist at runtime:
+```tsx
+import { Button } from "@/app/components/ui/button";
+import { useForm } from "react-hook-form";
+```
+
+## Generics
+
+**Use generics for reusable utilities:**
+```tsx
+function lazyWithRetry<T extends ComponentType<any>>(
+  importFn: () => Promise<{ default: T }>,
+  retries = 1
+): React.LazyExoticComponent<T> {
+  // ...
+}
+```
+
+**Keep constraints practical** - don't over-constrain unless necessary.
+
+## Common Patterns
+
+**Optional props with defaults:**
+```tsx
+function Component({ 
+  size = "medium", 
+  variant = "default" 
+}: { 
+  size?: "small" | "medium" | "large";
+  variant?: "default" | "primary";
+}) {
+  // ...
+}
+```
+
+**Spreading props:**
+```tsx
+function Input({ className, ...props }: React.ComponentProps<"input">) {
+  return <input className={cn("base-styles", className)} {...props} />;
+}
+```
+
+**Type assertions** - prefer `as` over `as any`:
+```tsx
+// ✅ Specific assertion
+const error = err as Error;
+
+// ⚠️ Avoid unless necessary
+const error = err as any;
+```
+
+## Return Types
+
+**Usually inferred** - TypeScript infers return types well:
+```tsx
+function getStatus(): "pending" | "success" {
+  return "pending"; // Type inferred
+}
+```
+
+**Explicit return types** - only when:
+- Public API functions where the return type is part of the contract
+- Complex functions where inference might be unclear
+- Functions that might return different types conditionally
+
+## Error Handling
+
+**Type errors gracefully:**
+```tsx
+try {
+  // ...
+} catch (error) {
+  const err = error instanceof Error ? error : new Error(String(error));
+  // Use err safely
+}
+```
+
+## Related Rules
+
+- **Component structure**: See `react-structure.mdc` for React patterns
+- **Naming conventions**: See `file-naming.mdc` for file and type naming
+- **Verification**: Run `npx tsc --noEmit` to check types before committing

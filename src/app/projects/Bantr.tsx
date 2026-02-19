@@ -2,7 +2,7 @@ import React from "react";
 import { motion as Motion } from "motion/react";
 import { Link } from "react-router-dom";
 import { ExternalLink, Github, ArrowRight, Layers, Shield, CreditCard, Sparkles, ArrowLeft } from "lucide-react";
-import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 
 type CtaLink = {
   label: string;

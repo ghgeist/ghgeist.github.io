@@ -1,6 +1,6 @@
 import React from "react";
 import { motion as Motion } from "motion/react";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { Link } from "react-router-dom";
 
 const evidenceItems = [

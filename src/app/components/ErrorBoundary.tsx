@@ -1,5 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from "react";
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/app/components/ui/alert";
 
 interface Props {
   children: ReactNode;

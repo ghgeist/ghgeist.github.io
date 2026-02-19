@@ -85,6 +85,7 @@ This script:
 
 - Installs dependencies (`npm ci`)
 - Runs TypeScript type checking (`npx tsc --noEmit`)
+- Runs tests (`npm run test:ci`)
 - Builds the production bundle (`npm run build`)
 
 **Verification Configuration:**
@@ -204,6 +205,20 @@ Linters are configured to ignore minified files and vendor libraries. Configurat
 └── README.md            # This file
 ```
 
+## Documentation
+
+**For developers and AI agents:**
+
+- **`CLAUDE.md`** – Project overview, commands, architecture, content model
+- **`AGENTS.md`** – Environment constraints, verification model, agent behavior guidance
+- **`.cursor/rules/`** – Focused, scoped rules for components, design, workflow, and naming
+- **`.cursor/rules/QUICK_START.mdc`** – Quick reference guide for common tasks
+
+**Quick links:**
+- [Quick Start Guide](.cursor/rules/QUICK_START.mdc) – Find information fast
+- [Project Overview](CLAUDE.md) – Architecture and conventions
+- [Agent Guidance](AGENTS.md) – Verification and workflow
+
 ## Architecture
 
 ### Routing
@@ -249,6 +264,10 @@ Static deploy-critical files in `public/`:
 - **LinkedIn:** [linkedin.com/in/grantgeist](https://www.linkedin.com/in/grantgeist)
 - **Substack:** https://substack.com/@grantgeist
 - **GitHub:** [github.com/ghgeist](https://github.com/ghgeist)
+
+## Attributions
+
+This project uses components from [shadcn/ui](https://ui.shadcn.com/) under the [MIT license](https://github.com/shadcn-ui/ui/blob/main/LICENSE.md), and photos from [Unsplash](https://unsplash.com) under the [Unsplash license](https://unsplash.com/license).
 
 ## License
 

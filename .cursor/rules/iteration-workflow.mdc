@@ -1,0 +1,91 @@
+---
+description: Development workflow and verification for React/Vite portfolio
+globs: ["*.md", "*.html", "*.yml", "*.yaml"]
+alwaysApply: false
+---
+
+# Iteration Workflow for Portfolio Site
+
+## Quick Iteration Cycle
+
+### Content / UI Updates (Fast Path)
+
+1. **Make changes** – Edit components, styles, or content in `src/`
+2. **Preview locally** – Run `npm run dev` (or `./script/dev` if available)
+3. **Visual check** – Review at `http://localhost:5173`
+4. **Quick build** – Run `npm run build` before committing
+5. **Commit** – Small, focused commits
+
+### Structural / Config Changes (Thorough Path)
+
+1. **Plan change** – Understand impact on routes, components, or config
+2. **Make changes** – Edit `App.tsx`, vite config, or test setup as needed
+3. **Type check** – `npx tsc --noEmit`
+4. **Tests** – `npm run test` or `npm run test:ci`
+5. **Build** – `npm run build`
+6. **Visual verification** – Check relevant routes in browser
+7. **Commit** – Document what changed and why
+
+## Verification (Source of Truth: `.verify.yml`)
+
+Run full verification with:
+
+```bash
+npm ci
+npx tsc --noEmit
+npm run test:ci
+npm run build
+```
+
+Or use `./script/verify` when in a Unix-like environment.
+
+### When to Run Full Verification
+
+- Before pushing to main or opening a PR
+- After changing dependencies, `tsconfig`, or Vite config
+- After changing routing or app shell
+
+### When Visual Check + Build Is Enough
+
+- Content-only or copy changes
+- Styling tweaks
+- Adding optional props or small UI changes
+
+### Commands Reference
+
+| Purpose        | Command              |
+|----------------|----------------------|
+| Dev server     | `npm run dev`        |
+| Type check     | `npx tsc --noEmit`   |
+| Tests          | `npm run test`       |
+| Tests (CI)     | `npm run test:ci`    |
+| Build          | `npm run build`      |
+| Preview build  | `npm run preview`    |
+| Lint           | `npm run lint`       |
+| Lint fix       | `npm run lint:fix`   |
+
+## Iteration Mindset
+
+- **Ship content/features first** – Fix issues iteratively
+- **Don't block on perfect** – Optimize assets and performance when needed
+- **Small commits** – One concern per commit; clear messages
+- **Branches** – Use feature branches for larger changes; direct commits for small fixes
+
+## Git Workflow
+
+- **Main** – Production-ready; CI runs on push/PR (see `.github/workflows/deploy.yml`)
+- **Before pushing** – Run verification locally if you changed structure or deps; CI will run `npm ci`, `tsc`, `test:ci`, `build`
+- **Deploy** – GitHub Actions deploys `dist/` to GitHub Pages on push to main
+
+## Error Handling
+
+- **Build/type errors** – Fix reported files; run `npx tsc --noEmit` and `npm run build` again
+- **Test failures** – Check `src/test/`; fix assertions or component behavior
+- **Lint** – Run `npm run lint:fix` and review; fix remaining issues by hand
+- **Routing/404** – Ensure route exists in `App.tsx` and `public/404.html` + `index.html` decoder stay in sync for SPA deep links
+
+## Documentation
+
+- Keep `CLAUDE.md` and `AGENTS.md` in sync with stack and verification
+- Update this workflow if verification steps or scripts change
+- Prefer examples and current commands over long prose

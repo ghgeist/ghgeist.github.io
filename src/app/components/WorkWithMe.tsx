@@ -2,10 +2,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { motion as Motion } from "motion/react";
 import { toast } from "sonner";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Button } from "./ui/button";
-import { Label } from "./ui/label";
+import { Input } from "@/app/components/ui/input";
+import { Textarea } from "@/app/components/ui/textarea";
+import { Button } from "@/app/components/ui/button";
+import { Label } from "@/app/components/ui/label";
 
 interface WorkWithMeFormData {
   name: string;

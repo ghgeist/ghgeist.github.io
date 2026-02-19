@@ -1,0 +1,75 @@
+---
+description: React/Vite app structure, components, routes, and content model
+globs: ["src/app/**/*", "src/styles/**/*", "vite.config.*", "index.html"]
+alwaysApply: false
+---
+
+# React Portfolio Structure
+
+## Directory Structure
+
+### `src/app/` – App shell and routes
+
+- **`App.tsx`** – Router, lazy-loaded project routes, layout (Navbar, Hero, footer, etc.)
+- **`components/`** – Shared sections and UI: `Hero.tsx`, `About.tsx`, `Navbar.tsx`, `footer.tsx`, `ErrorBoundary.tsx`
+- **`components/ui/`** – Radix-based UI primitives (button, card, dialog, etc.); keep kebab-case filenames to match shadcn-style
+- **`projects/`** – One component (or module) per project: `WalkabilityIndex.tsx`, `Bantr.tsx`, `ReplacementTrap.tsx`, `StormSignal.tsx`
+
+### `src/styles/`
+
+- Global and theme: `theme.css`, `index.css`, `tailwind.css`, `fonts.css`
+- Tailwind v4 + PostCSS; see `guidelines/Guidelines.md` for design system
+
+### `public/`
+
+- Static assets served at root: `CNAME`, `favicon.ico`, `robots.txt`, `404.html`
+- See `asset-management.mdc` for asset organization and references.
+
+## Content Model: Adding a Project
+
+Projects are route-based React components, not markdown or CMS.
+
+1. **Create component** in `src/app/projects/` (e.g. `NewProject.tsx`), export the page component.
+2. **Register route** in `src/app/App.tsx`:
+   - Add lazy import: `const NewProject = lazyWithRetry(() => import("./projects/NewProject").then(m => ({ default: m.NewProject })));`
+   - Add `<Route path="/projects/new-project" element={<NewProject />} />` (use kebab-case path).
+3. **Update entry points**: Add card/link on homepage (e.g. in `Hero`, `Approach`, or dedicated projects section) so users can reach the new route.
+
+## Conventions
+
+### Routing
+
+- Use `BrowserRouter`; no basename (root deploy).
+- Project paths: `/projects/walkability-index`, `/projects/bantr`, etc. (kebab-case).
+- Deep links work via `public/404.html` + redirect decoder in `index.html`.
+
+### Component Organization
+
+- Keep one main export per project file (the page component).
+- Shared components in `components/`; UI primitives in `components/ui/`.
+- Project pages in `projects/`; each is a route component.
+- See `file-naming.mdc` for naming conventions.
+
+### Styling
+
+- Prefer Tailwind utility classes; use theme and design tokens from `src/styles/`.
+- Don't introduce new global CSS unless needed; keep styles co-located or in `src/styles/`.
+
+### Imports
+
+- Use `@/` alias if configured in `vite.config`/`tsconfig`; otherwise relative imports from `src/`.
+- See `asset-management.mdc` for how to reference static assets.
+
+## Best Practices
+
+- **Modularity**: One concern per component; reuse from `components/` and `components/ui/`.
+- **DRY**: Shared logic in hooks or small utilities; avoid duplicating layout across project pages.
+- **Performance**: Project pages are lazy-loaded; keep initial bundle small.
+- **Consistency**: Match existing patterns in `App.tsx` and current project components when adding routes or features.
+
+## Related Rules
+
+- **TypeScript patterns**: See `typescript-best-practices.mdc` for component props, types, and React type patterns.
+- **Naming conventions**: See `file-naming.mdc` for component and file naming patterns.
+- **Verification commands**: See `iteration-workflow.mdc` for build, test, and lint commands.
+- **Asset references**: See `asset-management.mdc` for how to reference `public/` assets.

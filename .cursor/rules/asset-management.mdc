@@ -1,0 +1,74 @@
+---
+description: Static asset organization and references for React/Vite portfolio
+globs: ["public/**/*", "src/**/*.css", "src/**/*.svg", "src/**/*.png", "src/**/*.jpg", "src/**/*.jpeg", "src/**/*.webp", "src/**/*.gif"]
+alwaysApply: false
+---
+
+# Asset Management for React/Vite Portfolio
+
+## Where assets live
+
+### `public/` – Static assets (root URLs)
+
+Files in `public/` are served at the site root. Reference them with paths starting with `/`.
+
+**Current layout:**
+
+```text
+public/
+├── 404.html          # SPA fallback for GitHub Pages
+├── CNAME             # Custom domain
+├── favicon.ico
+├── robots.txt
+└── assets/
+    └── rhino/
+        ├── compressed/   # e.g. embodied_ai_compressed.gltf
+        └── raw/          # e.g. embodied_ai_raw.gltf
+```
+
+- **Use for**: favicon, CNAME, 404.html, robots.txt, large or shared binaries (e.g. 3D models), OG images if you add them
+- **Reference in app**: `/assets/rhino/compressed/embodied_ai_compressed.gltf` (no `public` in path)
+
+### `src/` – Assets processed by Vite
+
+Images/CSS/SVG imported in components are handled by Vite (hashing, bundling). Use normal `import` paths.
+
+- **Use for**: Component-specific images, icons, or CSS
+- **Reference**: `import img from '@/assets/…'` or relative path; use in `src` or `url()`
+
+## Naming conventions
+
+- **Filenames**: snake_case, e.g. `embodied_ai_compressed.gltf`, `og_default.jpg`
+- **Versions**: suffix like `_v2`, `_v3`, e.g. `header_v2.jpg`
+- **Thumbnails**: `project_name_thumbnail.png` with same base name as full image
+- **Directories**: lowercase or snake_case, e.g. `assets/rhino/compressed/`
+
+## Referencing public assets in code
+
+- In JS/TSX: use root-relative strings, e.g. `src="/assets/rhino/compressed/embodied_ai_compressed.gltf"` or `url('/assets/og/og-default.jpg')`
+- In CSS: `url('/assets/...')` for assets in `public/`
+- Do not include the word `public` in the path; Vite serves `public/` at `/`
+
+## Optimization
+
+- **Iterative**: Ship with readable assets first; optimize size/format when needed
+- **When to optimize**: Large files (>500KB), slow loads, or before major releases
+- **Keep originals** where you might re-export or re-optimize later
+- Prefer WebP for photos when acceptable; keep fallbacks if required
+
+## Deploy-critical files in public/
+
+These must remain in `public/` for GitHub Pages:
+
+- `CNAME` – custom domain
+- `404.html` – SPA redirect/decoder for client-side routing
+- `favicon.ico`, `robots.txt` – as desired
+
+Do not remove or rename these without updating deployment and routing docs.
+
+## Best practices
+
+- **Organize by purpose**: e.g. `public/assets/og/`, `public/assets/rhino/`
+- **Consistent naming**: snake_case, descriptive names, version suffixes when needed
+- **Don't over-organize**: Prefer a flat or shallow structure unless volume justifies more folders
+- **References**: Use `/`-root paths for `public/` assets; use imports for assets under `src/`

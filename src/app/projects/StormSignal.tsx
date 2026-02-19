@@ -2,7 +2,7 @@ import React from "react";
 import { motion as Motion } from "motion/react";
 import { Link, useNavigate } from "react-router-dom";
 import { ExternalLink, Github, ArrowRight, ArrowLeft, CheckCircle2, Zap, Database, Shield, Globe, Brain, Users } from "lucide-react";
-import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 
 type CtaLink = {
   label: string;
@@ -46,9 +46,9 @@ const architectureLanes: ArchitectureLane[] = [
     icon: <Brain className="w-4 h-4" />,
     iconColor: "text-pink-400",
     nodes: [
-      "Threshold Tuning Recall-Optimized",
-      "Classification Pipeline TF-IDF → Logistic Regression",
-      "Hierarchy Rules Taxonomic Consistency",
+      "Threshold Tuning (Recall-Optimized)",
+      "Sparse Text Classifier (TF-IDF + Logistic Regression)",
+      "Hierarchy Rules (Taxonomic Consistency)",
     ],
     tightSpacing: true,
   },
@@ -70,6 +70,12 @@ const architectureLanes: ArchitectureLane[] = [
     iconColor: "text-red-400",
     nodes: ["Human Triage & Dispatch"],
   },
+];
+
+const architectureTransitions = [
+  "Messages",
+  "Classifications + Confidence",
+  "Prioritized Signals",
 ];
 
 type DesignDoctrineCard = {
@@ -108,14 +114,13 @@ type ModelComparison = {
   label: string;
   sizeMB: number;
   color: "red" | "yellow" | "blue" | "green";
-  isFinal?: boolean;
 };
 
 const modelComparisons: ModelComparison[] = [
   { label: "Random Forest", sizeMB: 900, color: "red" },
   { label: "LR (unlimited vocabulary)", sizeMB: 67.7, color: "yellow" },
   { label: "LR (with vocabulary filters)", sizeMB: 13.0, color: "blue" },
-  { label: "LR (15K features)", sizeMB: 4.5, color: "green", isFinal: true },
+  { label: "LR (15K features)", sizeMB: 4.5, color: "green" },
 ];
 
 function CtaButton({ label, href, icon, variant }: CtaLink) {
@@ -161,39 +166,123 @@ function SectionHeading({ title, subtitle }: { title: string; subtitle?: string 
 
 function Node({ text }: { text: string }) {
   return (
-    <div className="w-full bg-white/[0.03] border border-white/10 rounded-md px-3 py-2.5 md:px-4 md:py-3 text-center">
-      <p className="text-xs text-gray-300 leading-relaxed">{text}</p>
+    <div className="w-full bg-white/[0.03] border border-white/10 rounded-md px-3 py-2 md:px-3 md:py-2 text-center">
+      <p className="text-[13px] md:text-[13px] text-gray-300 leading-normal md:leading-snug">{text}</p>
     </div>
   );
 }
 
-function Lane({ 
-  title, 
-  icon, 
-  iconColor, 
+function Lane({
+  index,
+  title,
+  icon,
+  iconColor,
   nodes,
-  tightSpacing = false
-}: { 
-  title: string; 
-  icon: React.ReactNode; 
+  nextLabel,
+  tightSpacing = false,
+}: {
+  index: number;
+  title: string;
+  icon: React.ReactNode;
   iconColor: string;
   nodes: string[];
+  nextLabel?: string;
   tightSpacing?: boolean;
 }) {
+  const laneNumber = String(index + 1).padStart(2, "0");
+
   return (
-    <div className="bg-white/[0.02] border border-white/10 rounded-lg p-4 md:p-6 flex flex-col h-full min-h-[200px] md:min-h-[300px]">
-      <div className="flex items-center gap-2 mb-4 md:mb-6">
-        <div className={`${iconColor} flex-shrink-0`}>
-          {icon}
+    <div className="bg-white/[0.02] border border-white/10 rounded-lg p-3.5 md:p-3 flex flex-col h-full min-h-0 sm:min-h-[180px] md:min-h-[170px]">
+      <div className="flex items-start justify-between gap-2 mb-3 md:mb-2">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className={`${iconColor} flex-shrink-0`}>
+            {icon}
+          </div>
+          <h3 className="text-xs md:text-sm font-semibold text-white">{title}</h3>
         </div>
-        <h3 className="text-xs md:text-sm font-semibold text-white">{title}</h3>
+        <span className="text-[10px] font-mono text-blue-400 border border-blue-400/25 rounded px-1.5 py-0.5">
+          {laneNumber}
+        </span>
       </div>
+
       <div className="flex-1 flex flex-col justify-start">
-        <div className={`w-full max-w-full md:max-w-[260px] mx-auto ${tightSpacing ? 'space-y-2' : 'space-y-3'}`}>
+        <div className={`w-full max-w-full md:max-w-[240px] mx-auto ${tightSpacing ? "space-y-1" : "space-y-2"}`}>
           {nodes.map((text, idx) => (
             <Node key={idx} text={text} />
           ))}
         </div>
+      </div>
+
+      <div className="hidden sm:block mt-2 md:mt-1.5 pt-2 md:pt-1.5 border-t border-white/10">
+        {nextLabel ? (
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-[11px] text-center">
+            <span className="font-mono uppercase tracking-wide text-blue-400">Output:</span>
+            <span className="text-blue-400">{nextLabel}</span>
+          </div>
+        ) : (
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-[11px] text-center">
+            <span className="font-mono uppercase tracking-wide text-blue-400">Output:</span>
+            <span className="text-blue-400">Responder Dispatch</span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function MobileFlowConnector({ label }: { label: string }) {
+  return (
+    <div className="flex items-center justify-center gap-2 py-1 text-[11px] text-center">
+      <span className="font-mono uppercase tracking-wide text-blue-400">Output:</span>
+      <span className="text-blue-400">{label}</span>
+    </div>
+  );
+}
+
+function AnimatedLane({ lane, idx }: { lane: ArchitectureLane; idx: number }) {
+  return (
+    <Motion.div
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.35, delay: idx * 0.08 }}
+      className="h-full"
+    >
+      <Lane
+        index={idx}
+        title={lane.title}
+        icon={lane.icon}
+        iconColor={lane.iconColor}
+        nodes={lane.nodes}
+        nextLabel={architectureTransitions[idx]}
+        tightSpacing={lane.tightSpacing}
+      />
+    </Motion.div>
+  );
+}
+
+function ArchitectureDesktopTablet() {
+  return (
+    <div className="relative hidden sm:block">
+      <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-3">
+        {architectureLanes.map((lane, idx) => (
+          <AnimatedLane key={idx} lane={lane} idx={idx} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ArchitectureMobile() {
+  return (
+    <div className="relative sm:hidden">
+      <div className="space-y-2">
+        {architectureLanes.map((lane, idx) => (
+          <React.Fragment key={idx}>
+            <AnimatedLane lane={lane} idx={idx} />
+            {idx < architectureTransitions.length && <MobileFlowConnector label={architectureTransitions[idx]} />}
+          </React.Fragment>
+        ))}
       </div>
     </div>
   );
@@ -201,13 +290,13 @@ function Lane({
 
 function ModelComparisonChart({ models }: { models: ModelComparison[] }) {
   const colorConfig: Record<ModelComparison["color"], { bg: string; text: string }> = {
-    red: { bg: "bg-red-500/50", text: "text-red-400" },
-    yellow: { bg: "bg-yellow-500/50", text: "text-yellow-400" },
-    blue: { bg: "bg-blue-500/50", text: "text-blue-400" },
-    green: { bg: "bg-green-500", text: "text-green-400" },
+    red: { bg: "bg-rose-400/70", text: "text-rose-300/95" },
+    yellow: { bg: "bg-amber-400/70", text: "text-amber-300/90" },
+    blue: { bg: "bg-sky-400/70", text: "text-sky-300/90" },
+    green: { bg: "bg-emerald-400/70", text: "text-emerald-300/90" },
   };
 
-  const maxModelSize = Math.max(...models.map(m => m.sizeMB));
+  const maxModelSize = 1000;
 
   return (
     <div className="bg-[#0B0E14] p-6 md:p-8 rounded-lg border border-white/5">
@@ -219,11 +308,11 @@ function ModelComparisonChart({ models }: { models: ModelComparison[] }) {
           return (
             <div key={idx}>
               <div className="flex justify-between text-sm mb-2">
-                <span className={model.isFinal ? "text-white font-medium" : "text-gray-400"}>
+                <span className="text-gray-400">
                   {model.label}
                 </span>
                 <span className={`${colors.text} font-mono`}>
-                  {model.sizeMB} MB
+                  {model.sizeMB.toFixed(1)} MB
                 </span>
               </div>
               <div className="h-2 bg-white/5 rounded-full overflow-hidden">
@@ -237,7 +326,7 @@ function ModelComparisonChart({ models }: { models: ModelComparison[] }) {
         })}
       </div>
       <div className="mt-8 pt-6 border-t border-white/10">
-        <div className="flex items-center gap-2 text-green-400 text-sm font-medium">
+        <div className="flex items-center gap-2 text-emerald-300/90 text-sm">
           <Zap className="w-4 h-4" />
           <span>Latency reduced to &lt;0.1s cold load</span>
         </div>
@@ -368,35 +457,24 @@ export function StormSignal() {
       </section>
 
       {/* Architecture */}
-      <section className="py-12 md:py-20 bg-[#0B0E14]">
+      <section className="py-10 md:py-12 bg-[#0B0E14]">
         <div className="max-w-6xl mx-auto px-6 lg:px-8">
            <SectionHeading 
              title="System Architecture" 
              subtitle="A monitoring dashboard with a constrained ML core. Messages are ingested, classified with confidence, surfaced for triage, and routed to human responders." 
            />
            
-           <div className="mt-12">
+           <div className="mt-8 md:mt-6">
               {/* Diagram Surface */}
-              <div className="relative bg-[#151921] border border-white/10 rounded-lg p-4 md:p-6 lg:p-10">
+              <div className="relative bg-[#151921] border border-white/10 rounded-lg p-3 md:p-3 lg:p-6">
                  {/* Grid Background Pattern */}
                  <div className="absolute inset-0 opacity-5 rounded-lg" style={{
                    backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
                    backgroundSize: '24px 24px'
                  }} />
                  
-                 {/* Swimlane Grid */}
-                 <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                    {architectureLanes.map((lane, idx) => (
-                      <Lane
-                        key={idx}
-                        title={lane.title}
-                        icon={lane.icon}
-                        iconColor={lane.iconColor}
-                        nodes={lane.nodes}
-                        tightSpacing={lane.tightSpacing}
-                      />
-                    ))}
-                 </div>
+                 <ArchitectureDesktopTablet />
+                 <ArchitectureMobile />
               </div>
            </div>
         </div>
@@ -414,7 +492,7 @@ export function StormSignal() {
                     Early iterations used a Random Forest model. Artifact size approached ~900 MB and proved unsuitable for lightweight or edge deployment.
                   </p>
                   <p>
-                    We replaced it with Logistic Regression to make edge deployment viable. The artifact dropped from 67.69 MB to 13.03 MB with vocabulary filtering, and to 4.53 MB with a 15K feature cap — without sacrificing operational performance.
+                    This was replaced with Logistic Regression to make edge deployment viable. The artifact dropped from 67.7 MB to 13.0 MB with vocabulary filtering, and to 4.5 MB with a 15K feature cap without sacrificing operational performance.
                   </p>
                   <p>
                     The final stack prioritizes determinism, inspectability, and predictable inference behavior over model novelty.
@@ -443,3 +521,4 @@ export function StormSignal() {
     </main>
   );
 }
+

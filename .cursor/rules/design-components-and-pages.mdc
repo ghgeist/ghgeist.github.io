@@ -1,0 +1,115 @@
+---
+description: Design component patterns and project page structure (SectionHeading, Card, CTA, motion, sections order)
+globs: ["src/app/projects/**/*.tsx", "src/app/components/**/*.tsx"]
+alwaysApply: false
+---
+
+# Design Components and Page Structure
+
+**Scope**: Project pages and landing components. For tokens (colors, typography, spacing, containers), see `design-tokens-and-layout.mdc`.
+
+**Philosophy**: Guidelines for consistency. Prefer these patterns; adapt or document new ones when they work well.
+
+---
+
+## Component Patterns
+
+### SectionHeading (from StormSignal.tsx)
+
+```tsx
+function SectionHeading({ title, subtitle }: { title: string; subtitle?: string }) {
+  return (
+    <div className="mb-6 md:mb-8">
+      <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">{title}</h2>
+      {subtitle && (
+        <p className="mt-3 text-base md:text-lg text-gray-400 max-w-2xl leading-relaxed">
+          {subtitle}
+        </p>
+      )}
+    </div>
+  );
+}
+```
+
+Prefer for section headings; adapt or create variations as needed.
+
+### Card / Panel
+
+```tsx
+<div className="bg-[#151921] border border-white/5 p-4 md:p-6 rounded-sm">
+  {/* Card content */}
+</div>
+```
+
+Use `rounded-lg` for more pronounced radius when appropriate.
+
+### Stat Card
+
+```tsx
+<div className="bg-[#151921] border border-white/5 p-4 md:p-5 rounded-sm">
+  <div className="text-gray-500 text-xs font-mono uppercase tracking-wider mb-1">{label}</div>
+  <div className="text-xl md:text-2xl font-bold text-white mb-1">{value}</div>
+  <div className="text-gray-400 text-sm">{subtext}</div>
+</div>
+```
+
+### CTA Button (from StormSignal.tsx)
+
+- **Primary**: `bg-blue-600 text-white hover:bg-blue-500`, `rounded-sm`, `font-medium`, include `ArrowRight` icon.
+- **Secondary**: `bg-white/5 text-gray-200 border border-white/10 hover:bg-white/10 hover:border-white/20`.
+- Base: `inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium transition-all rounded-sm`. Use `font-medium`, not `font-mono`.
+
+---
+
+## Motion / Animation
+
+Use `motion/react` with:
+
+- **Scroll reveal**: `initial={{ opacity: 0, y: 20 }}`, `whileInView={{ opacity: 1, y: 0 }}`, `viewport={{ once: true }}`, `transition={{ duration: 0.6 }}`.
+- **Durations**: `0.6` (sections), `0.3` (interactions), `0.8` (hero). Translate `y: 20` or `y: 10`.
+- **Avoid**: Bouncy or excessive motion; inconsistent durations.
+
+---
+
+## Project Page Structure (from StormSignal.tsx)
+
+Standard order:
+
+1. **Hero** – `header`; back link, title, description, CTAs (`flex flex-wrap gap-4`); hero image `rounded-lg overflow-hidden border border-white/10 bg-[#151921] aspect-video`.
+2. **Metrics Grid** (optional) – StatCard; `grid grid-cols-1 md:grid-cols-3 gap-6`; `pt-8 pb-12`, `border-b border-white/5`.
+3. **Context / Problem** – SectionHeading; body with `prose prose-invert`; `py-12 md:py-20 bg-[#0B0E14]`.
+4. **Design Doctrine / Approach** (optional) – Cards with icon backgrounds (`bg-blue-500/10`, etc.); icons `w-10 h-10 rounded-sm`; `grid md:grid-cols-3 gap-4 md:gap-6`; `bg-[#11141a]`.
+5. **Architecture / System** (optional) – Diagrams; Lane/Node for swimlanes; `py-12 md:py-20 bg-[#0B0E14]`.
+6. **Case Study / Deep Dive** (optional) – `max-w-5xl`; `grid md:grid-cols-2 gap-8 md:gap-12`; `bg-[#151921]`; kicker `text-sm font-mono text-blue-400 uppercase tracking-widest`.
+7. **Navigation** – Back to case studies; `py-12 bg-[#0B0E14] border-t border-white/5`.
+
+---
+
+## Drift Issues and Best Practices
+
+**Watch for:** Container widths (`max-w-6xl`/`max-w-5xl`), palette vs ad-hoc colors, borders (`border-white/5`/`10`), H2 size (`text-3xl`), CTA component reuse, section padding (`py-24`), motion duration (`0.6`).
+
+**Do:** Reference Hero, About, Approach, WorkWithMe, StormSignal; start with canonical patterns; reuse components; deviate intentionally; document new patterns here.
+
+---
+
+## Quick Consistency Check (Optional)
+
+- Container structure consistent? Colors intentional? Heading hierarchy clear? Spacing cohesive? Deviations purposeful?
+
+Reflection only—not a gate. Trust judgment and iterate.
+
+---
+
+## Reference Components
+
+**Project pages:** `src/app/projects/StormSignal.tsx` (current standard). `WalkabilityIndex.tsx` uses older patterns; align with StormSignal when touched.
+
+**Landing:** `Hero.tsx`, `About.tsx`, `Approach.tsx`, `WorkWithMe.tsx`, `footer.tsx`.
+
+---
+
+## Related
+
+- Tokens and layout: `design-tokens-and-layout.mdc`
+- `guidelines/Guidelines.md`, `CLAUDE.md`, `AGENTS.md`
