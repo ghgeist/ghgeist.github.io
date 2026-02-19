@@ -1,28 +1,23 @@
 import React from "react";
 import { motion as Motion } from "motion/react";
-import { Link, useNavigate } from "react-router-dom";
-import { ExternalLink, Github, ArrowRight, ArrowLeft, CheckCircle2, Zap, Database, Shield, Globe, Brain, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { ExternalLink, Github, ArrowLeft, CheckCircle2, Zap, Database, Shield, Globe, Brain, Users } from "lucide-react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
+import { CaseStudyCtaButton } from "@/app/projects/components/CaseStudyCtaButton";
+import { CaseStudyHero } from "@/app/projects/components/CaseStudyHero";
 
-type CtaLink = {
-  label: string;
-  href: string;
-  icon: React.ReactNode;
-  variant: "primary" | "secondary";
-};
-
-const ctas: CtaLink[] = [
+const ctas = [
   {
     label: "Live Demo",
     href: "https://storm-signal.replit.app/",
-    icon: <ExternalLink className="w-4 h-4" />,
-    variant: "primary",
+    icon: <ExternalLink className="h-4 w-4" />,
+    variant: "primary" as const,
   },
   {
-    label: "View Source",
+    label: "View on Github",
     href: "https://github.com/ghgeist/disaster_response_project",
-    icon: <Github className="w-4 h-4" />,
-    variant: "secondary",
+    icon: <Github className="h-4 w-4" />,
+    variant: "secondary" as const,
   },
 ];
 
@@ -122,28 +117,6 @@ const modelComparisons: ModelComparison[] = [
   { label: "LR (with vocabulary filters)", sizeMB: 13.0, color: "blue" },
   { label: "LR (15K features)", sizeMB: 4.5, color: "green" },
 ];
-
-function CtaButton({ label, href, icon, variant }: CtaLink) {
-  const base =
-    "inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium transition-all rounded-sm";
-  const styles =
-    variant === "primary"
-      ? "bg-blue-600 text-white hover:bg-blue-500 shadow-lg shadow-blue-900/20"
-      : "bg-white/5 text-gray-200 border border-white/10 hover:bg-white/10 hover:border-white/20";
-
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      className={`${base} ${styles}`}
-    >
-      {icon}
-      <span>{label}</span>
-      {variant === "primary" && <ArrowRight className="w-4 h-4 opacity-70" />}
-    </a>
-  );
-}
 
 function StatCard({ label, value, subtext }: { label: string; value: string; subtext: string }) {
   return (
@@ -288,21 +261,21 @@ function ArchitectureMobile() {
   );
 }
 
-function ModelComparisonChart({ models }: { models: ModelComparison[] }) {
-  const colorConfig: Record<ModelComparison["color"], { bg: string; text: string }> = {
-    red: { bg: "bg-rose-400/70", text: "text-rose-300/95" },
-    yellow: { bg: "bg-amber-400/70", text: "text-amber-300/90" },
-    blue: { bg: "bg-sky-400/70", text: "text-sky-300/90" },
-    green: { bg: "bg-emerald-400/70", text: "text-emerald-300/90" },
-  };
+const MODEL_COLOR_CONFIG: Record<ModelComparison["color"], { bg: string; text: string }> = {
+  red: { bg: "bg-rose-400/70", text: "text-rose-300/95" },
+  yellow: { bg: "bg-amber-400/70", text: "text-amber-300/90" },
+  blue: { bg: "bg-sky-400/70", text: "text-sky-300/90" },
+  green: { bg: "bg-emerald-400/70", text: "text-emerald-300/90" },
+};
 
+function ModelComparisonChart({ models }: { models: ModelComparison[] }) {
   const maxModelSize = 1000;
 
   // Memoize calculations to avoid recalculation on every render
   const modelData = React.useMemo(() => {
     return models.map((model) => {
       const widthPercent = (model.sizeMB / maxModelSize) * 100;
-      const colors = colorConfig[model.color];
+      const colors = MODEL_COLOR_CONFIG[model.color];
       return {
         ...model,
         widthPercent,
@@ -363,55 +336,41 @@ export function StormSignal() {
   return (
     <main className="bg-[#0B0E14] min-h-screen font-sans selection:bg-blue-500/30">
       {/* Hero Section */}
-      <header className="relative pt-20 pb-12 md:pt-32 md:pb-16 overflow-hidden border-b border-white/5">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-900/20 via-[#0B0E14] to-[#0B0E14]" />
-        
-        <div className="relative max-w-6xl mx-auto px-6 lg:px-8">
-          <Motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center"
-          >
-            <div>
-              <Link
-                to="/"
-                className="inline-flex items-center gap-2 text-gray-500 hover:text-white transition-colors text-sm font-medium mb-8"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Back to Case Studies
-              </Link>
-              
-              <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight leading-tight mb-8">
-                Storm Signal
-              </h1>
-              <p className="text-xl text-gray-400 leading-relaxed mb-8 max-w-xl">
-                A disaster-response monitoring dashboard that routes high-volume messages into actionable categories — using a compact, auditable ML pipeline built for speed and offline deployment.
-              </p>
-              
-              <div className="flex flex-wrap gap-4">
-                {ctas.map((cta) => (
-                  <CtaButton key={cta.label} {...cta} />
-                ))}
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="rounded-lg overflow-hidden border border-white/10 bg-[#151921] shadow-2xl shadow-black/50 aspect-video group">
-                <ImageWithFallback
-                  src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1600" 
-                  alt="Storm Signal Dashboard"
-                  className="w-full h-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
-                  lazy={false}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E14] via-transparent to-transparent opacity-60" />
-              </div>
-              {/* Decorative background element */}
-              <div className="absolute -inset-4 bg-blue-500/5 blur-3xl -z-10 rounded-full" />
-            </div>
-          </Motion.div>
-        </div>
-      </header>
+      <CaseStudyHero
+        title="Storm Signal"
+        framing={
+          <p>
+            A disaster-response monitoring dashboard that routes high-volume
+            messages into actionable categories - using a compact, auditable ML
+            pipeline built for speed and offline deployment.
+          </p>
+        }
+        titleClassName="text-4xl leading-tight md:text-6xl"
+        framingClassName="max-w-3xl text-xl text-gray-400"
+        ctas={ctas.map((cta) => (
+          <CaseStudyCtaButton
+            key={cta.label}
+            label={cta.label}
+            href={cta.href}
+            icon={cta.icon}
+            variant={cta.variant}
+          />
+        ))}
+        background={
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-900/20 via-[#0B0E14] to-[#0B0E14]" />
+        }
+        media={
+          <div className="relative aspect-video w-full bg-[#151921]">
+            <ImageWithFallback
+              src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1600"
+              alt="Storm Signal Dashboard"
+              className="h-full w-full object-cover opacity-90"
+              lazy={false}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E14] via-transparent to-transparent opacity-60" />
+          </div>
+        }
+      />
 
       {/* Metrics Grid */}
       <section className="border-b border-white/5 bg-[#0B0E14]">

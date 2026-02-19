@@ -14,7 +14,7 @@ const ctas = [
     variant: "primary" as const,
   },
   {
-    label: "View on GitHub",
+    label: "View on Github",
     href: "https://github.com/ghgeist/urbanism_project",
     icon: <Github className="h-4 w-4" />,
     variant: "secondary" as const,
@@ -291,4 +291,3 @@ export function WalkabilityIndexDetail() {
     </ProjectPageShell>
   );
 }
-
