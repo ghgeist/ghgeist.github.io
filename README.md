@@ -250,6 +250,10 @@ Static deploy-critical files in `public/`:
 - **Substack:** https://substack.com/@grantgeist
 - **GitHub:** [github.com/ghgeist](https://github.com/ghgeist)
 
+## Attributions
+
+This project uses components from [shadcn/ui](https://ui.shadcn.com/) under the [MIT license](https://github.com/shadcn-ui/ui/blob/main/LICENSE.md), and photos from [Unsplash](https://unsplash.com) under the [Unsplash license](https://unsplash.com/license).
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
