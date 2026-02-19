@@ -31,16 +31,35 @@ const SUBMISSION_COOLDOWN_MS = 5000;
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 /**
- * Sanitizes input by trimming whitespace and removing control characters
- * that could be used for injection attacks.
+ * Sanitizes single-line input by trimming whitespace and removing control characters
+ * that could be used for injection attacks. Normalizes whitespace to single spaces.
  */
 function sanitizeInput(value: string): string {
   return value
     .trim()
-    // Remove control characters (0x00-0x1F and 0x7F) - necessary for security
+    // Remove all control characters (0x00-0x1F and 0x7F) including newlines
     // eslint-disable-next-line no-control-regex
     .replace(/[\u0000-\u001F\u007F]/g, "")
     .replace(/\s+/g, " "); // Normalize whitespace
+}
+
+/**
+ * Sanitizes multi-line textarea input by trimming whitespace and removing dangerous
+ * control characters while preserving newlines for formatting.
+ */
+function sanitizeTextarea(value: string): string {
+  return value
+    .trim()
+    // Remove dangerous control characters but preserve newlines (\n, \r)
+    // Remove: null, bell, backspace, tab, vertical tab, form feed, and other control chars
+    // Preserve: newline (\n = \u000A), carriage return (\r = \u000D)
+    // eslint-disable-next-line no-control-regex
+    .replace(/[\u0000-\u0008\u000B-\u000C\u000E-\u001F\u007F]/g, "")
+    // Normalize multiple spaces/tabs to single space, but preserve newlines
+    .replace(/[ \t]+/g, " ")
+    // Normalize CRLF and standalone CR to LF for consistency
+    .replace(/\r\n/g, "\n")
+    .replace(/\r/g, "\n");
 }
 
 // Shared styling for form fields to ensure consistency
@@ -82,8 +101,8 @@ export function WorkWithMe() {
         name: sanitizeInput(data.name),
         email: sanitizeInput(data.email).toLowerCase(),
         organization: data.organization ? sanitizeInput(data.organization) : "",
-        problem: sanitizeInput(data.problem),
-        engagement: data.engagement ? sanitizeInput(data.engagement) : "",
+        problem: sanitizeTextarea(data.problem),
+        engagement: data.engagement ? sanitizeTextarea(data.engagement) : "",
       };
 
       // Additional validation after sanitization
@@ -274,7 +293,7 @@ export function WorkWithMe() {
                         message: `Description must be less than ${MAX_LENGTHS.problem} characters`,
                       },
                       validate: (value) => {
-                        const sanitized = sanitizeInput(value);
+                        const sanitized = sanitizeTextarea(value);
                         if (sanitized.length === 0) {
                           return "Please describe the problem or opportunity";
                         }
