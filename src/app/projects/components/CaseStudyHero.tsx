@@ -46,7 +46,7 @@ export function CaseStudyHero({
   return (
     <section
       className={cn(
-        "relative overflow-hidden border-b border-white/5",
+        "relative overflow-hidden border-b border-[color:var(--surface-border-subtle)]",
         sectionClassName
       )}
     >
@@ -83,7 +83,7 @@ export function CaseStudyHero({
             <Link
               to={backTo}
               className={cn(
-                "inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-gray-500 transition-colors hover:text-white",
+                "inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-[var(--project-meta-text)] transition-colors hover:text-[var(--project-body-text)]",
                 backLinkClassName
               )}
             >
@@ -113,7 +113,7 @@ export function CaseStudyHero({
 
           <div
             className={cn(
-              "mt-4 max-w-3xl text-base leading-relaxed text-gray-300 md:text-lg",
+              "mt-4 max-w-3xl text-base leading-relaxed text-[var(--project-body-text)] md:text-lg",
               framingClassName
             )}
           >
@@ -122,7 +122,7 @@ export function CaseStudyHero({
 
           <div
             className={cn(
-              "mt-8 overflow-hidden rounded-md border border-white/10 bg-black/30",
+              "mt-8 overflow-hidden rounded-md border border-[color:var(--surface-border-default)] bg-[var(--surface-meta-bg)]",
               mediaClassName
             )}
           >

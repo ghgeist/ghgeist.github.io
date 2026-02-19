@@ -21,13 +21,22 @@ export function CaseStudyPill({
   descriptionClassName,
 }: CaseStudyPillProps) {
   return (
-    <div className={cn("flex gap-3 border border-white/10 bg-black/20 p-4", className)}>
-      {icon ? <div className={cn("mt-0.5 text-blue-400", iconClassName)}>{icon}</div> : null}
+    <div
+      className={cn(
+        "flex gap-3 rounded-md border border-[color:var(--surface-border-default)] bg-[var(--surface-meta-bg)] p-4",
+        className
+      )}
+    >
+      {icon ? (
+        <div className={cn("mt-0.5 text-[var(--project-accent-text)]", iconClassName)}>
+          {icon}
+        </div>
+      ) : null}
       <div>
         <div className={cn("text-sm font-semibold text-white", titleClassName)}>{title}</div>
         <div
           className={cn(
-            "mt-1 text-sm leading-relaxed text-gray-400",
+            "mt-1 text-sm leading-relaxed text-[var(--project-muted-text)]",
             descriptionClassName
           )}
         >
