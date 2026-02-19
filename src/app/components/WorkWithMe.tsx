@@ -37,23 +37,23 @@ export function WorkWithMe() {
   return (
     <section
       id="work-with-me"
-      className="py-24 bg-[#0B0E14] border-t border-white/5"
+      className="border-t border-white/5 bg-[#0B0E14] py-16 md:py-20"
     >
       <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
         <div className="max-w-5xl mx-auto md:mx-0">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2">
             {/* Left Column: Intro & Context */}
             <Motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0.95, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.35 }}
             >
               <h2 className="text-3xl font-bold text-white mb-6 tracking-tight">
                 Work With Me
               </h2>
 
-              <div className="max-w-xl space-y-6 text-lg text-gray-400 font-light leading-relaxed">
+              <div className="max-w-xl space-y-5 text-base leading-relaxed text-gray-300/85 md:text-lg">
                 <p>
                   I work in messy, ambiguous systems where clarity, structure, and ownership are missing. I help teams define what "good" looks like, stabilize what is fragile, and build the models, workflows, or prototypes needed to move forward with confidence.
                 </p>
@@ -65,10 +65,10 @@ export function WorkWithMe() {
 
             {/* Right Column: Fit Panel & Form */}
             <Motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0.95, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.35, delay: 0.08 }}
             >
               {/* Contact Form */}
               <form
@@ -180,7 +180,7 @@ export function WorkWithMe() {
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="bg-[#005bb5] hover:bg-[#004a94] text-white px-8 py-6 text-base rounded-md transition-colors duration-200 font-medium"
+                    className="inline-flex h-11 items-center rounded-md border border-[#0066cc]/40 bg-[#005bb5] px-6 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#004a94]"
                   >
                     {isSubmitting
                       ? "Sending..."
@@ -195,3 +195,4 @@ export function WorkWithMe() {
     </section>
   );
 }
+

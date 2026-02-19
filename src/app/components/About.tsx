@@ -1,5 +1,4 @@
 import React from "react";
-import { clsx } from "clsx";
 import { motion as Motion } from "motion/react";
 
 const timelineEvents = [
@@ -79,14 +78,14 @@ export function About() {
   return (
     <section
       id="about"
-      className="pt-12 pb-24 bg-[#0B0E14] border-t border-white/5"
+      className="border-t border-white/5 bg-[#0B0E14] py-16 md:py-20"
     >
       {/* 1. MATCH HERO CONTAINER: Standard container with padding */}
       <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
         {/* 2. INNER WRAPPER: Matches Hero's max-w-5xl limit */}
         <div className="max-w-5xl mx-auto md:mx-0">
           {/* Header */}
-          <div className="mb-16">
+          <div className="mb-12">
             <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">
               About
             </h2>
@@ -94,13 +93,14 @@ export function About() {
 
           {/* Timeline */}
           {/* 3. CALIBRATE THE SPINE: Remove ml-4 to keep it aligned with the container edge */}
-          <div className="relative pl-8 space-y-12 before:absolute before:left-0 before:top-[10px] before:bottom-0 before:w-[2px] before:bg-white/10 before:content-['']">
+          <div className="relative pl-8 space-y-10 before:absolute before:left-0 before:top-[10px] before:bottom-0 before:w-[2px] before:bg-white/10 before:content-['']">
             {timelineEvents.map((event, index) => (
               <Motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0.95, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.3, delay: index * 0.02 }}
                 className="relative flex flex-col md:flex-row gap-6 md:gap-12"
               >
                 {/* Timeline Indicator */}
@@ -116,7 +116,7 @@ export function About() {
                   <span className="block text-xl font-bold text-white leading-none">
                     {event.year}
                   </span>
-                  <span className="block text-[10px] font-mono text-[#0066cc] uppercase tracking-tighter mt-1 opacity-80">
+                  <span className="mt-1 block font-mono text-xs uppercase tracking-[0.11em] text-[#7eb6ff] opacity-90">
                     {event.pillar}
                   </span>
                 </div>
@@ -127,7 +127,7 @@ export function About() {
                     <h3 className="text-lg font-semibold text-white mb-2">
                       {event.title}
                     </h3>
-                    <p className="text-gray-400 text-base leading-relaxed max-w-xl">
+                    <p className="max-w-xl text-base leading-relaxed text-gray-300/85">
                       {event.description}
                     </p>
                   </div>
@@ -149,3 +149,6 @@ export function About() {
     </section>
   );
 }
+
+
+

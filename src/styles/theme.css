@@ -179,3 +179,55 @@
     line-height: 1.5;
   }
 }
+
+@layer utilities {
+  .project-theme {
+    --project-page-bg: #0b0e14;
+    --project-body-text: rgba(243, 244, 246, 0.9);
+    --project-muted-text: rgba(203, 213, 225, 0.82);
+    --project-meta-text: rgba(203, 213, 225, 0.9);
+
+    --surface-meta-bg: rgba(15, 20, 30, 0.6);
+    --surface-content-bg: rgba(18, 24, 35, 0.86);
+    --surface-highlight-bg: rgba(26, 34, 48, 0.96);
+
+    --surface-border-subtle: rgba(255, 255, 255, 0.1);
+    --surface-border-default: rgba(255, 255, 255, 0.16);
+    --surface-border-emphasis: rgba(255, 255, 255, 0.24);
+
+    --project-accent: #60a5fa;
+    --project-accent-strong: #2563eb;
+    --project-accent-soft: rgba(37, 99, 235, 0.16);
+    --project-accent-border: rgba(96, 165, 250, 0.42);
+    --project-accent-text: #bfdbfe;
+    --project-accent-on: #f8fafc;
+  }
+
+  .project-theme--walkability {
+    --project-page-bg: #071014;
+    --project-accent: #34d399;
+    --project-accent-strong: #059669;
+    --project-accent-soft: rgba(52, 211, 153, 0.16);
+    --project-accent-border: rgba(110, 231, 183, 0.45);
+    --project-accent-text: #a7f3d0;
+  }
+
+  .project-theme--replacement {
+    --project-page-bg: #070b12;
+    --project-accent: #fbbf24;
+    --project-accent-strong: #d97706;
+    --project-accent-soft: rgba(251, 191, 36, 0.18);
+    --project-accent-border: rgba(252, 211, 77, 0.45);
+    --project-accent-text: #fde68a;
+  }
+
+  .project-theme--bantr {
+    --project-page-bg: #120a0b;
+    --project-accent: #fb7185;
+    --project-accent-strong: #e11d48;
+    --project-accent-soft: rgba(251, 113, 133, 0.2);
+    --project-accent-border: rgba(253, 164, 175, 0.45);
+    --project-accent-text: #fecdd3;
+  }
+}
+
