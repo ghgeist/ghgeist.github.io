@@ -267,7 +267,7 @@ export function ReplacementTrap() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E14]/85 via-[#0B0E14]/45 to-transparent" />
             <div className="absolute -right-16 top-6 h-40 w-40 rounded-full bg-amber-400/15 blur-3xl" />
             <div className="absolute -left-10 bottom-12 h-28 w-28 rounded-full bg-orange-400/10 blur-2xl" />
-            <div className="absolute top-4 right-4 rounded border border-amber-300/20 bg-[#121722]/70 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-amber-300/85">
+            <div className="absolute top-4 right-4 rounded border border-amber-300/20 bg-[#121722]/70 px-2 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-amber-300/85">
               Replacement / Payback Model
             </div>
             <div className="absolute bottom-0 left-0 right-0 grid gap-2 border-t border-white/10 bg-[#0B0E14]/92 p-4 md:grid-cols-3">
@@ -300,7 +300,7 @@ export function ReplacementTrap() {
         }
       />
 
-      <section className="border-b border-white/5 bg-[#0B0E14]">
+      <section className="border-b border-white/5 bg-[var(--project-page-bg)]">
         <div className="mx-auto max-w-6xl px-6 pb-12 pt-8 lg:px-8">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {headlineStats.map((stat) => (
@@ -315,7 +315,7 @@ export function ReplacementTrap() {
         </div>
       </section>
 
-      <section className="bg-[#0B0E14] py-12 md:py-20">
+      <section className="bg-[var(--project-page-bg)] py-12 md:py-20">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="The Context"
@@ -390,7 +390,7 @@ export function ReplacementTrap() {
         </div>
       </section>
 
-      <section className="bg-[#0B0E14] py-10 md:py-12">
+      <section className="bg-[var(--project-page-bg)] py-10 md:py-12">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="Model Architecture"
@@ -453,7 +453,7 @@ export function ReplacementTrap() {
         </div>
       </section>
 
-      <section className="border-t border-white/5 bg-[#0B0E14] py-12">
+      <section className="border-t border-white/5 bg-[var(--project-page-bg)] py-12">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <a
             href="/#page-top"

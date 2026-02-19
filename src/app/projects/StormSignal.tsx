@@ -232,7 +232,7 @@ export function StormSignal() {
         }
       />
 
-      <section className="border-b border-white/5 bg-[#0B0E14]">
+      <section className="border-b border-white/5 bg-[var(--project-page-bg)]">
         <div className="mx-auto max-w-6xl px-6 pb-12 pt-8 lg:px-8">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             <CaseStudyStatCard
@@ -254,7 +254,7 @@ export function StormSignal() {
         </div>
       </section>
 
-      <section className="bg-[#0B0E14] py-12 md:py-20">
+      <section className="bg-[var(--project-page-bg)] py-12 md:py-20">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="The Context"
@@ -307,7 +307,7 @@ export function StormSignal() {
         </div>
       </section>
 
-      <section className="bg-[#0B0E14] py-10 md:py-12">
+      <section className="bg-[var(--project-page-bg)] py-10 md:py-12">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="System Architecture"
@@ -370,7 +370,7 @@ export function StormSignal() {
         </div>
       </section>
 
-      <section className="border-t border-white/5 bg-[#0B0E14] py-12">
+      <section className="border-t border-white/5 bg-[var(--project-page-bg)] py-12">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <a
             href="/#page-top"
