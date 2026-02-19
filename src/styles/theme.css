@@ -183,17 +183,17 @@
 @layer utilities {
   .project-theme {
     --project-page-bg: #0b0e14;
-    --project-body-text: rgba(243, 244, 246, 0.88);
-    --project-muted-text: rgba(156, 163, 175, 0.88);
-    --project-meta-text: rgba(148, 163, 184, 0.78);
+    --project-body-text: rgba(243, 244, 246, 0.9);
+    --project-muted-text: rgba(203, 213, 225, 0.82);
+    --project-meta-text: rgba(203, 213, 225, 0.9);
 
-    --surface-meta-bg: rgba(21, 25, 33, 0.72);
-    --surface-content-bg: rgba(21, 25, 33, 0.92);
-    --surface-highlight-bg: rgba(31, 38, 52, 0.95);
+    --surface-meta-bg: rgba(15, 20, 30, 0.6);
+    --surface-content-bg: rgba(18, 24, 35, 0.86);
+    --surface-highlight-bg: rgba(26, 34, 48, 0.96);
 
-    --surface-border-subtle: rgba(255, 255, 255, 0.08);
-    --surface-border-default: rgba(255, 255, 255, 0.12);
-    --surface-border-emphasis: rgba(255, 255, 255, 0.2);
+    --surface-border-subtle: rgba(255, 255, 255, 0.1);
+    --surface-border-default: rgba(255, 255, 255, 0.16);
+    --surface-border-emphasis: rgba(255, 255, 255, 0.24);
 
     --project-accent: #60a5fa;
     --project-accent-strong: #2563eb;
@@ -230,3 +230,4 @@
     --project-accent-text: #fecdd3;
   }
 }
+

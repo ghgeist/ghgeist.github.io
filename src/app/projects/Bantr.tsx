@@ -113,19 +113,19 @@ export function Bantr() {
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--project-page-bg)] via-[var(--project-page-bg)]/50 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 grid gap-2 border-t border-[color:var(--surface-border-default)] bg-[var(--project-page-bg)]/80 p-4 md:grid-cols-3">
               <div className="rounded-md border border-[color:var(--surface-border-default)] bg-black/20 p-3">
-                <p className="font-mono text-[11px] uppercase tracking-wider text-[var(--project-accent-text)]/80">
+                <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-accent-text)]/95">
                   Product type
                 </p>
                 <p className="mt-1 text-sm font-semibold text-white">Conversational game</p>
               </div>
               <div className="rounded-md border border-[color:var(--surface-border-default)] bg-black/20 p-3">
-                <p className="font-mono text-[11px] uppercase tracking-wider text-[var(--project-accent-text)]/80">
+                <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-accent-text)]/95">
                   Engineering mode
                 </p>
                 <p className="mt-1 text-sm font-semibold text-white">AI-augmented build loop</p>
               </div>
               <div className="rounded-md border border-[color:var(--surface-border-default)] bg-black/20 p-3">
-                <p className="font-mono text-[11px] uppercase tracking-wider text-[var(--project-accent-text)]/80">
+                <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-accent-text)]/95">
                   Hard lesson
                 </p>
                 <p className="mt-1 text-sm font-semibold text-white">Distribution is separate work</p>
@@ -310,3 +310,4 @@ export function Bantr() {
     </ProjectPageShell>
   );
 }
+

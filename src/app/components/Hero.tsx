@@ -46,7 +46,7 @@ export function Hero() {
   return (
     <header
       id="page-top"
-      className="relative min-h-fit flex items-start bg-[#0B0E14] pb-16 md:pb-20"
+      className="relative min-h-fit flex items-start bg-[#0B0E14] pb-14 md:pb-16"
     >
       {/* Technical Grid Background */}
       <div
@@ -82,14 +82,14 @@ export function Hero() {
           </div>
 
           {/* Evidence Framework Header */}
-          <div className="w-full max-w-5xl mt-12 mb-4 pt-4 border-t border-white/5 flex items-center justify-between">
+          <div className="w-full max-w-5xl mt-10 mb-3 pt-4 border-t border-white/5 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-1 h-1 bg-[#0066cc] rounded-full" />
-              <span className="text-[11px] uppercase tracking-widest text-gray-500 font-mono">
+              <span className="text-xs uppercase tracking-[0.12em] text-gray-300/80 font-mono">
                 Selected Case Studies
               </span>
             </div>
-            <span className="text-[11px] uppercase tracking-widest text-gray-600 font-mono">
+            <span className="text-xs uppercase tracking-[0.12em] text-gray-400/80 font-mono">
               Index 01 — 04
             </span>
           </div>
@@ -120,14 +120,14 @@ export function Hero() {
                 {/* Content */}
                 <div className="p-4 flex flex-col flex-grow">
                   <div className="mb-2">
-                    <span className="text-[11px] uppercase tracking-wider text-gray-500 font-mono">
+                    <span className="text-xs uppercase tracking-[0.12em] text-gray-300/80 font-mono">
                       {item.tag}
                     </span>
                   </div>
                   <h3 className="text-sm font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-xs text-gray-400 leading-snug line-clamp-3">
+                  <p className="text-sm text-gray-300/80 leading-snug line-clamp-3">
                     {item.subtext}
                   </p>
                 </div>
@@ -139,3 +139,4 @@ export function Hero() {
     </header>
   );
 }
+

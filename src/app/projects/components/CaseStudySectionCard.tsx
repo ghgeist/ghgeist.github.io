@@ -43,7 +43,7 @@ export function CaseStudySectionCard({
       <header className="mb-4">
         <div
           className={cn(
-            "font-mono text-[11px] uppercase tracking-widest text-[var(--project-accent-text)]",
+            "font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-accent-text)]",
             kickerClassName
           )}
         >

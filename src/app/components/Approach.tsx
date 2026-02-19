@@ -34,12 +34,12 @@ export function Approach() {
   return (
     <section
       id="skills"
-      className="border-t border-white/5 bg-[#0B0E14] py-20 md:py-24"
+      className="border-t border-white/5 bg-[#0B0E14] py-16 md:py-20"
     >
       <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
         <div className="max-w-5xl mx-auto md:mx-0">
           {/* Section Header */}
-          <div className="mb-10">
+          <div className="mb-8">
             <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">
               Approach
             </h2>
@@ -55,13 +55,13 @@ export function Approach() {
                 key={item.step}
                 initial={{ opacity: 0.95, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: index * 0.06 }}
+                transition={{ duration: 0.3, delay: index * 0.04 }}
                 viewport={{ once: true }}
-                className="relative p-6 bg-[#151921] h-full flex flex-col border border-white/5"
+                className="relative h-full border border-white/10 bg-[#151921] p-6"
               >
                 {/* Metadata */}
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-[11px] font-mono font-medium uppercase tracking-widest text-blue-400">
+                  <span className="text-xs font-mono font-medium uppercase tracking-[0.12em] text-blue-300">
                     {item.step}
                   </span>
                   <div className="text-blue-400">{item.icon}</div>
@@ -73,7 +73,7 @@ export function Approach() {
                 </h3>
           
                 {/* Body */}
-                <p className="text-gray-400 text-base leading-relaxed">
+                <p className="text-gray-300/85 text-base leading-relaxed">
                   {item.description}
                 </p>
               </Motion.div>
@@ -81,7 +81,7 @@ export function Approach() {
           </div>
 
           {/* Terminal Outcome */}
-          <div className="mt-12 pt-6 border-t border-white/5">
+          <div className="mt-10 pt-5 border-t border-white/5">
             <div className="flex items-start gap-3 text-gray-400 font-mono text-base max-w-3xl">
               <p>
                 Outcome: A system you can operate against: clear ownership, measurable behavior, explicit assumptions, and a working artifact that withstands real-world constraints
@@ -93,6 +93,7 @@ export function Approach() {
     </section>
   );
 }
+
 
 
 

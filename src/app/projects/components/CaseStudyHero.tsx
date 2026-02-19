@@ -71,7 +71,7 @@ export function CaseStudyHero({
         <Motion.div
           initial={{ opacity: 0.95, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45 }}
+          transition={{ duration: 0.4 }}
           className={cn("max-w-5xl", contentClassName)}
         >
           <div
@@ -83,7 +83,7 @@ export function CaseStudyHero({
             <Link
               to={backTo}
               className={cn(
-                "inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-[var(--project-meta-text)] transition-colors hover:text-[var(--project-body-text)]",
+                "inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-meta-text)] transition-colors hover:text-[var(--project-body-text)]",
                 backLinkClassName
               )}
             >
