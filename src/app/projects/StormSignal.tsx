@@ -114,14 +114,13 @@ type ModelComparison = {
   label: string;
   sizeMB: number;
   color: "red" | "yellow" | "blue" | "green";
-  isFinal?: boolean;
 };
 
 const modelComparisons: ModelComparison[] = [
   { label: "Random Forest", sizeMB: 900, color: "red" },
   { label: "LR (unlimited vocabulary)", sizeMB: 67.7, color: "yellow" },
   { label: "LR (with vocabulary filters)", sizeMB: 13.0, color: "blue" },
-  { label: "LR (15K features)", sizeMB: 4.5, color: "green", isFinal: true },
+  { label: "LR (15K features)", sizeMB: 4.5, color: "green" },
 ];
 
 function CtaButton({ label, href, icon, variant }: CtaLink) {
@@ -267,10 +266,7 @@ function ArchitectureDesktopTablet() {
     <div className="relative hidden sm:block">
       <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-3">
         {architectureLanes.map((lane, idx) => (
-          <React.Fragment key={idx}>
-            <AnimatedLane lane={lane} idx={idx} />
-
-          </React.Fragment>
+          <AnimatedLane key={idx} lane={lane} idx={idx} />
         ))}
       </div>
     </div>
@@ -294,31 +290,25 @@ function ArchitectureMobile() {
 
 function ModelComparisonChart({ models }: { models: ModelComparison[] }) {
   const colorConfig: Record<ModelComparison["color"], { bg: string; text: string }> = {
-    red: { bg: "bg-red-400/70", text: "text-red-300" },
-    yellow: { bg: "bg-yellow-400/70", text: "text-yellow-400/85" },
-    blue: { bg: "bg-blue-400/70", text: "text-blue-300" },
-    green: { bg: "bg-green-400/70", text: "text-green-300" },
+    red: { bg: "bg-rose-400/70", text: "text-rose-300/95" },
+    yellow: { bg: "bg-amber-400/70", text: "text-amber-300/90" },
+    blue: { bg: "bg-sky-400/70", text: "text-sky-300/90" },
+    green: { bg: "bg-emerald-400/70", text: "text-emerald-300/90" },
   };
 
-  const maxModelSize = Math.max(...models.map(m => m.sizeMB));
-  const baselineModelSize = models[0]?.sizeMB ?? maxModelSize;
+  const maxModelSize = 1000;
 
   return (
     <div className="bg-[#0B0E14] p-6 md:p-8 rounded-lg border border-white/5">
-      <div className="mb-4 text-xs text-gray-500">
-        Linear scale (max {maxModelSize.toFixed(1)} MB)
-      </div>
       <div className="space-y-4">
         {models.map((model, idx) => {
           const widthPercent = (model.sizeMB / maxModelSize) * 100;
           const colors = colorConfig[model.color];
-          const isBaseline = idx === 0;
-          const shrinkFactor = isBaseline ? null : baselineModelSize / model.sizeMB;
 
           return (
             <div key={idx}>
               <div className="flex justify-between text-sm mb-2">
-                <span className={model.isFinal ? "text-white font-medium" : "text-gray-400"}>
+                <span className="text-gray-400">
                   {model.label}
                 </span>
                 <span className={`${colors.text} font-mono`}>
@@ -331,15 +321,12 @@ function ModelComparisonChart({ models }: { models: ModelComparison[] }) {
                   style={{ width: `${widthPercent}%`, minWidth: widthPercent < 1 ? '2px' : '0' }}
                 />
               </div>
-              <div className="mt-1 text-[11px] text-gray-500 font-mono">
-                {isBaseline ? "Baseline" : `${shrinkFactor?.toFixed(1)}x smaller vs Random Forest`}
-              </div>
             </div>
           );
         })}
       </div>
       <div className="mt-8 pt-6 border-t border-white/10">
-        <div className="flex items-center gap-2 text-green-400 text-sm font-medium">
+        <div className="flex items-center gap-2 text-emerald-300/90 text-sm">
           <Zap className="w-4 h-4" />
           <span>Latency reduced to &lt;0.1s cold load</span>
         </div>
@@ -505,7 +492,7 @@ export function StormSignal() {
                     Early iterations used a Random Forest model. Artifact size approached ~900 MB and proved unsuitable for lightweight or edge deployment.
                   </p>
                   <p>
-                    We replaced it with Logistic Regression to make edge deployment viable. The artifact dropped from 67.7 MB to 13.0 MB with vocabulary filtering, and to 4.5 MB with a 15K feature cap without sacrificing operational performance.
+                    This was replaced with Logistic Regression to make edge deployment viable. The artifact dropped from 67.7 MB to 13.0 MB with vocabulary filtering, and to 4.5 MB with a 15K feature cap without sacrificing operational performance.
                   </p>
                   <p>
                     The final stack prioritizes determinism, inspectability, and predictable inference behavior over model novelty.
@@ -534,3 +521,4 @@ export function StormSignal() {
     </main>
   );
 }
+
