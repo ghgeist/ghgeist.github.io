@@ -87,8 +87,8 @@ export function CaseStudyHero({
             </Link>
           </div>
 
-          <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
-            <div>
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-center xl:gap-10">
+            <div className="lg:pr-4">
               <h1
                 className={cn(
                   "text-4xl font-bold tracking-tight text-white md:text-6xl",
@@ -100,7 +100,7 @@ export function CaseStudyHero({
 
               <div
                 className={cn(
-                  "mt-6 max-w-3xl text-base leading-relaxed text-[var(--project-body-text)] md:text-lg",
+                  "mt-6 max-w-2xl text-base leading-relaxed text-[var(--project-body-text)] md:text-lg",
                   framingClassName
                 )}
               >
@@ -108,7 +108,7 @@ export function CaseStudyHero({
               </div>
 
               {ctas ? (
-                <div className={cn("mt-8 flex flex-wrap items-center gap-4", ctasClassName)}>
+                <div className={cn("mt-8 flex min-h-11 flex-wrap items-center gap-3 sm:gap-4", ctasClassName)}>
                   {ctas}
                 </div>
               ) : null}

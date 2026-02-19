@@ -31,21 +31,30 @@ Primary sections (high-level):
 4. CTA/next-step endpoint.
 5. Return navigation.
 
+Supported page patterns:
+
+- `Tokenized Card Shell`: built around `ProjectPageShell` + `CaseStudySectionCard`.
+- `Narrative Systems Layout`: built around custom sections while still using shared case-study primitives.
+
 Composition rules:
 
+- If a page renders `CaseStudyHero`, the page root must provide project theme vars.
+- Use either `ProjectPageShell` or `project-theme` (plus variant when applicable).
 - Back-link treatment should use the shared hero preset.
 - Section cards should map cleanly to `surface_meta`, `surface_content`, or `surface_highlight`.
 - CTA pair semantics should remain consistent across projects.
 - Type roles should be stable regardless of accent theme.
+- Metadata floor is 11px minimum on mobile for labels, lane indices, and connector text.
+- Motion must respect reduced-motion mode; reveal content without translate in that mode.
 
 ## Page-Specific Notes
 
 - `src/app/projects/StormSignal.tsx`
   - Keep structure mostly intact as dense systems reference.
-  - Apply only targeted mechanical alignment updates if needed.
+  - Use shared project primitives for repeated mechanics.
 - `src/app/projects/ReplacementTrap.tsx`
-  - Structural layout iteration is expected next.
   - Keep copy and project personality intact while improving rhythm and modular clarity.
+  - Prefer shared architecture/metric primitives over page-local duplicates.
 - `src/app/projects/WalkabilityIndex.tsx` and `src/app/projects/Bantr.tsx`
   - Maintain tokenized surfaces and CTA mechanics.
   - Prioritize readability and spacing continuity on mobile.
