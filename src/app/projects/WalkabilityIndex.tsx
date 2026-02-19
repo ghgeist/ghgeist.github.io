@@ -69,6 +69,7 @@ export function WalkabilityIndexDetail() {
               src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&q=80&w=1600"
               alt="Walkability map view"
               className="h-full w-full object-cover opacity-70"
+              lazy={false}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--project-page-bg)] via-[var(--project-page-bg)]/45 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 grid gap-2 border-t border-[color:var(--surface-border-default)] bg-[var(--project-page-bg)]/80 p-4 md:grid-cols-3">

@@ -109,6 +109,7 @@ export function Bantr() {
               src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=1600"
               alt="Bantr mobile gameplay"
               className="h-full w-full object-cover opacity-70"
+              lazy={false}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--project-page-bg)] via-[var(--project-page-bg)]/50 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 grid gap-2 border-t border-[color:var(--surface-border-default)] bg-[var(--project-page-bg)]/80 p-4 md:grid-cols-3">

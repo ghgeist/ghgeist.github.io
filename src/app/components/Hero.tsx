@@ -111,6 +111,7 @@ export function Hero() {
                       src={item.image}
                       alt={item.title}
                       className="w-full h-full object-cover"
+                      lazy={true}
                     />
                   </div>
                   <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
