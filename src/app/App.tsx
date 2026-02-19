@@ -1,14 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Suspense, lazy, ComponentType } from "react";
-import { Toaster } from "./components/ui/sonner";
+import { Toaster } from "@/app/components/ui/sonner";
 
-import { Navbar } from "./components/Navbar";
-import { Hero } from "./components/Hero";
-import { Approach } from "./components/Approach";
-import { About } from "./components/About";
-import { WorkWithMe } from "./components/WorkWithMe";
-import { Footer } from "./components/footer";
-import { ErrorBoundary } from "./components/ErrorBoundary";
+import { Navbar } from "@/app/components/Navbar";
+import { Hero } from "@/app/components/Hero";
+import { Approach } from "@/app/components/Approach";
+import { About } from "@/app/components/About";
+import { WorkWithMe } from "@/app/components/WorkWithMe";
+import { Footer } from "@/app/components/Footer";
+import { ErrorBoundary } from "@/app/components/ErrorBoundary";
 
 /**
  * Wraps a dynamic import with retry logic for chunk load failures.

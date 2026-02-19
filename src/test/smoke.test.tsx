@@ -3,18 +3,18 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 
-import { Navbar } from "../app/components/Navbar";
-import { Hero } from "../app/components/Hero";
-import { Approach } from "../app/components/Approach";
-import { About } from "../app/components/About";
-import { WorkWithMe } from "../app/components/WorkWithMe";
-import { Footer } from "../app/components/footer";
-import { Toaster } from "../app/components/ui/sonner";
+import { Navbar } from "@/app/components/Navbar";
+import { Hero } from "@/app/components/Hero";
+import { Approach } from "@/app/components/Approach";
+import { About } from "@/app/components/About";
+import { WorkWithMe } from "@/app/components/WorkWithMe";
+import { Footer } from "@/app/components/Footer";
+import { Toaster } from "@/app/components/ui/sonner";
 
-import { WalkabilityIndexDetail } from "../app/projects/WalkabilityIndex";
-import { StormSignal } from "../app/projects/StormSignal";
-import { Bantr } from "../app/projects/Bantr";
-import { ReplacementTrap } from "../app/projects/ReplacementTrap";
+import { WalkabilityIndexDetail } from "@/app/projects/WalkabilityIndex";
+import { StormSignal } from "@/app/projects/StormSignal";
+import { Bantr } from "@/app/projects/Bantr";
+import { ReplacementTrap } from "@/app/projects/ReplacementTrap";
 
 function AppShell({ children }: { children: React.ReactNode }) {
   return (
