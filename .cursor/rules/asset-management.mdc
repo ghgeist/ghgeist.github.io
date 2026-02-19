@@ -70,5 +70,5 @@ Do not remove or rename these without updating deployment and routing docs.
 
 - **Organize by purpose**: e.g. `public/assets/og/`, `public/assets/rhino/`
 - **Consistent naming**: snake_case, descriptive names, version suffixes when needed
-- **Don’t over-organize**: Prefer a flat or shallow structure unless volume justifies more folders
+- **Don't over-organize**: Prefer a flat or shallow structure unless volume justifies more folders
 - **References**: Use `/`-root paths for `public/` assets; use imports for assets under `src/`

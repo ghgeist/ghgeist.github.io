@@ -101,3 +101,11 @@ Typical workflow:
 6. CI confirms build + test integrity.
 
 Agents should optimize for correctness of edits and minimal surface area rather than attempting to fully reproduce the local toolchain.
+
+## Related Documentation
+
+- **`.cursor/rules/QUICK_START.mdc`** – Quick reference guide for common tasks (start here!)
+- **`.cursor/rules/`** – Focused, scoped rules for components, design tokens, workflow, file naming, and asset management
+- **`CLAUDE.md`** – Project overview, commands, architecture, and content model
+- **`.verify.yml`** – Single source of truth for verification steps
+- **`README.md`** – User-facing project documentation

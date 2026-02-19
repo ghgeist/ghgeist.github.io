@@ -4,40 +4,41 @@ This directory contains focused, scoped rules for working with this **React 18 +
 
 ## Rule Files
 
-### `design-consistency.md`
+### `design-tokens-and-layout.mdc`
 
 - **Scope**: Project pages (`src/app/projects/**/*.tsx`) and components (`src/app/components/**/*.tsx`)
-- **Purpose**: Maintain visual and structural consistency between landing page and project detail pages
-- **Key Topics**: Container structure, color palette, typography, spacing, component patterns
+- **Purpose**: Design tokens and layout (containers, color palette, typography, spacing)
+- **Key Topics**: Container structure, color palette, typography patterns, spacing rhythm
 
-### `react-structure.md`
+### `design-components-and-pages.mdc`
+
+- **Scope**: Project pages and components (same globs as above)
+- **Purpose**: Component patterns and project page structure
+- **Key Topics**: SectionHeading, Card, Stat Card, CTA, motion, section order, reference components
+
+### `react-structure.mdc`
 
 - **Scope**: App structure (`src/app/**/*`, `src/styles/**/*`, `vite.config.*`)
 - **Purpose**: Conventions for components, routes, and project architecture
 - **Key Topics**: Component patterns, routing, styling, content model
 
-### `iteration-workflow.md`
+### `iteration-workflow.mdc`
 
 - **Scope**: Content and config files (`*.md`, `*.html`, `*.yml`, `*.yaml`)
 - **Purpose**: Development workflow and verification
 - **Key Topics**: npm scripts, testing strategy, git workflow, .verify.yml
 
-### `file-naming.md`
+### `file-naming.mdc`
 
 - **Scope**: All files (always applied)
 - **Purpose**: Naming conventions by context (React vs assets vs docs)
 - **Key Topics**: PascalCase for components, snake_case for assets/docs, consistency
 
-### `asset-management.md`
+### `asset-management.mdc`
 
 - **Scope**: Static assets (`public/**/*`, `src/**/*.{css,svg,png,jpg}`)
 - **Purpose**: Asset organization and references in a Vite/React app
 - **Key Topics**: public/, image naming, optimization
-
-### Legacy Rules (Jekyll-era, may be outdated)
-
-- `jekyll-portfolio.md` - Legacy Jekyll patterns (may not apply to current React structure)
-- `jekyll-structure.md` - Legacy Jekyll structure patterns (may not apply to current React structure)
 
 ## How Rules Work
 
@@ -51,11 +52,17 @@ This directory contains focused, scoped rules for working with this **React 18 +
 - **Aligned** – Match actual stack (React/Vite) and .verify.yml
 - **Practical** – Concrete examples; no Jekyll/Liquid references
 
+## Quick Start
+
+**New to this codebase?** Start with **`QUICK_START.mdc`** – it maps common tasks to the right documentation.
+
 ## Related Documentation
 
-- `CLAUDE.md` – Project overview, commands, architecture
-- `AGENTS.md` – Environment constraints and agent behavior
-- `.verify.yml` – Verification steps (npm ci, tsc, test, build)
+- **`QUICK_START.mdc`** – Quick reference guide for common tasks
+- **`CLAUDE.md`** – Project overview, commands, architecture
+- **`AGENTS.md`** – Environment constraints and agent behavior
+- **`.verify.yml`** – Verification steps (npm ci, tsc, test, build)
+- **`README.md`** – User-facing project documentation
 
 ## Updating Rules
 

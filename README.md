@@ -85,6 +85,7 @@ This script:
 
 - Installs dependencies (`npm ci`)
 - Runs TypeScript type checking (`npx tsc --noEmit`)
+- Runs tests (`npm run test:ci`)
 - Builds the production bundle (`npm run build`)
 
 **Verification Configuration:**
@@ -203,6 +204,20 @@ Linters are configured to ignore minified files and vendor libraries. Configurat
 ├── LICENSE              # MIT License
 └── README.md            # This file
 ```
+
+## Documentation
+
+**For developers and AI agents:**
+
+- **`CLAUDE.md`** – Project overview, commands, architecture, content model
+- **`AGENTS.md`** – Environment constraints, verification model, agent behavior guidance
+- **`.cursor/rules/`** – Focused, scoped rules for components, design, workflow, and naming
+- **`.cursor/rules/QUICK_START.mdc`** – Quick reference guide for common tasks
+
+**Quick links:**
+- [Quick Start Guide](.cursor/rules/QUICK_START.mdc) – Find information fast
+- [Project Overview](CLAUDE.md) – Architecture and conventions
+- [Agent Guidance](AGENTS.md) – Verification and workflow
 
 ## Architecture
 

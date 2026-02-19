@@ -23,8 +23,8 @@ npm run dev
 ```bash
 npm ci
 npx tsc --noEmit
+npm run test:ci
 npm run build
-npm run test
 # or
 ./script/verify
 ```
@@ -103,3 +103,11 @@ Static deploy-critical files:
 - Do not change dependency versions unless requested.
 - Preserve root-deploy assumptions (no base path/basename).
 - If SPA routing behavior changes, update both `public/404.html` and `index.html` decoder logic together.
+
+## Related Documentation
+
+- **`.cursor/rules/QUICK_START.mdc`** – Quick reference guide for common tasks (start here!)
+- **`.cursor/rules/`** – Focused, scoped rules for components, design, workflow, and naming conventions
+- **`AGENTS.md`** – Environment constraints, verification model, and agent behavior guidance
+- **`.verify.yml`** – Single source of truth for verification steps
+- **`README.md`** – User-facing project documentation

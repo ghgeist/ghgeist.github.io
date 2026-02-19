@@ -1,0 +1,98 @@
+---
+description: Design tokens and layout (containers, color palette, typography, spacing) for project and landing components
+globs: ["src/app/projects/**/*.tsx", "src/app/components/**/*.tsx"]
+alwaysApply: false
+---
+
+# Design Tokens and Layout
+
+**Scope**: Project pages and landing components. Use these tokens and layout patterns for visual consistency. For component patterns and page structure, see `design-components-and-pages.mdc`.
+
+**Philosophy**: Guidelines for consistency, not hard constraints. Prefer these patterns; deviate when it serves design or content. Update these rules when you establish new patterns worth standardizing.
+
+---
+
+## Core Design Principles
+
+1. **Match landing page patterns** – Project pages should feel like extensions of the landing page (can have unique sections).
+2. **Consistent container structure** – Prefer same container widths and padding; adapt when needed.
+3. **Unified color palette** – Prefer established palette; new colors are fine for specific purposes.
+4. **Typography hierarchy** – Consistent heading, body, and metadata styles; adjust for content.
+5. **Spacing rhythm** – Similar vertical/horizontal spacing; vary for emphasis.
+
+---
+
+## Container Structure (Canonical Pattern)
+
+**Standard section structure (from landing page):**
+```tsx
+<section className="py-24 bg-[#0B0E14] border-t border-white/5">
+  <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
+    <div className="max-w-5xl mx-auto md:mx-0">
+      {/* Section content */}
+    </div>
+  </div>
+</section>
+```
+
+**Project page variations (from StormSignal.tsx):**
+- **Standard sections**: `max-w-6xl` outer; no inner wrapper for full-width content.
+- **Focused content**: `max-w-5xl` for tighter, centered content (e.g. Case Study).
+- **Section padding**: `py-24` (standard), `py-12 md:py-20` (alternate).
+- **Background**: `bg-[#0B0E14]` (page), `bg-[#151921]` (card/panel), `bg-[#11141a]` (alternate section).
+
+**Key points:**
+- Outer: `max-w-6xl` with `px-6 lg:px-8`.
+- Inner: `max-w-5xl mx-auto md:mx-0` when content needs tighter width.
+- Some sections use `max-w-5xl` only. Container widths can vary for hero or narrow layouts.
+
+---
+
+## Color Palette (Single Source of Truth)
+
+**Use these colors:**
+
+- **Page background**: `bg-[#0B0E14]`
+- **Card/Panel**: `bg-[#151921]`
+- **Input**: `bg-[#131A23]` or `bg-[#11161D]`
+- **Primary accent**: `text-[#0066cc]` / `bg-[#0066cc]`
+- **Accent hover**: `hover:bg-[#0052a3]` / `hover:text-[#0052a3]`
+- **Text**: Headings `text-white`, body `text-gray-400`, metadata `text-gray-500`, muted `text-gray-600`
+
+**Borders:**
+- Structural: `border-white/5`
+- Card: `border-white/5` or `border-white/10`
+- Interactive: `border-white/15` or `border-white/20`
+
+**Guidance:** Prefer palette; check existing components first; add colors for data viz or status; consider adding new standards to this list.
+
+---
+
+## Typography Patterns
+
+### Section Headings (H2)
+- `text-3xl font-bold text-white tracking-tight`, margin `mb-2`–`mb-6`. Responsive: `text-2xl md:text-3xl`.
+
+### Page Titles (H1)
+- `text-4xl md:text-6xl font-bold text-white tracking-tight leading-tight mb-8` (hero) or `text-4xl md:text-5xl` (project pages).
+
+### Metadata Labels / Kickers
+- `text-[10px] uppercase tracking-widest text-gray-500 font-mono` (or `text-xs`, `tracking-wider`). Accent: `text-blue-400`.
+
+### Body Text
+- `text-base md:text-lg text-gray-400 leading-relaxed max-w-2xl` (or `max-w-3xl`).
+
+---
+
+## Spacing Rhythm
+
+**Vertical:** Section `py-24` (standard), `py-12 md:py-20` (alternate). Gaps: `space-y-12` (timeline), `space-y-6` (cards), `space-y-4` (tight). Margins: `mb-6 md:mb-8` (headings), `mb-4` (subheadings), `mb-2` (tight).
+
+**Horizontal:** Container `px-6 lg:px-8` (outer), `px-4` or `px-6` (inner). Grid: `gap-4` (cards), `gap-6` (sections), `gap-8 md:gap-12` (large).
+
+---
+
+## Related
+
+- Component patterns and page structure: `design-components-and-pages.mdc`
+- Design system: `guidelines/Guidelines.md`

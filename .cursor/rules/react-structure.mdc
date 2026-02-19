@@ -23,7 +23,7 @@ alwaysApply: false
 ### `public/`
 
 - Static assets served at root: `CNAME`, `favicon.ico`, `robots.txt`, `404.html`
-- See `asset-management.md` for asset organization and references.
+- See `asset-management.mdc` for asset organization and references.
 
 ## Content Model: Adding a Project
 
@@ -48,17 +48,17 @@ Projects are route-based React components, not markdown or CMS.
 - Keep one main export per project file (the page component).
 - Shared components in `components/`; UI primitives in `components/ui/`.
 - Project pages in `projects/`; each is a route component.
-- See `file-naming.md` for naming conventions.
+- See `file-naming.mdc` for naming conventions.
 
 ### Styling
 
 - Prefer Tailwind utility classes; use theme and design tokens from `src/styles/`.
-- Don’t introduce new global CSS unless needed; keep styles co-located or in `src/styles/`.
+- Don't introduce new global CSS unless needed; keep styles co-located or in `src/styles/`.
 
 ### Imports
 
 - Use `@/` alias if configured in `vite.config`/`tsconfig`; otherwise relative imports from `src/`.
-- See `asset-management.md` for how to reference static assets.
+- See `asset-management.mdc` for how to reference static assets.
 
 ## Best Practices
 
@@ -69,6 +69,6 @@ Projects are route-based React components, not markdown or CMS.
 
 ## Related Rules
 
-- **Naming conventions**: See `file-naming.md` for component and file naming patterns.
-- **Verification commands**: See `iteration-workflow.md` for build, test, and lint commands.
-- **Asset references**: See `asset-management.md` for how to reference `public/` assets.
+- **Naming conventions**: See `file-naming.mdc` for component and file naming patterns.
+- **Verification commands**: See `iteration-workflow.mdc` for build, test, and lint commands.
+- **Asset references**: See `asset-management.mdc` for how to reference `public/` assets.

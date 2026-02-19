@@ -40,9 +40,9 @@ Use naming that matches the ecosystem and existing codebase. Conventions differ 
 
 ## What to avoid
 
-- **Don’t mix conventions within the same layer**: e.g. don’t add `ContactMe.tsx` next to `footer.tsx` if the rest of the folder is PascalCase; prefer `Footer.tsx` or match existing style
-- **Don’t rename third-party or generated files** (e.g. in `node_modules/` or lockfiles); only apply conventions to files you create or own
-- **Don’t use PascalCase for non-component files** (e.g. utils, hooks) unless the project already does
+- **Don't mix conventions within the same layer**: e.g. don't add `ContactMe.tsx` next to `footer.tsx` if the rest of the folder is PascalCase; prefer `Footer.tsx` or match existing style
+- **Don't rename third-party or generated files** (e.g. in `node_modules/` or lockfiles); only apply conventions to files you create or own
+- **Don't use PascalCase for non-component files** (e.g. utils, hooks) unless the project already does
 
 ## Consistency
 

@@ -67,7 +67,7 @@ Or use `./script/verify` when in a Unix-like environment.
 ## Iteration Mindset
 
 - **Ship content/features first** – Fix issues iteratively
-- **Don’t block on perfect** – Optimize assets and performance when needed
+- **Don't block on perfect** – Optimize assets and performance when needed
 - **Small commits** – One concern per commit; clear messages
 - **Branches** – Use feature branches for larger changes; direct commits for small fixes
 

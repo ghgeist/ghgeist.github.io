@@ -1,0 +1,123 @@
+---
+description: Quick start guide for AI agents and humans - where to find information for common tasks
+alwaysApply: true
+---
+
+# Quick Start Guide
+
+**For AI agents and humans working on this codebase.**
+
+## 📚 Documentation Hierarchy
+
+**Start here:**
+1. **`CLAUDE.md`** – Project overview, commands, architecture, content model
+2. **`AGENTS.md`** – Environment constraints, verification model, agent behavior
+3. **`.cursor/rules/`** – Focused, scoped rules for specific contexts
+
+**Reference:**
+- **`.verify.yml`** – Single source of truth for verification steps
+- **`README.md`** – User-facing project documentation
+
+## 🎯 Common Tasks → Documentation Map
+
+### "I want to add a new project page"
+→ **Read:** `CLAUDE.md` (Content Model) + `.cursor/rules/react-structure.mdc` (Adding a Project)
+→ **Check:** Existing project in `src/app/projects/` (e.g., `StormSignal.tsx`)
+→ **Follow:** `.cursor/rules/file-naming.mdc` (PascalCase for components)
+
+### "I want to style a component"
+→ **Read:** `.cursor/rules/design-tokens-and-layout.mdc` (colors, typography, spacing)
+→ **Reference:** `.cursor/rules/design-components-and-pages.mdc` (component patterns)
+→ **Check:** `guidelines/Guidelines.md` (design system)
+
+### "I want to add an image or asset"
+→ **Read:** `.cursor/rules/asset-management.mdc` (where assets go, how to reference)
+→ **Follow:** `.cursor/rules/file-naming.mdc` (snake_case for assets)
+
+### "I want to verify my changes work"
+→ **Read:** `AGENTS.md` (verification model) + `.cursor/rules/iteration-workflow.mdc`
+→ **Run:** `./script/verify` or steps from `.verify.yml`
+→ **Check:** `.verify.yml` (single source of truth)
+
+### "I'm getting a build/type error"
+→ **Read:** `AGENTS.md` (Error Handling) + `.cursor/rules/iteration-workflow.mdc` (Error Handling)
+→ **Run:** `npx tsc --noEmit` (type check), `npm run build` (build)
+
+### "I want to understand the app structure"
+→ **Read:** `CLAUDE.md` (Architecture) + `.cursor/rules/react-structure.mdc`
+→ **Check:** `src/app/App.tsx` (routes), `src/app/components/` (shared components)
+
+## 🔍 Finding Information
+
+**By topic:**
+- **Architecture/Routing:** `CLAUDE.md` + `react-structure.mdc`
+- **Design/Styling:** `design-tokens-and-layout.mdc` + `design-components-and-pages.mdc`
+- **Workflow/Verification:** `AGENTS.md` + `iteration-workflow.mdc` + `.verify.yml`
+- **Naming Conventions:** `file-naming.mdc` (always applies)
+- **Assets:** `asset-management.mdc`
+
+**By file type:**
+- **`.tsx` files:** `react-structure.mdc` + `file-naming.mdc` + design rules
+- **`.css` files:** `design-tokens-and-layout.mdc` + `asset-management.mdc`
+- **`public/` files:** `asset-management.mdc`
+- **Config files:** `iteration-workflow.mdc` + `CLAUDE.md`
+
+## ⚡ Quick Commands Reference
+
+**Development:**
+- `npm run dev` – Start dev server
+- `npm run build` – Production build
+- `npm run preview` – Preview production build
+
+**Verification:**
+- `./script/verify` – Full verification (or `npm ci && npx tsc --noEmit && npm run test:ci && npm run build`)
+- `npx tsc --noEmit` – Type check only
+- `npm run test:ci` – Tests (CI mode)
+
+**Linting:**
+- `npm run lint` – All linters
+- `npm run lint:fix` – Auto-fix issues
+
+## 🤖 For AI Agents
+
+**Before making changes:**
+1. Read `AGENTS.md` (environment constraints, verification model)
+2. Read relevant rule files from `.cursor/rules/` based on files you're editing
+3. Check `.verify.yml` for verification requirements
+
+**When editing:**
+- **React components:** Check `react-structure.mdc` + design rules
+- **Styling:** Check `design-tokens-and-layout.mdc` + `design-components-and-pages.mdc`
+- **Assets:** Check `asset-management.mdc`
+- **Any file:** Follow `file-naming.mdc` conventions
+
+**After editing:**
+- Run linters if modifying CSS/TS: `npm run lint:css` or `npm run lint:js`
+- Reference `.verify.yml` for verification steps
+- Note: "Verify locally with: ./script/verify" if you can't run verification
+
+## 👥 For Humans
+
+**First time setup:**
+1. Read `README.md` (Getting Started)
+2. Run `npm ci` to install dependencies
+3. Run `npm run dev` to start development server
+
+**Working on features:**
+1. Check `CLAUDE.md` for architecture and conventions
+2. Check `.cursor/rules/` for specific patterns (design, structure, workflow)
+3. Run `./script/verify` before pushing
+
+**Troubleshooting:**
+- Build errors: Check `AGENTS.md` (Error Handling) + `.cursor/rules/iteration-workflow.mdc`
+- Type errors: Run `npx tsc --noEmit` and fix reported issues
+- Test failures: Check `src/test/` and fix assertions
+
+## 🔗 Cross-References
+
+All documentation cross-references each other:
+- `CLAUDE.md` ↔ `AGENTS.md` ↔ `.cursor/rules/`
+- Rules reference each other (e.g., `react-structure.mdc` → `file-naming.mdc`)
+- All point to `.verify.yml` as verification source of truth
+
+**Tip:** If you're unsure where to find something, start with `CLAUDE.md` or `AGENTS.md` – they link to specific rules.
