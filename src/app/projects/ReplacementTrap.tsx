@@ -1,6 +1,5 @@
 import React from "react";
 import { motion as Motion, useReducedMotion } from "motion/react";
-import { useNavigate } from "react-router-dom";
 import {
   ExternalLink,
   Github,
@@ -20,6 +19,7 @@ import {
 } from "@/app/projects/components/CaseStudyFlowDiagram";
 import { CaseStudySectionHeading } from "@/app/projects/components/CaseStudySectionHeading";
 import { CaseStudyStatCard } from "@/app/projects/components/CaseStudyStatCard";
+import { useBackToCaseStudies } from "@/app/projects/hooks/useBackToCaseStudies";
 
 const ctas = [
   {
@@ -227,22 +227,8 @@ function RatioBenchmarkChart({ benchmarks }: { benchmarks: RatioBenchmark[] }) {
 }
 
 export function ReplacementTrap() {
-  const navigate = useNavigate();
   const shouldReduceMotion = Boolean(useReducedMotion());
-
-  const handleBackToCaseStudies = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    navigate("/");
-    setTimeout(() => {
-      const element = document.querySelector("#page-top");
-      if (element) {
-        const y = element.getBoundingClientRect().top + window.scrollY - 96;
-        window.scrollTo({ top: y, behavior: "smooth" });
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    }, 100);
-  };
+  const handleBackToCaseStudies = useBackToCaseStudies();
 
   return (
     <main className="project-theme project-theme--replacement min-h-screen bg-[var(--project-page-bg)] font-sans text-[var(--project-body-text)] selection:bg-amber-400/20">

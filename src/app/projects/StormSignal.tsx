@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import {
   ExternalLink,
   Github,
@@ -21,6 +20,7 @@ import {
 } from "@/app/projects/components/CaseStudyFlowDiagram";
 import { CaseStudySectionHeading } from "@/app/projects/components/CaseStudySectionHeading";
 import { CaseStudyStatCard } from "@/app/projects/components/CaseStudyStatCard";
+import { useBackToCaseStudies } from "@/app/projects/hooks/useBackToCaseStudies";
 
 const ctas = [
   {
@@ -192,21 +192,7 @@ function ModelComparisonChart({ models }: { models: ModelComparison[] }) {
 }
 
 export function StormSignal() {
-  const navigate = useNavigate();
-
-  const handleBackToCaseStudies = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    navigate("/");
-    setTimeout(() => {
-      const element = document.querySelector("#page-top");
-      if (element) {
-        const y = element.getBoundingClientRect().top + window.scrollY - 96;
-        window.scrollTo({ top: y, behavior: "smooth" });
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    }, 100);
-  };
+  const handleBackToCaseStudies = useBackToCaseStudies();
 
   return (
     <main className="project-theme min-h-screen bg-[#0B0E14] font-sans selection:bg-blue-500/30">
