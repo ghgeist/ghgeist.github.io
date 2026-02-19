@@ -1,6 +1,6 @@
 ---
-description: Development workflow and iteration patterns for portfolio site updates
-globs: ["*.md", "*.html", "*.markdown", "*.yml", "*.yaml"]
+description: Development workflow and verification for React/Vite portfolio
+globs: ["*.md", "*.html", "*.yml", "*.yaml"]
 alwaysApply: false
 ---
 
@@ -8,208 +8,84 @@ alwaysApply: false
 
 ## Quick Iteration Cycle
 
-### Content Updates (Fast Path)
+### Content / UI Updates (Fast Path)
 
-1. **Make changes** - Edit markdown, HTML, or config files
-2. **Preview locally** - Run `bundle exec jekyll serve` or `./script/dev`
-3. **Visual check** - Review in browser at `http://localhost:4000`
-4. **Quick build test** - Run `bundle exec rake test:build` before committing
-5. **Commit** - Small, focused commits
+1. **Make changes** – Edit components, styles, or content in `src/`
+2. **Preview locally** – Run `npm run dev` (or `./script/dev` if available)
+3. **Visual check** – Review at `http://localhost:5173`
+4. **Quick build** – Run `npm run build` before committing
+5. **Commit** – Small, focused commits
 
-### Structural Changes (Thorough Path)
+### Structural / Config Changes (Thorough Path)
 
-1. **Plan change** - Understand impact on site structure
-2. **Make changes** - Edit includes, layouts, or plugins
-3. **Build and test** - Run `bundle exec jekyll build`
-4. **Full test suite** - Run `bundle exec rake test`
-5. **Visual verification** - Check all pages in browser
-6. **Commit** - Document what changed and why
+1. **Plan change** – Understand impact on routes, components, or config
+2. **Make changes** – Edit `App.tsx`, vite config, or test setup as needed
+3. **Type check** – `npx tsc --noEmit`
+4. **Tests** – `npm run test` or `npm run test:ci`
+5. **Build** – `npm run build`
+6. **Visual verification** – Check relevant routes in browser
+7. **Commit** – Document what changed and why
 
-## Testing Strategy
+## Verification (Source of Truth: `.verify.yml`)
 
-### When to Test Thoroughly
-
-- ✅ Before deploying major structural changes
-- ✅ When adding new Jekyll plugins or features
-- ✅ Before merging to main branch
-- ✅ When modifying `_config.yml` or site structure
-
-### When Visual Check is Sufficient
-
-- ✅ Content-only updates (new post, updated description)
-- ✅ Image swaps or updates
-- ✅ Minor text edits
-- ✅ Adding optional front matter fields
-
-### Test Commands
-
-**Quick Build Check:**
+Run full verification with:
 
 ```bash
-bundle exec rake test:build
+npm ci
+npx tsc --noEmit
+npm run test:ci
+npm run build
 ```
 
-- Always works, even without libcurl
-- Validates Jekyll build succeeds
-- Catches syntax errors and missing files
+Or use `./script/verify` when in a Unix-like environment.
 
-**Full Test Suite:**
+### When to Run Full Verification
 
-```bash
-bundle exec rake test
-# or
-bundle exec rake test:all
-```
+- Before pushing to main or opening a PR
+- After changing dependencies, `tsconfig`, or Vite config
+- After changing routing or app shell
 
-- Build validation + HTML validation + link checking
-- May skip external links on Windows without libcurl
-- Use before pushing significant changes
+### When Visual Check + Build Is Enough
 
-**Development Server:**
+- Content-only or copy changes
+- Styling tweaks
+- Adding optional props or small UI changes
 
-```bash
-./script/dev
-# or
-bundle exec jekyll serve
-```
+### Commands Reference
 
-- Live reload for quick iteration
-- Preview changes immediately
-- Best for content updates
+| Purpose        | Command              |
+|----------------|----------------------|
+| Dev server     | `npm run dev`        |
+| Type check     | `npx tsc --noEmit`   |
+| Tests          | `npm run test`       |
+| Tests (CI)     | `npm run test:ci`    |
+| Build          | `npm run build`      |
+| Preview build  | `npm run preview`    |
+| Lint           | `npm run lint`       |
+| Lint fix       | `npm run lint:fix`   |
 
 ## Iteration Mindset
 
-### Content-First Approach
-
-- **Ship content quickly** - Fix issues iteratively
-- **Don't block on perfect** - Optimize images/assets later
-- **Focus on readability** - Structure can be refined
-- **Keep it fresh** - Portfolios benefit from regular updates
-
-### Experimentation-Friendly
-
-- ✅ Try new Jekyll features - revert if needed
-- ✅ Test new includes/components incrementally
-- ✅ A/B test layouts by creating new files
-- ✅ Use git branches for major redesigns
-- ✅ Direct edits for content updates
-
-### Safe Experimentation
-
-- Use git branches for experiments
-- Test locally before pushing
-- Keep commits small and focused
-- Document what worked/didn't work
-
-## Common Update Patterns
-
-### Adding a New Project
-
-1. Create post file: `_posts/YYYY-MM-DD-project-name.markdown`
-2. Add images to `img/portfolio/`
-3. Set front matter (title, img, thumbnail, etc.)
-4. Preview in browser
-5. Quick build test
-6. Commit
-
-### Updating Existing Project
-
-1. Edit post markdown file
-2. Update images if needed
-3. Preview changes
-4. Visual check sufficient (no full test needed)
-5. Commit
-
-### Modifying Site Structure
-
-1. Edit includes/layouts
-2. Build and test thoroughly
-3. Check all pages visually
-4. Run full test suite
-5. Commit with clear message
-
-### Updating Site Configuration
-
-1. Edit `_config.yml`
-2. Rebuild site: `bundle exec jekyll build`
-3. Test site functionality
-4. Run full test suite
-5. Commit
+- **Ship content/features first** – Fix issues iteratively
+- **Don’t block on perfect** – Optimize assets and performance when needed
+- **Small commits** – One concern per commit; clear messages
+- **Branches** – Use feature branches for larger changes; direct commits for small fixes
 
 ## Git Workflow
 
-### Commit Strategy
-
-- **Small, focused commits** - One concern per commit
-- **Clear messages** - Describe what changed and why
-- **Content updates** - Commit frequently
-- **Structural changes** - Test thoroughly before committing
-
-### Branch Strategy
-
-- **Main branch** - Production-ready content
-- **Feature branches** - Major redesigns or experiments
-- **Direct commits** - Content updates and minor fixes
-
-### Before Pushing
-
-1. **Pre-commit hook** - Automatically runs `bundle exec rake test:build` (can skip with `--no-verify`)
-2. For structural changes: run full test suite manually (`bundle exec rake test`)
-3. Visual check in browser
-4. Verify no broken links or images
-5. **CI verification** - GitHub Actions runs `./script/verify` on push/PR (catches issues automatically)
+- **Main** – Production-ready; CI runs on push/PR (see `.github/workflows/deploy.yml`)
+- **Before pushing** – Run verification locally if you changed structure or deps; CI will run `npm ci`, `tsc`, `test:ci`, `build`
+- **Deploy** – GitHub Actions deploys `dist/` to GitHub Pages on push to main
 
 ## Error Handling
 
-### Build Failures
-
-- **Check YAML front matter** - Most common issue
-- **Verify file paths** - Images, includes, layouts
-- **Check syntax** - Liquid tags, markdown formatting
-- **Read error messages** - Jekyll provides helpful context
-
-### Common Issues
-
-- **Missing images** - Check paths are relative to site root
-- **Broken includes** - Verify file exists in `_includes/`
-- **Layout errors** - Check front matter `layout:` field
-- **Plugin errors** - Verify plugin syntax and `_config.yml` settings
-
-### Quick Fixes
-
-- Most issues are quick fixes - don't over-engineer
-- Check existing working examples
-- Use git to revert if needed
-- Document solutions for future reference
-
-## Performance Considerations
-
-### Iterative Optimization
-
-- **Start simple** - Get content live first
-- **Optimize later** - Images, assets, performance
-- **Measure impact** - Optimize what matters
-- **Don't premature optimize** - Focus on content quality
-
-### When to Optimize
-
-- Site feels slow (measure first)
-- Images are clearly too large
-- Build times are slow
-- User feedback indicates issues
+- **Build/type errors** – Fix reported files; run `npx tsc --noEmit` and `npm run build` again
+- **Test failures** – Check `src/test/`; fix assertions or component behavior
+- **Lint** – Run `npm run lint:fix` and review; fix remaining issues by hand
+- **Routing/404** – Ensure route exists in `App.tsx` and `public/404.html` + `index.html` decoder stay in sync for SPA deep links
 
 ## Documentation
 
-### Update Documentation When
-
-- Adding new features or patterns
-- Changing site structure significantly
-- Discovering useful patterns
-- Fixing common issues
-
-### Keep Documentation
-
-- Simple and focused
-- Examples over explanations
-- Up-to-date with current patterns
-- Accessible to future you
+- Keep `CLAUDE.md` and `AGENTS.md` in sync with stack and verification
+- Update this workflow if verification steps or scripts change
+- Prefer examples and current commands over long prose

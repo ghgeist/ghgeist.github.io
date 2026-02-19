@@ -1,117 +1,62 @@
 ---
-description: File and directory naming conventions using snake_case
+description: File and directory naming conventions by context (React, assets, docs)
 alwaysApply: true
 ---
 
-# File and Directory Naming Conventions
+# File and Directory Naming
 
-## Core Rule: snake_case
+Use naming that matches the ecosystem and existing codebase. Conventions differ by context.
 
-**All files and directories must use snake_case naming.**
+## React / TypeScript (src/app/)
 
-### Examples
+### Component and page files
 
-**✅ Correct:**
+- **PascalCase** for React components and project pages: `Hero.tsx`, `WalkabilityIndex.tsx`, `ErrorBoundary.tsx`, `App.tsx`
+- **kebab-case** acceptable for UI primitives (e.g. shadcn-style): `toggle-group.tsx`, `scroll-area.tsx`, `alert-dialog.tsx`
+- **lowercase** used in this repo for a few components (e.g. `footer.tsx`); prefer PascalCase for new components
 
-- `contact_me.js`
-- `header_v2.jpg`
-- `embodied_ai_thumbnail.png`
-- `portfolio_grid.html`
-- `session-management-best-practices.md`
+### Other source files
 
-**❌ Incorrect:**
+- **camelCase** or **kebab-case** for hooks, utils, non-component modules: `use-mobile.ts`, `utils.ts`
+- **lowercase** for config/entry when conventional: `main.tsx`, `setup.ts`
 
-- `contactMe.js` (camelCase)
-- `Header-V2.jpg` (PascalCase/kebab-case)
-- `embodiedAI.png` (camelCase)
-- `PortfolioGrid.html` (PascalCase)
+### Directories under src/
 
-## File Type Patterns
+- **camelCase** or **lowercase** to match ecosystem: `app/`, `components/`, `projects/`, `styles/`, `test/`
 
-### JavaScript Files (`js/`)
+## Static assets and public files
 
-- Use snake_case: `contact_me.js`, `agency.js`
-- Descriptive names: `jq_bootstrap_validation.js`
+### public/ and asset paths
 
-### Image Files (`img/`)
+- **snake_case** for image and asset filenames: `embodied_ai_compressed.gltf`, `og-default.jpg`
+- **Version suffixes**: `header_v2.jpg`, `header_v3.jpg`
+- **Thumbnails**: `project_name_thumbnail.png` (same base name as full image)
+- **Directories**: lowercase or snake_case: `assets/rhino/compressed/`, `assets/og/`
 
-- Use snake_case: `embodied_ai.png`, `header_v2.jpg`
-- Include version numbers: `header_v3.jpg`, `header_v4.jpg`
-- Thumbnails: `project_name_thumbnail.png`
+### Docs and content
 
-### HTML Includes (`_includes/`)
+- **snake_case** for doc directories and non-date-prefixed files: `dev_notes/`, `session-management-best-practices.md`
+- **Date-prefixed sessions**: `YYYY-MM-DD-[type]-[description].md` with snake_case description, e.g. `2026-02-12-refactor-portfolio-grid.md`
 
-- Use snake_case: `portfolio_grid.html`, `contact_form.html`
-- Descriptive component names
+## What to avoid
 
-### Jekyll Posts (`_posts/`)
+- **Don’t mix conventions within the same layer**: e.g. don’t add `ContactMe.tsx` next to `footer.tsx` if the rest of the folder is PascalCase; prefer `Footer.tsx` or match existing style
+- **Don’t rename third-party or generated files** (e.g. in `node_modules/` or lockfiles); only apply conventions to files you create or own
+- **Don’t use PascalCase for non-component files** (e.g. utils, hooks) unless the project already does
 
-- Format: `YYYY-MM-DD-project-name.markdown`
-- Date prefix, then snake_case: `2024-07-01-urbanism_project.markdown`
+## Consistency
 
-### CSS/SCSS Files
+- **Match existing files** in the same directory when adding new ones
+- **Be descriptive**: `WalkabilityIndex.tsx` over `Project1.tsx`; `embodied_ai_thumbnail.png` over `thumb1.png`
+- **Stick to one convention per file type** in a given folder
 
-- Use snake_case: `main.scss`, `agency.css`
-- Match component names when possible
+## Quick reference
 
-### Ruby Plugins (`_plugins/`)
-
-- Use snake_case: `hex_to_rgb.rb`
-- Descriptive of functionality
-
-### Session Files (`docs/sessions/`)
-
-- Format: `YYYY-MM-DD-[type]-[description].md`
-- Use snake_case for description: `2024-02-09-refactor-portfolio-grid.md`
-
-## Directory Naming
-
-**✅ Correct:**
-
-- `img/portfolio/`
-- `assets/og/`
-- `docs/dev_notes/`
-- `agents/prompt_checks/`
-
-**❌ Incorrect:**
-
-- `img/Portfolio/` (PascalCase)
-- `assets/OpenGraph/` (PascalCase)
-- `docs/devNotes/` (camelCase)
-
-## Special Cases
-
-### Versioned Files
-
-- Use `_v2`, `_v3` suffix: `header_v2.jpg`, `header_v3.jpg`
-- Or descriptive suffixes: `embodied_ai_compressed.gltf`
-
-### Thumbnails
-
-- Use `_thumbnail` suffix: `project_name_thumbnail.png`
-- Keep same base name as full image
-
-### Compressed Assets
-
-- Use `compressed/` subdirectory: `assets/rhino/compressed/`
-- Keep original names: `embodied_ai_compressed.bin`
-
-## Consistency Guidelines
-
-- **Be descriptive**: `contact_me.js` is better than `contact.js`
-- **Be consistent**: If you use `_v2`, use `_v3` for next version
-- **Avoid abbreviations**: `portfolio_grid.html` not `port_grid.html`
-- **Match context**: If file is for a component, match component name
-
-## When Adding New Files
-
-1. Check existing naming patterns in the same directory
-2. Use snake_case consistently
-3. Be descriptive but concise
-4. Match existing patterns when possible
-
-## Exceptions
-
-- Third-party libraries may use their own naming (e.g., `jquery-1.11.0.js`)
-- Keep external dependencies as-is
-- Only apply snake_case to files you create/modify
+| Context              | Convention   | Examples                                      |
+|----------------------|-------------|-----------------------------------------------|
+| React components     | PascalCase  | `App.tsx`, `Hero.tsx`, `WalkabilityIndex.tsx`  |
+| UI primitives        | kebab-case  | `toggle-group.tsx`, `scroll-area.tsx`         |
+| Hooks / utils        | camelCase or kebab | `use-mobile.ts`, `utils.ts`              |
+| Asset filenames      | snake_case  | `embodied_ai.png`, `header_v2.jpg`            |
+| Doc/session filenames| snake_case or date | `dev_notes/`, `2026-02-12-refactor.md`   |
+| Directories          | lowercase / snake_case | `src/app/`, `public/assets/rhino/`   |
