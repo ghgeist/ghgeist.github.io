@@ -103,7 +103,7 @@ export function WalkabilityIndexDetail() {
         }
       />
 
-      <section className="py-14">
+      <section className="py-16 md:py-20">
         <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
           <div className="max-w-5xl">
             <div className="rounded-sm border border-emerald-100/15 bg-[#0E1B24] p-6">
@@ -127,10 +127,10 @@ export function WalkabilityIndexDetail() {
 
             <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
               <Motion.div
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0.95, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.45 }}
+                transition={{ duration: 0.35 }}
               >
                 <CaseStudySectionCard
                   kicker="01"
@@ -157,10 +157,10 @@ export function WalkabilityIndexDetail() {
               </Motion.div>
 
               <Motion.div
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0.95, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: 0.04 }}
+                transition={{ duration: 0.35, delay: 0.04 }}
               >
                 <CaseStudySectionCard
                   kicker="02"
@@ -191,10 +191,10 @@ export function WalkabilityIndexDetail() {
               </Motion.div>
 
               <Motion.div
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0.95, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: 0.08 }}
+                transition={{ duration: 0.35, delay: 0.08 }}
               >
                 <CaseStudySectionCard
                   kicker="03"
@@ -216,10 +216,10 @@ export function WalkabilityIndexDetail() {
               </Motion.div>
 
               <Motion.div
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0.95, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: 0.12 }}
+                transition={{ duration: 0.35, delay: 0.12 }}
               >
                 <CaseStudySectionCard
                   kicker="04"
@@ -246,10 +246,10 @@ export function WalkabilityIndexDetail() {
               </Motion.div>
 
               <Motion.div
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0.95, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: 0.16 }}
+                transition={{ duration: 0.35, delay: 0.16 }}
               >
                 <CaseStudySectionCard
                   kicker="05"
@@ -269,10 +269,10 @@ export function WalkabilityIndexDetail() {
               </Motion.div>
 
               <Motion.div
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0.95, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: 0.2 }}
+                transition={{ duration: 0.35, delay: 0.2 }}
               >
                 <CaseStudySectionCard
                   kicker="06"
@@ -297,10 +297,10 @@ export function WalkabilityIndexDetail() {
             </div>
 
             <Motion.div
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0.95, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.45, delay: 0.24 }}
+              transition={{ duration: 0.35, delay: 0.24 }}
               className="mt-6"
             >
               <CaseStudySectionCard
@@ -343,3 +343,4 @@ export function WalkabilityIndexDetail() {
     </main>
   );
 }
+

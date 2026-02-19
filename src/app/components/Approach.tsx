@@ -4,7 +4,6 @@ import {
   Map,
   SquareFunction,
   Play,
-  ArrowRight,
 } from "lucide-react";
 
 const methodology = [
@@ -35,7 +34,7 @@ export function Approach() {
   return (
     <section
       id="skills"
-      className="py-24 bg-[#0B0E14] border-t border-white/5"
+      className="border-t border-white/5 bg-[#0B0E14] py-20 md:py-24"
     >
       <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
         <div className="max-w-5xl mx-auto md:mx-0">
@@ -44,25 +43,25 @@ export function Approach() {
             <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">
               Approach
             </h2>
-            <p className="text-gray-400 font-mono text-lg max-w-2xl">
+            <p className="max-w-2xl text-base leading-relaxed text-gray-400 md:text-lg">
               I use a repeatable approach to turn ambiguous systems into structured models and working prototypes, reducing risk at each step before adding cost at the next
             </p>
           </div>
 
           {/* Methodology Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {methodology.map((item, index) => (
               <Motion.div
                 key={item.step}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0.95, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ duration: 0.35, delay: index * 0.06 }}
                 viewport={{ once: true }}
                 className="relative p-6 bg-[#151921] h-full flex flex-col border border-white/5"
               >
                 {/* Metadata */}
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-blue-400 font-mono text-sm font-medium uppercase tracking-widest">
+                  <span className="text-[11px] font-mono font-medium uppercase tracking-widest text-blue-400">
                     {item.step}
                   </span>
                   <div className="text-blue-400">{item.icon}</div>
@@ -94,3 +93,6 @@ export function Approach() {
     </section>
   );
 }
+
+
+

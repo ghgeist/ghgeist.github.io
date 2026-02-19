@@ -46,7 +46,7 @@ export function Hero() {
   return (
     <header
       id="page-top"
-      className="relative min-h-fit flex items-start bg-[#0B0E14] pb-12"
+      className="relative min-h-fit flex items-start bg-[#0B0E14] pb-16 md:pb-20"
     >
       {/* Technical Grid Background */}
       <div
@@ -62,11 +62,11 @@ export function Hero() {
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-[#0B0E14]/20 to-[#0B0E14]" />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 lg:px-8 pt-24">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pt-24 md:pt-28 lg:px-8">
         <Motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0.95, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.45 }}
           className="max-w-5xl mx-auto md:mx-0"
         >
           <div className="max-w-3xl">
@@ -74,7 +74,7 @@ export function Hero() {
               Data Product Strategist
             </h1>
 
-            <div className="text-gray-400 mb-10 max-w-2xl font-mono text-lg leading-relaxed">
+            <div className="mb-10 max-w-2xl text-base leading-relaxed text-gray-400 md:text-lg">
               <span className="block md:inline">
                 I design and build applied data systems for complex, regulated, real-world environments
               </span>
@@ -85,11 +85,11 @@ export function Hero() {
           <div className="w-full max-w-5xl mt-12 mb-4 pt-4 border-t border-white/5 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-1 h-1 bg-[#0066cc] rounded-full" />
-              <span className="text-[10px] uppercase tracking-widest text-gray-500 font-mono">
+              <span className="text-[11px] uppercase tracking-widest text-gray-500 font-mono">
                 Selected Case Studies
               </span>
             </div>
-            <span className="text-[10px] uppercase tracking-widest text-gray-600 font-mono">
+            <span className="text-[11px] uppercase tracking-widest text-gray-600 font-mono">
               Index 01 — 04
             </span>
           </div>
@@ -102,7 +102,7 @@ export function Hero() {
               <Link
                 key={index}
                 to={item.link}
-                className="group flex flex-col bg-[#151921] border border-white/10 hover:border-white/20 transition-all duration-300 overflow-hidden h-full cursor-pointer"
+                className="group flex h-full flex-col overflow-hidden rounded-md border border-white/10 bg-[#151921] transition-all duration-300 hover:border-white/20"
               >
                 {/* Technical Mini (Image) */}
                 <div className="h-24 w-full relative overflow-hidden bg-black/50">
@@ -120,7 +120,7 @@ export function Hero() {
                 {/* Content */}
                 <div className="p-4 flex flex-col flex-grow">
                   <div className="mb-2">
-                    <span className="text-[10px] uppercase tracking-wider text-gray-500 font-mono">
+                    <span className="text-[11px] uppercase tracking-wider text-gray-500 font-mono">
                       {item.tag}
                     </span>
                   </div>

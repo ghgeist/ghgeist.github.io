@@ -1,5 +1,4 @@
 import React from "react";
-import { clsx } from "clsx";
 import { motion as Motion } from "motion/react";
 
 const timelineEvents = [
@@ -79,7 +78,7 @@ export function About() {
   return (
     <section
       id="about"
-      className="pt-12 pb-24 bg-[#0B0E14] border-t border-white/5"
+      className="border-t border-white/5 bg-[#0B0E14] py-20 md:py-24"
     >
       {/* 1. MATCH HERO CONTAINER: Standard container with padding */}
       <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
@@ -98,9 +97,10 @@ export function About() {
             {timelineEvents.map((event, index) => (
               <Motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0.95, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.35, delay: index * 0.04 }}
                 className="relative flex flex-col md:flex-row gap-6 md:gap-12"
               >
                 {/* Timeline Indicator */}
@@ -116,7 +116,7 @@ export function About() {
                   <span className="block text-xl font-bold text-white leading-none">
                     {event.year}
                   </span>
-                  <span className="block text-[10px] font-mono text-[#0066cc] uppercase tracking-tighter mt-1 opacity-80">
+                  <span className="mt-1 block font-mono text-[11px] uppercase tracking-wider text-[#0066cc] opacity-80">
                     {event.pillar}
                   </span>
                 </div>
@@ -149,3 +149,5 @@ export function About() {
     </section>
   );
 }
+
+

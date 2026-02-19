@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { Menu, X } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -56,7 +55,7 @@ export function Navbar() {
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-transparent',
         isScrolled 
           ? 'bg-[#0B0E14]/90 backdrop-blur-md border-white/10 py-4' 
-          : 'bg-transparent py-6'
+          : 'bg-transparent py-5'
       )}
     >
       <div className="mx-auto w-full max-w-6xl px-6 lg:px-8 flex items-center justify-between">
@@ -78,9 +77,9 @@ export function Navbar() {
                 href={link.href}
                 onClick={(e) => handleScrollTo(e, link.href)}
                 className={twMerge(
-                  "text-xs font-medium uppercase tracking-[0.15em] transition-colors",
+                  "text-[11px] font-medium uppercase tracking-[0.14em] transition-colors",
                   isCta
-                    ? "text-white/90 hover:text-white border border-white/15 hover:border-white/30 rounded-md px-3.5 py-1.5"
+                    ? "rounded-md border border-white/20 bg-white/5 px-4 py-2 text-white/90 hover:border-white/30 hover:text-white"
                     : "text-gray-400 hover:text-[#0066cc]"
                 )}
               >
@@ -110,9 +109,9 @@ export function Navbar() {
                 href={link.href}
                 onClick={(e) => handleScrollTo(e, link.href)}
                 className={twMerge(
-                  "font-medium uppercase tracking-wider transition-colors",
+                  "text-sm font-medium uppercase tracking-wider transition-colors",
                   isCta
-                    ? "text-white/90 hover:text-white border border-white/15 hover:border-white/30 rounded-md px-3 py-2"
+                    ? "rounded-md border border-white/20 bg-white/5 px-3 py-2 text-white/90 hover:border-white/30 hover:text-white"
                     : "text-gray-400 hover:text-[#0066cc]"
                 )}
               >
@@ -125,3 +124,6 @@ export function Navbar() {
     </nav>
   );
 }
+
+
+

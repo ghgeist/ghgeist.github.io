@@ -117,7 +117,7 @@ export function ReplacementTrap() {
         }
       />
 
-      <section className="py-14">
+      <section className="py-16 md:py-20">
         <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
           <div className="max-w-5xl">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -137,10 +137,10 @@ export function ReplacementTrap() {
 
             <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
               <Motion.div
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0.95, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.45 }}
+                transition={{ duration: 0.35 }}
               >
                 <CaseStudySectionCard
                   kicker="01"
@@ -191,10 +191,10 @@ export function ReplacementTrap() {
               </Motion.div>
 
               <Motion.div
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0.95, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: 0.05 }}
+                transition={{ duration: 0.35, delay: 0.05 }}
               >
                 <CaseStudySectionCard
                   kicker="02"
@@ -244,10 +244,10 @@ export function ReplacementTrap() {
               </Motion.div>
 
               <Motion.div
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 0.95, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: 0.1 }}
+                transition={{ duration: 0.35, delay: 0.1 }}
               >
                 <CaseStudySectionCard
                   kicker="03"
@@ -304,3 +304,4 @@ export function ReplacementTrap() {
     </main>
   );
 }
+

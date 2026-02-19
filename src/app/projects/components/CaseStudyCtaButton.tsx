@@ -16,9 +16,9 @@ export type CaseStudyCtaButtonProps = {
 
 const CTA_VARIANT_STYLES: Record<CaseStudyCtaVariant, string> = {
   primary:
-    "bg-blue-600 text-white border border-blue-500/30 hover:bg-blue-500 hover:border-blue-400/50",
+    "border border-blue-500/35 bg-blue-600 text-white hover:border-blue-400/50 hover:bg-blue-500",
   secondary:
-    "bg-white/5 text-gray-200 border border-white/10 hover:bg-white/10 hover:border-white/20",
+    "border border-white/12 bg-white/5 text-gray-100 hover:border-white/24 hover:bg-white/10",
 };
 
 export function CaseStudyCtaButton({
@@ -36,7 +36,7 @@ export function CaseStudyCtaButton({
       target={target}
       rel={target === "_blank" ? "noreferrer" : undefined}
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-sm px-4 py-2 text-sm font-medium transition-all",
+        "inline-flex items-center justify-center gap-2.5 rounded-md px-5 py-2.5 text-sm font-medium leading-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30",
         CTA_VARIANT_STYLES[variant],
         className
       )}

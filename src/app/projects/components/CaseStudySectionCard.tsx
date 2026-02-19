@@ -21,11 +21,16 @@ export function CaseStudySectionCard({
   bodyClassName,
 }: CaseStudySectionCardProps) {
   return (
-    <article className={cn("border border-white/5 bg-[#151921] p-6", className)}>
+    <article
+      className={cn(
+        "rounded-md border border-white/10 bg-[#151921] p-6 md:p-7",
+        className
+      )}
+    >
       <header className="mb-4">
         <div
           className={cn(
-            "font-mono text-xs uppercase tracking-widest text-blue-400",
+            "font-mono text-[11px] uppercase tracking-widest text-blue-400",
             kickerClassName
           )}
         >

@@ -37,14 +37,14 @@ export function WorkWithMe() {
   return (
     <section
       id="work-with-me"
-      className="py-24 bg-[#0B0E14] border-t border-white/5"
+      className="border-t border-white/5 bg-[#0B0E14] py-20 md:py-24"
     >
       <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
         <div className="max-w-5xl mx-auto md:mx-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             {/* Left Column: Intro & Context */}
             <Motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0.95, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
@@ -65,7 +65,7 @@ export function WorkWithMe() {
 
             {/* Right Column: Fit Panel & Form */}
             <Motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0.95, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -180,7 +180,7 @@ export function WorkWithMe() {
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="bg-[#005bb5] hover:bg-[#004a94] text-white px-8 py-6 text-base rounded-md transition-colors duration-200 font-medium"
+                    className="inline-flex h-11 items-center rounded-md border border-[#0066cc]/40 bg-[#005bb5] px-6 text-sm font-medium text-white transition-colors duration-200 hover:bg-[#004a94]"
                   >
                     {isSubmitting
                       ? "Sending..."

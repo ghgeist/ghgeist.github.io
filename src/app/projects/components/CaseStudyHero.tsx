@@ -64,14 +64,14 @@ export function CaseStudyHero({
 
       <div
         className={cn(
-          "relative mx-auto w-full max-w-6xl px-6 pb-10 pt-20 lg:px-8",
+          "relative mx-auto w-full max-w-6xl px-6 pb-12 pt-24 md:pt-28 lg:px-8",
           containerClassName
         )}
       >
         <Motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0.95, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.45 }}
           className={cn("max-w-5xl", contentClassName)}
         >
           <div
@@ -83,7 +83,7 @@ export function CaseStudyHero({
             <Link
               to={backTo}
               className={cn(
-                "inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-gray-500 transition-colors hover:text-white",
+                "inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-gray-500 transition-colors hover:text-white",
                 backLinkClassName
               )}
             >
@@ -104,7 +104,7 @@ export function CaseStudyHero({
 
           <h1
             className={cn(
-              "text-4xl font-bold tracking-tight text-white md:text-5xl",
+              "text-4xl font-bold tracking-tight text-white md:text-6xl",
               titleClassName
             )}
           >
@@ -113,7 +113,7 @@ export function CaseStudyHero({
 
           <div
             className={cn(
-              "mt-4 max-w-3xl font-mono text-lg leading-relaxed text-gray-400",
+              "mt-4 max-w-3xl text-base leading-relaxed text-gray-300 md:text-lg",
               framingClassName
             )}
           >
@@ -122,7 +122,7 @@ export function CaseStudyHero({
 
           <div
             className={cn(
-              "mt-8 overflow-hidden border border-white/10 bg-black/30",
+              "mt-8 overflow-hidden rounded-md border border-white/10 bg-black/30",
               mediaClassName
             )}
           >
