@@ -298,32 +298,40 @@ function ModelComparisonChart({ models }: { models: ModelComparison[] }) {
 
   const maxModelSize = 1000;
 
+  // Memoize calculations to avoid recalculation on every render
+  const modelData = React.useMemo(() => {
+    return models.map((model) => {
+      const widthPercent = (model.sizeMB / maxModelSize) * 100;
+      const colors = colorConfig[model.color];
+      return {
+        ...model,
+        widthPercent,
+        colors,
+      };
+    });
+  }, [models]);
+
   return (
     <div className="bg-[#0B0E14] p-6 md:p-8 rounded-lg border border-white/5">
       <div className="space-y-4">
-        {models.map((model, idx) => {
-          const widthPercent = (model.sizeMB / maxModelSize) * 100;
-          const colors = colorConfig[model.color];
-
-          return (
-            <div key={idx}>
-              <div className="flex justify-between text-sm mb-2">
-                <span className="text-gray-400">
-                  {model.label}
-                </span>
-                <span className={`${colors.text} font-mono`}>
-                  {model.sizeMB.toFixed(1)} MB
-                </span>
-              </div>
-              <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                <div
-                  className={`h-full ${colors.bg} transition-all`}
-                  style={{ width: `${widthPercent}%`, minWidth: widthPercent < 1 ? '2px' : '0' }}
-                />
-              </div>
+        {modelData.map((model, idx) => (
+          <div key={idx}>
+            <div className="flex justify-between text-sm mb-2">
+              <span className="text-gray-400">
+                {model.label}
+              </span>
+              <span className={`${model.colors.text} font-mono`}>
+                {model.sizeMB.toFixed(1)} MB
+              </span>
             </div>
-          );
-        })}
+            <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+              <div
+                className={`h-full ${model.colors.bg} transition-all`}
+                style={{ width: `${model.widthPercent}%`, minWidth: model.widthPercent < 1 ? '2px' : '0' }}
+              />
+            </div>
+          </div>
+        ))}
       </div>
       <div className="mt-8 pt-6 border-t border-white/10">
         <div className="flex items-center gap-2 text-emerald-300/90 text-sm">
@@ -394,6 +402,7 @@ export function StormSignal() {
                   src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1600" 
                   alt="Storm Signal Dashboard"
                   className="w-full h-full object-cover opacity-90 transition-opacity group-hover:opacity-100"
+                  lazy={false}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E14] via-transparent to-transparent opacity-60" />
               </div>

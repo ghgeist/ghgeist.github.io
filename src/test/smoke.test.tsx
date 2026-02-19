@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
+import { toast } from "sonner";
 
 import { Navbar } from "@/app/components/Navbar";
 import { Hero } from "@/app/components/Hero";
@@ -103,27 +104,44 @@ describe("Project routes", () => {
 
 describe("WorkWithMe form", () => {
   it("submits and calls the handler", async () => {
-    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    // Mock toast.success to verify it's called on successful submission
+    const toastSpy = vi.spyOn(toast, "success").mockImplementation(() => {
+      return "test-toast-id";
+    });
 
     render(
       <MemoryRouter>
         <WorkWithMe />
+        <Toaster />
       </MemoryRouter>
     );
 
-    fireEvent.change(screen.getByLabelText(/your name/i), { target: { value: "Test User" } });
-    fireEvent.change(screen.getByLabelText(/your email/i), { target: { value: "test@example.com" } });
-    fireEvent.change(screen.getByLabelText(/tell me about the problem or opportunity/i), {
+    const nameInput = screen.getByLabelText(/your name/i) as HTMLInputElement;
+    const emailInput = screen.getByLabelText(/your email/i) as HTMLInputElement;
+    const problemInput = screen.getByLabelText(/tell me about the problem or opportunity/i) as HTMLTextAreaElement;
+
+    fireEvent.change(nameInput, { target: { value: "Test User" } });
+    fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+    fireEvent.change(problemInput, {
       target: { value: "Need help structuring a data product strategy." },
     });
 
     fireEvent.click(screen.getByRole("button", { name: /get in touch/i }));
 
-    await waitFor(() => {
-      expect(consoleSpy).toHaveBeenCalled();
-    });
+    // Wait for async submission to complete (includes 1s delay)
+    await waitFor(
+      () => {
+        expect(toastSpy).toHaveBeenCalledWith("Message sent! I'll get back to you soon.");
+      },
+      { timeout: 2000 }
+    );
 
-    consoleSpy.mockRestore();
+    // Verify form fields are cleared after successful submission
+    expect(nameInput.value).toBe("");
+    expect(emailInput.value).toBe("");
+    expect(problemInput.value).toBe("");
+
+    toastSpy.mockRestore();
   });
 });
 
