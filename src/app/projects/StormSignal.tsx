@@ -206,7 +206,7 @@ export function StormSignal() {
           </p>
         }
         titleClassName="text-4xl leading-tight md:text-6xl"
-        framingClassName="max-w-3xl text-xl text-gray-400"
+        framingClassName="max-w-3xl text-xl md:text-xl text-gray-400"
         ctas={ctas.map((cta) => (
           <CaseStudyCtaButton
             key={cta.label}
