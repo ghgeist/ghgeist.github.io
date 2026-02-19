@@ -16,9 +16,9 @@ export type CaseStudyCtaButtonProps = {
 
 const CTA_VARIANT_STYLES: Record<CaseStudyCtaVariant, string> = {
   primary:
-    "border border-[color:var(--project-accent-border)] bg-[var(--project-accent-strong)] text-[var(--project-accent-on)] hover:border-[color:var(--project-accent)] hover:bg-[var(--project-accent)]",
+    "border border-[color:var(--project-accent-border)] bg-[var(--project-accent-strong)] text-[var(--project-accent-on)] shadow-lg shadow-[color:var(--project-accent-soft)] hover:border-[color:var(--project-accent)] hover:bg-[var(--project-accent)]",
   secondary:
-    "border border-[color:var(--surface-border-default)] bg-[var(--surface-content-bg)] text-[var(--project-body-text)] hover:border-[color:var(--surface-border-emphasis)] hover:bg-[var(--surface-highlight-bg)]",
+    "border border-white/10 bg-white/5 text-[var(--project-body-text)] hover:border-white/20 hover:bg-white/10",
 };
 
 export function CaseStudyCtaButton({
@@ -36,7 +36,7 @@ export function CaseStudyCtaButton({
       target={target}
       rel={target === "_blank" ? "noreferrer" : undefined}
       className={cn(
-        "inline-flex h-10 items-center justify-center gap-2.5 rounded-md px-5 text-sm font-medium leading-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30",
+        "inline-flex items-center justify-center gap-2 rounded-sm px-5 py-2.5 text-sm font-medium leading-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30",
         CTA_VARIANT_STYLES[variant],
         className
       )}

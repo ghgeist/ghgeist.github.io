@@ -11,7 +11,8 @@ Read first:
 3) docs/design_system/README.md
 4) docs/design_system/design_language_contract.md
 5) docs/design_system/page_composition_contract.md
-6) docs/design_system/visual_qa_playbook.md
+6) docs/design_system/project_page_authoring_checklist.md
+7) docs/design_system/visual_qa_playbook.md
 
 Goal:
 - Improve cross-page cohesion while preserving per-project personality.

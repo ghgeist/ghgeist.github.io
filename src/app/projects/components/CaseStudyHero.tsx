@@ -72,61 +72,56 @@ export function CaseStudyHero({
           initial={{ opacity: 0.95, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className={cn("max-w-5xl", contentClassName)}
+          className={cn("max-w-6xl", contentClassName)}
         >
-          <div
-            className={cn(
-              "mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between",
-              topRowClassName
-            )}
-          >
+          <div className={cn("mb-8", topRowClassName)}>
             <Link
               to={backTo}
               className={cn(
-                "inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-meta-text)] transition-colors hover:text-[var(--project-body-text)]",
+                "inline-flex items-center gap-2 text-sm font-medium text-[var(--project-meta-text)] transition-colors hover:text-white",
                 backLinkClassName
               )}
             >
-              <ArrowLeft className="h-3 w-3" />
+              <ArrowLeft className="h-4 w-4" />
               {backLabel}
             </Link>
-            {ctas ? (
-              <div
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-center xl:gap-10">
+            <div className="lg:pr-4">
+              <h1
                 className={cn(
-                  "flex flex-wrap items-center gap-3",
-                  ctasClassName
+                  "text-4xl font-bold tracking-tight text-white md:text-6xl",
+                  titleClassName
                 )}
               >
-                {ctas}
+                {title}
+              </h1>
+
+              <div
+                className={cn(
+                  "mt-6 max-w-2xl text-base leading-relaxed text-[var(--project-body-text)] md:text-lg",
+                  framingClassName
+                )}
+              >
+                {framing}
               </div>
-            ) : null}
-          </div>
 
-          <h1
-            className={cn(
-              "text-4xl font-bold tracking-tight text-white md:text-6xl",
-              titleClassName
-            )}
-          >
-            {title}
-          </h1>
+              {ctas ? (
+                <div className={cn("mt-8 flex min-h-11 flex-wrap items-center gap-3 sm:gap-4", ctasClassName)}>
+                  {ctas}
+                </div>
+              ) : null}
+            </div>
 
-          <div
-            className={cn(
-              "mt-4 max-w-3xl text-base leading-relaxed text-[var(--project-body-text)] md:text-lg",
-              framingClassName
-            )}
-          >
-            {framing}
-          </div>
-
-          <div
-            className={cn(
-              "mt-8 overflow-hidden rounded-md border border-[color:var(--surface-border-default)] bg-[var(--surface-meta-bg)]",
-              mediaClassName
-            )}
-          >
-            {media}
+            <div
+              className={cn(
+                "mt-2 overflow-hidden rounded-md border border-[color:var(--surface-border-default)] bg-[var(--surface-meta-bg)] lg:mt-0",
+                mediaClassName
+              )}
+            >
+              {media}
+            </div>
           </div>
         </Motion.div>
       </div>
