@@ -32,8 +32,8 @@ export function ImageWithFallback({ lazy = true, ...props }: ImageWithFallbackPr
       alt={alt} 
       className={className} 
       style={style} 
-      loading={lazy ? "lazy" : "eager"}
       {...rest} 
+      loading={lazy ? "lazy" : "eager"}
       onError={handleError} 
     />
   )
