@@ -4,6 +4,12 @@ This directory contains focused, scoped rules for working with this **React 18 +
 
 ## Rule Files
 
+### `design-consistency.md`
+
+- **Scope**: Project pages (`src/app/projects/**/*.tsx`) and components (`src/app/components/**/*.tsx`)
+- **Purpose**: Maintain visual and structural consistency between landing page and project detail pages
+- **Key Topics**: Container structure, color palette, typography, spacing, component patterns
+
 ### `react-structure.md`
 
 - **Scope**: App structure (`src/app/**/*`, `src/styles/**/*`, `vite.config.*`)
@@ -27,6 +33,11 @@ This directory contains focused, scoped rules for working with this **React 18 +
 - **Scope**: Static assets (`public/**/*`, `src/**/*.{css,svg,png,jpg}`)
 - **Purpose**: Asset organization and references in a Vite/React app
 - **Key Topics**: public/, image naming, optimization
+
+### Legacy Rules (Jekyll-era, may be outdated)
+
+- `jekyll-portfolio.md` - Legacy Jekyll patterns (may not apply to current React structure)
+- `jekyll-structure.md` - Legacy Jekyll structure patterns (may not apply to current React structure)
 
 ## How Rules Work
 
