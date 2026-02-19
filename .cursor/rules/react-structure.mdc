@@ -69,6 +69,7 @@ Projects are route-based React components, not markdown or CMS.
 
 ## Related Rules
 
+- **TypeScript patterns**: See `typescript-best-practices.mdc` for component props, types, and React type patterns.
 - **Naming conventions**: See `file-naming.mdc` for component and file naming patterns.
 - **Verification commands**: See `iteration-workflow.mdc` for build, test, and lint commands.
 - **Asset references**: See `asset-management.mdc` for how to reference `public/` assets.

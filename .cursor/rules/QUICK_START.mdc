@@ -40,7 +40,7 @@ alwaysApply: true
 → **Check:** `.verify.yml` (single source of truth)
 
 ### "I'm getting a build/type error"
-→ **Read:** `AGENTS.md` (Error Handling) + `.cursor/rules/iteration-workflow.mdc` (Error Handling)
+→ **Read:** `AGENTS.md` (Error Handling) + `.cursor/rules/iteration-workflow.mdc` (Error Handling) + `.cursor/rules/typescript-best-practices.mdc` (TypeScript patterns)
 → **Run:** `npx tsc --noEmit` (type check), `npm run build` (build)
 
 ### "I want to understand the app structure"
@@ -53,11 +53,13 @@ alwaysApply: true
 - **Architecture/Routing:** `CLAUDE.md` + `react-structure.mdc`
 - **Design/Styling:** `design-tokens-and-layout.mdc` + `design-components-and-pages.mdc`
 - **Workflow/Verification:** `AGENTS.md` + `iteration-workflow.mdc` + `.verify.yml`
+- **TypeScript/Type Safety:** `typescript-best-practices.mdc`
 - **Naming Conventions:** `file-naming.mdc` (always applies)
 - **Assets:** `asset-management.mdc`
 
 **By file type:**
-- **`.tsx` files:** `react-structure.mdc` + `file-naming.mdc` + design rules
+- **`.tsx` files:** `react-structure.mdc` + `typescript-best-practices.mdc` + `file-naming.mdc` + design rules
+- **`.ts` files:** `typescript-best-practices.mdc` + `file-naming.mdc`
 - **`.css` files:** `design-tokens-and-layout.mdc` + `asset-management.mdc`
 - **`public/` files:** `asset-management.mdc`
 - **Config files:** `iteration-workflow.mdc` + `CLAUDE.md`
@@ -86,7 +88,8 @@ alwaysApply: true
 3. Check `.verify.yml` for verification requirements
 
 **When editing:**
-- **React components:** Check `react-structure.mdc` + design rules
+- **React components:** Check `react-structure.mdc` + `typescript-best-practices.mdc` + design rules
+- **TypeScript/TypeScript files:** Check `typescript-best-practices.mdc` + `file-naming.mdc`
 - **Styling:** Check `design-tokens-and-layout.mdc` + `design-components-and-pages.mdc`
 - **Assets:** Check `asset-management.mdc`
 - **Any file:** Follow `file-naming.mdc` conventions
@@ -110,7 +113,7 @@ alwaysApply: true
 
 **Troubleshooting:**
 - Build errors: Check `AGENTS.md` (Error Handling) + `.cursor/rules/iteration-workflow.mdc`
-- Type errors: Run `npx tsc --noEmit` and fix reported issues
+- Type errors: Check `typescript-best-practices.mdc` for patterns, run `npx tsc --noEmit` and fix reported issues
 - Test failures: Check `src/test/` and fix assertions
 
 ## 🔗 Cross-References
