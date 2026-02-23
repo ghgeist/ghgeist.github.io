@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import { motion as Motion } from "motion/react";
 
 const timelineEvents = [
@@ -78,17 +80,28 @@ export function About() {
   return (
     <section
       id="about"
-      className="border-t border-white/5 bg-[#0B0E14] py-16 md:py-20"
+      className="border-t border-white/5 bg-[#0B0E14] pt-24 pb-16 md:pt-28 md:pb-20"
     >
       {/* 1. MATCH HERO CONTAINER: Standard container with padding */}
       <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
         {/* 2. INNER WRAPPER: Matches Hero's max-w-5xl limit */}
         <div className="max-w-5xl mx-auto md:mx-0">
+          <Link
+            to="/"
+            className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-gray-400 transition-colors hover:text-white"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to Home
+          </Link>
+
           {/* Header */}
-          <div className="mb-12">
+          <div className="mb-8">
             <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">
               About
             </h2>
+            <p className="max-w-2xl text-base leading-relaxed text-gray-300/90">
+            My work has moved across countries and disciplines, but the attraction has been steady: complex systems that need to work despite real‑world friction. Whether the constraint was water, regulation, data integrity, or computational scale, I’ve been trying to understand what makes a structure reliable.
+            </p>
           </div>
 
           {/* Timeline */}

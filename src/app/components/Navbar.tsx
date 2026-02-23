@@ -18,15 +18,20 @@ export function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: "Case Studies", href: "#page-top", variant: "link" },
-    { name: "Approach", href: "#skills", variant: "link" },
-    { name: "About", href: "#about", variant: "link" },
-    { name: "Work with me", href: "#work-with-me", variant: "cta" },
+    { name: "Case Studies", href: "#page-top", variant: "link", isRoute: false },
+    { name: "Approach", href: "#skills", variant: "link", isRoute: false },
+    { name: "About", href: "/about", variant: "link", isRoute: true },
+    { name: "Work with me", href: "#work-with-me", variant: "cta", isRoute: false },
   ];
 
-  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isRoute: boolean) => {
     e.preventDefault();
     setIsMobileMenuOpen(false);
+
+    if (isRoute) {
+      navigate(href);
+      return;
+    }
 
     if (location.pathname !== "/") {
       navigate("/");
@@ -74,7 +79,7 @@ export function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                onClick={(e) => handleScrollTo(e, link.href)}
+                onClick={(e) => handleNavClick(e, link.href, link.isRoute)}
                 className={twMerge(
                   "text-xs font-medium uppercase tracking-[0.12em] transition-colors",
                   isCta
@@ -104,7 +109,7 @@ export function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                onClick={(e) => handleScrollTo(e, link.href)}
+                onClick={(e) => handleNavClick(e, link.href, link.isRoute)}
                 className={twMerge(
                   "text-xs font-medium uppercase tracking-[0.12em] transition-colors",
                   isCta
