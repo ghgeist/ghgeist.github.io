@@ -100,7 +100,11 @@ export function About() {
               About
             </h2>
             <p className="max-w-2xl text-base leading-relaxed text-gray-300/90">
-            My work has moved across countries and disciplines, but the attraction has been steady: complex systems that need to work despite real‑world friction. Whether the constraint was water, regulation, data integrity, or computational scale, I’ve been trying to understand what makes a structure reliable.
+              My work has moved across countries and disciplines, but the
+              attraction has been steady: complex systems that need to work
+              despite real‑world friction. Whether the constraint was water,
+              regulation, data integrity, or computational scale, I&apos;ve been
+              trying to understand what makes a structure reliable.
             </p>
           </div>
 
@@ -162,6 +166,4 @@ export function About() {
     </section>
   );
 }
-
-
 
