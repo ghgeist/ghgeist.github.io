@@ -19,7 +19,9 @@ const ctas = [
     label: "Live Demo",
     href: "https://bantr.us/",
     icon: <ExternalLink className="h-4 w-4" />,
+    iconPosition: "right" as const,
     variant: "primary" as const,
+    showArrow: false,
   },
 ];
 
@@ -86,7 +88,9 @@ export function Bantr() {
             label={cta.label}
             href={cta.href}
             icon={cta.icon}
+            iconPosition={cta.iconPosition}
             variant={cta.variant}
+            showArrow={cta.showArrow ?? true}
           />
         ))}
         background={
@@ -296,7 +300,9 @@ export function Bantr() {
                   label={ctas[0].label}
                   href={ctas[0].href}
                   icon={ctas[0].icon}
+                  iconPosition={ctas[0].iconPosition}
                   variant="primary"
+                  showArrow={ctas[0].showArrow ?? true}
                   className="w-full sm:w-auto"
                 />
               </div>
