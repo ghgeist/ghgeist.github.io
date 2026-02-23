@@ -8,6 +8,7 @@ export type CaseStudyCtaButtonProps = {
   label: string;
   href: string;
   icon?: ReactNode;
+  iconPosition?: "left" | "right";
   variant?: CaseStudyCtaVariant;
   className?: string;
   target?: "_blank" | "_self";
@@ -25,11 +26,17 @@ export function CaseStudyCtaButton({
   label,
   href,
   icon,
+  iconPosition = "left",
   variant = "secondary",
   className,
   target = "_blank",
   showArrow = true,
 }: CaseStudyCtaButtonProps) {
+  const iconNode = icon;
+  const arrowNode = showArrow ? (
+    <ArrowRight className="h-4 w-4 opacity-75" />
+  ) : null;
+
   return (
     <a
       href={href}
@@ -41,9 +48,18 @@ export function CaseStudyCtaButton({
         className
       )}
     >
-      {icon}
-      <span>{label}</span>
-      {showArrow ? <ArrowRight className="h-4 w-4 opacity-75" /> : null}
+      {iconPosition === "right" ? (
+        <>
+          <span>{label}</span>
+          {iconNode}
+        </>
+      ) : (
+        <>
+          {iconNode}
+          <span>{label}</span>
+          {arrowNode}
+        </>
+      )}
     </a>
   );
 }

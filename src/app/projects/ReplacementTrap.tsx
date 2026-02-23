@@ -22,10 +22,12 @@ import { useBackToCaseStudies } from "@/app/projects/hooks/useBackToCaseStudies"
 
 const ctas = [
   {
-    label: "Read the Essay",
+    label: "Read the essay on Substack",
     href: "https://substack.com/@grantgeist/p-179539887",
     icon: <ExternalLink className="h-4 w-4" />,
+    iconPosition: "right" as const,
     variant: "primary" as const,
+    showArrow: false,
   },
   {
     label: "View on Github",
@@ -247,7 +249,9 @@ export function ReplacementTrap() {
             label={cta.label}
             href={cta.href}
             icon={cta.icon}
+            iconPosition={cta.iconPosition}
             variant={cta.variant}
+            showArrow={cta.showArrow ?? true}
           />
         ))}
         background={
