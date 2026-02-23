@@ -1,31 +1,22 @@
 import React from "react";
-import { motion as Motion, useReducedMotion } from "motion/react";
 import {
   ExternalLink,
   Github,
   ArrowLeft,
-  Calculator,
-  Home,
-  TrendingDown,
-  LineChart,
-  CheckCircle2,
 } from "lucide-react";
 import { CaseStudyCtaButton } from "@/app/projects/components/CaseStudyCtaButton";
 import { CaseStudyHero } from "@/app/projects/components/CaseStudyHero";
-import {
-  CaseStudyFlowDiagram,
-  type CaseStudyFlowLane,
-} from "@/app/projects/components/CaseStudyFlowDiagram";
 import { CaseStudySectionHeading } from "@/app/projects/components/CaseStudySectionHeading";
-import { CaseStudyStatCard } from "@/app/projects/components/CaseStudyStatCard";
 import { useBackToCaseStudies } from "@/app/projects/hooks/useBackToCaseStudies";
 
 const ctas = [
   {
-    label: "Read the Essay",
+    label: "Read the essay on Substack",
     href: "https://substack.com/@grantgeist/p-179539887",
     icon: <ExternalLink className="h-4 w-4" />,
+    iconPosition: "right" as const,
     variant: "primary" as const,
+    showArrow: false,
   },
   {
     label: "View on Github",
@@ -35,208 +26,175 @@ const ctas = [
   },
 ];
 
-const headlineStats = [
-  {
-    label: "Systems Modeled",
-    value: "11",
-    detail: "Appliances, HVAC, lighting, and insulation",
-  },
-  {
-    label: "Simulation Horizon",
-    value: "30 years",
-    detail: "Lifecycle cash flow with efficiency decline",
-  },
-  {
-    label: "Below Repayment Threshold",
-    value: "9 / 11",
-    detail: "Lifespan falls short of payback in most scenarios",
-  },
-];
-
-type FrameworkCard = {
-  title: string;
-  description: React.ReactNode;
-  icon: React.ReactNode;
-  iconBgColor: string;
-  iconColor: string;
-};
-
-const frameworkCards: FrameworkCard[] = [
-  {
-    title: "Threshold Discipline",
-    description:
-      "Every system is evaluated with a deterministic rule: Replacement/Payback (R/P) ratio = lifespan / payback period.",
-    icon: <Calculator className="h-5 w-5" />,
-    iconBgColor: "bg-amber-500/10",
-    iconColor: "text-amber-300",
-  },
-  {
-    title: "Household Reality",
-    description:
-      "Lifecycle economics are modeled under conditions people actually face: aging equipment, uneven savings, and replacement timing shocks.",
-    icon: <Home className="h-5 w-5" />,
-    iconBgColor: "bg-sky-500/10",
-    iconColor: "text-sky-300",
-  },
-  {
-    title: "Loss Detection",
-    description:
-      "The model surfaces structural shortfall risk when systems expire before recovering installed cost.",
-    icon: <TrendingDown className="h-5 w-5" />,
-    iconBgColor: "bg-rose-500/10",
-    iconColor: "text-rose-300",
-  },
-];
-
-const simulationLanes: CaseStudyFlowLane[] = [
-  {
-    title: "Inputs",
-    icon: <Home className="h-4 w-4" />,
-    iconColorClassName: "text-sky-300",
-    nodes: [
-      "Installed Cost + Labor",
-      "Energy Savings Assumptions",
-      "Expected Lifespan Bounds",
-      "Debt / HELOC Terms",
-    ],
-    tightSpacing: true,
-  },
-  {
-    title: "Core Engine",
-    icon: <Calculator className="h-4 w-4" />,
-    iconColorClassName: "text-amber-300",
-    nodes: [
-      "R/P Classification (lifespan / payback)",
-      "30-Year Cash-Flow Simulation",
-      "Efficiency Decline Over Time",
-    ],
-    tightSpacing: true,
-  },
-  {
-    title: "Stress Testing",
-    icon: <LineChart className="h-4 w-4" />,
-    iconColorClassName: "text-orange-300",
-    nodes: [
-      "Monte Carlo Energy Price Paths",
-      "Interest Rate Volatility",
-      "Replacement Timing Shifts",
-    ],
-    tightSpacing: true,
-  },
-  {
-    title: "Decision Outputs",
-    icon: <CheckCircle2 className="h-4 w-4" />,
-    iconColorClassName: "text-emerald-300",
-    nodes: [
-      "Break-even Classification",
-      "Projected Cash Shortfall / Surplus",
-      "Portfolio-Level Risk View",
-    ],
-    tightSpacing: true,
-  },
-];
-
-const simulationTransitions = [
-  "Parameterized System Profile",
-  "Scenario Cash Flows",
-  "Risk-Sorted Outcomes",
-];
-
 type RatioBenchmark = {
   label: string;
   ratio: number;
   note: string;
 };
 
-const ratioBenchmarks: RatioBenchmark[] = [
-  {
-    label: "Central AC (3-ton)",
-    ratio: 0.68,
-    note: "Replacement before payoff in base case.",
-  },
-  {
-    label: "Electric Water Heater",
-    ratio: 0.82,
-    note: "Narrow economics under typical savings.",
-  },
-  {
-    label: "Window Upgrade",
-    ratio: 0.74,
-    note: "Slow recovery relative to upfront cost.",
-  },
-  {
-    label: "Roof Replacement",
-    ratio: 0.91,
-    note: "Near threshold but often below break-even.",
-  },
-  {
-    label: "Attic Insulation",
-    ratio: 1.09,
-    note: "One of the few cases above repayment threshold.",
-  },
+const dishwashersBenchmarks: RatioBenchmark[] = [
+  { label: "Standard", ratio: 0.191, note: "Baseline replacement option." },
+  { label: "Premium", ratio: 0.2, note: "Mid-tier efficiency." },
+  { label: "Energy Star", ratio: 0.275, note: "Highest efficiency tier." },
 ];
 
-function RatioBenchmarkChart({ benchmarks }: { benchmarks: RatioBenchmark[] }) {
-  const maxRatio = React.useMemo(
-    () => Math.max(1.25, ...benchmarks.map((benchmark) => benchmark.ratio)),
+const waterHeatersBenchmarks: RatioBenchmark[] = [
+  { label: "Standard", ratio: 0.206, note: "Structural loss under base case." },
+  { label: "Premium", ratio: 0.529, note: "Mid-tier efficiency upgrade." },
+  { label: "Energy Star (hybrid)", ratio: 2.51, note: "Exceeds repayment threshold." },
+];
+
+const airConditionersBenchmarks: RatioBenchmark[] = [
+  { label: "Standard", ratio: 0.06, note: "Replacement far shorter than payback." },
+  { label: "Premium", ratio: 0.217, note: "Mid-tier efficiency upgrade." },
+  { label: "Energy Star", ratio: 0.51, note: "Higher efficiency, still below threshold." },
+];
+
+/** Chart colors: match StormSignal MODEL_COLOR_CONFIG for red/green so bar and label align across project pages. */
+const CHART_LOSS = {
+  bar: "bg-rose-400/70",
+  label: "text-rose-300/95",
+} as const;
+const CHART_SURVIVAL = {
+  bar: "bg-emerald-400/70",
+  label: "text-emerald-300/90",
+} as const;
+
+function RatioBenchmarkChart({
+  benchmarks,
+  compact = false,
+}: {
+  benchmarks: RatioBenchmark[];
+  compact?: boolean;
+}) {
+  const dataMax = React.useMemo(
+    () => Math.max(...benchmarks.map((b) => b.ratio)),
     [benchmarks],
   );
 
-  return (
-    <div className="rounded-lg border border-white/5 bg-[#0B0E14] p-6 md:p-8">
-      <div className="space-y-5">
+  /** 0-based scale: bar length = ratio. Track from 0 to max(data max, 1.0) so 1.0 threshold is visible. */
+  const xMax = React.useMemo(() => {
+    const scaleBaseMax = Math.max(dataMax, 1.0);
+    const padding = scaleBaseMax <= 1 ? 0.1 : scaleBaseMax * 0.05;
+    return scaleBaseMax + padding;
+  }, [dataMax]);
+
+  const xToPercent = (x: number) => (x / xMax) * 100;
+
+  const thresholdPercent = xMax >= 1 ? xToPercent(1) : null;
+
+  /** Axis ticks: 0, 1.0 (if in range), and true data max. */
+  const axisTicks = React.useMemo(() => {
+    const ticks: { value: number; position: number }[] = [
+      { value: 0, position: 0 },
+    ];
+    if (xMax >= 1) {
+      ticks.push({ value: 1, position: (1 / xMax) * 100 });
+    }
+    if (dataMax > 0 && Math.abs(dataMax - 1) > 1e-6) {
+      ticks.push({ value: dataMax, position: (dataMax / xMax) * 100 });
+    }
+    return ticks;
+  }, [dataMax, xMax]);
+
+  const content = (
+    <>
+      <div className={compact ? "space-y-3" : "space-y-5"}>
         {benchmarks.map((benchmark) => {
-          const widthPercent = (benchmark.ratio / maxRatio) * 100;
-          const isPassing = benchmark.ratio >= 1;
+          const isBelowThreshold = benchmark.ratio < 1;
+          const widthPercent = Math.max(
+            (benchmark.ratio / xMax) * 100,
+            benchmark.ratio > 0 ? 2 : 0,
+          );
+
           return (
             <div key={benchmark.label}>
-              <div className="mb-2 flex items-start justify-between gap-2">
+              <div className={`${compact ? "mb-1" : "mb-2"} flex items-start justify-between gap-2`}>
                 <div>
-                  <p className="text-sm text-gray-300">{benchmark.label}</p>
-                  <p className="text-xs text-gray-500">{benchmark.note}</p>
+                  <p className={compact ? "text-xs text-gray-300" : "text-sm text-gray-300"}>{benchmark.label}</p>
+                  {!compact && <p className="text-xs text-gray-500">{benchmark.note}</p>}
+                </div>
+              </div>
+              <div
+                className="relative flex h-6 items-center"
+                role="img"
+                aria-label={`${benchmark.label}: R/P ${benchmark.ratio.toFixed(2)}, ${isBelowThreshold ? "below" : "at or above"} break-even`}
+              >
+                <div className="relative h-2 flex-1 overflow-visible rounded-sm bg-white/5">
+                  <div
+                    className={`absolute top-0 left-0 h-full rounded-sm ${isBelowThreshold ? CHART_LOSS.bar : CHART_SURVIVAL.bar}`}
+                    style={{
+                      width: `${widthPercent}%`,
+                    }}
+                  />
+                  {thresholdPercent != null && (
+                    <div
+                      className="absolute top-0 h-full w-0.5 -translate-x-1/2 bg-gray-400/80"
+                      style={{ left: `${thresholdPercent}%` }}
+                      aria-hidden
+                    />
+                  )}
                 </div>
                 <span
-                  className={`font-mono text-sm ${isPassing ? "text-emerald-300" : "text-rose-300"}`}
+                  className={`ml-2 shrink-0 font-mono tabular-nums ${compact ? "text-xs" : "text-sm"} ${isBelowThreshold ? CHART_LOSS.label : CHART_SURVIVAL.label}`}
+                  style={{ minWidth: compact ? "2rem" : "2.5rem", textAlign: "end" }}
                 >
                   {benchmark.ratio.toFixed(2)}
                 </span>
-              </div>
-              <div className="relative h-2 overflow-hidden rounded-full bg-white/5">
-                <div
-                  className={`h-full transition-all ${isPassing ? "bg-emerald-400/70" : "bg-rose-400/70"}`}
-                  style={{ width: `${widthPercent}%`, minWidth: "2px" }}
-                />
-                <div
-                  className="absolute top-0 h-full w-px bg-white/60"
-                  style={{ left: `${(1 / maxRatio) * 100}%` }}
-                />
               </div>
             </div>
           );
         })}
       </div>
-      <div className="mt-8 border-t border-white/10 pt-6">
-        <div className="flex items-center gap-2 text-sm text-amber-300">
-          <LineChart className="h-4 w-4" />
-          <span>Threshold marker at R/P = 1.00 (break-even boundary)</span>
-        </div>
-      </div>
+      {!compact && (
+        <>
+          <div className="mt-4 flex items-center">
+            <div className="relative flex-1 h-4">
+              {axisTicks.map((tick) => (
+                <span
+                  key={tick.value}
+                  className="absolute -translate-x-1/2 font-mono text-[10px] text-gray-500 tabular-nums"
+                  style={{ left: `${tick.position}%` }}
+                >
+                  {tick.value === 1 ? "1.00" : tick.value === 0 ? "0" : tick.value.toFixed(1)}
+                </span>
+              ))}
+            </div>
+            <div className="ml-2 shrink-0" style={{ minWidth: "2.5rem" }} />
+          </div>
+          <div className="mt-6 border-t border-white/10 pt-6">
+            <p className="font-mono text-xs text-gray-500">
+              R/P = 1.00 (Break-even Threshold)
+            </p>
+          </div>
+        </>
+      )}
+    </>
+  );
+
+  if (compact) return content;
+  return (
+    <div className="rounded-lg border border-white/5 bg-[#0B0E14] p-6 md:p-8">
+      {content}
     </div>
   );
 }
 
 export function ReplacementTrap() {
-  const shouldReduceMotion = Boolean(useReducedMotion());
   const handleBackToCaseStudies = useBackToCaseStudies();
+  const [heroImageError, setHeroImageError] = React.useState(false);
+
+  const heroImageSrc = "/assets/the-replacement-trap.png";
 
   return (
     <main className="project-theme project-theme--replacement min-h-screen bg-[var(--project-page-bg)] font-sans text-[var(--project-body-text)] selection:bg-amber-400/20">
       <CaseStudyHero
+        containerClassName="pb-6 md:pb-8"
         title="The Replacement Trap"
         framing={
           <p>
-            A lifecycle cash-flow model testing when residential systems fail
-            before they repay installed cost.
+            I modeled replacement cycles for 11 common home systems.
+            Most never repay their cost before they fail.
           </p>
         }
         titleClassName="text-4xl leading-tight md:text-6xl"
@@ -247,7 +205,9 @@ export function ReplacementTrap() {
             label={cta.label}
             href={cta.href}
             icon={cta.icon}
+            iconPosition={cta.iconPosition}
             variant={cta.variant}
+            showArrow={cta.showArrow ?? true}
           />
         ))}
         background={
@@ -255,205 +215,171 @@ export function ReplacementTrap() {
         }
         media={
           <div className="relative aspect-video w-full overflow-hidden bg-[#121722]">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,_rgba(245,158,11,0.14),_transparent_38%),radial-gradient(circle_at_80%_30%,_rgba(251,146,60,0.12),_transparent_36%),linear-gradient(155deg,#141a26_0%,#0f141d_45%,#0b0f17_100%)]" />
+            {!heroImageError ? (
+              <img
+                src={heroImageSrc}
+                alt="Suburban home with roof, windows, and lawn—typical context for replacement-cycle economics"
+                className="absolute inset-0 h-full w-full object-cover"
+                onError={() => setHeroImageError(true)}
+              />
+            ) : null}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,_rgba(245,158,11,0.08),_transparent_50%),radial-gradient(circle_at_80%_30%,_rgba(251,146,60,0.06),_transparent_45%)]" />
             <div
-              className="absolute inset-0 opacity-20"
+              className="absolute inset-0 opacity-[0.07]"
               style={{
                 backgroundImage:
-                  "linear-gradient(to right, rgba(148,163,184,0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(148,163,184,0.12) 1px, transparent 1px)",
+                  "linear-gradient(to right, rgba(148,163,184,0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(148,163,184,0.2) 1px, transparent 1px)",
                 backgroundSize: "22px 22px",
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E14]/85 via-[#0B0E14]/45 to-transparent" />
-            <div className="absolute -right-16 top-6 h-40 w-40 rounded-full bg-amber-400/15 blur-3xl" />
-            <div className="absolute -left-10 bottom-12 h-28 w-28 rounded-full bg-orange-400/10 blur-2xl" />
-            <div className="absolute top-4 right-4 rounded border border-amber-300/20 bg-[#121722]/70 px-2 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-amber-300/85">
-              Replacement / Payback Model
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 grid gap-2 border-t border-white/10 bg-[#0B0E14]/92 p-4 md:grid-cols-3">
-              <div className="rounded-md border border-white/10 bg-[#121722]/85 p-3">
-                <p className="font-mono text-xs uppercase tracking-[0.12em] text-amber-300/95">
-                  Threshold Rule
-                </p>
-                <p className="mt-1 text-sm font-semibold text-white">
-                  R/P Ratio = lifespan / payback
-                </p>
-              </div>
-              <div className="rounded-md border border-white/10 bg-[#121722]/85 p-3">
-                <p className="font-mono text-xs uppercase tracking-[0.12em] text-amber-300/95">
-                  Break-even condition
-                </p>
-                <p className="mt-1 text-sm font-semibold text-white">
-                  R/P greater than 1
-                </p>
-              </div>
-              <div className="rounded-md border border-white/10 bg-[#121722]/85 p-3">
-                <p className="font-mono text-xs uppercase tracking-[0.12em] text-amber-300/95">
-                  Structural loss condition
-                </p>
-                <p className="mt-1 text-sm font-semibold text-white">
-                  R/P less than 1
-                </p>
-              </div>
-            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E14]/60 via-[#0B0E14]/25 to-transparent" />
           </div>
         }
       />
 
-      <section className="border-b border-white/5 bg-[var(--project-page-bg)]">
-        <div className="mx-auto max-w-6xl px-6 pb-12 pt-8 lg:px-8">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {headlineStats.map((stat) => (
-              <CaseStudyStatCard
-                key={stat.label}
-                label={stat.label}
-                value={stat.value}
-                subtext={stat.detail}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[var(--project-page-bg)] py-12 md:py-20">
+      <section className="border-b border-white/5 bg-[var(--project-page-bg)] pt-6 pb-10 md:pt-8 md:pb-14">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
-          <CaseStudySectionHeading
-            title="The Context"
-            subtitle="Residential upgrades are often sold as investments, but replacement cycles and financing frictions can prevent cost recovery."
-            subtitleClassName="max-w-3xl"
-          />
-          <div className="prose prose-invert max-w-none text-gray-400">
-            <p className="text-base md:text-lg">
-              Most homeowner decisions are made under uncertainty: variable
-              utility prices, uneven equipment performance, and debt-funded
-              replacement decisions. Simple payback estimates ignore this
-              lifecycle pressure.
-            </p>
-            <p className="mt-6 text-base md:text-lg">
-              The Replacement Trap reframes the question with a structural
-              threshold: does a system survive long enough to repay itself
-              before it has to be replaced?
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y border-white/5 bg-[#11141a] py-12 md:py-20">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
-          <CaseStudySectionHeading title="Analytical Doctrine" />
-          <p className="mb-8 max-w-3xl text-base leading-relaxed text-gray-400 md:mb-12">
-            The model favors inspectable economics over abstract optimism. Each
-            outcome is tied to explicit assumptions, deterministic threshold
-            logic, and stress-tested scenarios.
-          </p>
-          <div className="grid gap-4 md:grid-cols-3 md:gap-6">
-            {frameworkCards.map((card, idx) => {
-              const cardClasses =
-                "rounded-sm border border-white/5 bg-[#151921] p-4 md:p-6";
-
-              const cardContent = (
-                <>
-                  <div
-                    className={`mb-4 flex h-10 w-10 items-center justify-center rounded-sm ${card.iconBgColor} ${card.iconColor}`}
-                  >
-                    {card.icon}
-                  </div>
-                  <h3 className="mb-2 font-bold text-white">{card.title}</h3>
-                  <p className="text-sm leading-relaxed text-gray-400">
-                    {card.description}
-                  </p>
-                </>
-              );
-
-              if (shouldReduceMotion) {
-                return (
-                  <div key={card.title} className={cardClasses}>
-                    {cardContent}
-                  </div>
-                );
-              }
-
-              return (
-                <Motion.div
-                  key={card.title}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.4 }}
-                  transition={{ duration: 0.3, delay: idx * 0.06 }}
-                  className={cardClasses}
-                >
-                  {cardContent}
-                </Motion.div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[var(--project-page-bg)] py-10 md:py-12">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
-          <CaseStudySectionHeading
-            title="Model Architecture"
-            subtitle="A constrained simulation pipeline: standardized inputs, deterministic thresholds, scenario stress testing, and risk-ranked outputs."
-            subtitleClassName="max-w-3xl"
-          />
-          <div className="mt-8 md:mt-6">
-            <div className="relative rounded-lg border border-white/10 bg-[#151921] p-3 md:p-3 lg:p-6">
-              <div
-                className="absolute inset-0 rounded-lg opacity-5"
-                style={{
-                  backgroundImage:
-                    "radial-gradient(circle, currentColor 1px, transparent 1px)",
-                  backgroundSize: "24px 24px",
-                }}
-              />
-              <CaseStudyFlowDiagram
-                lanes={simulationLanes}
-                transitions={simulationTransitions}
-                accentTextClassName="text-amber-300"
-                accentBorderClassName="border-amber-300/40"
-                fallbackFinalOutputLabel="Actionable Scenario Review"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y border-white/5 bg-[#151921] py-12 md:py-20">
-        <div className="mx-auto max-w-5xl px-6 lg:px-8">
-          <div className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_auto] lg:items-start lg:gap-12">
             <div>
-              <h3 className="mb-2 font-mono text-sm uppercase tracking-widest text-amber-300">
-                Key Structural Finding
-              </h3>
-              <h2 className="mb-4 text-2xl font-bold text-white md:mb-6 md:text-3xl">
-                Replacement Cycles Can Outrun Payback
-              </h2>
-              <div className="space-y-4 leading-relaxed text-gray-400 md:space-y-6">
-                <p>
-                  In 9 of 11 modeled systems, base-case lifespan is shorter than
-                  payback. That means capital is redeployed before prior spending
-                  is recovered.
+              <CaseStudySectionHeading
+                title="The Context"
+                subtitle="Residential upgrades are often sold as investments, but replacement cycles and financing frictions limit cost recovery."
+                subtitleClassName="max-w-3xl"
+                className="mb-4 md:mb-5"
+              />
+              <div className="prose prose-invert mt-4 max-w-none text-gray-400">
+                <p className="text-base md:text-lg">
+                  Most homeowner decisions are made under uncertainty: variable
+                  utility prices, uneven equipment performance, and debt-funded
+                  replacement decisions. Simple payback estimates ignore this
+                  lifecycle pressure.
                 </p>
-                <p>
-                  Financing pressure amplifies the effect. HELOC-funded
-                  replacements can increase total shortfall even when annual
-                  utility savings look attractive.
-                </p>
-                <p>
-                  The implication is not that upgrades never make sense. It is
-                  that break-even should be treated as a lifecycle probability
-                  problem, not a headline-savings claim.
+                <p className="mt-4 text-base md:text-lg">
+                  The Replacement Trap reframes the question with a structural
+                  threshold: does a system survive long enough to repay itself
+                  before it has to be replaced?
                 </p>
               </div>
             </div>
-
-            <RatioBenchmarkChart benchmarks={ratioBenchmarks} />
+            <div className="lg:w-72">
+              <div className="rounded-[2px] border border-white/5 bg-[#1a1f28] p-4 md:p-5">
+                <h3 className="mb-3 text-sm font-medium text-gray-500">
+                  Model Summary
+                </h3>
+                <ul className="list-inside list-disc space-y-2 text-sm text-gray-300">
+                  <li>11 common systems</li>
+                  <li>30-year lifecycle simulation</li>
+                  <li>9 fall below the payback threshold</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="border-t border-white/5 bg-[var(--project-page-bg)] py-12">
+      <section className="border-y border-white/5 bg-[#11141a] py-10 md:py-14">
+        <div className="mx-auto max-w-6xl px-6 lg:px-8">
+          <CaseStudySectionHeading
+            title="Modeling Approach"
+            subtitle="Each system is evaluated using a deterministic threshold rather than simple payback claims."
+            subtitleClassName="max-w-3xl"
+          />
+          <div className="grid gap-6 md:grid-cols-2 md:gap-8">
+            <div className="rounded-sm border border-white/5 bg-[#151921] p-4 md:p-6">
+              <h3 className="mb-4 text-lg font-bold text-white">
+                Replacement / Payback (R/P) Ratio
+              </h3>
+              <p className="mb-4 font-mono text-sm text-gray-300">
+                Lifespan ÷ Payback Period
+              </p>
+              <p className="mb-3 text-sm text-gray-400">
+                This ratio creates a structural classification:
+              </p>
+              <ul className="mb-4 list-inside list-disc space-y-1.5 text-sm text-gray-300">
+                <li>
+                  <strong>R/P &gt; 1</strong> — The system survives long enough
+                  to recover its installed cost.
+                </li>
+                <li>
+                  <strong>R/P &lt; 1</strong> — The system reaches end-of-life
+                  before full capital recovery.
+                </li>
+              </ul>
+              <p className="text-sm leading-relaxed text-gray-400">
+                When lifespan is shorter than payback, each replacement cycle
+                resets invested capital before recovery. The result is not
+                delayed return, but recurring structural loss.
+              </p>
+            </div>
+            <div className="rounded-sm border border-white/5 bg-[#151921] p-4 md:p-6">
+              <h3 className="mb-4 text-lg font-bold text-white">
+                Real-World Constraints
+              </h3>
+              <p className="mb-4 text-sm leading-relaxed text-gray-400">
+                The model reflects conditions households actually face:
+              </p>
+              <ul className="mb-4 list-inside list-disc space-y-1.5 text-sm text-gray-300">
+                <li>Aging equipment and performance decline over time</li>
+                <li>Uneven annual savings influenced by weather and usage</li>
+                <li>Replacement timing shocks</li>
+                <li>Debt-funded replacement scenarios (HELOC modeling)</li>
+              </ul>
+              <p className="text-sm leading-relaxed text-gray-400">
+                All outcomes are tied to explicit assumptions, bounded lifespan ranges, and stress-tested scenarios. The model is designed for inspectable economics.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-white/5 bg-[#151921] py-10 md:py-14">
+        <div className="mx-auto max-w-6xl px-6 lg:px-8">
+          <h3 className="mb-2 font-mono text-sm uppercase tracking-widest text-amber-300">
+            Key Structural Finding
+          </h3>
+          <h2 className="mb-4 text-2xl font-bold text-white md:mb-6 md:text-3xl">
+            Replacement Cycles Can Outrun Payback
+          </h2>
+          <div className="space-y-4 leading-relaxed text-gray-400 md:space-y-6">
+            <p>
+              The chart below focuses on major appliance categories. In base-case
+              modeling, R/P ratios for dishwashers and air conditioners cluster
+              well below the 1.0 survival threshold, even across standard,
+              premium, and Energy Star tiers. The notable exception is the
+              hybrid heat pump water heater, with an R/P ratio of 2.51.
+            </p>
+            <p>
+              A whole-home LED retrofit and blown-in attic insulation were also
+              modeled. The LED retrofit produces a large surplus (R/P = 8.93),
+              while insulation remains below the threshold (R/P = 0.62). These
+              systems are not shown in the graph.
+            </p>
+          </div>
+
+          <div className="mt-8 grid gap-6 sm:grid-cols-3">
+            <div className="rounded-lg border border-white/5 bg-[#0B0E14] p-4 md:p-5">
+              <h3 className="mb-4 font-mono text-xs uppercase tracking-widest text-gray-500">
+                Dishwashers
+              </h3>
+              <RatioBenchmarkChart benchmarks={dishwashersBenchmarks} compact />
+            </div>
+            <div className="rounded-lg border border-white/5 bg-[#0B0E14] p-4 md:p-5">
+              <h3 className="mb-4 font-mono text-xs uppercase tracking-widest text-gray-500">
+                Water Heaters
+              </h3>
+              <RatioBenchmarkChart benchmarks={waterHeatersBenchmarks} compact />
+            </div>
+            <div className="rounded-lg border border-white/5 bg-[#0B0E14] p-4 md:p-5">
+              <h3 className="mb-4 font-mono text-xs uppercase tracking-widest text-gray-500">
+                Air Conditioners
+              </h3>
+              <RatioBenchmarkChart benchmarks={airConditionersBenchmarks} compact />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-white/5 bg-[var(--project-page-bg)] py-10">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <a
             href="/#page-top"

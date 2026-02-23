@@ -8,6 +8,19 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const pendingRouteScrollRafId = React.useRef<number | null>(null);
+  const pendingAnchorScrollTimeoutId = React.useRef<number | null>(null);
+
+  const clearPendingScrollWork = () => {
+    if (pendingRouteScrollRafId.current != null) {
+      window.cancelAnimationFrame(pendingRouteScrollRafId.current);
+      pendingRouteScrollRafId.current = null;
+    }
+    if (pendingAnchorScrollTimeoutId.current != null) {
+      window.clearTimeout(pendingAnchorScrollTimeoutId.current);
+      pendingAnchorScrollTimeoutId.current = null;
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,20 +30,40 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => clearPendingScrollWork, []);
+
   const navLinks = [
-    { name: "Case Studies", href: "#page-top", variant: "link" },
-    { name: "Approach", href: "#skills", variant: "link" },
-    { name: "About", href: "#about", variant: "link" },
-    { name: "Work with me", href: "#work-with-me", variant: "cta" },
+    { name: "Case Studies", href: "#page-top", variant: "link", isRoute: false },
+    { name: "Approach", href: "#skills", variant: "link", isRoute: false },
+    { name: "About", href: "/about", variant: "link", isRoute: true },
+    { name: "Work with me", href: "#work-with-me", variant: "cta", isRoute: false },
   ];
 
-  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isRoute: boolean) => {
+    clearPendingScrollWork();
+
+    const isModifiedClick = e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
+    if (isModifiedClick) {
+      setIsMobileMenuOpen(false);
+      return; // let browser handle: new tab, middle-click, etc.
+    }
+
     e.preventDefault();
     setIsMobileMenuOpen(false);
 
+    if (isRoute) {
+      navigate(href);
+      pendingRouteScrollRafId.current = window.requestAnimationFrame(() => {
+        pendingRouteScrollRafId.current = null;
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      });
+      return;
+    }
+
     if (location.pathname !== "/") {
       navigate("/");
-      setTimeout(() => {
+      pendingAnchorScrollTimeoutId.current = window.setTimeout(() => {
+        pendingAnchorScrollTimeoutId.current = null;
         const element = document.querySelector(href);
         if (element) {
           const y = element.getBoundingClientRect().top + window.scrollY - 96;
@@ -62,7 +95,7 @@ export function Navbar() {
         <a
           href="#page-top"
           className="text-xl font-bold tracking-tight text-white transition-colors hover:text-[#0066cc]"
-          onClick={(e) => handleScrollTo(e, "#page-top")}
+          onClick={(e) => handleNavClick(e, "#page-top", false)}
         >
           GRANT GEIST
         </a>
@@ -74,7 +107,7 @@ export function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                onClick={(e) => handleScrollTo(e, link.href)}
+                onClick={(e) => handleNavClick(e, link.href, link.isRoute)}
                 className={twMerge(
                   "text-xs font-medium uppercase tracking-[0.12em] transition-colors",
                   isCta
@@ -104,7 +137,7 @@ export function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                onClick={(e) => handleScrollTo(e, link.href)}
+                onClick={(e) => handleNavClick(e, link.href, link.isRoute)}
                 className={twMerge(
                   "text-xs font-medium uppercase tracking-[0.12em] transition-colors",
                   isCta

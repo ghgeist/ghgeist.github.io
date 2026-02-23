@@ -27,7 +27,9 @@ const ctas = [
     label: "Live Demo",
     href: "https://storm-signal.replit.app/",
     icon: <ExternalLink className="h-4 w-4" />,
+    iconPosition: "right" as const,
     variant: "primary" as const,
+    showArrow: false,
   },
   {
     label: "View on Github",
@@ -213,7 +215,9 @@ export function StormSignal() {
             label={cta.label}
             href={cta.href}
             icon={cta.icon}
+            iconPosition={cta.iconPosition}
             variant={cta.variant}
+            showArrow={cta.showArrow ?? true}
           />
         ))}
         background={
