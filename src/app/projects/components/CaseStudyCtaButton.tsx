@@ -52,6 +52,7 @@ export function CaseStudyCtaButton({
         <>
           <span>{label}</span>
           {iconNode}
+          {arrowNode}
         </>
       ) : (
         <>
