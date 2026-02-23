@@ -67,7 +67,7 @@ export function Navbar() {
         <a
           href="#page-top"
           className="text-xl font-bold tracking-tight text-white transition-colors hover:text-[#0066cc]"
-          onClick={(e) => handleScrollTo(e, "#page-top")}
+          onClick={(e) => handleNavClick(e, "#page-top", false)}
         >
           GRANT GEIST
         </a>
