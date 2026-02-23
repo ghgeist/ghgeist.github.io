@@ -8,6 +8,19 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const pendingRouteScrollRafId = React.useRef<number | null>(null);
+  const pendingAnchorScrollTimeoutId = React.useRef<number | null>(null);
+
+  const clearPendingScrollWork = () => {
+    if (pendingRouteScrollRafId.current != null) {
+      window.cancelAnimationFrame(pendingRouteScrollRafId.current);
+      pendingRouteScrollRafId.current = null;
+    }
+    if (pendingAnchorScrollTimeoutId.current != null) {
+      window.clearTimeout(pendingAnchorScrollTimeoutId.current);
+      pendingAnchorScrollTimeoutId.current = null;
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +30,8 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => clearPendingScrollWork, []);
+
   const navLinks = [
     { name: "Case Studies", href: "#page-top", variant: "link", isRoute: false },
     { name: "Approach", href: "#skills", variant: "link", isRoute: false },
@@ -25,6 +40,8 @@ export function Navbar() {
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isRoute: boolean) => {
+    clearPendingScrollWork();
+
     const isModifiedClick = e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0;
     if (isModifiedClick) {
       setIsMobileMenuOpen(false);
@@ -36,7 +53,8 @@ export function Navbar() {
 
     if (isRoute) {
       navigate(href);
-      window.requestAnimationFrame(() => {
+      pendingRouteScrollRafId.current = window.requestAnimationFrame(() => {
+        pendingRouteScrollRafId.current = null;
         window.scrollTo({ top: 0, left: 0, behavior: "auto" });
       });
       return;
@@ -44,7 +62,8 @@ export function Navbar() {
 
     if (location.pathname !== "/") {
       navigate("/");
-      setTimeout(() => {
+      pendingAnchorScrollTimeoutId.current = window.setTimeout(() => {
+        pendingAnchorScrollTimeoutId.current = null;
         const element = document.querySelector(href);
         if (element) {
           const y = element.getBoundingClientRect().top + window.scrollY - 96;

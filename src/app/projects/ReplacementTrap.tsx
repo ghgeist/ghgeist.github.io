@@ -73,34 +73,30 @@ function RatioBenchmarkChart({
   );
 
   /** 0-based scale: bar length = ratio. Track from 0 to max(ratios, 1.0) so 1.0 threshold is visible. */
-  const axis = React.useMemo(() => {
+  const xMax = React.useMemo(() => {
     const maxRatio = Math.max(
       ...benchmarks.map((b) => b.ratio),
       1.0,
     );
     const padding = maxRatio <= 1 ? 0.1 : maxRatio * 0.05;
-    return {
-      xMin: 0,
-      xMax: maxRatio + padding,
-      range: maxRatio + padding,
-    };
+    return maxRatio + padding;
   }, [benchmarks]);
 
-  const xToPercent = (x: number) => (x / axis.xMax) * 100;
+  const xToPercent = (x: number) => (x / xMax) * 100;
 
-  const thresholdPercent = axis.xMax >= 1 ? xToPercent(1) : null;
+  const thresholdPercent = xMax >= 1 ? xToPercent(1) : null;
 
   /** Axis ticks: 0, 1.0 (if in range), max */
   const axisTicks = React.useMemo(() => {
     const ticks: { value: number; position: number }[] = [
       { value: 0, position: 0 },
     ];
-    if (axis.xMax >= 1) {
-      ticks.push({ value: 1, position: (1 / axis.xMax) * 100 });
+    if (xMax >= 1) {
+      ticks.push({ value: 1, position: (1 / xMax) * 100 });
     }
-    ticks.push({ value: axis.xMax, position: 100 });
+    ticks.push({ value: xMax, position: 100 });
     return ticks;
-  }, [axis.xMax]);
+  }, [xMax]);
 
   const content = (
     <>
@@ -108,7 +104,7 @@ function RatioBenchmarkChart({
         {sorted.map((benchmark) => {
           const isBelowThreshold = benchmark.ratio < 1;
           const widthPercent = Math.max(
-            (benchmark.ratio / axis.xMax) * 100,
+            (benchmark.ratio / xMax) * 100,
             benchmark.ratio > 0 ? 2 : 0,
           );
 
@@ -130,7 +126,6 @@ function RatioBenchmarkChart({
                     className={`absolute top-0 left-0 h-full rounded-sm ${isBelowThreshold ? CHART_LOSS.bar : CHART_SURVIVAL.bar}`}
                     style={{
                       width: `${widthPercent}%`,
-                      minWidth: benchmark.ratio > 0 ? 2 : 0,
                     }}
                   />
                   {thresholdPercent != null && (

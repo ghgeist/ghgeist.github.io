@@ -79,7 +79,6 @@ const timelineEvents = [
 export function About() {
   return (
     <section
-      id="about"
       className="border-t border-white/5 bg-[#0B0E14] pt-24 pb-16 md:pt-28 md:pb-20"
     >
       {/* 1. MATCH HERO CONTAINER: Standard container with padding */}
