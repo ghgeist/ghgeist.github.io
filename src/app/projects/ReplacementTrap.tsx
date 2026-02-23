@@ -67,26 +67,23 @@ function RatioBenchmarkChart({
   benchmarks: RatioBenchmark[];
   compact?: boolean;
 }) {
-  const sorted = React.useMemo(
-    () => [...benchmarks].sort((a, b) => a.ratio - b.ratio),
+  const dataMax = React.useMemo(
+    () => Math.max(...benchmarks.map((b) => b.ratio)),
     [benchmarks],
   );
 
-  /** 0-based scale: bar length = ratio. Track from 0 to max(ratios, 1.0) so 1.0 threshold is visible. */
+  /** 0-based scale: bar length = ratio. Track from 0 to max(data max, 1.0) so 1.0 threshold is visible. */
   const xMax = React.useMemo(() => {
-    const maxRatio = Math.max(
-      ...benchmarks.map((b) => b.ratio),
-      1.0,
-    );
-    const padding = maxRatio <= 1 ? 0.1 : maxRatio * 0.05;
-    return maxRatio + padding;
-  }, [benchmarks]);
+    const scaleBaseMax = Math.max(dataMax, 1.0);
+    const padding = scaleBaseMax <= 1 ? 0.1 : scaleBaseMax * 0.05;
+    return scaleBaseMax + padding;
+  }, [dataMax]);
 
   const xToPercent = (x: number) => (x / xMax) * 100;
 
   const thresholdPercent = xMax >= 1 ? xToPercent(1) : null;
 
-  /** Axis ticks: 0, 1.0 (if in range), max */
+  /** Axis ticks: 0, 1.0 (if in range), and true data max. */
   const axisTicks = React.useMemo(() => {
     const ticks: { value: number; position: number }[] = [
       { value: 0, position: 0 },
@@ -94,14 +91,16 @@ function RatioBenchmarkChart({
     if (xMax >= 1) {
       ticks.push({ value: 1, position: (1 / xMax) * 100 });
     }
-    ticks.push({ value: xMax, position: 100 });
+    if (dataMax > 0 && Math.abs(dataMax - 1) > 1e-6) {
+      ticks.push({ value: dataMax, position: (dataMax / xMax) * 100 });
+    }
     return ticks;
-  }, [xMax]);
+  }, [dataMax, xMax]);
 
   const content = (
     <>
       <div className={compact ? "space-y-3" : "space-y-5"}>
-        {sorted.map((benchmark) => {
+        {benchmarks.map((benchmark) => {
           const isBelowThreshold = benchmark.ratio < 1;
           const widthPercent = Math.max(
             (benchmark.ratio / xMax) * 100,
