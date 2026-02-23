@@ -36,6 +36,9 @@ export function Navbar() {
 
     if (isRoute) {
       navigate(href);
+      window.requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      });
       return;
     }
 
