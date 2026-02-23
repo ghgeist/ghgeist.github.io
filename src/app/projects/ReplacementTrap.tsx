@@ -188,6 +188,9 @@ function RatioBenchmarkChart({
 
 export function ReplacementTrap() {
   const handleBackToCaseStudies = useBackToCaseStudies();
+  const [heroImageError, setHeroImageError] = React.useState(false);
+
+  const heroImageSrc = "/assets/the-replacement-trap.png";
 
   return (
     <main className="project-theme project-theme--replacement min-h-screen bg-[var(--project-page-bg)] font-sans text-[var(--project-body-text)] selection:bg-amber-400/20">
@@ -218,11 +221,14 @@ export function ReplacementTrap() {
         }
         media={
           <div className="relative aspect-video w-full overflow-hidden bg-[#121722]">
-            <img
-              src="/assets/the-replacement-trap.png"
-              alt="Suburban home with roof, windows, and lawn—typical context for replacement-cycle economics"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
+            {!heroImageError ? (
+              <img
+                src={heroImageSrc}
+                alt="Suburban home with roof, windows, and lawn—typical context for replacement-cycle economics"
+                className="absolute inset-0 h-full w-full object-cover"
+                onError={() => setHeroImageError(true)}
+              />
+            ) : null}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,_rgba(245,158,11,0.08),_transparent_50%),radial-gradient(circle_at_80%_30%,_rgba(251,146,60,0.06),_transparent_45%)]" />
             <div
               className="absolute inset-0 opacity-[0.07]"

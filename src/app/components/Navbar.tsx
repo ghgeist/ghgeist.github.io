@@ -25,6 +25,12 @@ export function Navbar() {
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isRoute: boolean) => {
+    const isModifiedClick = e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0;
+    if (isModifiedClick) {
+      setIsMobileMenuOpen(false);
+      return; // let browser handle: new tab, middle-click, etc.
+    }
+
     e.preventDefault();
     setIsMobileMenuOpen(false);
 
