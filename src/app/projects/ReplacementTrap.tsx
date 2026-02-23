@@ -72,41 +72,45 @@ function RatioBenchmarkChart({
     [benchmarks],
   );
 
+  /** 0-based scale: bar length = ratio. Track from 0 to max(ratios, 1.0) so 1.0 threshold is visible. */
   const axis = React.useMemo(() => {
-    const maxDeviation = Math.max(
-      ...benchmarks.map((b) => Math.abs(b.ratio - 1)),
-      0.1,
+    const maxRatio = Math.max(
+      ...benchmarks.map((b) => b.ratio),
+      1.0,
     );
-    const padding = Math.max(maxDeviation * 0.15, 0.05);
-    const halfRange = Math.max(maxDeviation + padding, 0.1);
+    const padding = maxRatio <= 1 ? 0.1 : maxRatio * 0.05;
     return {
-      xMin: 1 - halfRange,
-      xMax: 1 + halfRange,
-      range: 2 * halfRange,
+      xMin: 0,
+      xMax: maxRatio + padding,
+      range: maxRatio + padding,
     };
   }, [benchmarks]);
 
-  const xToPercent = (x: number) =>
-    ((x - axis.xMin) / axis.range) * 100;
+  const xToPercent = (x: number) => (x / axis.xMax) * 100;
 
-  const thresholdPercent = xToPercent(1);
+  const thresholdPercent = axis.xMax >= 1 ? xToPercent(1) : null;
 
-  /** Axis tick values for scale (min, origin, max) so 1.0 reads as center, not zero. */
-  const axisTicks = [
-    { value: axis.xMin, position: 0 },
-    { value: 1, position: thresholdPercent },
-    { value: axis.xMax, position: 100 },
-  ];
+  /** Axis ticks: 0, 1.0 (if in range), max */
+  const axisTicks = React.useMemo(() => {
+    const ticks: { value: number; position: number }[] = [
+      { value: 0, position: 0 },
+    ];
+    if (axis.xMax >= 1) {
+      ticks.push({ value: 1, position: (1 / axis.xMax) * 100 });
+    }
+    ticks.push({ value: axis.xMax, position: 100 });
+    return ticks;
+  }, [axis.xMax]);
 
   const content = (
     <>
       <div className={compact ? "space-y-3" : "space-y-5"}>
         {sorted.map((benchmark) => {
           const isBelowThreshold = benchmark.ratio < 1;
-          const barStart = Math.min(benchmark.ratio, 1);
-          const barEnd = Math.max(benchmark.ratio, 1);
-          const leftPercent = xToPercent(barStart);
-          const widthPercent = xToPercent(barEnd) - leftPercent;
+          const widthPercent = Math.max(
+            (benchmark.ratio / axis.xMax) * 100,
+            benchmark.ratio > 0 ? 2 : 0,
+          );
 
           return (
             <div key={benchmark.label}>
@@ -123,18 +127,19 @@ function RatioBenchmarkChart({
               >
                 <div className="relative h-2 flex-1 overflow-visible rounded-sm bg-white/5">
                   <div
-                    className={`absolute top-0 h-full rounded-sm ${isBelowThreshold ? CHART_LOSS.bar : CHART_SURVIVAL.bar}`}
+                    className={`absolute top-0 left-0 h-full rounded-sm ${isBelowThreshold ? CHART_LOSS.bar : CHART_SURVIVAL.bar}`}
                     style={{
-                      left: `${leftPercent}%`,
                       width: `${widthPercent}%`,
+                      minWidth: benchmark.ratio > 0 ? 2 : 0,
                     }}
                   />
-                  {/* Center line: 1.0 origin — prominent so midpoint reads as baseline */}
-                  <div
-                    className="absolute top-0 h-full w-0.5 -translate-x-1/2 bg-gray-400/80"
-                    style={{ left: `${thresholdPercent}%` }}
-                    aria-hidden
-                  />
+                  {thresholdPercent != null && (
+                    <div
+                      className="absolute top-0 h-full w-0.5 -translate-x-1/2 bg-gray-400/80"
+                      style={{ left: `${thresholdPercent}%` }}
+                      aria-hidden
+                    />
+                  )}
                 </div>
                 <span
                   className={`ml-2 shrink-0 font-mono tabular-nums ${compact ? "text-xs" : "text-sm"} ${isBelowThreshold ? CHART_LOSS.label : CHART_SURVIVAL.label}`}
@@ -149,7 +154,6 @@ function RatioBenchmarkChart({
       </div>
       {!compact && (
         <>
-          {/* Axis scale: makes 1.0 the visible origin and gives empty right side meaning */}
           <div className="mt-4 flex items-center">
             <div className="relative flex-1 h-4">
               {axisTicks.map((tick) => (
@@ -158,7 +162,7 @@ function RatioBenchmarkChart({
                   className="absolute -translate-x-1/2 font-mono text-[10px] text-gray-500 tabular-nums"
                   style={{ left: `${tick.position}%` }}
                 >
-                  {tick.value === 1 ? "1.00" : tick.value.toFixed(2)}
+                  {tick.value === 1 ? "1.00" : tick.value === 0 ? "0" : tick.value.toFixed(1)}
                 </span>
               ))}
             </div>
