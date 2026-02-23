@@ -237,7 +237,7 @@ export function ReplacementTrap() {
         }
       />
 
-      <section className="border-b border-white/5 bg-[var(--project-page-bg)] pt-6 pb-12 md:pt-8 md:pb-20">
+      <section className="border-b border-white/5 bg-[var(--project-page-bg)] pt-6 pb-10 md:pt-8 md:pb-14">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_auto] lg:items-start lg:gap-12">
             <div>
@@ -269,7 +269,7 @@ export function ReplacementTrap() {
                 <ul className="list-inside list-disc space-y-2 text-sm text-gray-300">
                   <li>11 common systems</li>
                   <li>30-year lifecycle simulation</li>
-                  <li>9 fall below payback the threshold</li>
+                  <li>9 fall below the payback threshold</li>
                 </ul>
               </div>
             </div>
@@ -277,7 +277,7 @@ export function ReplacementTrap() {
         </div>
       </section>
 
-      <section className="border-y border-white/5 bg-[#11141a] py-12 md:py-20">
+      <section className="border-y border-white/5 bg-[#11141a] py-10 md:py-14">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="Modeling Approach"
@@ -332,8 +332,8 @@ export function ReplacementTrap() {
         </div>
       </section>
 
-      <section className="border-y border-white/5 bg-[#151921] py-12 md:py-20">
-        <div className="mx-auto max-w-5xl px-6 lg:px-8">
+      <section className="border-y border-white/5 bg-[#151921] py-10 md:py-14">
+        <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <h3 className="mb-2 font-mono text-sm uppercase tracking-widest text-amber-300">
             Key Structural Finding
           </h3>
@@ -356,7 +356,7 @@ export function ReplacementTrap() {
             </p>
           </div>
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-3">
+          <div className="mt-8 grid gap-6 sm:grid-cols-3">
             <div className="rounded-lg border border-white/5 bg-[#0B0E14] p-4 md:p-5">
               <h3 className="mb-4 font-mono text-xs uppercase tracking-widest text-gray-500">
                 Dishwashers
@@ -379,7 +379,7 @@ export function ReplacementTrap() {
         </div>
       </section>
 
-      <section className="border-t border-white/5 bg-[var(--project-page-bg)] py-12">
+      <section className="border-t border-white/5 bg-[var(--project-page-bg)] py-10">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <a
             href="/#page-top"
