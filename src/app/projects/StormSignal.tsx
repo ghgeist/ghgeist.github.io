@@ -341,8 +341,8 @@ export function StormSignal() {
       </section>
 
       <section className="border-y border-white/5 bg-[#151921] py-12 md:py-20">
-        <div className="mx-auto max-w-5xl px-6 lg:px-8">
-          <div className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
+        <div className="mx-auto max-w-6xl px-6 lg:px-8">
+          <div className="grid items-start gap-8 md:grid-cols-2 md:gap-12">
             <div>
               <h3 className="mb-2 font-mono text-sm uppercase tracking-widest text-blue-400">
                 Key Engineering Trade-off
