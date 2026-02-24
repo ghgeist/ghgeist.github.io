@@ -84,15 +84,20 @@ export function Navbar() {
 
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const isModifiedClick = e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
-    if (isModifiedClick) return;
+    if (isModifiedClick) {
+      setIsMobileMenuOpen(false);
+      return;
+    }
 
     if (location.pathname === "/") {
       e.preventDefault();
+      setIsMobileMenuOpen(false);
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
 
     e.preventDefault();
+    setIsMobileMenuOpen(false);
     clearPendingScrollWork();
     navigate("/");
     pendingRouteScrollRafId.current = window.requestAnimationFrame(() => {
