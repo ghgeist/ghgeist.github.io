@@ -5,7 +5,6 @@ import {
   MapPin,
   CircleDot,
   BarChart3,
-  ChevronRight,
   CheckCircle2,
 } from "lucide-react";
 import { CaseStudyCtaButton } from "@/app/projects/components/CaseStudyCtaButton";
@@ -204,7 +203,7 @@ export function WalkabilityIndexDetail() {
               <ul className="space-y-3">
                 {systemDesignOutcomes.map((item, idx) => (
                   <Motion.li
-                    key={idx}
+                    key={item}
                     initial={{ opacity: 0.95, y: 6 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
