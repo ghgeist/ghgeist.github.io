@@ -203,7 +203,7 @@ export function StormSignal() {
         framing={
           <p>
             A disaster-response monitoring dashboard that routes high-volume
-            messages into actionable categories - using a compact, auditable ML
+            messages into actionable categories using a compact, auditable ML
             pipeline built for speed and offline deployment.
           </p>
         }
