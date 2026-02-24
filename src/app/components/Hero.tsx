@@ -69,15 +69,19 @@ export function Hero() {
           transition={{ duration: 0.45 }}
           className="max-w-5xl mx-auto md:mx-0"
         >
-          <div className="max-w-3xl">
+          <div className="max-w-2xl">
             <h1 className="text-5xl md:text-7xl font-bold mb-4 leading-[1.1] text-white tracking-tight">
-              Data Product Strategist
+              Hi, I&apos;m Grant.
             </h1>
 
-            <div className="mb-10 max-w-2xl text-base leading-relaxed text-gray-400 md:text-lg">
-              <span className="block md:inline">
-                I design and build applied data systems for complex, regulated, real-world environments
-              </span>
+            <div className="mb-10 text-base leading-relaxed text-gray-300 md:text-lg space-y-3">
+              <p>
+                I create models, tools, and systems that help people navigate complex, regulated environments.
+              </p>
+              <p>
+                I build and operate systems inside large organizations and as independent projects,
+                taking them from concept to deployment.
+              </p>
             </div>
           </div>
 
@@ -98,9 +102,9 @@ export function Hero() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-5xl">
             {/* Add a tiny metadata label just above the border for extra 'Instrument' flavor */}
 
-            {evidenceItems.map((item, index) => (
+            {evidenceItems.map((item) => (
               <Link
-                key={index}
+                key={item.link}
                 to={item.link}
                 className="group flex h-full flex-col overflow-hidden rounded-md border border-white/10 bg-[#151921] transition-all duration-300 hover:border-white/20"
               >

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import { Menu, X } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -82,6 +82,15 @@ export function Navbar() {
     window.scrollTo({ top: y, behavior: "smooth" });
   };
 
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const isModifiedClick = e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
+    if (isModifiedClick) return;
+    if (location.pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <nav
       className={twMerge(
@@ -92,13 +101,13 @@ export function Navbar() {
       )}
     >
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 lg:px-8">
-        <a
-          href="#page-top"
+        <Link
+          to="/"
           className="text-xl font-bold tracking-tight text-white transition-colors hover:text-[#0066cc]"
-          onClick={(e) => handleNavClick(e, "#page-top", false)}
+          onClick={handleLogoClick}
         >
           GRANT GEIST
-        </a>
+        </Link>
 
         <div className="hidden items-center space-x-8 md:flex">
           {navLinks.map((link) => {
