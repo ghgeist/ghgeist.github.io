@@ -85,10 +85,20 @@ export function Navbar() {
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const isModifiedClick = e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
     if (isModifiedClick) return;
+
     if (location.pathname === "/") {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
     }
+
+    e.preventDefault();
+    clearPendingScrollWork();
+    navigate("/");
+    pendingRouteScrollRafId.current = window.requestAnimationFrame(() => {
+      pendingRouteScrollRafId.current = null;
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    });
   };
 
   return (
