@@ -1,9 +1,16 @@
 import { motion as Motion } from "motion/react";
-import { ExternalLink, Github } from "lucide-react";
-import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
+import {
+  ExternalLink,
+  Github,
+  MapPin,
+  CircleDot,
+  BarChart3,
+  CheckCircle2,
+} from "lucide-react";
 import { CaseStudyCtaButton } from "@/app/projects/components/CaseStudyCtaButton";
 import { CaseStudyHero } from "@/app/projects/components/CaseStudyHero";
-import { CaseStudySectionCard } from "@/app/projects/components/CaseStudySectionCard";
+import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
+import { CaseStudySectionHeading } from "@/app/projects/components/CaseStudySectionHeading";
 import { ProjectPageShell } from "@/app/projects/components/ProjectPageShell";
 
 const ctas = [
@@ -23,10 +30,36 @@ const ctas = [
   },
 ];
 
-const neighborhoodQuestions = [
-  "What is the average walkability within a half-mile of this address?",
-  "How does walkability around one address compare to another at the same distance?",
-  "Are there other areas in the city that offer better walkability?",
+const howItWorksSteps = [
+  {
+    icon: <MapPin className="h-5 w-5" />,
+    title: "Location",
+    descriptor: "Enter an address.",
+  },
+  {
+    icon: <CircleDot className="h-5 w-5" />,
+    title: "Define the Boundary",
+    descriptor: "Set your evaluation radius.",
+  },
+  {
+    icon: <BarChart3 className="h-5 w-5" />,
+    title: "Results",
+    descriptor: "See aggregated scores and variation.",
+  },
+];
+
+const systemDesignImplementation = [
+  { term: "PostGIS", desc: "Table: national_walkability_index" },
+  { term: "ST_DWithin", desc: "Exact radius filtering" },
+  { term: "Spatial Index", desc: "GIST index on geometry; bounding-box prefilter" },
+  { term: "Preprocessing", desc: "Geometry simplification" },
+];
+
+const systemDesignOutcomes = [
+  "Evaluate at neighborhood scale",
+  "Fair comparisons",
+  "Test radius sensitivity",
+  "Apply logic across cities",
 ];
 
 export function WalkabilityIndexDetail() {
@@ -35,13 +68,15 @@ export function WalkabilityIndexDetail() {
       <CaseStudyHero
         title="Walkability Index"
         framing={
-          <p>
-            This project makes the EPA's National Walkability Index accessible
-            and usable at the neighborhood level.
-          </p>
+          <>
+            <p className="leading-relaxed">
+            Explore neighborhood walkability at a human scale. Built on the U.S. EPA’s National Walkability Index.
+            </p>
+          </>
         }
         titleClassName="text-4xl leading-tight md:text-6xl"
-        framingClassName="max-w-4xl"
+        framingClassName="max-w-2xl space-y-0 leading-snug"
+        containerClassName="!pb-8"
         ctas={ctas.map((cta) => (
           <CaseStudyCtaButton
             key={cta.label}
@@ -68,227 +103,121 @@ export function WalkabilityIndexDetail() {
           </>
         }
         media={
-          <div className="relative aspect-video w-full">
+          <div className="relative aspect-video w-full overflow-hidden bg-[var(--surface-meta-bg)]">
             <ImageWithFallback
-              src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&q=80&w=1600"
-              alt="Walkability map view"
-              className="h-full w-full object-cover opacity-70"
+              src="/assets/walkability-index-map-shot.png"
+              alt="Walkability map: block groups and radius overlay on lower Manhattan"
+              className="h-full w-full object-cover object-center"
               lazy={false}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[var(--project-page-bg)] via-[var(--project-page-bg)]/45 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 grid gap-2 border-t border-[color:var(--surface-border-default)] bg-[var(--project-page-bg)]/80 p-4 md:grid-cols-3">
-              <div className="rounded-md border border-[color:var(--surface-border-default)] bg-black/20 p-3">
-                <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-accent-text)]/95">
-                  Query input
-                </p>
-                <p className="mt-1 text-sm font-semibold text-white">Address + distance</p>
-              </div>
-              <div className="rounded-md border border-[color:var(--surface-border-default)] bg-black/20 p-3">
-                <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-accent-text)]/95">
-                  Core output
-                </p>
-                <p className="mt-1 text-sm font-semibold text-white">Average walkability</p>
-              </div>
-              <div className="rounded-md border border-[color:var(--surface-border-default)] bg-black/20 p-3">
-                <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-accent-text)]/95">
-                  Supporting output
-                </p>
-                <p className="mt-1 text-sm font-semibold text-white">Components + distribution</p>
-              </div>
-            </div>
           </div>
         }
       />
 
-      <section className="py-16 md:py-20">
+      {/* How It Works — header + 3 cards */}
+      <section className="border-b border-white/5 bg-[var(--project-page-bg)] pt-4 pb-8 md:pt-5 md:pb-12">
         <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
-          <div className="max-w-5xl">
-            <CaseStudySectionCard kicker="Context" title="Decision Context" tone="meta">
-              <p className="max-w-3xl leading-relaxed">
-                The EPA National Walkability Index is widely cited in research and
-                policy, but a single block-group score is hard to use for actual
-                neighborhood decisions.
+          <CaseStudySectionHeading
+            title="How It Works"
+            className="mb-2 md:mb-3"
+            titleClassName="text-xl font-semibold md:text-2xl"
+          />
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {howItWorksSteps.map((step, idx) => (
+              <Motion.div
+                key={step.title}
+                initial={{ opacity: 0.95, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: idx * 0.06 }}
+                className="flex flex-col rounded-lg border border-white/10 bg-white/[0.03] pt-4 px-6 pb-6"
+              >
+                <div className="mb-3 text-[var(--project-accent-text)]">
+                  {step.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-white">{step.title}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-[var(--project-body-text)]">
+                  {step.descriptor}
+                </p>
+              </Motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Compare Two Locations — narrative + comparison UI screenshot */}
+      <section className="bg-[var(--project-page-bg)] py-10 md:py-14">
+        <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
+          <CaseStudySectionHeading
+            title="Compare Two Locations"
+            subtitle="Evaluate two locations side by side using a shared radius. Differences reflect walkability, land use, connectivity, and transit conditions within the same spatial boundary."
+            subtitleClassName="max-w-3xl md:max-w-4xl"
+          />
+          <div className="mt-8 overflow-hidden rounded-md border border-white/5 bg-[var(--surface-meta-bg)]">
+            <ImageWithFallback
+              src="/assets/walkability-comparison-screenshot.png"
+              alt="Walkability comparison view showing Location A, Location B, radius control, and metric table"
+              className="w-full object-cover"
+              lazy={false}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* System Design — two columns: Architecture | What It Enables; mechanism → outcome */}
+      <section className="border-t border-white/5 bg-[var(--project-page-bg)] py-10 md:py-14">
+        <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
+          <CaseStudySectionHeading
+            title="System Design"
+            subtitle="Radius-based spatial aggregation over census block groups."
+          />
+          <div className="mt-8 grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-12">
+            <div>
+              <p className="mb-4 text-xs font-medium uppercase tracking-wider text-[var(--project-muted-text)]">
+                Architecture
               </p>
-              <ul className="space-y-2">
-                {neighborhoodQuestions.map((question) => (
-                  <li key={question} className="flex gap-3">
-                    <span className="text-[var(--project-accent-text)]">-</span>
-                    <span>{question}</span>
-                  </li>
+              <ul className="space-y-3">
+                {systemDesignImplementation.map((item, idx) => (
+                  <Motion.li
+                    key={item.term}
+                    initial={{ opacity: 0.95, y: 6 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: idx * 0.04 }}
+                    className="flex items-start gap-3"
+                  >
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--project-accent-text)]/70" aria-hidden />
+                    <span className="text-sm leading-relaxed text-[var(--project-body-text)]">
+                      <span className="font-mono text-[var(--project-accent-text)]/90">{item.term}</span>
+                      {" — "}
+                      <span className="text-[var(--project-muted-text)]">{item.desc}</span>
+                    </span>
+                  </Motion.li>
                 ))}
               </ul>
-            </CaseStudySectionCard>
-
-            <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-              <Motion.div
-                initial={{ opacity: 0.95, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35 }}
-              >
-                <CaseStudySectionCard kicker="01" title="Design Objective" className="h-full">
-                  <p className="leading-relaxed">
-                    I wanted a better way to use the National Walkability Index
-                    when making neighborhood-level decisions.
-                  </p>
-                  <p className="leading-relaxed">The result is a queryable spatial service that supports:</p>
-                  <ul className="space-y-2">
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Average walkability within a chosen distance of any address</span></li>
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Side-by-side comparison at a consistent scale</span></li>
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Clear breakdown of how walkability is composed</span></li>
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Exploration of nearby areas with different walkability profiles</span></li>
-                  </ul>
-                  <p className="leading-relaxed">
-                    This moves the NWI from a static lookup to a tool you can
-                    actually reason with.
-                  </p>
-                </CaseStudySectionCard>
-              </Motion.div>
-
-              <Motion.div
-                initial={{ opacity: 0.95, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: 0.04 }}
-              >
-                <CaseStudySectionCard kicker="02" title="Spatial Query Model" className="h-full">
-                  <p className="leading-relaxed">
-                    Instead of treating walkability as a fixed score tied to a
-                    single block group, the system measures walkability around
-                    any location.
-                  </p>
-                  <p className="leading-relaxed">
-                    Given a user-defined distance (for example 0.5 miles), the
-                    engine calculates the average walkability for all block
-                    groups that fall within that area and computes:
-                  </p>
-                  <ul className="space-y-2">
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Average walkability (simple mean across block groups within the chosen distance)</span></li>
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Supporting distribution and component information</span></li>
-                  </ul>
-                  <p className="leading-relaxed">
-                    This shifts the focus from a single block group to the area
-                    around a location, which better reflects how people
-                    experience a neighborhood.
-                  </p>
-                </CaseStudySectionCard>
-              </Motion.div>
-
-              <Motion.div
-                initial={{ opacity: 0.95, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: 0.08 }}
-              >
-                <CaseStudySectionCard kicker="03" title="System Architecture" className="h-full">
-                  <ul className="space-y-2">
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span><strong className="text-white">FastAPI</strong> backend exposing spatial query endpoints</span></li>
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span><strong className="text-white">PostGIS</strong> for spatial indexing and calculating walkability within a chosen distance</span></li>
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span><strong className="text-white">React</strong> frontend for exploration and comparison</span></li>
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Pre-indexed census block group geometries and attributes</span></li>
-                  </ul>
-                  <div className="rounded-md border border-[color:var(--surface-border-default)] bg-[var(--surface-meta-bg)] p-4 font-mono text-xs leading-relaxed text-[var(--project-accent-text)]/90">
-                    API-first design: frontend is a thin layer over a spatial
-                    query engine.
-                  </div>
-                </CaseStudySectionCard>
-              </Motion.div>
-
-              <Motion.div
-                initial={{ opacity: 0.95, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: 0.12 }}
-              >
-                <CaseStudySectionCard kicker="04" title="Engineering Decisions" className="h-full">
-                  <p className="leading-relaxed">
-                    The project was refactored from a Streamlit prototype into a
-                    service-oriented architecture.
-                  </p>
-                  <p className="leading-relaxed">Key decisions:</p>
-                  <ul className="space-y-2">
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Replace notebook-style execution with API-backed spatial queries</span></li>
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Use PostGIS for efficient spatial intersections and aggregation</span></li>
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Separate exploration and comparison views</span></li>
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Keep the metric layer modular so features can evolve</span></li>
-                  </ul>
-                  <p className="leading-relaxed">
-                    The refactor separates data storage, query logic, and
-                    interface concerns so each layer can evolve independently.
-                  </p>
-                </CaseStudySectionCard>
-              </Motion.div>
-
-              <Motion.div
-                initial={{ opacity: 0.95, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: 0.16 }}
-              >
-                <CaseStudySectionCard kicker="05" title="Tradeoffs" className="h-full">
-                  <ul className="space-y-2">
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Calculating walkability within a chosen distance introduces edge effects at block group boundaries</span></li>
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Results depend on chosen distance; scale materially changes interpretation</span></li>
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>The current system relies solely on the EPA NWI and does not yet integrate zoning, transit, or cost overlays</span></li>
-                  </ul>
-                  <p className="leading-relaxed">These constraints are explicit rather than hidden.</p>
-                </CaseStudySectionCard>
-              </Motion.div>
-
-              <Motion.div
-                initial={{ opacity: 0.95, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: 0.2 }}
-              >
-                <CaseStudySectionCard kicker="06" title="Why Not Walk Score?" className="h-full">
-                  <p className="leading-relaxed">Walk Score is a common alternative, but:</p>
-                  <ul className="space-y-2">
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Its data is proprietary and requires paid API access</span></li>
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Methodological transparency is limited</span></li>
-                    <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Reproducibility and extensibility are constrained by licensing</span></li>
-                  </ul>
-                  <p className="leading-relaxed">
-                    Building on the EPA's public dataset ensures transparency,
-                    reproducibility, and full control over spatial aggregation
-                    logic. The objective is not to replicate a consumer score,
-                    but to build an open, inspectable spatial engine.
-                  </p>
-                </CaseStudySectionCard>
-              </Motion.div>
             </div>
-
-            <Motion.div
-              initial={{ opacity: 0.95, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: 0.24 }}
-              className="mt-6"
-            >
-              <CaseStudySectionCard kicker="07" title="What This Enables" tone="highlight">
-                <ul className="space-y-2">
-                  <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Neighborhood-scale comparison during housing search</span></li>
-                  <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Sensitivity analysis at different distances</span></li>
-                  <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Identification of spatial gradients rather than single-point scores</span></li>
-                  <li className="flex gap-3"><span className="text-[var(--project-accent-text)]">-</span><span>Rapid comparison across cities</span></li>
-                </ul>
-                <p className="leading-relaxed">
-                  The tool makes the NWI usable for real neighborhood decisions
-                  instead of leaving it as a static reference value.
-                </p>
-                <div className="flex flex-col gap-3 pt-1 sm:flex-row">
-                  {ctas.map((cta) => (
-                    <CaseStudyCtaButton
-                      key={`bottom-${cta.label}`}
-                      label={cta.label}
-                      href={cta.href}
-                      icon={cta.icon}
-                      variant={cta.variant}
-                    />
-                  ))}
-                </div>
-              </CaseStudySectionCard>
-            </Motion.div>
+            <div>
+              <p className="mb-4 text-xs font-medium uppercase tracking-wider text-[var(--project-muted-text)]">
+                What It Enables
+              </p>
+              <ul className="space-y-3">
+                {systemDesignOutcomes.map((item, idx) => (
+                  <Motion.li
+                    key={item}
+                    initial={{ opacity: 0.95, y: 6 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: idx * 0.03 }}
+                    className="flex items-start gap-3"
+                  >
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--project-accent-text)]" aria-hidden />
+                    <span className="text-sm leading-relaxed text-[var(--project-body-text)]">
+                      {item}
+                    </span>
+                  </Motion.li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>
