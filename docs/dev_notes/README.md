@@ -1,8 +1,8 @@
 # Development Notes
 
-**Last Updated**: 2026-02-23  
-**Total Entries**: 5  
-**Project Status**: Active Development - Design System Established, Portfolio Design Tightening (About Page, Navbar, CTA Consistency)
+**Last Updated**: 2026-02-24  
+**Total Entries**: 6  
+**Project Status**: Active Development - Design System Established, Portfolio Design Tightening (About Page, Navbar, CTA Consistency, Hero & Walkability Case Study)
 
 ## Overview
 
@@ -34,6 +34,7 @@ This directory contains daily development notes that synthesize engineering acti
 |------|-------------|-------|--------|
 | 2026-02-19 | Design System Foundation & Component Architecture | Design system documentation, CaseStudy component library, ProjectPageShell theming, component consistency refactoring, comprehensive testing coverage, form security enhancements, image optimization, StormSignal integration | ✅ Complete |
 | 2026-02-23 | Portfolio Design Tightening | About as own route (/about), Navbar scroll-to-top and modifier-key handling, ReplacementTrap bar chart and hero image error handling, CTA consistency (iconPosition, showArrow, Substack fix) | ✅ Complete |
+| 2026-02-24 | Top-of-Page & Walkability Case Study Tightening | Hero copy/layout improvements, Navbar logo scroll-to-top/menu-state polish, StormSignal width alignment and copy touch-up, Walkability Index layout/copy/icons/images refinement (PR #19) | ✅ Complete |
 
 ## Thematic Index
 
@@ -60,6 +61,7 @@ This directory contains daily development notes that synthesize engineering acti
 ### Design System & Component Architecture
 - **2026-02-19**: Created comprehensive design system documentation with contracts, playbooks, and agent templates; refactored all project pages to use shared CaseStudy components for consistency; expanded component library with CaseStudyFlowDiagram, CaseStudySectionHeading, CaseStudyStatCard; fully integrated StormSignal with CaseStudy components; created useBackToCaseStudies navigation hook
 - **2026-02-23**: About section moved to dedicated `/about` route with back link; Navbar enhanced with scroll-to-top and modifier-key-aware link behavior; ReplacementTrap refactored (bar chart, streamlined benchmark data, hero image error handling); CTA consistency via CaseStudyCtaButton (iconPosition, showArrow, arrow node) and Substack CTA fix
+- **2026-02-24**: Hero copy and layout refined; Navbar logo scroll-to-top behavior and menu-state handling polished; StormSignal layout aligned to shared widths; Walkability Index case study tightened (layout, copy, icons, imagery, list key robustness) and merged via PR #19
 
 ### Security & Form Validation
 - **2026-02-19**: Implemented input sanitization and rate limiting in WorkWithMe form component; enhanced form validation with separate functions for single-line and multi-line inputs; improved security testing coverage
@@ -110,3 +112,4 @@ This directory contains daily development notes that synthesize engineering acti
 3. [2026-02-18: Performance Optimization, Error Handling & Content Refinement](./2026-02-18.md)
 4. [2026-02-19: Design System Foundation & Component Consistency Refactoring](./2026-02-19.md)
 5. [2026-02-23: Portfolio Design Tightening — About Page, Navbar, ReplacementTrap & CTA Consistency](./2026-02-23.md)
+6. [2026-02-24: Navbar Scroll Polish, Hero Clarity & Walkability Case Study Tightening](./2026-02-24.md)
