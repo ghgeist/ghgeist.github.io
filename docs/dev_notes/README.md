@@ -1,8 +1,8 @@
 # Development Notes
 
-**Last Updated**: 2026-02-19  
-**Total Entries**: 4  
-**Project Status**: Active Development - Design System Established, Component Consistency Refactoring Complete
+**Last Updated**: 2026-02-23  
+**Total Entries**: 5  
+**Project Status**: Active Development - Design System Established, Portfolio Design Tightening (About Page, Navbar, CTA Consistency)
 
 ## Overview
 
@@ -33,6 +33,7 @@ This directory contains daily development notes that synthesize engineering acti
 | Date | Achievement | Focus | Status |
 |------|-------------|-------|--------|
 | 2026-02-19 | Design System Foundation & Component Architecture | Design system documentation, CaseStudy component library, ProjectPageShell theming, component consistency refactoring, comprehensive testing coverage, form security enhancements, image optimization, StormSignal integration | ✅ Complete |
+| 2026-02-23 | Portfolio Design Tightening | About as own route (/about), Navbar scroll-to-top and modifier-key handling, ReplacementTrap bar chart and hero image error handling, CTA consistency (iconPosition, showArrow, Substack fix) | ✅ Complete |
 
 ## Thematic Index
 
@@ -58,6 +59,7 @@ This directory contains daily development notes that synthesize engineering acti
 
 ### Design System & Component Architecture
 - **2026-02-19**: Created comprehensive design system documentation with contracts, playbooks, and agent templates; refactored all project pages to use shared CaseStudy components for consistency; expanded component library with CaseStudyFlowDiagram, CaseStudySectionHeading, CaseStudyStatCard; fully integrated StormSignal with CaseStudy components; created useBackToCaseStudies navigation hook
+- **2026-02-23**: About section moved to dedicated `/about` route with back link; Navbar enhanced with scroll-to-top and modifier-key-aware link behavior; ReplacementTrap refactored (bar chart, streamlined benchmark data, hero image error handling); CTA consistency via CaseStudyCtaButton (iconPosition, showArrow, arrow node) and Substack CTA fix
 
 ### Security & Form Validation
 - **2026-02-19**: Implemented input sanitization and rate limiting in WorkWithMe form component; enhanced form validation with separate functions for single-line and multi-line inputs; improved security testing coverage
@@ -88,6 +90,7 @@ This directory contains daily development notes that synthesize engineering acti
 - **Theming**: ProjectPageShell component provides consistent theming across all project pages
 - **Design System**: Comprehensive design system documentation with design language contracts, page composition contracts, project page authoring checklist, and visual QA playbook
 - **Navigation**: useBackToCaseStudies hook for centralized navigation logic
+- **Routing**: About section on dedicated `/about` route; Navbar About link and scroll-to-top on nav click; modifier-key support for new-tab behavior
 - **Form Security**: Input sanitization and rate limiting in WorkWithMe form component
 
 ### Performance & Accessibility
@@ -106,3 +109,4 @@ This directory contains daily development notes that synthesize engineering acti
 2. [2026-02-12: Jekyll to React Migration - Complete Platform Transformation](./2026-02-12.md)
 3. [2026-02-18: Performance Optimization, Error Handling & Content Refinement](./2026-02-18.md)
 4. [2026-02-19: Design System Foundation & Component Consistency Refactoring](./2026-02-19.md)
+5. [2026-02-23: Portfolio Design Tightening — About Page, Navbar, ReplacementTrap & CTA Consistency](./2026-02-23.md)
