@@ -9,8 +9,7 @@ const evidenceItems = [
     subtext:
       "System dynamics model for housing lifecycle economics.",
     tag: "HOUSING / MODELING",
-    image:
-      "https://images.unsplash.com/photo-1736858405207-fa4dca877d6d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMG5ldHdvcmslMjBncmFwaCUyMGRhcmslMjBiYWNrZ3JvdW5kfGVufDF8fHx8MTc3MDcxNTgzNHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    image: "/assets/the-replacement-trap.png",
     link: "/projects/replacement-trap",
   },
   {
@@ -18,8 +17,7 @@ const evidenceItems = [
     subtext:
       "Critical response ML pipeline with 1000x model-size reduction.",
     tag: "ML / SYSTEMS",
-    image:
-      "https://images.unsplash.com/photo-1741795990529-7e5666272dca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXRhJTIwc3RyZWFtJTIwbWF0cml4JTIwYmx1ZSUyMGRhcmt8ZW58MXx8fHwxNzcwNzE1ODM0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    image: "/assets/storm-signal.png",
     link: "/projects/signal-storm",
   },
   {
@@ -27,8 +25,7 @@ const evidenceItems = [
     subtext:
       "Geospatial data product for urban systems analysis.",
     tag: "GEO / URBANISM",
-    image:
-      "https://images.unsplash.com/photo-1542382257-80dedb725088?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaXR5JTIwbWFwJTIwbmlnaHQlMjBhZXJpYWx8ZW58MXx8fHwxNzcwNzE1ODM5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    image: "/assets/walkability-index-map-shot.png",
     link: "/projects/walkability-index",
   },
   {
@@ -36,8 +33,7 @@ const evidenceItems = [
     subtext:
       "Full-stack rapid prototype using AI-enabled engineering.",
     tag: "FULL-STACK / AI",
-    image:
-      "https://images.unsplash.com/photo-1724166573009-4634b974ebb2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb2RpbmclMjBzY3JlZW4lMjByZWFjdCUyMHNvZnR3YXJlJTIwZGFya3xlbnwxfHx8fDE3NzA3MTU4MzR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    image: "/assets/bantr-landing-page.png",
     link: "/projects/bantr",
   },
 ];

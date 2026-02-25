@@ -226,7 +226,7 @@ export function StormSignal() {
         media={
           <div className="relative aspect-video w-full bg-[#151921]">
             <ImageWithFallback
-              src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1600"
+              src="/assets/storm-signal.png"
               alt="Storm Signal Dashboard"
               className="h-full w-full object-cover opacity-90"
               lazy={false}
