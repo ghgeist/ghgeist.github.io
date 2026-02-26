@@ -2,12 +2,20 @@ import React from "react";
 import {
   ExternalLink,
   Github,
-  ArrowLeft,
 } from "lucide-react";
 import { CaseStudyCtaButton } from "@/app/projects/components/CaseStudyCtaButton";
 import { CaseStudyHero } from "@/app/projects/components/CaseStudyHero";
 import { CaseStudySectionHeading } from "@/app/projects/components/CaseStudySectionHeading";
-import { useBackToCaseStudies } from "@/app/projects/hooks/useBackToCaseStudies";
+import { ProjectPageShell } from "@/app/projects/components/ProjectPageShell";
+import {
+  airConditionersBenchmarks,
+  CHART_LOSS,
+  CHART_SURVIVAL,
+  dishwashersBenchmarks,
+  heroImageSrc,
+  type RatioBenchmark,
+  waterHeatersBenchmarks,
+} from "@/app/projects/content/replacementTrapContent";
 
 const ctas = [
   {
@@ -25,40 +33,6 @@ const ctas = [
     variant: "secondary" as const,
   },
 ];
-
-type RatioBenchmark = {
-  label: string;
-  ratio: number;
-  note: string;
-};
-
-const dishwashersBenchmarks: RatioBenchmark[] = [
-  { label: "Standard", ratio: 0.191, note: "Baseline replacement option." },
-  { label: "Premium", ratio: 0.2, note: "Mid-tier efficiency." },
-  { label: "Energy Star", ratio: 0.275, note: "Highest efficiency tier." },
-];
-
-const waterHeatersBenchmarks: RatioBenchmark[] = [
-  { label: "Standard", ratio: 0.206, note: "Structural loss under base case." },
-  { label: "Premium", ratio: 0.529, note: "Mid-tier efficiency upgrade." },
-  { label: "Energy Star (heatpump)", ratio: 2.51, note: "Exceeds repayment threshold." },
-];
-
-const airConditionersBenchmarks: RatioBenchmark[] = [
-  { label: "Standard", ratio: 0.06, note: "Replacement far shorter than payback." },
-  { label: "Premium", ratio: 0.217, note: "Mid-tier efficiency upgrade." },
-  { label: "Energy Star", ratio: 0.51, note: "Higher efficiency, still below threshold." },
-];
-
-/** Chart colors: match StormSignal MODEL_COLOR_CONFIG for red/green so bar and label align across project pages. */
-const CHART_LOSS = {
-  bar: "bg-rose-400/70",
-  label: "text-rose-300/95",
-} as const;
-const CHART_SURVIVAL = {
-  bar: "bg-emerald-400/70",
-  label: "text-emerald-300/90",
-} as const;
 
 function RatioBenchmarkChart({
   benchmarks,
@@ -181,13 +155,13 @@ function RatioBenchmarkChart({
 }
 
 export function ReplacementTrap() {
-  const handleBackToCaseStudies = useBackToCaseStudies();
   const [heroImageError, setHeroImageError] = React.useState(false);
 
-  const heroImageSrc = "/assets/the-replacement-trap.png";
-
   return (
-    <main className="project-theme project-theme--replacement min-h-screen bg-[var(--project-page-bg)] font-sans text-[var(--project-body-text)] selection:bg-amber-400/20">
+    <ProjectPageShell
+      theme="replacement"
+      className="font-sans selection:bg-amber-400/20"
+    >
       <CaseStudyHero
         containerClassName="pb-6 md:pb-8"
         title="The Replacement Trap"
@@ -383,19 +357,6 @@ export function ReplacementTrap() {
           </div>
         </div>
       </section>
-
-      <section className="border-t border-white/5 bg-[var(--project-page-bg)] py-10">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
-          <a
-            href="/#page-top"
-            onClick={handleBackToCaseStudies}
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 transition-colors hover:text-white"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Case Studies
-          </a>
-        </div>
-      </section>
-    </main>
+    </ProjectPageShell>
   );
 }

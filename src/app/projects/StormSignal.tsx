@@ -2,7 +2,6 @@ import React from "react";
 import {
   ExternalLink,
   Github,
-  ArrowLeft,
   CheckCircle2,
   Zap,
   Database,
@@ -18,9 +17,15 @@ import {
   CaseStudyFlowDiagram,
   type CaseStudyFlowLane,
 } from "@/app/projects/components/CaseStudyFlowDiagram";
+import { ProjectPageShell } from "@/app/projects/components/ProjectPageShell";
 import { CaseStudySectionHeading } from "@/app/projects/components/CaseStudySectionHeading";
 import { CaseStudyStatCard } from "@/app/projects/components/CaseStudyStatCard";
-import { useBackToCaseStudies } from "@/app/projects/hooks/useBackToCaseStudies";
+import {
+  architectureTransitions,
+  modelComparisons,
+  type ModelComparison,
+  stormStats,
+} from "@/app/projects/content/stormSignalContent";
 
 const ctas = [
   {
@@ -77,12 +82,6 @@ const architectureLanes: CaseStudyFlowLane[] = [
   },
 ];
 
-const architectureTransitions = [
-  "Messages",
-  "Classifications + Confidence",
-  "Prioritized Signals",
-];
-
 type DesignDoctrineCard = {
   title: string;
   description: React.ReactNode;
@@ -120,19 +119,6 @@ const designDoctrineCards: DesignDoctrineCard[] = [
     iconBgColor: "bg-indigo-500/10",
     iconColor: "text-indigo-300",
   },
-];
-
-type ModelComparison = {
-  label: string;
-  sizeMB: number;
-  color: "red" | "yellow" | "blue" | "green";
-};
-
-const modelComparisons: ModelComparison[] = [
-  { label: "Random Forest", sizeMB: 900, color: "red" },
-  { label: "LR (unlimited vocabulary)", sizeMB: 67.7, color: "yellow" },
-  { label: "LR (with vocabulary filters)", sizeMB: 13.0, color: "blue" },
-  { label: "LR (15K features)", sizeMB: 4.5, color: "green" },
 ];
 
 const MODEL_COLOR_CONFIG: Record<
@@ -194,10 +180,11 @@ function ModelComparisonChart({ models }: { models: ModelComparison[] }) {
 }
 
 export function StormSignal() {
-  const handleBackToCaseStudies = useBackToCaseStudies();
-
   return (
-    <main className="project-theme min-h-screen bg-[var(--project-page-bg)] font-sans selection:bg-[var(--project-accent-soft)]">
+    <ProjectPageShell
+      theme="storm"
+      className="font-sans selection:bg-[var(--project-accent-soft)]"
+    >
       <CaseStudyHero
         title="Storm Signal"
         framing={
@@ -245,21 +232,14 @@ export function StormSignal() {
       <section className="border-b border-white/5 bg-[var(--project-page-bg)]">
         <div className="mx-auto max-w-6xl px-6 pb-12 pt-8 lg:px-8">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            <CaseStudyStatCard
-              label="Model Size"
-              value="4.5 MB"
-              subtext="Designed for local deployment"
-            />
-            <CaseStudyStatCard
-              label="Inference Latency"
-              value="< 100ms"
-              subtext="Real-time classification under load"
-            />
-            <CaseStudyStatCard
-              label="Weighted F1"
-              value="92.8%"
-              subtext="Across 36 categories (multi-label)"
-            />
+            {stormStats.map((stat) => (
+              <CaseStudyStatCard
+                key={stat.label}
+                label={stat.label}
+                value={stat.value}
+                subtext={stat.subtext}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -402,19 +382,6 @@ export function StormSignal() {
           </div>
         </div>
       </section>
-
-      <section className="border-t border-white/5 bg-[var(--project-page-bg)] py-12">
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
-          <a
-            href="/#page-top"
-            onClick={handleBackToCaseStudies}
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 transition-colors hover:text-white"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Case Studies
-          </a>
-        </div>
-      </section>
-    </main>
+    </ProjectPageShell>
   );
 }

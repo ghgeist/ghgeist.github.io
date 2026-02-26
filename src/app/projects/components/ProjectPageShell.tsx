@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/app/components/ui/utils";
 
-export type ProjectThemeName = "walkability" | "replacement" | "bantr";
+export type ProjectThemeName = "walkability" | "replacement" | "bantr" | "storm";
 
 type ProjectPageShellProps = {
   theme: ProjectThemeName;
