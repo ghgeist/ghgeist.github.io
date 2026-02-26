@@ -80,14 +80,6 @@ export function Approach() {
             ))}
           </div>
 
-          {/* Terminal Outcome */}
-          <div className="mt-10 pt-5 border-t border-white/5">
-            <div className="flex items-start gap-3 text-gray-400 font-mono text-base max-w-3xl">
-              <p>
-                Outcome: A system you can operate against: clear ownership, measurable behavior, explicit assumptions, and a working artifact that withstands real-world constraints
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </section>
