@@ -23,6 +23,8 @@ const MAX_LENGTHS = {
 
 // Rate limiting: prevent submissions more than once per 5 seconds
 const SUBMISSION_COOLDOWN_MS = 5000;
+// UX timing: auto-hide success state after a short confirmation window
+const SUCCESS_MESSAGE_DURATION_MS = 5000;
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mreajoaw";
 
 // Basic email validation regex (RFC 5322 compliant subset)
@@ -76,7 +78,7 @@ export function WorkWithMe() {
 
     const timeoutId = window.setTimeout(() => {
       setIsSuccess(false);
-    }, SUBMISSION_COOLDOWN_MS);
+    }, SUCCESS_MESSAGE_DURATION_MS);
 
     return () => {
       window.clearTimeout(timeoutId);

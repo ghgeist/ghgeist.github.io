@@ -2,7 +2,6 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
-import { toast } from "sonner";
 
 import { Navbar } from "@/app/components/Navbar";
 import { Hero } from "@/app/components/Hero";
@@ -174,10 +173,7 @@ describe("WorkWithMe form", () => {
   });
 
   it("blocks submission with invalid email input", async () => {
-    vi.useFakeTimers();
-    const successSpy = vi.spyOn(toast, "success").mockImplementation(() => {
-      return "test-toast-id";
-    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch");
 
     render(
       <MemoryRouter>
@@ -201,10 +197,17 @@ describe("WorkWithMe form", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /get in touch/i }));
 
-    await vi.advanceTimersByTimeAsync(1100);
-    expect(successSpy).not.toHaveBeenCalled();
+    await waitFor(
+      () => {
+        expect(fetchSpy).not.toHaveBeenCalled();
+      },
+      { timeout: 300 }
+    );
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(
+      screen.queryByText(/thanks for reaching out\. i received your message/i)
+    ).toBeNull();
 
-    vi.useRealTimers();
-    successSpy.mockRestore();
+    fetchSpy.mockRestore();
   });
 });
