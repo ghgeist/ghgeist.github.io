@@ -6,6 +6,12 @@ afterEach(() => {
   cleanup();
 });
 
+Object.defineProperty(window, "scrollTo", {
+  configurable: true,
+  writable: true,
+  value: () => {},
+});
+
 class IntersectionObserverMock {
   observe() {}
   unobserve() {}

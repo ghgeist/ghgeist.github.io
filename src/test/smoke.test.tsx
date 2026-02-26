@@ -49,7 +49,8 @@ describe("Home route", () => {
       </MemoryRouter>
     );
 
-    expect(document.getElementById("hero") || document.querySelector("section")).toBeTruthy();
+    expect(screen.getByRole("heading", { name: /hi, i.?m grant/i })).toBeTruthy();
+    expect(screen.getByRole("heading", { name: "Approach" })).toBeTruthy();
     expect(screen.getByText("Work With Me")).toBeTruthy();
   });
 });
@@ -66,7 +67,7 @@ describe("Project routes", () => {
       </MemoryRouter>
     );
 
-    expect(document.querySelector("section") || document.querySelector("main") || document.querySelector("div")).toBeTruthy();
+    expect(screen.getByRole("heading", { level: 1, name: "Walkability Index" })).toBeTruthy();
   });
 
   it("renders ReplacementTrap without crashing", () => {
@@ -76,7 +77,7 @@ describe("Project routes", () => {
       </MemoryRouter>
     );
 
-    expect(document.querySelector("section") || document.querySelector("main") || document.querySelector("div")).toBeTruthy();
+    expect(screen.getByRole("heading", { level: 1, name: "The Replacement Trap" })).toBeTruthy();
   });
 
   it("renders StormSignal without crashing", () => {
@@ -86,7 +87,7 @@ describe("Project routes", () => {
       </MemoryRouter>
     );
 
-    expect(document.querySelector("section") || document.querySelector("main") || document.querySelector("div")).toBeTruthy();
+    expect(screen.getByRole("heading", { level: 1, name: "Storm Signal" })).toBeTruthy();
   });
 
   it("renders Bantr without crashing", () => {
@@ -96,11 +97,26 @@ describe("Project routes", () => {
       </MemoryRouter>
     );
 
-    expect(document.querySelector("section") || document.querySelector("main") || document.querySelector("div")).toBeTruthy();
+    expect(screen.getByRole("heading", { level: 1, name: "Bantr" })).toBeTruthy();
   });
 });
 
 describe("WorkWithMe form", () => {
+  function fillRequiredFields() {
+    fireEvent.change(screen.getByLabelText(/your name/i), {
+      target: { value: "Test User" },
+    });
+    fireEvent.change(screen.getByLabelText(/your email/i), {
+      target: { value: "test@example.com" },
+    });
+    fireEvent.change(
+      screen.getByLabelText(/tell me about the problem or opportunity/i),
+      {
+        target: { value: "Need help structuring a data product strategy." },
+      }
+    );
+  }
+
   it("submits and calls the handler", async () => {
     // Mock toast.success to verify it's called on successful submission
     const toastSpy = vi.spyOn(toast, "success").mockImplementation(() => {
@@ -116,13 +132,11 @@ describe("WorkWithMe form", () => {
 
     const nameInput = screen.getByLabelText(/your name/i) as HTMLInputElement;
     const emailInput = screen.getByLabelText(/your email/i) as HTMLInputElement;
-    const problemInput = screen.getByLabelText(/tell me about the problem or opportunity/i) as HTMLTextAreaElement;
+    const problemInput = screen.getByLabelText(
+      /tell me about the problem or opportunity/i
+    ) as HTMLTextAreaElement;
 
-    fireEvent.change(nameInput, { target: { value: "Test User" } });
-    fireEvent.change(emailInput, { target: { value: "test@example.com" } });
-    fireEvent.change(problemInput, {
-      target: { value: "Need help structuring a data product strategy." },
-    });
+    fillRequiredFields();
 
     fireEvent.click(screen.getByRole("button", { name: /get in touch/i }));
 
@@ -140,5 +154,40 @@ describe("WorkWithMe form", () => {
     expect(problemInput.value).toBe("");
 
     toastSpy.mockRestore();
+  });
+
+  it("blocks submission with invalid email input", async () => {
+    vi.useFakeTimers();
+    const successSpy = vi.spyOn(toast, "success").mockImplementation(() => {
+      return "test-toast-id";
+    });
+
+    render(
+      <MemoryRouter>
+        <WorkWithMe />
+        <Toaster />
+      </MemoryRouter>
+    );
+
+    fireEvent.change(screen.getByLabelText(/your name/i), {
+      target: { value: "Test User" },
+    });
+    fireEvent.change(screen.getByLabelText(/your email/i), {
+      target: { value: "not-an-email" },
+    });
+    fireEvent.change(
+      screen.getByLabelText(/tell me about the problem or opportunity/i),
+      {
+        target: { value: "Need help structuring a data product strategy." },
+      }
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /get in touch/i }));
+
+    await vi.advanceTimersByTimeAsync(1100);
+    expect(successSpy).not.toHaveBeenCalled();
+
+    vi.useRealTimers();
+    successSpy.mockRestore();
   });
 });

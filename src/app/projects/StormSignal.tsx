@@ -197,7 +197,7 @@ export function StormSignal() {
   const handleBackToCaseStudies = useBackToCaseStudies();
 
   return (
-    <main className="project-theme project-theme--storm min-h-screen bg-[var(--project-page-bg)] font-sans selection:bg-[var(--project-accent-soft)]">
+    <main className="project-theme min-h-screen bg-[var(--project-page-bg)] font-sans selection:bg-[var(--project-accent-soft)]">
       <CaseStudyHero
         title="Storm Signal"
         framing={

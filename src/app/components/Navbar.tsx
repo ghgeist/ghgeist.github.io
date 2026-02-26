@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { twMerge } from "tailwind-merge";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -44,8 +44,27 @@ export function Navbar() {
     { name: "Work with me", to: "/#work-with-me", variant: "cta" },
   ];
 
-  const handleNavLinkClick = () => {
+  const handleNavLinkClick = (event: MouseEvent<HTMLAnchorElement>, to: string) => {
     setIsMobileMenuOpen(false);
+
+    const [targetPathname, targetHash = ""] = to.split("#");
+    const normalizedTargetPathname = targetPathname.length > 0 ? targetPathname : "/";
+
+    if (normalizedTargetPathname !== window.location.pathname || targetHash.length === 0) {
+      return;
+    }
+
+    event.preventDefault();
+
+    if (targetHash === "page-top") {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      return;
+    }
+
+    const target = document.getElementById(targetHash);
+    if (target) {
+      target.scrollIntoView({ block: "start", behavior: "smooth" });
+    }
   };
 
   return (
@@ -63,7 +82,7 @@ export function Navbar() {
         <Link
           to="/#page-top"
           className="text-xl font-bold tracking-tight text-white transition-colors hover:text-[#0066cc]"
-          onClick={handleNavLinkClick}
+          onClick={(event) => handleNavLinkClick(event, "/#page-top")}
         >
           GRANT GEIST
         </Link>
@@ -75,7 +94,7 @@ export function Navbar() {
               <Link
                 key={link.name}
                 to={link.to}
-                onClick={handleNavLinkClick}
+                onClick={(event) => handleNavLinkClick(event, link.to)}
                 className={twMerge(
                   "text-xs font-medium uppercase tracking-[0.12em] transition-colors",
                   isCta
@@ -112,7 +131,7 @@ export function Navbar() {
               <Link
                 key={link.name}
                 to={link.to}
-                onClick={handleNavLinkClick}
+                onClick={(event) => handleNavLinkClick(event, link.to)}
                 className={twMerge(
                   "text-xs font-medium uppercase tracking-[0.12em] transition-colors",
                   isCta
