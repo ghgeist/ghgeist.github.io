@@ -2,7 +2,6 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
-import { toast } from "sonner";
 
 import { Navbar } from "@/app/components/Navbar";
 import { Hero } from "@/app/components/Hero";
@@ -118,10 +117,11 @@ describe("WorkWithMe form", () => {
   }
 
   it("submits and calls the handler", async () => {
-    // Mock toast.success to verify it's called on successful submission
-    const toastSpy = vi.spyOn(toast, "success").mockImplementation(() => {
-      return "test-toast-id";
-    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(null, {
+        status: 200,
+      })
+    );
 
     render(
       <MemoryRouter>
@@ -130,37 +130,45 @@ describe("WorkWithMe form", () => {
       </MemoryRouter>
     );
 
-    const nameInput = screen.getByLabelText(/your name/i) as HTMLInputElement;
-    const emailInput = screen.getByLabelText(/your email/i) as HTMLInputElement;
-    const problemInput = screen.getByLabelText(
-      /tell me about the problem or opportunity/i
-    ) as HTMLTextAreaElement;
-
     fillRequiredFields();
 
     fireEvent.click(screen.getByRole("button", { name: /get in touch/i }));
 
-    // Wait for async submission to complete (includes 1s delay)
+    // Wait for async submission to complete and request to be sent.
     await waitFor(
       () => {
-        expect(toastSpy).toHaveBeenCalledWith("Message sent! I'll get back to you soon.");
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
       },
       { timeout: 2000 }
     );
 
-    // Verify form fields are cleared after successful submission
-    expect(nameInput.value).toBe("");
-    expect(emailInput.value).toBe("");
-    expect(problemInput.value).toBe("");
+    expect(fetchSpy).toHaveBeenCalledWith(
+      "https://formspree.io/f/mreajoaw",
+      expect.objectContaining({
+        method: "POST",
+        headers: expect.objectContaining({
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        }),
+        body: expect.any(String),
+      })
+    );
 
-    toastSpy.mockRestore();
+    expect(
+      screen.getByText(/thanks for reaching out\. i received your message/i)
+    ).toBeTruthy();
+
+    // Verify user-visible post-submit state.
+    expect(screen.queryByRole("button", { name: /get in touch/i })).toBeNull();
+    expect(screen.queryByLabelText(/your name/i)).toBeNull();
+    expect(screen.queryByLabelText(/your email/i)).toBeNull();
+    expect(screen.queryByLabelText(/tell me about the problem or opportunity/i)).toBeNull();
+
+    fetchSpy.mockRestore();
   });
 
   it("blocks submission with invalid email input", async () => {
-    vi.useFakeTimers();
-    const successSpy = vi.spyOn(toast, "success").mockImplementation(() => {
-      return "test-toast-id";
-    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch");
 
     render(
       <MemoryRouter>
@@ -184,10 +192,17 @@ describe("WorkWithMe form", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /get in touch/i }));
 
-    await vi.advanceTimersByTimeAsync(1100);
-    expect(successSpy).not.toHaveBeenCalled();
+    await waitFor(
+      () => {
+        expect(fetchSpy).not.toHaveBeenCalled();
+      },
+      { timeout: 300 }
+    );
+    expect(fetchSpy).not.toHaveBeenCalled();
+    expect(
+      screen.queryByText(/thanks for reaching out\. i received your message/i)
+    ).toBeNull();
 
-    vi.useRealTimers();
-    successSpy.mockRestore();
+    fetchSpy.mockRestore();
   });
 });
