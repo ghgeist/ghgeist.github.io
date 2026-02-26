@@ -4,7 +4,7 @@ export type RatioBenchmark = {
   note: string;
 };
 
-export const heroImageSrc = "/assets/the-replacement-trap.png";
+export const heroImageSrc = "/assets/thumbs/the-replacement-trap.webp";
 
 export const dishwashersBenchmarks: RatioBenchmark[] = [
   { label: "Standard", ratio: 0.191, note: "Baseline replacement option." },
