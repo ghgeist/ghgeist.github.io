@@ -130,12 +130,6 @@ describe("WorkWithMe form", () => {
       </MemoryRouter>
     );
 
-    const nameInput = screen.getByLabelText(/your name/i) as HTMLInputElement;
-    const emailInput = screen.getByLabelText(/your email/i) as HTMLInputElement;
-    const problemInput = screen.getByLabelText(
-      /tell me about the problem or opportunity/i
-    ) as HTMLTextAreaElement;
-
     fillRequiredFields();
 
     fireEvent.click(screen.getByRole("button", { name: /get in touch/i }));
@@ -164,10 +158,11 @@ describe("WorkWithMe form", () => {
       screen.getByText(/thanks for reaching out\. i received your message/i)
     ).toBeTruthy();
 
-    // Verify form fields are cleared after successful submission
-    expect(nameInput.value).toBe("");
-    expect(emailInput.value).toBe("");
-    expect(problemInput.value).toBe("");
+    // Verify user-visible post-submit state.
+    expect(screen.queryByRole("button", { name: /get in touch/i })).toBeNull();
+    expect(screen.queryByLabelText(/your name/i)).toBeNull();
+    expect(screen.queryByLabelText(/your email/i)).toBeNull();
+    expect(screen.queryByLabelText(/tell me about the problem or opportunity/i)).toBeNull();
 
     fetchSpy.mockRestore();
   });
