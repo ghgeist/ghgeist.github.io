@@ -232,7 +232,6 @@ export function ReplacementTrap() {
                 backgroundSize: "22px 22px",
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E14]/60 via-[#0B0E14]/25 to-transparent" />
           </div>
         }
       />
