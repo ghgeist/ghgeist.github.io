@@ -49,6 +49,7 @@ This directory contains daily development notes that synthesize engineering acti
 - **2026-02-12**: Configured Vitest testing infrastructure with smoke tests for React SPA routes and components
 - **2026-02-18**: Added ErrorBoundary component for comprehensive error handling and graceful error recovery
 - **2026-02-19**: Added Playwright dependency for future end-to-end testing capabilities; comprehensive unit tests for CaseStudy components (278 lines) and project pages (364 lines); enhanced form validation and security testing
+- **2026-02-26**: Strengthened verification pipeline with linting integrated into `.verify.yml`, `script/verify`, and CI workflow; expanded tests for Navbar, RouteScrollManager, app routing, and WorkWithMe form behavior
 
 ### Performance & Accessibility
 - **2026-02-09**: Performance quick wins including accessibility improvements and preconnect links
@@ -70,13 +71,6 @@ This directory contains daily development notes that synthesize engineering acti
 
 ### Security & Form Validation
 - **2026-02-19**: Implemented input sanitization and rate limiting in WorkWithMe form component; enhanced form validation with separate functions for single-line and multi-line inputs; improved security testing coverage
-
-### Code Quality & Testing
-- **2026-02-09**: Implemented testing suite foundation with HTML validation and build verification
-- **2026-02-12**: Configured Vitest testing infrastructure with smoke tests for React SPA routes and components
-- **2026-02-18**: Added ErrorBoundary component for comprehensive error handling and graceful error recovery
-- **2026-02-19**: Added Playwright dependency for future end-to-end testing capabilities; comprehensive unit tests for CaseStudy components (278 lines) and project pages (364 lines); enhanced form validation and security testing
-- **2026-02-26**: Strengthened verification pipeline with linting integrated into `.verify.yml`, `script/verify`, and CI workflow; expanded tests for Navbar, RouteScrollManager, app routing, and WorkWithMe form behavior
 
 ## Current State & Architecture
 
