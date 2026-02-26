@@ -14,6 +14,11 @@ steps:
     required: true
     description: "TypeScript type checking"
 
+  - name: "Lint"
+    command: "npm run lint"
+    required: true
+    description: "Run ESLint and Stylelint with zero warnings"
+
   - name: "Test"
     command: "npm run test:ci"
     required: true

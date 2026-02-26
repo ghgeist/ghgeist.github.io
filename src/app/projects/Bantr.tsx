@@ -55,7 +55,7 @@ const snapshotItems: SnapshotItem[] = [
   {
     label: "Stack",
     value: "React + Express + Postgres",
-    detail: "TypeScript frontend with stateful API/backend",
+    detail: "TypeScript frontend with session-aware API/backend",
     icon: <Layers className="h-4 w-4" />,
   },
   {
@@ -109,7 +109,7 @@ const productConstraints = [
 
 const systemConstraints = [
   {
-    spec: "3-second client SLA",
+    spec: "3-second response target",
     detail: "Question fetch with cached fallback",
   },
   {
@@ -133,7 +133,7 @@ const engineLanes: CaseStudyFlowLane[] = [
     title: "Prompt Pipeline",
     icon: <Brain className="h-4 w-4" />,
     iconColorClassName: "text-pink-300",
-    nodes: ["OpenAI prompt generation", "Format normalization + fallback cache"],
+    nodes: ["OpenAI prompt generation", "Format cleanup + fallback cache"],
     tightSpacing: true,
   },
   {
@@ -152,7 +152,7 @@ const engineLanes: CaseStudyFlowLane[] = [
     title: "Outcome Surface",
     icon: <Gauge className="h-4 w-4" />,
     iconColorClassName: "text-emerald-300",
-    nodes: ["Personalized summary", "Completion metrics instrumentation"],
+    nodes: ["Personalized summary", "Completion tracking"],
   },
 ];
 
@@ -160,7 +160,7 @@ const engineTransitions = [
   "Prompt request",
   "Validated prompt",
   "Session state",
-  "Summary + telemetry",
+  "Summary + tracking",
 ];
 
 const shippedOutcomes = [
@@ -241,7 +241,7 @@ export function Bantr() {
         <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="Snapshot"
-            subtitle="A live production build tested under conversational constraints where rhythm and coherence matter."
+            subtitle="A live production build tested under conversational conditions where rhythm and coherence matter."
             className="mb-5 md:mb-6"
             subtitleClassName="max-w-4xl"
           />
@@ -298,29 +298,25 @@ export function Bantr() {
             ))}
           </div>
 
-          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 md:items-start">
+          <div className="mt-6">
             <div className="rounded-sm border border-white/10 bg-[#151921] p-5 md:p-6">
               <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-accent-text)]">
                 Why This Matters
               </p>
-              <p className="mt-3 text-xl leading-relaxed text-white md:text-2xl">
-                As generative tools make cognition cheaper, taste and creative judgment become
-                more valuable.
-              </p>
-              <p className="mt-4 text-base leading-relaxed text-[var(--project-muted-text)]">
-                Bantr explores software as a repeatable structure for creative interaction.
-                The product goal was not to replace conversation, but to design constraints
-                that help people create better conversation together.
-              </p>
-            </div>
-
-            <div className="rounded-sm border border-[color:var(--project-accent-border)] bg-[var(--project-accent-soft)]/35 p-4 md:self-start md:p-5">
-              <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-accent-text)]">
-                Goal
-              </p>
-              <p className="mt-2 text-base font-medium leading-relaxed text-white md:text-lg">
-                Generate better prompts instantly, without onboarding friction.
-              </p>
+              <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-2 md:items-start">
+                <p className="text-lg leading-relaxed text-[var(--project-body-text)] md:text-xl">
+                As A.I. makes cognition cheaper, creativity becomes more valuable.
+                Bantr was an experiment in building a product to help people practice creativity.
+                </p>
+                <div className="rounded-sm border border-[color:var(--project-accent-border)] bg-[var(--project-accent-soft)]/25 p-4">
+                  <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-accent-text)]">
+                    Goal
+                  </p>
+                  <p className="mt-2 text-base font-medium leading-relaxed text-white">
+                  Better conversations through structured creativity.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -330,7 +326,7 @@ export function Bantr() {
         <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="Design Constraints"
-            subtitle="Human interaction has low tolerance for friction. Coherence required product and system constraints to be explicit."
+            subtitle="Human interaction has low tolerance for friction. Bantr trades open-ended generation for a fixed 10-question structure so pacing and coherence stay stable."
             subtitleClassName="max-w-4xl"
           />
 
@@ -374,7 +370,7 @@ export function Bantr() {
                 <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--project-accent-text)]" />
                 <p className="text-sm leading-relaxed text-[var(--project-muted-text)]">
                   AI tools accelerated implementation, but reliability depended on disciplined
-                  rule design and guardrails.
+                  rule design and safeguards.
                 </p>
               </div>
             </CaseStudySectionCard>
@@ -382,11 +378,11 @@ export function Bantr() {
         </div>
       </section>
 
-      <section className="border-y border-white/5 bg-[#1a1012] py-10 md:py-14">
+      <section className="border-y border-white/5 bg-[var(--project-page-bg)] py-10 md:py-14">
         <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="The System"
-            subtitle="Bantr runs as a stateful round engine: fixed 10-question sessions, turn-by-turn flow, and a prompt formatting + validation layer."
+            subtitle="Bantr runs on a round engine that remembers progress: fixed 10-question sessions, turn-by-turn continuity, and prompt formatting + validation"
             subtitleClassName="max-w-4xl"
           />
           <div className="rounded-lg border border-white/10 bg-[#151921] p-3 md:p-4 lg:p-6">
@@ -415,7 +411,7 @@ export function Bantr() {
         <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="Outcome and Future Direction"
-            subtitle="The core loop ships in production, but adoption remains limited without a defined acquisition channel."
+            subtitle="The core loop ships in production with completion tracking, but adoption remains limited without a defined distribution channel."
             subtitleClassName="max-w-4xl"
           />
 
@@ -441,12 +437,12 @@ export function Bantr() {
               className="h-full"
             >
               <p className="text-sm leading-relaxed text-[var(--project-body-text)]">
-                Product quality alone does not generate adoption. Without a clear acquisition
-                channel, even a technically reliable system remains mostly invisible.
+                The core loop shipped and worked, but adoption stayed limited without a defined
+                distribution channel.
               </p>
               <p className="text-sm leading-relaxed text-[var(--project-muted-text)]">
-                Distribution has its own constraints, incentives, and feedback loops. Shipping
-                the product was step one; distribution strategy is step two.
+                Distribution is a separate system with its own constraints. After product
+                reliability, the next milestone is repeatable channel testing.
               </p>
             </CaseStudySectionCard>
           </div>

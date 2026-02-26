@@ -1,8 +1,8 @@
 # Development Notes
 
-**Last Updated**: 2026-02-25  
-**Total Entries**: 7  
-**Project Status**: Active Development - Design System Established, Portfolio Design Tightening (About Page, Navbar, CTA Consistency, Hero & Walkability Case Study)
+**Last Updated**: 2026-02-26  
+**Total Entries**: 8  
+**Project Status**: Active Development - Design System Established, Portfolio Design Tightening (About, Navbar, CTAs, Case Studies) & Navigation/Performance Refinement
 
 ## Overview
 
@@ -36,6 +36,7 @@ This directory contains daily development notes that synthesize engineering acti
 | 2026-02-23 | Portfolio Design Tightening | About as own route (/about), Navbar scroll-to-top and modifier-key handling, ReplacementTrap bar chart and hero image error handling, CTA consistency (iconPosition, showArrow, Substack fix) | ✅ Complete |
 | 2026-02-24 | Top-of-Page & Walkability Case Study Tightening | Hero copy/layout improvements, Navbar logo scroll-to-top/menu-state polish, StormSignal width alignment and copy touch-up, Walkability Index layout/copy/icons/images refinement (PR #19) | ✅ Complete |
 | 2026-02-25 | Bantr Case Study Enhancement & Asset Updates | Bantr landing page image, tightened copy, CaseStudy component alignment; StormSignal thumbnail refresh (PR #20) | ✅ Complete |
+| 2026-02-26 | Navigation Smooth Scrolling, Case Study Tightening & Performance Playbook Updates | RouteScrollManager and Navbar smooth-scroll behavior, case study copy/layout refinements, strengthened verification pipeline with linting, performance documentation and thumbnail updates | ✅ Complete |
 
 ## Thematic Index
 
@@ -48,11 +49,13 @@ This directory contains daily development notes that synthesize engineering acti
 - **2026-02-12**: Configured Vitest testing infrastructure with smoke tests for React SPA routes and components
 - **2026-02-18**: Added ErrorBoundary component for comprehensive error handling and graceful error recovery
 - **2026-02-19**: Added Playwright dependency for future end-to-end testing capabilities; comprehensive unit tests for CaseStudy components (278 lines) and project pages (364 lines); enhanced form validation and security testing
+- **2026-02-26**: Strengthened verification pipeline with linting integrated into `.verify.yml`, `script/verify`, and CI workflow; expanded tests for Navbar, RouteScrollManager, app routing, and WorkWithMe form behavior
 
 ### Performance & Accessibility
 - **2026-02-09**: Performance quick wins including accessibility improvements and preconnect links
 - **2026-02-18**: Implemented lazy loading with retry logic for project pages, reducing initial bundle size and improving page load performance
 - **2026-02-19**: Enhanced image lazy loading support across all project pages; improved ImageWithFallback component with proper lazy loading behavior
+- **2026-02-26**: Introduced RouteScrollManager and motion-aware smooth scrolling (respecting `prefers-reduced-motion`), updated thumbnails to WebP variants, and expanded performance documentation and shipping criteria
 
 ### Architecture & Migration
 - **2026-02-12**: Complete platform transformation from Jekyll static site to React SPA with SPA routing solution for GitHub Pages
@@ -64,6 +67,7 @@ This directory contains daily development notes that synthesize engineering acti
 - **2026-02-23**: About section moved to dedicated `/about` route with back link; Navbar enhanced with scroll-to-top and modifier-key-aware link behavior; ReplacementTrap refactored (bar chart, streamlined benchmark data, hero image error handling); CTA consistency via CaseStudyCtaButton (iconPosition, showArrow, arrow node) and Substack CTA fix
 - **2026-02-24**: Hero copy and layout refined; Navbar logo scroll-to-top behavior and menu-state handling polished; StormSignal layout aligned to shared widths; Walkability Index case study tightened (layout, copy, icons, imagery, list key robustness) and merged via PR #19
 - **2026-02-25**: Bantr case study refreshed with landing page image, tightened copy, and full CaseStudy component usage; StormSignal thumbnail updated; PR #20 merged
+- **2026-02-26**: Case study and homepage copy/layout tightened across Walkability Index, ReplacementTrap, Bantr, StormSignal, About, Approach, and WorkWithMe; navigation behavior centralized via RouteScrollManager and Navbar refinements
 
 ### Security & Form Validation
 - **2026-02-19**: Implemented input sanitization and rate limiting in WorkWithMe form component; enhanced form validation with separate functions for single-line and multi-line inputs; improved security testing coverage
@@ -116,3 +120,4 @@ This directory contains daily development notes that synthesize engineering acti
 5. [2026-02-23: Portfolio Design Tightening — About Page, Navbar, ReplacementTrap & CTA Consistency](./2026-02-23.md)
 6. [2026-02-24: Navbar Scroll Polish, Hero Clarity & Walkability Case Study Tightening](./2026-02-24.md)
 7. [2026-02-25: Bantr Case Study Enhancement & Asset Updates](./2026-02-25.md)
+8. [2026-02-26: Navigation Smooth Scrolling, Case Study Tightening & Performance Playbook Updates](./2026-02-26.md)

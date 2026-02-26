@@ -34,13 +34,13 @@ export function Approach() {
   return (
     <section
       id="skills"
-      className="border-t border-white/5 bg-[#0B0E14] py-16 md:py-20"
+      className="scroll-mt-28 border-t border-white/5 bg-[#0B0E14] py-16 md:scroll-mt-32 md:py-20"
     >
       <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
         <div className="max-w-5xl mx-auto md:mx-0">
           {/* Section Header */}
           <div className="mb-8">
-            <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">
+            <h2 className="mb-6 text-3xl font-bold tracking-tight text-white">
               Approach
             </h2>
             <p className="max-w-2xl text-base leading-relaxed text-gray-400 md:text-lg">
@@ -80,20 +80,11 @@ export function Approach() {
             ))}
           </div>
 
-          {/* Terminal Outcome */}
-          <div className="mt-10 pt-5 border-t border-white/5">
-            <div className="flex items-start gap-3 text-gray-400 font-mono text-base max-w-3xl">
-              <p>
-                Outcome: A system you can operate against: clear ownership, measurable behavior, explicit assumptions, and a working artifact that withstands real-world constraints
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </section>
   );
 }
-
 
 
 

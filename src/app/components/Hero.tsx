@@ -7,33 +7,33 @@ const evidenceItems = [
   {
     title: "The Replacement Trap",
     subtext:
-      "System dynamics model for housing lifecycle economics.",
+      "A household appliance model showing which upgrades never repay their cost.",
     tag: "HOUSING / MODELING",
-    image: "/assets/the-replacement-trap.png",
+    image: "/assets/thumbs/the-replacement-trap.webp",
     link: "/projects/replacement-trap",
   },
   {
     title: "Storm Signal",
     subtext:
-      "Critical response ML pipeline with 1000x model-size reduction.",
+      "A critical-response message routing pipeline with a 4.5 MB model and sub‑100ms latency.",
     tag: "ML / SYSTEMS",
-    image: "/assets/storm-signal.png",
+    image: "/assets/thumbs/storm-signal.webp",
     link: "/projects/signal-storm",
   },
   {
     title: "Walkability Index",
     subtext:
-      "Geospatial data product for urban systems analysis.",
+      "A walkability analysis app for neighborhood-scale comparisons.",
     tag: "GEO / URBANISM",
-    image: "/assets/walkability-index-map-shot.png",
+    image: "/assets/thumbs/walkability-index-map-shot.webp",
     link: "/projects/walkability-index",
   },
   {
     title: "Bantr",
     subtext:
-      "Full-stack rapid prototype using AI-enabled engineering.",
+      "A mobile-first conversational game engine with an OpenAI-driven prompt pipeline.",
     tag: "FULL-STACK / AI",
-    image: "/assets/bantr-landing-page.png",
+    image: "/assets/thumbs/bantr-landing-page.webp",
     link: "/projects/bantr",
   },
 ];
@@ -42,7 +42,7 @@ export function Hero() {
   return (
     <header
       id="page-top"
-      className="relative min-h-fit flex items-start bg-[#0B0E14] pb-14 md:pb-16"
+      className="relative min-h-fit scroll-mt-28 flex items-start bg-[#0B0E14] md:scroll-mt-32"
     >
       {/* Technical Grid Background */}
       <div
@@ -58,31 +58,24 @@ export function Hero() {
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-[#0B0E14]/20 to-[#0B0E14]" />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pt-24 md:pt-28 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pt-24 pb-16 md:pt-28 md:pb-20 lg:px-8">
         <Motion.div
           initial={{ opacity: 0.95, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
           className="max-w-5xl mx-auto md:mx-0"
         >
-          <div className="max-w-2xl">
+          <div className="max-w-xl">
             <h1 className="text-5xl md:text-7xl font-bold mb-4 leading-[1.1] text-white tracking-tight">
               Hi, I&apos;m Grant.
             </h1>
-
-            <div className="mb-10 text-base leading-relaxed text-gray-300 md:text-lg space-y-3">
-              <p>
-                I create models, tools, and systems that help people navigate complex, regulated environments.
-              </p>
-              <p>
-                I build and operate systems inside large organizations and as independent projects,
-                taking them from concept to deployment.
-              </p>
-            </div>
+            <p className="text-base md:text-lg leading-relaxed text-gray-300 max-w-xl">
+              I create models, tools, and production-grade systems that help people navigate complex, regulated environments.
+            </p>
           </div>
 
           {/* Evidence Framework Header */}
-          <div className="w-full max-w-5xl mt-10 mb-3 pt-4 border-t border-white/5 flex items-center justify-between">
+          <div className="mt-12 mb-4 flex w-full max-w-5xl items-center justify-between border-t border-white/5 pt-5">
             <div className="flex items-center gap-2">
               <div className="w-1 h-1 bg-[#0066cc] rounded-full" />
               <span className="text-xs uppercase tracking-[0.12em] text-gray-300/80 font-mono">
@@ -106,7 +99,7 @@ export function Hero() {
               >
                 {/* Technical Mini (Image) */}
                 <div className="h-24 w-full relative overflow-hidden bg-black/50">
-                  <div className="absolute inset-0 opacity-60 group-hover:opacity-80 transition-opacity duration-500 grayscale group-hover:grayscale-0">
+                  <div className="absolute inset-0 opacity-75 group-hover:opacity-100 transition-[opacity,filter] duration-500 group-hover:brightness-110">
                     <ImageWithFallback
                       src={item.image}
                       alt={item.title}
@@ -140,4 +133,3 @@ export function Hero() {
     </header>
   );
 }
-

@@ -62,6 +62,45 @@ const systemDesignOutcomes = [
   "Apply logic across cities",
 ];
 
+const currentLimitations = [
+  {
+    label: "Geocoder reliability depends on third-party services",
+    detail:
+      "Nominatim is primary with U.S. Census fallback, but reliability can still vary with service availability, query quality, and edge-case address formats.",
+  },
+  {
+    label: "Radius edge cases still exist",
+    detail:
+      "Very small radii, sparse geographies, and coastal boundaries can return few or no block groups, which is correct behavior but can feel inconsistent to users.",
+  },
+  {
+    label: "Coverage assumptions are block-group level",
+    detail:
+      "Scores represent census block-group aggregates, not parcel-level or street-segment truth, so local micro-conditions can be masked.",
+  },
+  {
+    label: "Feature parity is incomplete across views",
+    detail:
+      "Explore has the richest map layer behavior (choropleth), while Compare still has UX gaps such as partial-result handling and batched backend flow.",
+  },
+];
+
+const shippedRecently = [
+  "Added a block-group choropleth map layer and legend so users can see NWI variation spatially, not just in summary cards.",
+  "Improved geocoding robustness with U.S. Census fallback when Nominatim fails on full street addresses.",
+  "Shipped a dashboard route with component-level analytics charts for D2A, D2B, D3B, and D4A.",
+  "Expanded regression coverage across frontend and backend tests, and tightened API/frontend error-code sync.",
+  "Upgraded docs and contributor workflow standards across testing docs, rules, and project guidance.",
+];
+
+const nextExperiments = [
+  "Add a single compare batch endpoint so Compare can fetch A/B summaries in one request and reduce round-trips.",
+  "Bring choropleth and map parity to Compare so both locations can be evaluated visually and numerically.",
+  "Validate and harden geocoder edge cases (PO boxes, rural routes), and evaluate practical response caching.",
+  "Explore integrating Walkable Accessibility Score (WAS) to complement NWI with destination density signals.",
+  "Add contextual dashboard filtering by active location and radius for more decision-ready analytics.",
+];
+
 export function WalkabilityIndexDetail() {
   return (
     <ProjectPageShell theme="walkability">
@@ -150,7 +189,7 @@ export function WalkabilityIndexDetail() {
         <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="Compare Two Locations"
-            subtitle="Evaluate two locations side by side using a shared radius. Differences reflect walkability, land use, connectivity, and transit conditions within the same spatial boundary."
+            subtitle="Evaluate two locations side by side using a shared radius. This keeps the search area consistent so differences reflect neighborhood conditions, not mismatched geography."
             subtitleClassName="max-w-3xl md:max-w-4xl"
           />
           <div className="mt-8 overflow-hidden rounded-md border border-white/5 bg-[var(--surface-meta-bg)]">
@@ -161,6 +200,10 @@ export function WalkabilityIndexDetail() {
               lazy={false}
             />
           </div>
+          <p className="mt-4 text-sm leading-relaxed text-[var(--project-muted-text)]">
+            Outcome: decision-makers can compare candidate areas on the same 1-20 NWI basis
+            before making site selection decisions.
+          </p>
         </div>
       </section>
 
@@ -169,7 +212,7 @@ export function WalkabilityIndexDetail() {
         <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="System Design"
-            subtitle="Radius-based spatial aggregation over census block groups."
+            subtitle="Radius-based averaging over census block groups. Tradeoff: larger radii improve stability, while smaller radii preserve neighborhood contrast."
           />
           <div className="mt-8 grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-12">
             <div>
@@ -214,6 +257,87 @@ export function WalkabilityIndexDetail() {
                     <span className="text-sm leading-relaxed text-[var(--project-body-text)]">
                       {item}
                     </span>
+                  </Motion.li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-white/5 bg-[var(--project-page-bg)] py-10 md:py-14">
+        <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
+          <CaseStudySectionHeading
+            title="Current Limitations"
+            subtitle="Known constraints are tracked explicitly so iteration stays fast and assumptions stay visible."
+          />
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {currentLimitations.map((item, idx) => (
+              <Motion.article
+                key={item.label}
+                initial={{ opacity: 0.95, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: idx * 0.03 }}
+                className="rounded-sm border border-white/10 bg-white/[0.03] p-4"
+              >
+                <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-accent-text)]">
+                  Constraint
+                </p>
+                <h3 className="mt-2 text-base font-semibold text-white">{item.label}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--project-muted-text)]">
+                  {item.detail}
+                </p>
+              </Motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-white/5 bg-[var(--project-page-bg)] py-10 md:py-14">
+        <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
+          <CaseStudySectionHeading
+            title="What Changed / What's Next"
+            subtitle="The project is designed for iterative shipping: track what is live now and what gets tested next."
+          />
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="rounded-sm border border-white/10 bg-white/[0.03] p-4 md:p-5">
+              <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-accent-text)]">
+                Shipped recently
+              </p>
+              <ul className="mt-3 space-y-2.5">
+                {shippedRecently.map((item, idx) => (
+                  <Motion.li
+                    key={item}
+                    initial={{ opacity: 0.95, y: 6 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.25, delay: idx * 0.02 }}
+                    className="flex items-start gap-2.5"
+                  >
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--project-accent-text)]" aria-hidden />
+                    <span className="text-sm leading-relaxed text-[var(--project-body-text)]">{item}</span>
+                  </Motion.li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="rounded-sm border border-white/10 bg-white/[0.03] p-4 md:p-5">
+              <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-accent-text)]">
+                Next experiments
+              </p>
+              <ul className="mt-3 space-y-2.5">
+                {nextExperiments.map((item, idx) => (
+                  <Motion.li
+                    key={item}
+                    initial={{ opacity: 0.95, y: 6 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.25, delay: idx * 0.02 }}
+                    className="flex items-start gap-2.5"
+                  >
+                    <CircleDot className="mt-0.5 h-4 w-4 shrink-0 text-[var(--project-accent-text)]" aria-hidden />
+                    <span className="text-sm leading-relaxed text-[var(--project-body-text)]">{item}</span>
                   </Motion.li>
                 ))}
               </ul>

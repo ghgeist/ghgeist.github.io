@@ -5,10 +5,10 @@ import { Toaster } from "@/app/components/ui/sonner";
 import { Navbar } from "@/app/components/Navbar";
 import { Hero } from "@/app/components/Hero";
 import { Approach } from "@/app/components/Approach";
-import { About } from "@/app/components/About";
 import { WorkWithMe } from "@/app/components/WorkWithMe";
 import { Footer } from "@/app/components/Footer";
 import { ErrorBoundary } from "@/app/components/ErrorBoundary";
+import { RouteScrollManager } from "@/app/components/RouteScrollManager";
 
 /**
  * Wraps a dynamic import with retry logic for chunk load failures.
@@ -57,6 +57,7 @@ const WalkabilityIndexDetail = lazyWithRetry(() => import("./projects/Walkabilit
 const StormSignal = lazyWithRetry(() => import("./projects/StormSignal").then(module => ({ default: module.StormSignal })));
 const Bantr = lazyWithRetry(() => import("./projects/Bantr").then(module => ({ default: module.Bantr })));
 const ReplacementTrap = lazyWithRetry(() => import("./projects/ReplacementTrap").then(module => ({ default: module.ReplacementTrap })));
+const About = lazyWithRetry(() => import("./components/About").then(module => ({ default: module.About })));
 
 // Loading fallback for lazy-loaded routes
 function RouteLoadingFallback() {
@@ -82,12 +83,20 @@ export default function App() {
   return (
     <ErrorBoundary>
       <BrowserRouter>
+        <RouteScrollManager />
         <div className="font-sans text-gray-300 bg-[#0B0E14] min-h-screen selection:bg-[#0066cc] selection:text-white">
           <Navbar />
 
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
+            <Route
+              path="/about"
+              element={
+                <Suspense fallback={<RouteLoadingFallback />}>
+                  <About />
+                </Suspense>
+              }
+            />
             <Route 
               path="/projects/walkability-index" 
               element={

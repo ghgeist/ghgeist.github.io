@@ -143,11 +143,11 @@ export function WorkWithMe() {
   return (
     <section
       id="work-with-me"
-      className="border-t border-white/5 bg-[#0B0E14] py-16 md:py-20"
+      className="scroll-mt-28 border-t border-white/5 bg-[#0B0E14] py-16 md:scroll-mt-32 md:py-20"
     >
       <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
         <div className="max-w-5xl mx-auto md:mx-0">
-          <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2">
+          <div className="grid grid-cols-1 items-start gap-8 md:gap-10 lg:grid-cols-2">
             {/* Left Column: Intro & Context */}
             <Motion.div
               initial={{ opacity: 0.95, y: 14 }}
@@ -161,10 +161,10 @@ export function WorkWithMe() {
 
               <div className="max-w-xl space-y-5 text-base leading-relaxed text-gray-300/85 md:text-lg">
                 <p>
-                  I work in messy, ambiguous systems where clarity, structure, and ownership are missing. I help teams define what "good" looks like, stabilize what is fragile, and build the models, workflows, or prototypes needed to move forward with confidence.
+                  I work in ambiguous systems where clarity, structure, and ownership are missing. I help teams define what "good" looks like, stabilize fragile flows, and build the models, workflows, or prototypes needed to move with confidence.
                 </p>
                 <p>
-                  If this sounds like the work you are trying to move forward, feel free to reach out.
+                  If this is the work in front of you, reach out.
                 </p>
               </div>
             </Motion.div>
@@ -181,7 +181,7 @@ export function WorkWithMe() {
                 onSubmit={handleSubmit(onSubmit)}
                 className="w-full space-y-6"
               >
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid gap-6 md:grid-cols-2">
                   <div className="space-y-2">
                     <Label
                       htmlFor="name"
@@ -302,7 +302,7 @@ export function WorkWithMe() {
                     })}
                     maxLength={MAX_LENGTHS.problem}
                     className={`min-h-[150px] resize-y ${fieldBaseStyles}`}
-                    placeholder="What are you trying to solve?"
+                    placeholder="What system feels unstable? Where is clarity missing? What is breaking under load?"
                   />
                   {errors.problem && (
                     <p className="text-red-500 text-sm mt-1">
@@ -357,4 +357,3 @@ export function WorkWithMe() {
     </section>
   );
 }
-
