@@ -40,7 +40,7 @@ export function Approach() {
         <div className="max-w-5xl mx-auto md:mx-0">
           {/* Section Header */}
           <div className="mb-8">
-            <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">
+            <h2 className="mb-6 text-3xl font-bold tracking-tight text-white">
               Approach
             </h2>
             <p className="max-w-2xl text-base leading-relaxed text-gray-400 md:text-lg">

@@ -147,7 +147,7 @@ export function WorkWithMe() {
     >
       <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
         <div className="max-w-5xl mx-auto md:mx-0">
-          <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2">
+          <div className="grid grid-cols-1 items-start gap-8 md:gap-10 lg:grid-cols-2">
             {/* Left Column: Intro & Context */}
             <Motion.div
               initial={{ opacity: 0.95, y: 14 }}
@@ -181,7 +181,7 @@ export function WorkWithMe() {
                 onSubmit={handleSubmit(onSubmit)}
                 className="w-full space-y-6"
               >
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid gap-6 md:grid-cols-2">
                   <div className="space-y-2">
                     <Label
                       htmlFor="name"

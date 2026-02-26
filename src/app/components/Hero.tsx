@@ -42,7 +42,7 @@ export function Hero() {
   return (
     <header
       id="page-top"
-      className="relative min-h-fit flex items-start bg-[#0B0E14] pb-14 md:pb-16"
+      className="relative min-h-fit flex items-start bg-[#0B0E14]"
     >
       {/* Technical Grid Background */}
       <div
@@ -58,7 +58,7 @@ export function Hero() {
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-transparent via-[#0B0E14]/20 to-[#0B0E14]" />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pt-24 md:pt-28 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pt-24 pb-16 md:pt-28 md:pb-20 lg:px-8">
         <Motion.div
           initial={{ opacity: 0.95, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -75,7 +75,7 @@ export function Hero() {
           </div>
 
           {/* Evidence Framework Header */}
-          <div className="w-full max-w-5xl mt-10 mb-3 pt-4 border-t border-white/5 flex items-center justify-between">
+          <div className="mt-12 mb-4 flex w-full max-w-5xl items-center justify-between border-t border-white/5 pt-5">
             <div className="flex items-center gap-2">
               <div className="w-1 h-1 bg-[#0066cc] rounded-full" />
               <span className="text-xs uppercase tracking-[0.12em] text-gray-300/80 font-mono">
