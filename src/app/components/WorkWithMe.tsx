@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion as Motion } from "motion/react";
 import { toast } from "sonner";
@@ -10,22 +10,20 @@ import { Label } from "@/app/components/ui/label";
 interface WorkWithMeFormData {
   name: string;
   email: string;
-  organization: string;
-  problem: string;
-  engagement: string;
+  message: string;
+  _gotcha?: string;
 }
 
 // Security constants
 const MAX_LENGTHS = {
   name: 100,
   email: 254, // RFC 5321 limit
-  organization: 200,
-  problem: 5000,
-  engagement: 2000,
+  message: 5000,
 } as const;
 
 // Rate limiting: prevent submissions more than once per 5 seconds
 const SUBMISSION_COOLDOWN_MS = 5000;
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mreajoaw";
 
 // Basic email validation regex (RFC 5322 compliant subset)
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -69,6 +67,21 @@ const fieldBaseStyles =
 export function WorkWithMe() {
   const lastSubmissionTime = useRef<number>(0);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  useEffect(() => {
+    if (!isSuccess) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setIsSuccess(false);
+    }, SUBMISSION_COOLDOWN_MS);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [isSuccess]);
 
   const {
     register,
@@ -80,6 +93,11 @@ export function WorkWithMe() {
   });
 
   const onSubmit = async (data: WorkWithMeFormData) => {
+    const sanitizedGotcha = data._gotcha ? sanitizeInput(data._gotcha) : "";
+    if (sanitizedGotcha) {
+      return;
+    }
+
     // Rate limiting check
     const now = Date.now();
     const timeSinceLastSubmission = now - lastSubmissionTime.current;
@@ -100,9 +118,8 @@ export function WorkWithMe() {
       const sanitizedData: WorkWithMeFormData = {
         name: sanitizeInput(data.name),
         email: sanitizeInput(data.email).toLowerCase(),
-        organization: data.organization ? sanitizeInput(data.organization) : "",
-        problem: sanitizeTextarea(data.problem),
-        engagement: data.engagement ? sanitizeTextarea(data.engagement) : "",
+        message: sanitizeTextarea(data.message),
+        _gotcha: sanitizedGotcha,
       };
 
       // Additional validation after sanitization
@@ -114,20 +131,34 @@ export function WorkWithMe() {
         toast.error("Email cannot be empty.");
         return;
       }
-      if (sanitizedData.problem.length === 0) {
+      if (sanitizedData.message.length === 0) {
         toast.error("Problem description cannot be empty.");
         return;
       }
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: sanitizedData.name,
+          email: sanitizedData.email,
+          message: sanitizedData.message,
+          _replyto: sanitizedData.email,
+          _gotcha: sanitizedData._gotcha,
+        }),
+      });
 
-      // In production, this would send to a backend API
-      // For now, simulate submission with error handling
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (!response.ok) {
+        throw new Error(`Formspree submission failed with status ${response.status}`);
+      }
 
       // Update last submission time on success
       lastSubmissionTime.current = now;
 
-      toast.success("Message sent! I'll get back to you soon.");
       reset();
+      setIsSuccess(true);
     } catch (error) {
       // Generic error message that doesn't leak implementation details
       setSubmitError("Failed to send message. Please try again later.");
@@ -169,7 +200,7 @@ export function WorkWithMe() {
               </div>
             </Motion.div>
 
-            {/* Right Column: Fit Panel & Form */}
+            {/* Right Column: Contact Form */}
             <Motion.div
               initial={{ opacity: 0.95, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -177,10 +208,25 @@ export function WorkWithMe() {
               transition={{ duration: 0.35, delay: 0.08 }}
             >
               {/* Contact Form */}
+              {isSuccess ? (
+                <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-6">
+                  <p className="text-emerald-300">
+                    Thanks for reaching out. I received your message and will
+                    get back to you soon.
+                  </p>
+                </div>
+              ) : (
               <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="w-full space-y-6"
               >
+                <input
+                  type="text"
+                  {...register("_gotcha")}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  style={{ display: "none" }}
+                />
                 <div className="grid gap-6 md:grid-cols-2">
                   <div className="space-y-2">
                     <Label
@@ -258,39 +304,19 @@ export function WorkWithMe() {
 
                 <div className="space-y-2">
                   <Label
-                    htmlFor="organization"
-                    className="text-gray-400 font-normal text-base"
-                  >
-                    Organization / Company
-                  </Label>
-                  <Input
-                    id="organization"
-                    {...register("organization", {
-                      maxLength: {
-                        value: MAX_LENGTHS.organization,
-                        message: `Organization must be less than ${MAX_LENGTHS.organization} characters`,
-                      },
-                    })}
-                    maxLength={MAX_LENGTHS.organization}
-                    className={`h-12 ${fieldBaseStyles}`}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="problem"
+                    htmlFor="message"
                     className="text-gray-400 font-normal text-base"
                   >
                     Tell me about the problem or opportunity *
                   </Label>
                   <Textarea
-                    id="problem"
-                    {...register("problem", {
+                    id="message"
+                    {...register("message", {
                       required:
                         "Please describe the problem or opportunity",
                       maxLength: {
-                        value: MAX_LENGTHS.problem,
-                        message: `Description must be less than ${MAX_LENGTHS.problem} characters`,
+                        value: MAX_LENGTHS.message,
+                        message: `Description must be less than ${MAX_LENGTHS.message} characters`,
                       },
                       validate: (value) => {
                         const sanitized = sanitizeTextarea(value);
@@ -300,36 +326,15 @@ export function WorkWithMe() {
                         return true;
                       },
                     })}
-                    maxLength={MAX_LENGTHS.problem}
+                    maxLength={MAX_LENGTHS.message}
                     className={`min-h-[150px] resize-y ${fieldBaseStyles}`}
-                    placeholder="What system feels unstable? Where is clarity missing? What is breaking under load?"
+                    placeholder="What feels unstable? Where is clarity missing? What’s breaking under load?"
                   />
-                  {errors.problem && (
+                  {errors.message && (
                     <p className="text-red-500 text-sm mt-1">
-                      {errors.problem.message}
+                      {errors.message.message}
                     </p>
                   )}
-                </div>
-
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="engagement"
-                    className="text-gray-400 font-normal text-base"
-                  >
-                    What kind of engagement are you considering?
-                  </Label>
-                  <Textarea
-                    id="engagement"
-                    {...register("engagement", {
-                      maxLength: {
-                        value: MAX_LENGTHS.engagement,
-                        message: `Engagement details must be less than ${MAX_LENGTHS.engagement} characters`,
-                      },
-                    })}
-                    maxLength={MAX_LENGTHS.engagement}
-                    className={`min-h-[100px] resize-y ${fieldBaseStyles}`}
-                    placeholder="If helpful: timeline, scope, or how you’re thinking about working together."
-                  />
                 </div>
 
                 {submitError && (
@@ -350,6 +355,7 @@ export function WorkWithMe() {
                   </Button>
                 </div>
               </form>
+              )}
             </Motion.div>
           </div>
         </div>
