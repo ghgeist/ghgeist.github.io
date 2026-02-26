@@ -161,10 +161,10 @@ export function WorkWithMe() {
 
               <div className="max-w-xl space-y-5 text-base leading-relaxed text-gray-300/85 md:text-lg">
                 <p>
-                  I work in messy, ambiguous systems where clarity, structure, and ownership are missing. I help teams define what "good" looks like, stabilize what is fragile, and build the models, workflows, or prototypes needed to move forward with confidence.
+                  I work in ambiguous systems where clarity, structure, and ownership are missing. I help teams define what "good" looks like, stabilize fragile flows, and build the models, workflows, or prototypes needed to move with confidence.
                 </p>
                 <p>
-                  If this sounds like the work you are trying to move forward, feel free to reach out.
+                  If this is the work in front of you, reach out.
                 </p>
               </div>
             </Motion.div>
@@ -302,7 +302,7 @@ export function WorkWithMe() {
                     })}
                     maxLength={MAX_LENGTHS.problem}
                     className={`min-h-[150px] resize-y ${fieldBaseStyles}`}
-                    placeholder="What are you trying to solve?"
+                    placeholder="What system feels unstable? Where is clarity missing? What is breaking under load?"
                   />
                   {errors.problem && (
                     <p className="text-red-500 text-sm mt-1">
