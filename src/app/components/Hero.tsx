@@ -65,20 +65,13 @@ export function Hero() {
           transition={{ duration: 0.45 }}
           className="max-w-5xl mx-auto md:mx-0"
         >
-          <div className="max-w-2xl">
+          <div className="max-w-xl">
             <h1 className="text-5xl md:text-7xl font-bold mb-4 leading-[1.1] text-white tracking-tight">
               Hi, I&apos;m Grant.
             </h1>
-
-            <div className="mb-10 text-base leading-relaxed text-gray-300 md:text-lg space-y-3">
-              <p>
-                I create models, tools, and systems that help people navigate complex, regulated environments.
-              </p>
-              <p>
-                I build and operate systems inside large organizations and as independent projects,
-                taking them from concept to deployment.
-              </p>
-            </div>
+            <p className="text-base md:text-lg leading-relaxed text-gray-300 max-w-xl">
+              I create models, tools, and production-grade systems that help people navigate complex, regulated environments.
+            </p>
           </div>
 
           {/* Evidence Framework Header */}
@@ -106,7 +99,7 @@ export function Hero() {
               >
                 {/* Technical Mini (Image) */}
                 <div className="h-24 w-full relative overflow-hidden bg-black/50">
-                  <div className="absolute inset-0 opacity-60 group-hover:opacity-80 transition-opacity duration-500 grayscale group-hover:grayscale-0">
+                  <div className="absolute inset-0 opacity-75 group-hover:opacity-100 transition-[opacity,filter] duration-500 group-hover:brightness-110">
                     <ImageWithFallback
                       src={item.image}
                       alt={item.title}
