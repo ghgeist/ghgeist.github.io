@@ -52,6 +52,21 @@ describe("Home route", () => {
     expect(screen.getByRole("heading", { name: "Approach" })).toBeTruthy();
     expect(screen.getByText("Work With Me")).toBeTruthy();
   });
+
+  it("renders footer email link with masked address", () => {
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <AppShell>
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </AppShell>
+      </MemoryRouter>
+    );
+
+    const emailLink = screen.getByRole("link", { name: /email/i });
+    expect(emailLink).toHaveAttribute("href", "mailto:hello@grantgeist.com");
+  });
 });
 
 describe("Project routes", () => {
