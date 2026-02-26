@@ -41,7 +41,7 @@ const dishwashersBenchmarks: RatioBenchmark[] = [
 const waterHeatersBenchmarks: RatioBenchmark[] = [
   { label: "Standard", ratio: 0.206, note: "Structural loss under base case." },
   { label: "Premium", ratio: 0.529, note: "Mid-tier efficiency upgrade." },
-  { label: "Energy Star (hybrid)", ratio: 2.51, note: "Exceeds repayment threshold." },
+  { label: "Energy Star (heatpump)", ratio: 2.51, note: "Exceeds repayment threshold." },
 ];
 
 const airConditionersBenchmarks: RatioBenchmark[] = [
@@ -243,25 +243,24 @@ export function ReplacementTrap() {
             <div>
               <CaseStudySectionHeading
                 title="The Context"
-                subtitle="Residential upgrades are often sold as investments, but replacement cycles and financing frictions limit cost recovery."
+                subtitle="Residential upgrades are often sold as energy efficiency investments, but appliance replacement decisions are more often made under uncertainty and financial pressure."
                 subtitleClassName="max-w-3xl"
                 className="mb-4 md:mb-5"
               />
               <div className="prose prose-invert mt-4 max-w-none text-gray-400">
-                <p className="text-base md:text-lg">
-                  Most homeowner decisions are made under uncertainty: variable
-                  utility prices, uneven equipment performance, and debt-funded
-                  replacement decisions. Simple payback estimates ignore this
-                  lifecycle pressure.
-                </p>
-                <p className="mt-4 text-base md:text-lg">
-                  The Replacement Trap reframes the question with a structural
-                  threshold: does a system survive long enough to repay itself
-                  before it has to be replaced?
-                </p>
+                <ul className="mt-4 list-inside list-disc space-y-2 text-base md:text-lg">
+                  <li>
+                    Simple payback often assumes stable savings and ignores
+                    replacement timing.
+                  </li>
+                  <li>
+                    This model asks a survival question: does lifespan exceed
+                    payback (R/P &gt; 1)?
+                  </li>
+                </ul>
               </div>
             </div>
-            <div className="lg:w-72">
+            <div className="lg:mt-12 lg:w-72">
               <div className="rounded-[2px] border border-white/5 bg-[#1a1f28] p-4 md:p-5">
                 <h3 className="mb-3 text-sm font-medium text-gray-500">
                   Model Summary
@@ -281,7 +280,7 @@ export function ReplacementTrap() {
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="Modeling Approach"
-            subtitle="Each system is evaluated using a deterministic threshold rather than simple payback claims."
+            subtitle="Each system is evaluated by one question: does it repay its cost before end-of-life?"
             subtitleClassName="max-w-3xl"
           />
           <div className="grid gap-6 md:grid-cols-2 md:gap-8">
@@ -297,11 +296,11 @@ export function ReplacementTrap() {
               </p>
               <ul className="mb-4 list-inside list-disc space-y-1.5 text-sm text-gray-300">
                 <li>
-                  <strong>R/P &gt; 1</strong> — The system survives long enough
+                  <strong>R/P &gt; 1</strong>: The system survives long enough
                   to recover its installed cost.
                 </li>
                 <li>
-                  <strong>R/P &lt; 1</strong> — The system reaches end-of-life
+                  <strong>R/P &lt; 1</strong>: The system reaches end-of-life
                   before full capital recovery.
                 </li>
               </ul>
@@ -325,7 +324,7 @@ export function ReplacementTrap() {
                 <li>Debt-funded replacement scenarios (HELOC modeling)</li>
               </ul>
               <p className="text-sm leading-relaxed text-gray-400">
-                All outcomes are tied to explicit assumptions, bounded lifespan ranges, and stress-tested scenarios. The model is designed for inspectable economics.
+                All outcomes are tied to explicit assumptions, bounded lifespan ranges, and stress-tested scenarios. The model is designed for auditable household economics.
               </p>
             </div>
           </div>
@@ -335,25 +334,29 @@ export function ReplacementTrap() {
       <section className="border-y border-white/5 bg-[#151921] py-10 md:py-14">
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <h3 className="mb-2 font-mono text-sm uppercase tracking-widest text-amber-300">
-            Key Structural Finding
+            Key Findings
           </h3>
           <h2 className="mb-4 text-2xl font-bold text-white md:mb-6 md:text-3xl">
-            Replacement Cycles Can Outrun Payback
+            Most Appliance Upgrades Don't Break Even
           </h2>
           <div className="space-y-4 leading-relaxed text-gray-400 md:space-y-6">
+            <ul className="list-inside list-disc space-y-1.5">
+              <li>Dishwashers, air conditioners, and most water heaters stay below break-even (R/P &lt; 1) across standard, premium, and Energy Star tiers.</li>
+              <li>The hybrid heat pump water heater is the exception (R/P = 2.51),</li>
+              <li> LED retrofit (R/P = 8.93) and attic insulation (R/P = 0.62).</li> were modeled for comparion, but not charted.
+            </ul>
             <p>
-              The chart below focuses on major appliance categories. In base-case
-              modeling, R/P ratios for dishwashers and air conditioners cluster
-              well below the 1.0 survival threshold, even across standard,
-              premium, and Energy Star tiers. The notable exception is the
-              hybrid heat pump water heater, with an R/P ratio of 2.51.
+              For financed replacements, R/P &lt; 1 can force repeated spending before earlier costs are recovered.
             </p>
-            <p>
-              A whole-home LED retrofit and blown-in attic insulation were also
-              modeled. The LED retrofit produces a large surplus (R/P = 8.93),
-              while insulation remains below the threshold (R/P = 0.62). These
-              systems are not shown in the graph.
-            </p>
+            <div className="rounded-sm border border-white/10 bg-white/[0.03] px-3 py-2">
+              <p className="text-sm leading-relaxed text-gray-300">
+                <span className="font-mono text-xs uppercase tracking-[0.12em] text-amber-300">
+                  Decision use
+                </span>
+                {" "}
+                Buy the most durable system with the longest warranty you can afford. Fewer replacements beat higher efficiency. 
+              </p>
+            </div>
           </div>
 
           <div className="mt-8 grid gap-6 sm:grid-cols-3">
