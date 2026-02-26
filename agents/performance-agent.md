@@ -154,12 +154,14 @@ Performance optimizations must preserve the original intent:
 - [ ] Baseline metrics documented
 - [ ] Performance bottlenecks identified with evidence
 - [ ] Measurement methodology validated
+- [ ] Shipping gate decided: either (a) requirements are already met -> no optimization required, or (b) optimization is required
 - [ ] **STOP**: Do not proceed to optimization until all criteria met
 
 ### Phase 3: Optimization (Make It Faster)
 
 7. **Prioritize by impact** - What performance improvements will have the biggest effect?
-8. **Select ONE performance improvement** that most directly enables production deployment
+8. **Select the smallest high-impact improvement set** that most directly enables production deployment
+   - Prefer one change; include tightly coupled changes only when needed (for example image format + lazy loading)
 9. **Explicitly document transformation** - State what's preserved, what's transformed, what's added
 
 ### Phase 4: Validation (Does It Work?)
@@ -224,7 +226,7 @@ Performance optimizations must preserve the original intent:
 - **When to use**: When Jekyll builds are too slow
 - **Boundary**: Build optimization preserves site functionality; don't break Liquid templates
 
-### 3. Database-First Performance (High Priority for Projects with Databases)
+### 4. Database-First Performance (High Priority for Projects with Databases)
 
 - **Purpose**: Optimize database operations for production
 - **Focus**: Slow queries, inefficient database operations, connection pooling
@@ -232,7 +234,7 @@ Performance optimizations must preserve the original intent:
 - **When to use**: When database operations are too slow
 - **Boundary**: Database optimization preserves data integrity; don't sacrifice correctness for speed
 
-### 4. API-First Performance (Medium Priority for Projects with APIs)
+### 5. API-First Performance (Medium Priority for Projects with APIs)
 
 - **Purpose**: Optimize API performance for production
 - **Focus**: API response times, data processing, serialization
@@ -240,7 +242,7 @@ Performance optimizations must preserve the original intent:
 - **When to use**: When API performance is inadequate
 - **Boundary**: API optimization preserves contracts; don't change API behavior
 
-### 5. Resource-First Performance (Medium Priority)
+### 6. Resource-First Performance (Medium Priority)
 
 - **Purpose**: Optimize resource usage for production
 - **Focus**: CPU usage, disk I/O, network I/O
@@ -291,12 +293,12 @@ def get_users_with_posts():
         user.posts = Post.objects.filter(user=user)
     return users
 
-# After: Optimized with select_related
+# After: Optimized with prefetch_related
 # PRESERVED: Function signature, return structure, user/post relationship
-# TRANSFORMED: Query pattern (N+1 → single query with join)
-# ADDED: select_related optimization
+# TRANSFORMED: Query pattern (N+1 → bounded query count with prefetch)
+# ADDED: prefetch_related optimization
 def get_users_with_posts():
-    return User.objects.select_related('posts').all()
+    return User.objects.prefetch_related('posts').all()
 ```
 
 ### Caching Optimization
@@ -304,6 +306,7 @@ def get_users_with_posts():
 ```python
 from functools import lru_cache
 import redis
+import json
 
 # PRESERVED: Function signature, return value structure, computation logic
 # TRANSFORMED: Execution path (direct computation → cache check → computation)
@@ -311,6 +314,7 @@ import redis
 @lru_cache(maxsize=128)
 def expensive_calculation(data):
     # Expensive operation
+    result = expensive_operation(data)
     return result
 
 # Explicit cache boundaries: cache size, TTL, invalidation triggers
@@ -322,7 +326,7 @@ def get_cached_data(key):
         return json.loads(cached)
     
     # Fallback: direct computation when cache misses
-    data = expensive_operation()
+    data = expensive_operation(key)
     redis_client.setex(key, 3600, json.dumps(data))  # Cache for 1 hour
     return data
 ```

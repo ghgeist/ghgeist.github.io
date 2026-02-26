@@ -5,7 +5,6 @@ import { Toaster } from "@/app/components/ui/sonner";
 import { Navbar } from "@/app/components/Navbar";
 import { Hero } from "@/app/components/Hero";
 import { Approach } from "@/app/components/Approach";
-import { About } from "@/app/components/About";
 import { WorkWithMe } from "@/app/components/WorkWithMe";
 import { Footer } from "@/app/components/Footer";
 import { ErrorBoundary } from "@/app/components/ErrorBoundary";
@@ -58,6 +57,7 @@ const WalkabilityIndexDetail = lazyWithRetry(() => import("./projects/Walkabilit
 const StormSignal = lazyWithRetry(() => import("./projects/StormSignal").then(module => ({ default: module.StormSignal })));
 const Bantr = lazyWithRetry(() => import("./projects/Bantr").then(module => ({ default: module.Bantr })));
 const ReplacementTrap = lazyWithRetry(() => import("./projects/ReplacementTrap").then(module => ({ default: module.ReplacementTrap })));
+const About = lazyWithRetry(() => import("./components/About").then(module => ({ default: module.About })));
 
 // Loading fallback for lazy-loaded routes
 function RouteLoadingFallback() {
@@ -89,7 +89,14 @@ export default function App() {
 
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
+            <Route
+              path="/about"
+              element={
+                <Suspense fallback={<RouteLoadingFallback />}>
+                  <About />
+                </Suspense>
+              }
+            />
             <Route 
               path="/projects/walkability-index" 
               element={

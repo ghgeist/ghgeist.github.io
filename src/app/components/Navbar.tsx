@@ -2,6 +2,7 @@ import { useEffect, useState, type MouseEvent } from "react";
 import { twMerge } from "tailwind-merge";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import { prefersReducedMotion } from "./prefersReducedMotion";
 
 type NavLink = {
   name: string;
@@ -47,6 +48,12 @@ export function Navbar() {
   const handleNavLinkClick = (event: MouseEvent<HTMLAnchorElement>, to: string) => {
     setIsMobileMenuOpen(false);
 
+    const isModifiedClick =
+      event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0;
+    if (isModifiedClick) {
+      return;
+    }
+
     const [targetPathname, targetHash = ""] = to.split("#");
     const normalizedTargetPathname = targetPathname.length > 0 ? targetPathname : "/";
 
@@ -55,15 +62,16 @@ export function Navbar() {
     }
 
     event.preventDefault();
+    const behavior: ScrollBehavior = prefersReducedMotion() ? "auto" : "smooth";
 
     if (targetHash === "page-top") {
-      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, left: 0, behavior });
       return;
     }
 
     const target = document.getElementById(targetHash);
     if (target) {
-      target.scrollIntoView({ block: "start", behavior: "smooth" });
+      target.scrollIntoView({ block: "start", behavior });
     }
   };
 

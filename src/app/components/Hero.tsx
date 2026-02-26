@@ -9,7 +9,7 @@ const evidenceItems = [
     subtext:
       "A household appliance model showing which upgrades never repay their cost.",
     tag: "HOUSING / MODELING",
-    image: "/assets/the-replacement-trap.png",
+    image: "/assets/thumbs/the-replacement-trap.webp",
     link: "/projects/replacement-trap",
   },
   {
@@ -17,7 +17,7 @@ const evidenceItems = [
     subtext:
       "A critical-response message routing pipeline with a 4.5 MB model and sub‑100ms latency.",
     tag: "ML / SYSTEMS",
-    image: "/assets/storm-signal.png",
+    image: "/assets/thumbs/storm-signal.webp",
     link: "/projects/signal-storm",
   },
   {
@@ -25,7 +25,7 @@ const evidenceItems = [
     subtext:
       "A walkability analysis app for neighborhood-scale comparisons.",
     tag: "GEO / URBANISM",
-    image: "/assets/walkability-index-map-shot.png",
+    image: "/assets/thumbs/walkability-index-map-shot.webp",
     link: "/projects/walkability-index",
   },
   {
@@ -33,7 +33,7 @@ const evidenceItems = [
     subtext:
       "A mobile-first conversational game engine with an OpenAI-driven prompt pipeline.",
     tag: "FULL-STACK / AI",
-    image: "/assets/bantr-landing-page.png",
+    image: "/assets/thumbs/bantr-landing-page.webp",
     link: "/projects/bantr",
   },
 ];

@@ -1,15 +1,8 @@
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import { prefersReducedMotion } from "./prefersReducedMotion";
 
 const MAX_HASH_TARGET_RETRIES = 8;
-
-function prefersReducedMotion(): boolean {
-  if (typeof window.matchMedia !== "function") {
-    return false;
-  }
-
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
 
 export function RouteScrollManager() {
   const location = useLocation();
