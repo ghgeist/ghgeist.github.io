@@ -340,9 +340,12 @@ export function ReplacementTrap() {
           </h2>
           <div className="space-y-4 leading-relaxed text-gray-400 md:space-y-6">
             <ul className="list-inside list-disc space-y-1.5">
-              <li>Dishwashers, air conditioners, and most water heaters stay below break-even (R/P &lt; 1) across standard, premium, and Energy Star tiers.</li>
-              <li>The hybrid heat pump water heater is the exception (R/P = 2.51),</li>
-              <li> LED retrofit (R/P = 8.93) and attic insulation (R/P = 0.62).</li> were modeled for comparion, but not charted.
+              <li>
+                Dishwashers, air conditioners, and most water heaters stay below break-even (R/P &lt; 1) across
+                standard, premium, and Energy Star tiers.
+              </li>
+              <li>The hybrid heat pump water heater is the exception (R/P = 2.51).</li>
+              <li>LED retrofit (R/P = 8.93) and attic insulation (R/P = 0.62) were modeled for comparison, but not charted.</li>
             </ul>
             <p>
               For financed replacements, R/P &lt; 1 can force repeated spending before earlier costs are recovered.

@@ -7,7 +7,6 @@ import { toast } from "sonner";
 import { Navbar } from "@/app/components/Navbar";
 import { Hero } from "@/app/components/Hero";
 import { Approach } from "@/app/components/Approach";
-import { About } from "@/app/components/About";
 import { WorkWithMe } from "@/app/components/WorkWithMe";
 import { Footer } from "@/app/components/Footer";
 import { Toaster } from "@/app/components/ui/sonner";
@@ -33,14 +32,13 @@ function Home() {
     <>
       <Hero />
       <Approach />
-      <About />
       <WorkWithMe />
     </>
   );
 }
 
 describe("Home route", () => {
-  it("renders Hero, Approach, About, and WorkWithMe sections", () => {
+  it("renders Hero, Approach, and WorkWithMe sections", () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
         <AppShell>
@@ -144,4 +142,3 @@ describe("WorkWithMe form", () => {
     toastSpy.mockRestore();
   });
 });
-

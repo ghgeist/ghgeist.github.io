@@ -9,6 +9,7 @@ import { About } from "@/app/components/About";
 import { WorkWithMe } from "@/app/components/WorkWithMe";
 import { Footer } from "@/app/components/Footer";
 import { ErrorBoundary } from "@/app/components/ErrorBoundary";
+import { RouteScrollManager } from "@/app/components/RouteScrollManager";
 
 /**
  * Wraps a dynamic import with retry logic for chunk load failures.
@@ -82,6 +83,7 @@ export default function App() {
   return (
     <ErrorBoundary>
       <BrowserRouter>
+        <RouteScrollManager />
         <div className="font-sans text-gray-300 bg-[#0B0E14] min-h-screen selection:bg-[#0066cc] selection:text-white">
           <Navbar />
 

@@ -42,7 +42,7 @@ export function Hero() {
   return (
     <header
       id="page-top"
-      className="relative min-h-fit flex items-start bg-[#0B0E14]"
+      className="relative min-h-fit scroll-mt-28 flex items-start bg-[#0B0E14] md:scroll-mt-32"
     >
       {/* Technical Grid Background */}
       <div
@@ -133,4 +133,3 @@ export function Hero() {
     </header>
   );
 }
-

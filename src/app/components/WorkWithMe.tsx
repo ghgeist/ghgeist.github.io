@@ -143,7 +143,7 @@ export function WorkWithMe() {
   return (
     <section
       id="work-with-me"
-      className="border-t border-white/5 bg-[#0B0E14] py-16 md:py-20"
+      className="scroll-mt-28 border-t border-white/5 bg-[#0B0E14] py-16 md:scroll-mt-32 md:py-20"
     >
       <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
         <div className="max-w-5xl mx-auto md:mx-0">
@@ -357,4 +357,3 @@ export function WorkWithMe() {
     </section>
   );
 }
-
