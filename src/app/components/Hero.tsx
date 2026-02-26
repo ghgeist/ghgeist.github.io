@@ -7,7 +7,7 @@ const evidenceItems = [
   {
     title: "The Replacement Trap",
     subtext:
-      "System dynamics model for housing lifecycle economics.",
+      "A household appliance model showing which upgrades never repay their cost.",
     tag: "HOUSING / MODELING",
     image: "/assets/the-replacement-trap.png",
     link: "/projects/replacement-trap",
@@ -15,7 +15,7 @@ const evidenceItems = [
   {
     title: "Storm Signal",
     subtext:
-      "Critical response ML pipeline with 1000x model-size reduction.",
+      "A critical-response message routing pipeline with a 4.5 MB model and sub‑100ms latency.",
     tag: "ML / SYSTEMS",
     image: "/assets/storm-signal.png",
     link: "/projects/signal-storm",
@@ -23,7 +23,7 @@ const evidenceItems = [
   {
     title: "Walkability Index",
     subtext:
-      "Geospatial data product for urban systems analysis.",
+      "A walkability analysis app for neighborhood-scale comparisons.",
     tag: "GEO / URBANISM",
     image: "/assets/walkability-index-map-shot.png",
     link: "/projects/walkability-index",
@@ -31,7 +31,7 @@ const evidenceItems = [
   {
     title: "Bantr",
     subtext:
-      "Full-stack rapid prototype using AI-enabled engineering.",
+      "A mobile-first conversational game engine with an OpenAI-driven prompt pipeline.",
     tag: "FULL-STACK / AI",
     image: "/assets/bantr-landing-page.png",
     link: "/projects/bantr",
