@@ -95,11 +95,6 @@ export function WorkWithMe() {
   });
 
   const onSubmit = async (data: WorkWithMeFormData) => {
-    const sanitizedGotcha = data._gotcha ? sanitizeInput(data._gotcha) : "";
-    if (sanitizedGotcha) {
-      return;
-    }
-
     // Rate limiting check
     const now = Date.now();
     const timeSinceLastSubmission = now - lastSubmissionTime.current;
@@ -121,7 +116,7 @@ export function WorkWithMe() {
         name: sanitizeInput(data.name),
         email: sanitizeInput(data.email).toLowerCase(),
         message: sanitizeTextarea(data.message),
-        _gotcha: sanitizedGotcha,
+        _gotcha: data._gotcha ?? "",
       };
 
       // Additional validation after sanitization
