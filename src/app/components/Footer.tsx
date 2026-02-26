@@ -44,7 +44,7 @@ export function Footer() {
     },
     {
       name: "Email",
-      href: "mailto:granthgeist@gmail.com",
+      href: "mailto:hello@grantgeist.com",
       icon: Mail,
     },
   ];
