@@ -118,10 +118,11 @@ describe("WorkWithMe form", () => {
   }
 
   it("submits and calls the handler", async () => {
-    // Mock toast.success to verify it's called on successful submission
-    const toastSpy = vi.spyOn(toast, "success").mockImplementation(() => {
-      return "test-toast-id";
-    });
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(null, {
+        status: 200,
+      })
+    );
 
     render(
       <MemoryRouter>
@@ -140,20 +141,36 @@ describe("WorkWithMe form", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /get in touch/i }));
 
-    // Wait for async submission to complete (includes 1s delay)
+    // Wait for async submission to complete and request to be sent.
     await waitFor(
       () => {
-        expect(toastSpy).toHaveBeenCalledWith("Message sent! I'll get back to you soon.");
+        expect(fetchSpy).toHaveBeenCalledTimes(1);
       },
       { timeout: 2000 }
     );
+
+    expect(fetchSpy).toHaveBeenCalledWith(
+      "https://formspree.io/f/mreajoaw",
+      expect.objectContaining({
+        method: "POST",
+        headers: expect.objectContaining({
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        }),
+        body: expect.any(String),
+      })
+    );
+
+    expect(
+      screen.getByText(/thanks for reaching out\. i received your message/i)
+    ).toBeTruthy();
 
     // Verify form fields are cleared after successful submission
     expect(nameInput.value).toBe("");
     expect(emailInput.value).toBe("");
     expect(problemInput.value).toBe("");
 
-    toastSpy.mockRestore();
+    fetchSpy.mockRestore();
   });
 
   it("blocks submission with invalid email input", async () => {
