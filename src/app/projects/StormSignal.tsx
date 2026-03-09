@@ -172,7 +172,7 @@ function ModelComparisonChart({ models }: { models: ModelComparison[] }) {
       <div className="mt-8 border-t border-white/10 pt-6">
         <div className="flex items-center gap-2 text-sm text-emerald-300/90">
           <Zap className="h-4 w-4" />
-          <span>Cold-load time under &lt;0.1s</span>
+          <span>Cold-load time under 0.1s</span>
         </div>
       </div>
     </div>
