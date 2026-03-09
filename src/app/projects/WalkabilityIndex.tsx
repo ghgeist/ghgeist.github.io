@@ -50,8 +50,8 @@ const howItWorksSteps = [
 
 const systemDesignImplementation = [
   { term: "PostGIS", desc: "Table: national_walkability_index" },
-  { term: "ST_DWithin", desc: "Exact radius filtering" },
-  { term: "Spatial Index", desc: "GIST index on geometry; bounding-box prefilter" },
+  { term: "Radius filtering", desc: "Includes only block groups within the selected distance" },
+  { term: "Spatial indexing", desc: "Speeds up geographic queries before exact distance checks" },
   { term: "Preprocessing", desc: "Geometry simplification" },
 ];
 
@@ -74,30 +74,30 @@ const currentLimitations = [
       "Very small radii, sparse geographies, and coastal boundaries can return few or no block groups, which is correct behavior but can feel inconsistent to users.",
   },
   {
-    label: "Coverage assumptions are block-group level",
+    label: "Coverage assumptions are based on census block groups",
     detail:
-      "Scores represent census block-group aggregates, not parcel-level or street-segment truth, so local micro-conditions can be masked.",
+      "Scores are averaged at the census block-group level, not at the parcel or street-segment level, so very local conditions can be obscured.",
   },
   {
-    label: "Feature parity is incomplete across views",
+    label: "Some views still lack the same capabilities",
     detail:
-      "Explore has the richest map layer behavior (choropleth), while Compare still has UX gaps such as partial-result handling and batched backend flow.",
+      "Explore currently has the most complete map experience, including a color-coded score layer, while Compare still has UX gaps such as partial-result handling and a more efficient single-request comparison flow.",
   },
 ];
 
 const shippedRecently = [
-  "Added a block-group choropleth map layer and legend so users can see NWI variation spatially, not just in summary cards.",
+  "Added a color-coded map layer and legend so users can see how NWI scores vary across nearby census block groups, not just in summary cards.",
   "Improved geocoding robustness with U.S. Census fallback when Nominatim fails on full street addresses.",
-  "Shipped a dashboard route with component-level analytics charts for D2A, D2B, D3B, and D4A.",
-  "Expanded regression coverage across frontend and backend tests, and tightened API/frontend error-code sync.",
+  "Shipped a dashboard route with charts for the individual metrics behind the overall walkability score.",
+  "Expanded regression coverage across frontend and backend tests, and made error handling more consistent across the stack.",
   "Upgraded docs and contributor workflow standards across testing docs, rules, and project guidance.",
 ];
 
 const nextExperiments = [
-  "Add a single compare batch endpoint so Compare can fetch A/B summaries in one request and reduce round-trips.",
-  "Bring choropleth and map parity to Compare so both locations can be evaluated visually and numerically.",
+  "Add a single comparison endpoint so Compare can fetch both summaries in one request and reduce round-trips.",
+  "Bring the same color-coded map layer and map features to Compare so both locations can be evaluated visually and numerically.",
   "Validate and harden geocoder edge cases (PO boxes, rural routes), and evaluate practical response caching.",
-  "Explore integrating Walkable Accessibility Score (WAS) to complement NWI with destination density signals.",
+  "Explore integrating Walkable Accessibility Score (WAS) to complement NWI with measures of destination access and density.",
   "Add contextual dashboard filtering by active location and radius for more decision-ready analytics.",
 ];
 
