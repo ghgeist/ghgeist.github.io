@@ -114,7 +114,7 @@ const designDoctrineCards: DesignDoctrineCard[] = [
   {
     title: "Human-in-the-loop",
     description:
-      "Signals inform judgment; they do not replace it. The system exposes confidence levels to help operators make fast, verified decisions.",
+      "Signals inform judgment; they do not replace it. The system exposes confidence levels to help operators make fast, informed decisions.",
     icon: <CheckCircle2 className="h-5 w-5" />,
     iconBgColor: "bg-indigo-500/10",
     iconColor: "text-indigo-300",
@@ -190,7 +190,7 @@ export function StormSignal() {
         framing={
           <p>
             A disaster-response monitoring dashboard that routes high-volume
-            messages into actionable categories using a compact, auditable ML
+            messages into actionable categories using a compact, auditable machine learning
             pipeline built for speed and offline deployment.
           </p>
         }
@@ -282,7 +282,7 @@ export function StormSignal() {
                 noise.
               </p>
               <p className="mt-3 text-sm leading-relaxed text-[var(--project-muted-text)]">
-                The design priority is dependable triage under load, not model novelty.
+                The design priority is dependable triage under load.
               </p>
             </div>
           </div>
@@ -293,9 +293,8 @@ export function StormSignal() {
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading title="Design Decisions" />
           <p className="mb-8 max-w-3xl text-base leading-relaxed text-gray-400 md:mb-12">
-            Disaster response punishes ambiguity: bandwidth is limited,
-            conditions change fast, and operators need consistent routing under
-            surge. This architecture favors compact, inspectable ML over
+            When it comes to disaster response bandwidth is limited,
+            conditions change fast, and operators need consistent routing. This architecture favors compact, inspectable macine learning over
             API-dependent LLMs so behavior stays predictable when
             the environment isn&apos;t.
           </p>
@@ -324,7 +323,7 @@ export function StormSignal() {
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="System Architecture"
-            subtitle="A monitoring dashboard with a constrained ML core. Messages are ingested, classified with confidence, surfaced for triage, and routed to human responders."
+            subtitle="A monitoring dashboard with a constrained machine learning core. Messages are ingested, classified, triaged, and routed to human responders."
           />
 
           <div className="mt-8 md:mt-6">
@@ -361,19 +360,10 @@ export function StormSignal() {
               </h2>
               <div className="space-y-4 leading-relaxed text-gray-400 md:space-y-6">
                 <p>
-                  Early iterations used a Random Forest model. Artifact size
-                  approached ~900 MB and proved unsuitable for lightweight or
-                  edge deployment.
+                  The initial Random Forest model generated a 900 MB model, making lightweight deployment impossible.
                 </p>
                 <p>
-                  This was replaced with Logistic Regression to make edge
-                  deployment viable. The artifact dropped from 67.7 MB to 13.0
-                  MB with vocabulary filtering, and to 4.5 MB with a 15K feature
-                  cap without sacrificing operational performance.
-                </p>
-                <p>
-                  The final stack prioritizes determinism, inspectability, and
-                  predictable inference behavior over model novelty.
+                  This was replaced with Logistic Regression. Vocabulary filtering and a 15K feature cap shrank the model from 67.7 MB to 4.5 MB without hurting operational performance.
                 </p>
               </div>
             </div>

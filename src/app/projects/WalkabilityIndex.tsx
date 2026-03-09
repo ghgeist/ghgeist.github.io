@@ -189,7 +189,7 @@ export function WalkabilityIndexDetail() {
         <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="Compare Two Locations"
-            subtitle="Evaluate two locations side by side using a shared radius. This keeps the search area consistent so differences reflect neighborhood conditions, not mismatched geography."
+            subtitle="Evaluate two locations side by side using a shared radius. This keeps the search area consistent so differences reflect neighborhood conditions."
             subtitleClassName="max-w-3xl md:max-w-4xl"
           />
           <div className="mt-8 overflow-hidden rounded-md border border-white/5 bg-[var(--surface-meta-bg)]">
