@@ -62,7 +62,7 @@ const timelineEvents = [
     title: "New York (VTS)",
     description:
       "Migrated core business logic from Looker PDTs into dbt, consolidating 23 " +
-      "production metrics for a 146-person organization during a $125M Series E. ",
+      "production metrics for a 146-person organization during a $125M Series E.",
     image:
       "https://images.unsplash.com/photo-1599580546666-c26f15e00933?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200",
     alt: "Commercial buildings",
