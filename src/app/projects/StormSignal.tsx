@@ -1,7 +1,6 @@
 import React from "react";
 import {
   ExternalLink,
-  Github,
   CheckCircle2,
   Zap,
   Database,
@@ -10,6 +9,7 @@ import {
   Brain,
   Users,
 } from "lucide-react";
+import { GithubIcon } from "@/app/components/icons/GithubIcon";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { CaseStudyCtaButton } from "@/app/projects/components/CaseStudyCtaButton";
 import { CaseStudyHero } from "@/app/projects/components/CaseStudyHero";
@@ -39,7 +39,7 @@ const ctas = [
   {
     label: "View on Github",
     href: "https://github.com/ghgeist/disaster_response_project",
-    icon: <Github className="h-4 w-4" />,
+    icon: <GithubIcon className="h-4 w-4" />,
     variant: "secondary" as const,
   },
 ];
@@ -114,7 +114,7 @@ const designDoctrineCards: DesignDoctrineCard[] = [
   {
     title: "Human-in-the-loop",
     description:
-      "Signals inform judgment; they do not replace it. The system exposes confidence levels to help operators make fast, verified decisions.",
+      "Signals inform judgment; they do not replace it. The system exposes confidence levels to help operators make fast, informed decisions.",
     icon: <CheckCircle2 className="h-5 w-5" />,
     iconBgColor: "bg-indigo-500/10",
     iconColor: "text-indigo-300",
@@ -172,7 +172,7 @@ function ModelComparisonChart({ models }: { models: ModelComparison[] }) {
       <div className="mt-8 border-t border-white/10 pt-6">
         <div className="flex items-center gap-2 text-sm text-emerald-300/90">
           <Zap className="h-4 w-4" />
-          <span>Latency reduced to &lt;0.1s cold load</span>
+          <span>Cold-load time under 0.1s</span>
         </div>
       </div>
     </div>
@@ -190,8 +190,8 @@ export function StormSignal() {
         framing={
           <p>
             A disaster-response monitoring dashboard that routes high-volume
-            messages into actionable categories using a compact, auditable ML
-            pipeline built for speed and offline deployment.
+            messages into actionable categories using a compact, auditable machine learning
+            pipeline built for fast local deployment.
           </p>
         }
         titleClassName="text-4xl leading-tight md:text-6xl"
@@ -266,8 +266,8 @@ export function StormSignal() {
                 <li className="flex items-start gap-2.5">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--project-accent-text)]" aria-hidden />
                   <span className="text-sm leading-relaxed text-[var(--project-body-text)] md:text-base">
-                    Storm Signal is built for this environment: offline-capable, low compute overhead,
-                    and auditable decision paths.
+                    Storm Signal is designed for local deployment with low compute overhead,
+                    explicit thresholds, and auditable hierarchy rules.
                   </span>
                 </li>
               </ul>
@@ -282,7 +282,7 @@ export function StormSignal() {
                 noise.
               </p>
               <p className="mt-3 text-sm leading-relaxed text-[var(--project-muted-text)]">
-                The design priority is dependable triage under load, not model novelty.
+                The design priority is dependable triage under load.
               </p>
             </div>
           </div>
@@ -293,10 +293,9 @@ export function StormSignal() {
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading title="Design Decisions" />
           <p className="mb-8 max-w-3xl text-base leading-relaxed text-gray-400 md:mb-12">
-            Disaster response punishes ambiguity: bandwidth is limited,
-            conditions change fast, and operators need consistent routing under
-            surge. This architecture favors compact, inspectable ML over
-            API-dependent LLMs so behavior stays predictable when
+            In disaster response, bandwidth is limited,
+            conditions change fast, and operators need consistent routing. This architecture favors compact, inspectable machine learning over
+            larger hosted models so behavior stays predictable when
             the environment isn&apos;t.
           </p>
           <div className="grid gap-4 md:grid-cols-3 md:gap-6">
@@ -324,7 +323,7 @@ export function StormSignal() {
         <div className="mx-auto max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="System Architecture"
-            subtitle="A monitoring dashboard with a constrained ML core. Messages are ingested, classified with confidence, surfaced for triage, and routed to human responders."
+            subtitle="A monitoring dashboard with a constrained machine learning core. Messages are ingested, classified, triaged, and routed to human responders."
           />
 
           <div className="mt-8 md:mt-6">
@@ -361,19 +360,10 @@ export function StormSignal() {
               </h2>
               <div className="space-y-4 leading-relaxed text-gray-400 md:space-y-6">
                 <p>
-                  Early iterations used a Random Forest model. Artifact size
-                  approached ~900 MB and proved unsuitable for lightweight or
-                  edge deployment.
+                  The initial Random Forest model generated a 900 MB model, making lightweight deployment impossible.
                 </p>
                 <p>
-                  This was replaced with Logistic Regression to make edge
-                  deployment viable. The artifact dropped from 67.7 MB to 13.0
-                  MB with vocabulary filtering, and to 4.5 MB with a 15K feature
-                  cap without sacrificing operational performance.
-                </p>
-                <p>
-                  The final stack prioritizes determinism, inspectability, and
-                  predictable inference behavior over model novelty.
+                  This was replaced with Logistic Regression. Vocabulary filtering and a 15K feature cap shrank the model from 67.7 MB to 4.5 MB while keeping the classifier practical for deployment.
                 </p>
               </div>
             </div>

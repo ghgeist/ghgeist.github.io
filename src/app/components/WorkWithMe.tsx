@@ -189,7 +189,7 @@ export function WorkWithMe() {
 
               <div className="max-w-xl space-y-5 text-base leading-relaxed text-gray-300/85 md:text-lg">
                 <p>
-                  I work in ambiguous systems where clarity, structure, and ownership are missing. I help teams define what "good" looks like, stabilize fragile flows, and build the models, workflows, or prototypes needed to move with confidence.
+                  I work in ambiguous systems where clarity, structure, and ownership are missing. I help teams define what success looks like, stabilize fragile flows, and build the models, workflows, or prototypes needed to move with confidence.
                 </p>
                 <p>
                   If this is the work in front of you, reach out.

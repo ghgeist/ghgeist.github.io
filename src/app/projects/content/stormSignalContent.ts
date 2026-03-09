@@ -26,7 +26,7 @@ export const stormStats = [
   {
     label: "Inference Latency",
     value: "< 100ms",
-    subtext: "Real-time classification under load",
+    subtext: "Fast local inference",
   },
   {
     label: "Weighted F1",

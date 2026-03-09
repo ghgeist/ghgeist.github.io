@@ -1,8 +1,8 @@
 import React from "react";
 import {
   ExternalLink,
-  Github,
 } from "lucide-react";
+import { GithubIcon } from "@/app/components/icons/GithubIcon";
 import { CaseStudyCtaButton } from "@/app/projects/components/CaseStudyCtaButton";
 import { CaseStudyHero } from "@/app/projects/components/CaseStudyHero";
 import { CaseStudySectionHeading } from "@/app/projects/components/CaseStudySectionHeading";
@@ -29,7 +29,7 @@ const ctas = [
   {
     label: "View on Github",
     href: "https://github.com/ghgeist/replacement_trap",
-    icon: <Github className="h-4 w-4" />,
+    icon: <GithubIcon className="h-4 w-4" />,
     variant: "secondary" as const,
   },
 ];
@@ -216,19 +216,22 @@ export function ReplacementTrap() {
             <div>
               <CaseStudySectionHeading
                 title="The Context"
-                subtitle="Residential upgrades are often sold as energy efficiency investments, but appliance replacement decisions are more often made under uncertainty and financial pressure."
+                subtitle="Companies market appliance upgrades as energy efficiency investments, but consumers usually buy a new appliance because the old one is broken."
                 subtitleClassName="max-w-3xl"
                 className="mb-4 md:mb-5"
               />
               <div className="prose prose-invert mt-4 max-w-none text-gray-400">
                 <ul className="mt-4 list-inside list-disc space-y-2 text-base md:text-lg">
+                <li>
+                    The replacement decision is usually financially stressful and time-sensitive.
+                  </li>
                   <li>
-                    Simple payback often assumes stable savings and ignores
+                    Simple payback calculations for the appliance often assume stable savings and ignore
                     replacement timing.
                   </li>
                   <li>
                     This model asks a survival question: does lifespan exceed
-                    payback (R/P &gt; 1)?
+                    payback?
                   </li>
                 </ul>
               </div>
@@ -279,8 +282,7 @@ export function ReplacementTrap() {
               </ul>
               <p className="text-sm leading-relaxed text-gray-400">
                 When lifespan is shorter than payback, each replacement cycle
-                resets invested capital before recovery. The result is not
-                delayed return, but recurring structural loss.
+                resets invested capital before recovery. The result is recurring structural loss.
               </p>
             </div>
             <div className="rounded-sm border border-white/5 bg-[#151921] p-4 md:p-6">
@@ -319,7 +321,7 @@ export function ReplacementTrap() {
                 standard, premium, and Energy Star tiers.
               </li>
               <li>The hybrid heat pump water heater is the exception (R/P = 2.51).</li>
-              <li>LED retrofit (R/P = 8.93) and attic insulation (R/P = 0.62) were modeled for comparison, but not charted.</li>
+              <li>LED retrofit (R/P = 8.93) and attic insulation (R/P = 0.62) were modeled for comparison, but not charted below.</li>
             </ul>
             <p>
               For financed replacements, R/P &lt; 1 can force repeated spending before earlier costs are recovered.
