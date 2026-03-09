@@ -1,12 +1,12 @@
 import { motion as Motion } from "motion/react";
 import {
   ExternalLink,
-  Github,
   MapPin,
   CircleDot,
   BarChart3,
   CheckCircle2,
 } from "lucide-react";
+import { GithubIcon } from "@/app/components/icons/GithubIcon";
 import { CaseStudyCtaButton } from "@/app/projects/components/CaseStudyCtaButton";
 import { CaseStudyHero } from "@/app/projects/components/CaseStudyHero";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
@@ -25,7 +25,7 @@ const ctas = [
   {
     label: "View on Github",
     href: "https://github.com/ghgeist/urbanism_project",
-    icon: <Github className="h-4 w-4" />,
+    icon: <GithubIcon className="h-4 w-4" />,
     variant: "secondary" as const,
   },
 ];
@@ -58,7 +58,7 @@ const systemDesignImplementation = [
 const systemDesignOutcomes = [
   "Evaluate at neighborhood scale",
   "Fair comparisons",
-  "Test radius sensitivity",
+  "See how radius affects results",
   "Apply logic across cities",
 ];
 
@@ -109,7 +109,7 @@ export function WalkabilityIndexDetail() {
         framing={
           <>
             <p className="leading-relaxed">
-            Explore neighborhood walkability at a human scale. Built on the U.S. EPA’s National Walkability Index.
+            Explore neighborhood walkability at a human scale. Built on the U.S. EPA’s National Walkability Index (NWI).
             </p>
           </>
         }
@@ -212,7 +212,7 @@ export function WalkabilityIndexDetail() {
         <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="System Design"
-            subtitle="Radius-based averaging over census block groups. Tradeoff: larger radii improve stability, while smaller radii preserve neighborhood contrast."
+            subtitle="Walkability is averaged across block groups within the selected radius. Larger radii make results steadier, while smaller radii show more local variation."
           />
           <div className="mt-8 grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-12">
             <div>

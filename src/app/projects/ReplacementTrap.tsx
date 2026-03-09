@@ -1,8 +1,8 @@
 import React from "react";
 import {
   ExternalLink,
-  Github,
 } from "lucide-react";
+import { GithubIcon } from "@/app/components/icons/GithubIcon";
 import { CaseStudyCtaButton } from "@/app/projects/components/CaseStudyCtaButton";
 import { CaseStudyHero } from "@/app/projects/components/CaseStudyHero";
 import { CaseStudySectionHeading } from "@/app/projects/components/CaseStudySectionHeading";
@@ -29,7 +29,7 @@ const ctas = [
   {
     label: "View on Github",
     href: "https://github.com/ghgeist/replacement_trap",
-    icon: <Github className="h-4 w-4" />,
+    icon: <GithubIcon className="h-4 w-4" />,
     variant: "secondary" as const,
   },
 ];

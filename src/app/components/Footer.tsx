@@ -1,5 +1,6 @@
 import React from "react";
-import { Linkedin, Github, FileText, Mail } from "lucide-react";
+import { Linkedin, FileText, Mail } from "lucide-react";
+import { GithubIcon } from "@/app/components/icons/GithubIcon";
 
 // Substack icon component matching lucide-react icon interface
 const SubstackIcon = ({ size = 18, className }: { size?: number; className?: string }) => (
@@ -30,7 +31,7 @@ export function Footer() {
     {
       name: "GitHub",
       href: "https://github.com/ghgeist",
-      icon: Github,
+      icon: GithubIcon,
     },
     {
       name: "Substack",
