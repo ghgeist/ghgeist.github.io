@@ -66,7 +66,7 @@ const currentLimitations = [
   {
     label: "Geocoder reliability depends on third-party services",
     detail:
-      "Nominatim is primary with U.S. Census fallback, but reliability can still vary with service availability, query quality, and edge-case address formats.",
+      "The app uses Nominatim to look up addresses, with the U.S. Census geocoder as a backup. Results can still be inconsistent when either service is unavailable or when an address is incomplete, unusual, or hard to match.",
   },
   {
     label: "Radius edge cases still exist",
@@ -76,7 +76,7 @@ const currentLimitations = [
   {
     label: "Coverage assumptions are based on census block groups",
     detail:
-      "Scores are averaged at the census block-group level, not at the parcel or street-segment level, so very local conditions can be obscured.",
+      "Scores are averaged at the census block-group level, not at the parcel or street-segment level, which can obscure very local conditions.",
   },
   {
     label: "Some views still lack the same capabilities",
@@ -85,20 +85,12 @@ const currentLimitations = [
   },
 ];
 
-const shippedRecently = [
-  "Added a color-coded map layer and legend so users can see how NWI scores vary across nearby census block groups, not just in summary cards.",
-  "Improved geocoding robustness with U.S. Census fallback when Nominatim fails on full street addresses.",
-  "Shipped a dashboard route with charts for the individual metrics behind the overall walkability score.",
-  "Expanded regression coverage across frontend and backend tests, and made error handling more consistent across the stack.",
-  "Upgraded docs and contributor workflow standards across testing docs, rules, and project guidance.",
-];
-
 const nextExperiments = [
-  "Add a single comparison endpoint so Compare can fetch both summaries in one request and reduce round-trips.",
-  "Bring the same color-coded map layer and map features to Compare so both locations can be evaluated visually and numerically.",
-  "Validate and harden geocoder edge cases (PO boxes, rural routes), and evaluate practical response caching.",
-  "Explore integrating Walkable Accessibility Score (WAS) to complement NWI with measures of destination access and density.",
-  "Add contextual dashboard filtering by active location and radius for more decision-ready analytics.",
+  "Make side-by-side comparisons faster and simpler, with results that load together in one view.",
+  "Bring the same map overlays and visual cues from Explore into Compare, so differences are easier to spot at a glance.",
+  "Make address lookup more reliable, especially for tricky searches like rural routes or incomplete addresses.",
+  "Add more context beyond walkability alone, including how easy it is to reach nearby destinations.",
+  "Let people filter dashboard insights by location and distance, so the analysis feels more focused and actionable.",
 ];
 
 export function WalkabilityIndexDetail() {
@@ -297,31 +289,10 @@ export function WalkabilityIndexDetail() {
       <section className="border-t border-white/5 bg-[var(--project-page-bg)] py-10 md:py-14">
         <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
-            title="What Changed / What's Next"
-            subtitle="The project is designed for iterative shipping: track what is live now and what gets tested next."
+            title="What's Next"
+            subtitle="The next iteration focuses on clearer comparisons, more reliable search, and richer context for exploring neighborhoods."
           />
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div className="rounded-sm border border-white/10 bg-white/[0.03] p-4 md:p-5">
-              <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-accent-text)]">
-                Shipped recently
-              </p>
-              <ul className="mt-3 space-y-2.5">
-                {shippedRecently.map((item, idx) => (
-                  <Motion.li
-                    key={item}
-                    initial={{ opacity: 0.95, y: 6 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.25, delay: idx * 0.02 }}
-                    className="flex items-start gap-2.5"
-                  >
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--project-accent-text)]" aria-hidden />
-                    <span className="text-sm leading-relaxed text-[var(--project-body-text)]">{item}</span>
-                  </Motion.li>
-                ))}
-              </ul>
-            </div>
-
+          <div className="max-w-3xl">
             <div className="rounded-sm border border-white/10 bg-white/[0.03] p-4 md:p-5">
               <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-accent-text)]">
                 Next experiments
