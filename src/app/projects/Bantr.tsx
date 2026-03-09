@@ -178,12 +178,12 @@ const futureDirections = [
   {
     title: "Stronger AI pipeline",
     detail:
-      "Improve generation and scoring so prompts feel less generic and more context-aware.",
+      "Improve question generation and scoring so prompts feel less generic and more context-aware.",
   },
   {
     title: "Creator infrastructure",
     detail:
-      "Open the round engine so others can launch new conversational games on top of the same system.",
+      "Create a way for others to launch new conversational games on top of the same system.",
   },
 ];
 
@@ -305,7 +305,7 @@ export function Bantr() {
               </p>
               <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-2 md:items-start">
                 <p className="text-lg leading-relaxed text-[var(--project-body-text)] md:text-xl">
-                As A.I. makes cognition cheaper, creativity becomes more valuable.
+                As AI makes cognition cheaper, creativity becomes more valuable.
                 Bantr was an experiment in building a product to help people practice creativity.
                 </p>
                 <div className="rounded-sm border border-[color:var(--project-accent-border)] bg-[var(--project-accent-soft)]/25 p-4">
@@ -326,7 +326,7 @@ export function Bantr() {
         <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="Design Constraints"
-            subtitle="Human interaction has low tolerance for friction. Bantr trades open-ended generation for a fixed 10-question structure so pacing and coherence stay stable."
+            subtitle="Human interaction has low tolerance for friction. Bantr trades open-ended question generation for a fixed 10-question structure so pacing and coherence stay stable."
             subtitleClassName="max-w-4xl"
           />
 
@@ -382,7 +382,7 @@ export function Bantr() {
         <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="The System"
-            subtitle="Bantr runs on a round engine that remembers progress: fixed 10-question sessions, turn-by-turn continuity, and prompt formatting + validation"
+            subtitle="Bantr runs on a round engine that remembers progress: fixed 10-question sessions, turn-by-turn continuity, and prompt formatting + validation."
             subtitleClassName="max-w-4xl"
           />
           <div className="rounded-lg border border-white/10 bg-[#151921] p-3 md:p-4 lg:p-6">
@@ -411,7 +411,7 @@ export function Bantr() {
         <div className="mx-auto w-full max-w-6xl px-6 lg:px-8">
           <CaseStudySectionHeading
             title="Outcome and Future Direction"
-            subtitle="The core loop ships in production with completion tracking, but adoption remains limited without a defined distribution channel."
+            subtitle="The product works in production, but adoption remains limited without a reliable acquisition path."
             subtitleClassName="max-w-4xl"
           />
 
@@ -442,7 +442,7 @@ export function Bantr() {
               </p>
               <p className="text-sm leading-relaxed text-[var(--project-muted-text)]">
                 Distribution is a separate system with its own constraints. After product
-                reliability, the next milestone is repeatable channel testing.
+                reliability, the next milestone is finding a reliable way to reach new users.
               </p>
             </CaseStudySectionCard>
           </div>
