@@ -49,9 +49,9 @@ const timelineEvents = [
     pillar: "Scaling Data Infrastructure",
     title: "New York (Bloomberg)",
     description:
-      "Built analytics infrastructure for a 121-person department. Led anomaly " +
-      "detection correcting 2.1M inconsistencies across 18TB of data, reducing " +
-      "reporting risk and structural fragility.",
+      "Built analytics infrastructure for a 121-person department. Led an anomaly " +
+      "detection project correcting 2.1M inconsistencies across 18TB of data." + 
+      " This reduced reporting risk and help desk requests.",
     image:
       "https://images.unsplash.com/photo-1651608034107-12b95f5b2088?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200",
     alt: "New York City",
@@ -62,9 +62,7 @@ const timelineEvents = [
     title: "New York (VTS)",
     description:
       "Migrated core business logic from Looker PDTs into dbt, consolidating 23 " +
-      "production metrics for a 146-person organization during a $125M Series E. " +
-      "Reduced breakage risk and clarified system ownership under scaling " +
-      "pressure.",
+      "production metrics for a 146-person organization during a $125M Series E. ",
     image:
       "https://images.unsplash.com/photo-1599580546666-c26f15e00933?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200",
     alt: "Commercial buildings",
@@ -91,7 +89,7 @@ const timelineEvents = [
     description:
       "In 2024, I shifted to AI-augmented engineering. I completed the Udacity " +
       "Data Science Nanodegree and have since invested 3,000+ hours building " +
-      "production systems across ML, economic modeling, and geospatial work.",
+      "production ML pipelines, economic models, and geospatial applications.",
     image:
       "https://images.unsplash.com/photo-1765046255517-412341954c4c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200",
     alt: "AI Abstract",

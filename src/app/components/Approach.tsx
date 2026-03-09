@@ -3,7 +3,7 @@ import { motion as Motion } from "motion/react";
 import {
   Map,
   SquareFunction,
-  Play,
+  Hammer,
 } from "lucide-react";
 
 const methodology = [
@@ -26,7 +26,7 @@ const methodology = [
     title: "Create the Prototype",
     description:
       "I use AI-augmented engineering to turn formal models into operational software. Abstractions become working artifacts, and theory becomes practice.",
-    icon: <Play className="w-5 h-5" />,
+    icon: <Hammer className="w-5 h-5" />,
   },
 ];
 
