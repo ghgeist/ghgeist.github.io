@@ -25,7 +25,7 @@ const methodology = [
     step: "STEP 03",
     title: "Create the Prototype",
     description:
-      "I use AI-augmented engineering to turn models into operational software. Edge cases surface, logic is validated under constraint, and a working artifact emerges.",
+      "I use AI-augmented engineering to turn formal models into operational software. Abstractions become working artifacts, and theory becomes practice.",
     icon: <Play className="w-5 h-5" />,
   },
 ];
