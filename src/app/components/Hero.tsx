@@ -1,42 +1,7 @@
-import React from "react";
 import { motion as Motion } from "motion/react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { Link } from "react-router-dom";
-
-const evidenceItems = [
-  {
-    title: "The Replacement Trap",
-    subtext:
-      "A household appliance model showing which upgrades never repay their cost.",
-    tag: "Housing Analytics",
-    image: "/assets/thumbs/the-replacement-trap.webp",
-    link: "/projects/replacement-trap",
-  },
-  {
-    title: "Storm Signal",
-    subtext:
-      "An emergency message routing system using a 4.5 MB machine learning model with sub-100 ms latency.",
-    tag: "Machine Learning",
-    image: "/assets/thumbs/storm-signal.webp",
-    link: "/projects/signal-storm",
-  },
-  {
-    title: "Walkability Index",
-    subtext:
-      "A walkability analysis app for neighborhood-scale comparisons.",
-    tag: "Geospatial Analysis",
-    image: "/assets/thumbs/walkability-index-map-shot.webp",
-    link: "/projects/walkability-index",
-  },
-  {
-    title: "Bantr",
-    subtext:
-      "A mobile-first platform for creativity-driven conversation games.",
-    tag: "Full-Stack Engineering",
-    image: "/assets/thumbs/bantr-landing-page.webp",
-    link: "/projects/bantr",
-  },
-];
+import { selectedWorkProjects } from "@/app/projects/content/selectedWorkProjects";
 
 export function Hero() {
   return (
@@ -83,7 +48,7 @@ export function Hero() {
               </span>
             </div>
             <span className="text-sm uppercase tracking-[0.12em] text-gray-400/80 font-mono">
-              Index 01 — 04
+                Index 01 — {String(selectedWorkProjects.length).padStart(2, "0")}
             </span>
           </div>
 
@@ -91,10 +56,10 @@ export function Hero() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-5xl">
             {/* Add a tiny metadata label just above the border for extra 'Instrument' flavor */}
 
-            {evidenceItems.map((item) => (
+            {selectedWorkProjects.map((item) => (
               <Link
-                key={item.link}
-                to={item.link}
+                key={item.key}
+                to={item.to}
                 className="group flex h-full flex-col overflow-hidden rounded-md border border-white/10 bg-[#151921] transition-all duration-300 hover:border-white/20"
               >
                 {/* Technical Mini (Image) */}

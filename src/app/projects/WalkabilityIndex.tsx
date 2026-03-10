@@ -95,7 +95,7 @@ const nextExperiments = [
 
 export function WalkabilityIndexDetail() {
   return (
-    <ProjectPageShell theme="walkability">
+    <ProjectPageShell theme="walkability" projectKey="walkabilityIndex">
       <CaseStudyHero
         title="Walkability Index"
         framing={

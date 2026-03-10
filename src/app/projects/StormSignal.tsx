@@ -183,6 +183,7 @@ export function StormSignal() {
   return (
     <ProjectPageShell
       theme="storm"
+      projectKey="stormSignal"
       className="font-sans selection:bg-[var(--project-accent-soft)]"
     >
       <CaseStudyHero

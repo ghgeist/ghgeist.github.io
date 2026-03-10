@@ -52,7 +52,7 @@ describe("CaseStudy Components", () => {
         </MemoryRouter>
       );
 
-      const backLink = screen.getByText("Back to Case Studies");
+      const backLink = screen.getByText("Back to Selected Work");
       expect(backLink).toBeTruthy();
       expect(backLink.closest("a")).toHaveAttribute("href", "/");
     });
@@ -187,44 +187,72 @@ describe("CaseStudy Components", () => {
   describe("ProjectPageShell", () => {
     it("renders children", () => {
       render(
-        <ProjectPageShell theme="walkability">
-          <div>Test content</div>
-        </ProjectPageShell>
+        <MemoryRouter>
+          <ProjectPageShell theme="walkability" projectKey="walkabilityIndex">
+            <div>Test content</div>
+          </ProjectPageShell>
+        </MemoryRouter>
       );
 
       expect(screen.getByText("Test content")).toBeTruthy();
+    });
+
+    it("renders footer navigation links", () => {
+      render(
+        <MemoryRouter>
+          <ProjectPageShell theme="walkability" projectKey="walkabilityIndex">
+            <div>Test content</div>
+          </ProjectPageShell>
+        </MemoryRouter>
+      );
+
+      expect(screen.getByText("Back to Selected Work")).toBeTruthy();
+      expect(screen.getByText("Next Project")).toBeTruthy();
+      expect(screen.getByText("Bantr")).toBeTruthy();
     });
 
     it("applies theme prop correctly", () => {
       // Test that theme prop is accepted and doesn't crash
       // Don't check CSS classes - those change during design iteration
       const { container: container1 } = render(
-        <ProjectPageShell theme="walkability">
-          <div>Test content</div>
-        </ProjectPageShell>
+        <MemoryRouter>
+          <ProjectPageShell theme="walkability" projectKey="walkabilityIndex">
+            <div>Test content</div>
+          </ProjectPageShell>
+        </MemoryRouter>
       );
       expect(container1.querySelector("main")).toBeTruthy();
 
       const { container: container2 } = render(
-        <ProjectPageShell theme="replacement">
-          <div>Test content</div>
-        </ProjectPageShell>
+        <MemoryRouter>
+          <ProjectPageShell theme="replacement" projectKey="replacementTrap">
+            <div>Test content</div>
+          </ProjectPageShell>
+        </MemoryRouter>
       );
       expect(container2.querySelector("main")).toBeTruthy();
 
       const { container: container3 } = render(
-        <ProjectPageShell theme="bantr">
-          <div>Test content</div>
-        </ProjectPageShell>
+        <MemoryRouter>
+          <ProjectPageShell theme="bantr" projectKey="bantr">
+            <div>Test content</div>
+          </ProjectPageShell>
+        </MemoryRouter>
       );
       expect(container3.querySelector("main")).toBeTruthy();
     });
 
     it("applies custom className", () => {
       const { container } = render(
-        <ProjectPageShell theme="walkability" className="custom-class">
-          <div>Test content</div>
-        </ProjectPageShell>
+        <MemoryRouter>
+          <ProjectPageShell
+            theme="walkability"
+            projectKey="walkabilityIndex"
+            className="custom-class"
+          >
+            <div>Test content</div>
+          </ProjectPageShell>
+        </MemoryRouter>
       );
 
       const main = container.querySelector("main");
@@ -258,7 +286,7 @@ describe("CaseStudy Components", () => {
     it("composes ProjectPageShell with CaseStudy components", () => {
       render(
         <MemoryRouter>
-          <ProjectPageShell theme="walkability">
+          <ProjectPageShell theme="walkability" projectKey="walkabilityIndex">
             <CaseStudyHero
               title="Test Project"
               framing={<p>Test framing</p>}

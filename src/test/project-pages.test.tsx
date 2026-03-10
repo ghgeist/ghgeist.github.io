@@ -131,7 +131,7 @@ describe("Project Pages - Navigation", () => {
       </MemoryRouter>
     );
 
-    const backLinks = screen.getAllByText("Back to Case Studies");
+    const backLinks = screen.getAllByText("Back to Selected Work");
     expect(backLinks.length).toBeGreaterThan(0);
     const heroBackLink = backLinks[0];
     expect(heroBackLink).toBeTruthy();
@@ -146,7 +146,7 @@ describe("Project Pages - Navigation", () => {
     );
 
     // ReplacementTrap has multiple back links - check the first one (in hero)
-    const backLinks = screen.getAllByText("Back to Case Studies");
+    const backLinks = screen.getAllByText("Back to Selected Work");
     expect(backLinks.length).toBeGreaterThan(0);
     const heroBackLink = backLinks[0];
     expect(heroBackLink).toBeTruthy();
@@ -160,7 +160,7 @@ describe("Project Pages - Navigation", () => {
       </MemoryRouter>
     );
 
-    const backLinks = screen.getAllByText("Back to Case Studies");
+    const backLinks = screen.getAllByText("Back to Selected Work");
     expect(backLinks.length).toBeGreaterThan(0);
     const heroBackLink = backLinks[0];
     expect(heroBackLink).toBeTruthy();
@@ -174,7 +174,7 @@ describe("Project Pages - Navigation", () => {
       </MemoryRouter>
     );
 
-    const backLinks = screen.getAllByText("Back to Case Studies");
+    const backLinks = screen.getAllByText("Back to Selected Work");
     expect(backLinks.length).toBeGreaterThan(0);
     const heroBackLink = backLinks[0];
     expect(heroBackLink).toBeTruthy();

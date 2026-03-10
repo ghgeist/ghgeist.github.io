@@ -12,7 +12,7 @@ describe("Navbar", () => {
     );
 
     expect(screen.getByRole("navigation", { name: "Primary" })).toBeTruthy();
-    expect(screen.getByRole("link", { name: "Case Studies" })).toHaveAttribute("href", "/#page-top");
+    expect(screen.getByRole("link", { name: "Selected Work" })).toHaveAttribute("href", "/#page-top");
     expect(screen.getByRole("link", { name: "Approach" })).toHaveAttribute("href", "/#skills");
     expect(screen.getByRole("link", { name: "About" })).toHaveAttribute("href", "/about");
     expect(screen.getByRole("link", { name: "Work with me" })).toHaveAttribute("href", "/#work-with-me");

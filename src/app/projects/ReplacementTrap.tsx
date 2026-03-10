@@ -160,6 +160,7 @@ export function ReplacementTrap() {
   return (
     <ProjectPageShell
       theme="replacement"
+      projectKey="replacementTrap"
       className="font-sans selection:bg-amber-400/20"
     >
       <CaseStudyHero

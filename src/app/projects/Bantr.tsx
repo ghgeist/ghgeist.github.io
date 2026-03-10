@@ -189,7 +189,7 @@ const futureDirections = [
 
 export function Bantr() {
   return (
-    <ProjectPageShell theme="bantr">
+    <ProjectPageShell theme="bantr" projectKey="bantr">
       <CaseStudyHero
         title="Bantr"
         framing={
