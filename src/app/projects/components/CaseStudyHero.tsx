@@ -30,7 +30,7 @@ export function CaseStudyHero({
   media,
   ctas,
   backTo = "/",
-  backLabel = "Back to Case Studies",
+  backLabel = "Back to Selected Work",
   background,
   showDefaultGrid = true,
   sectionClassName,

@@ -39,7 +39,7 @@ export function Navbar() {
   }, [isMobileMenuOpen]);
 
   const navLinks: NavLink[] = [
-    { name: "Case Studies", to: "/#page-top", variant: "link" },
+    { name: "Selected Work", to: "/#page-top", variant: "link" },
     { name: "Approach", to: "/#skills", variant: "link" },
     { name: "About", to: "/about", variant: "link" },
     { name: "Work with me", to: "/#work-with-me", variant: "cta" },

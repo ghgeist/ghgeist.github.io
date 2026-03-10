@@ -15,7 +15,7 @@ const evidenceItems = [
   {
     title: "Storm Signal",
     subtext:
-      "A critical-response message routing pipeline with a 4.5 MB model and sub‑100ms latency.",
+      "An emergency message routing system using a 4.5 MB machine learning model with sub-100 ms latency.",
     tag: "Machine Learning",
     image: "/assets/thumbs/storm-signal.webp",
     link: "/projects/signal-storm",
@@ -31,7 +31,7 @@ const evidenceItems = [
   {
     title: "Bantr",
     subtext:
-      "A mobile-first conversational game engine with an OpenAI-driven prompt pipeline.",
+      "A mobile-first platform for creativity-driven conversation games.",
     tag: "Full-Stack Engineering",
     image: "/assets/thumbs/bantr-landing-page.webp",
     link: "/projects/bantr",
@@ -70,7 +70,7 @@ export function Hero() {
               Hi, I&apos;m Grant.
             </h1>
             <p className="text-base md:text-lg leading-relaxed text-gray-300 max-w-xl">
-              I create models, tools, and production-grade systems that help people navigate complex, regulated environments.
+              I create models, tools, and production-grade systems that help organizations navigate complex, regulated environments.
             </p>
           </div>
 
@@ -78,11 +78,11 @@ export function Hero() {
           <div className="mt-12 mb-4 flex w-full max-w-5xl items-center justify-between border-t border-white/5 pt-5">
             <div className="flex items-center gap-2">
               <div className="w-1 h-1 bg-[#0066cc] rounded-full" />
-              <span className="text-xs uppercase tracking-[0.12em] text-gray-300/80 font-mono">
-                Selected Case Studies
+              <span className="text-sm uppercase tracking-[0.12em] text-gray-300/80 font-mono">
+                Selected Work
               </span>
             </div>
-            <span className="text-xs uppercase tracking-[0.12em] text-gray-400/80 font-mono">
+            <span className="text-sm uppercase tracking-[0.12em] text-gray-400/80 font-mono">
               Index 01 — 04
             </span>
           </div>
