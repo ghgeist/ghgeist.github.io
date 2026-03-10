@@ -66,7 +66,7 @@ export const selectedWorkProjects = [
 export type ProjectKey = (typeof selectedWorkProjects)[number]["key"];
 export type SelectedWorkProject = (typeof selectedWorkProjects)[number];
 
-const selectedWorkProjectsByRoute = new Map(
+const selectedWorkProjectsByRoute = new Map<string, SelectedWorkProject>(
   selectedWorkProjects.map((project) => [project.route, project])
 );
 

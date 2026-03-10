@@ -2,13 +2,8 @@ import { useEffect, useState, type MouseEvent } from "react";
 import { twMerge } from "tailwind-merge";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import { siteNavLinks, selectedWorkNavHref } from "@/app/content/siteNavigation";
 import { prefersReducedMotion } from "./prefersReducedMotion";
-
-type NavLink = {
-  name: string;
-  to: string;
-  variant: "link" | "cta";
-};
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -37,13 +32,6 @@ export function Navbar() {
     window.addEventListener("keydown", handleEscape);
     return () => window.removeEventListener("keydown", handleEscape);
   }, [isMobileMenuOpen]);
-
-  const navLinks: NavLink[] = [
-    { name: "Selected Work", to: "/#page-top", variant: "link" },
-    { name: "Approach", to: "/#skills", variant: "link" },
-    { name: "About", to: "/about", variant: "link" },
-    { name: "Work with me", to: "/#work-with-me", variant: "cta" },
-  ];
 
   const handleNavLinkClick = (event: MouseEvent<HTMLAnchorElement>, to: string) => {
     setIsMobileMenuOpen(false);
@@ -88,15 +76,15 @@ export function Navbar() {
     >
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 lg:px-8">
         <Link
-          to="/#page-top"
+          to={selectedWorkNavHref}
           className="text-xl font-bold tracking-tight text-white transition-colors hover:text-[#0066cc]"
-          onClick={(event) => handleNavLinkClick(event, "/#page-top")}
+          onClick={(event) => handleNavLinkClick(event, selectedWorkNavHref)}
         >
           GRANT GEIST
         </Link>
 
         <div className="hidden items-center space-x-8 md:flex">
-          {navLinks.map((link) => {
+          {siteNavLinks.map((link) => {
             const isCta = link.variant === "cta";
             return (
               <Link
@@ -133,7 +121,7 @@ export function Navbar() {
           id={mobileMenuId}
           className="absolute left-0 right-0 top-full flex flex-col gap-3 border-b border-white/10 bg-[#0B0E14] p-5 shadow-xl md:hidden"
         >
-          {navLinks.map((link) => {
+          {siteNavLinks.map((link) => {
             const isCta = link.variant === "cta";
             return (
               <Link

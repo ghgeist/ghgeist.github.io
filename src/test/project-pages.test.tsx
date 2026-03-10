@@ -16,6 +16,7 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { backToSelectedWorkLabel } from "@/app/content/siteNavigation";
 
 import { Bantr } from "@/app/projects/Bantr";
 import { ReplacementTrap } from "@/app/projects/ReplacementTrap";
@@ -162,7 +163,7 @@ describe("Project Pages - Navigation", () => {
       </MemoryRouter>
     );
 
-    const backLinks = screen.getAllByText("Back to Selected Work");
+    const backLinks = screen.getAllByText(backToSelectedWorkLabel);
     expect(backLinks.length).toBeGreaterThan(0);
     const heroBackLink = backLinks[0];
     expect(heroBackLink).toBeTruthy();
@@ -177,7 +178,7 @@ describe("Project Pages - Navigation", () => {
     );
 
     // ReplacementTrap has multiple back links - check the first one (in hero)
-    const backLinks = screen.getAllByText("Back to Selected Work");
+    const backLinks = screen.getAllByText(backToSelectedWorkLabel);
     expect(backLinks.length).toBeGreaterThan(0);
     const heroBackLink = backLinks[0];
     expect(heroBackLink).toBeTruthy();
@@ -191,7 +192,7 @@ describe("Project Pages - Navigation", () => {
       </MemoryRouter>
     );
 
-    const backLinks = screen.getAllByText("Back to Selected Work");
+    const backLinks = screen.getAllByText(backToSelectedWorkLabel);
     expect(backLinks.length).toBeGreaterThan(0);
     const heroBackLink = backLinks[0];
     expect(heroBackLink).toBeTruthy();
@@ -205,7 +206,7 @@ describe("Project Pages - Navigation", () => {
       </MemoryRouter>
     );
 
-    const backLinks = screen.getAllByText("Back to Selected Work");
+    const backLinks = screen.getAllByText(backToSelectedWorkLabel);
     expect(backLinks.length).toBeGreaterThan(0);
     const heroBackLink = backLinks[0];
     expect(heroBackLink).toBeTruthy();

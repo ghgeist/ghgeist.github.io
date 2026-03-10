@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion as Motion } from "motion/react";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
+import { backToSelectedWorkLabel } from "@/app/content/siteNavigation";
 import { cn } from "@/app/components/ui/utils";
 
 type CaseStudyHeroProps = {
@@ -30,7 +31,7 @@ export function CaseStudyHero({
   media,
   ctas,
   backTo = "/",
-  backLabel = "Back to Selected Work",
+  backLabel = backToSelectedWorkLabel,
   background,
   showDefaultGrid = true,
   sectionClassName,

@@ -1,5 +1,6 @@
 import { motion as Motion } from "motion/react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
+import { selectedWorkLabel } from "@/app/content/siteNavigation";
 import { Link } from "react-router-dom";
 import { selectedWorkProjects } from "@/app/projects/content/selectedWorkProjects";
 
@@ -44,7 +45,7 @@ export function Hero() {
             <div className="flex items-center gap-2">
               <div className="w-1 h-1 bg-[#0066cc] rounded-full" />
               <span className="text-sm uppercase tracking-[0.12em] text-gray-300/80 font-mono">
-                Selected Work
+                {selectedWorkLabel}
               </span>
             </div>
             <span className="text-sm uppercase tracking-[0.12em] text-gray-400/80 font-mono">

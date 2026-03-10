@@ -16,6 +16,10 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import {
+  backToSelectedWorkLabel,
+  nextProjectLabel,
+} from "@/app/content/siteNavigation";
 
 import { CaseStudyHero } from "@/app/projects/components/CaseStudyHero";
 import { CaseStudySectionCard } from "@/app/projects/components/CaseStudySectionCard";
@@ -57,7 +61,7 @@ describe("CaseStudy Components", () => {
         </MemoryRouter>
       );
 
-      const backLink = screen.getByText("Back to Selected Work");
+      const backLink = screen.getByText(backToSelectedWorkLabel);
       expect(backLink).toBeTruthy();
       expect(backLink.closest("a")).toHaveAttribute("href", "/");
     });
@@ -211,8 +215,8 @@ describe("CaseStudy Components", () => {
         </MemoryRouter>
       );
 
-      expect(screen.getByText("Back to Selected Work")).toBeTruthy();
-      expect(screen.getByText("Next Project")).toBeTruthy();
+      expect(screen.getByText(backToSelectedWorkLabel)).toBeTruthy();
+      expect(screen.getByText(nextProjectLabel)).toBeTruthy();
       expect(screen.getByText("Bantr")).toBeTruthy();
     });
 

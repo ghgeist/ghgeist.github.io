@@ -1,4 +1,9 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import {
+  backToSelectedWorkLabel,
+  nextProjectLabel,
+  selectedWorkNavHref,
+} from "@/app/content/siteNavigation";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import {
@@ -27,11 +32,11 @@ export function ProjectFooterNav() {
           
           {/* Left: Lightweight Link */}
           <Link
-            to="/#page-top"
+            to={selectedWorkNavHref}
             className="group flex w-max items-center gap-2.5 text-[var(--project-meta-text)] transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--project-page-bg)]"
           >
             <ArrowLeft className="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:-translate-x-1" />
-            <span className="font-medium">Back to Selected Work</span>
+            <span className="font-medium">{backToSelectedWorkLabel}</span>
           </Link>
 
           {/* Right: Main Navigation Card */}
@@ -41,7 +46,7 @@ export function ProjectFooterNav() {
             aria-label={`Next project: ${nextProject.title}`}
           >
             <span className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--project-meta-text)] transition-colors group-hover:text-white">
-              Next Project
+              {nextProjectLabel}
             </span>
             <div className="flex items-center gap-2.5">
               <p className="text-xl font-semibold text-white">
