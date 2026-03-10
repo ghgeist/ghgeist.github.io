@@ -1,16 +1,20 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {
+  getSelectedWorkProjectByRoute,
   getNextSelectedWorkProject,
-  type ProjectKey,
 } from "@/app/projects/content/selectedWorkProjects";
 
-type ProjectFooterNavProps = {
-  projectKey: ProjectKey;
-};
+export function ProjectFooterNav() {
+  const location = useLocation();
+  const currentProject = getSelectedWorkProjectByRoute(location.pathname);
 
-export function ProjectFooterNav({ projectKey }: ProjectFooterNavProps) {
-  const nextProject = getNextSelectedWorkProject(projectKey);
+  if (!currentProject) {
+    return null;
+  }
+
+  const nextProject = getNextSelectedWorkProject(currentProject.key);
   
   // Lighter card styling: thinner border perception (subtle border color), reduced padding, lower contrast background
   const rightCardClassName =
@@ -32,7 +36,7 @@ export function ProjectFooterNav({ projectKey }: ProjectFooterNavProps) {
 
           {/* Right: Main Navigation Card */}
           <Link
-            to={nextProject.to}
+            to={nextProject.route}
             className={`${rightCardClassName} items-start md:items-end text-left md:text-right md:w-auto md:min-w-[20rem]`}
             aria-label={`Next project: ${nextProject.title}`}
           >

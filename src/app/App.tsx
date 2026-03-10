@@ -9,6 +9,12 @@ import { WorkWithMe } from "@/app/components/WorkWithMe";
 import { Footer } from "@/app/components/Footer";
 import { ErrorBoundary } from "@/app/components/ErrorBoundary";
 import { RouteScrollManager } from "@/app/components/RouteScrollManager";
+import {
+  bantrProject,
+  replacementTrapProject,
+  stormSignalProject,
+  walkabilityIndexProject,
+} from "@/app/projects/content/selectedWorkProjects";
 
 /**
  * Wraps a dynamic import with retry logic for chunk load failures.
@@ -79,6 +85,41 @@ function Home() {
   );
 }
 
+const projectRoutes = [
+  {
+    path: walkabilityIndexProject.route,
+    element: (
+      <Suspense fallback={<RouteLoadingFallback />}>
+        <WalkabilityIndexDetail />
+      </Suspense>
+    ),
+  },
+  {
+    path: replacementTrapProject.route,
+    element: (
+      <Suspense fallback={<RouteLoadingFallback />}>
+        <ReplacementTrap />
+      </Suspense>
+    ),
+  },
+  {
+    path: bantrProject.route,
+    element: (
+      <Suspense fallback={<RouteLoadingFallback />}>
+        <Bantr />
+      </Suspense>
+    ),
+  },
+  {
+    path: stormSignalProject.route,
+    element: (
+      <Suspense fallback={<RouteLoadingFallback />}>
+        <StormSignal />
+      </Suspense>
+    ),
+  },
+] as const;
+
 export default function App() {
   return (
     <ErrorBoundary>
@@ -97,38 +138,9 @@ export default function App() {
                 </Suspense>
               }
             />
-            <Route 
-              path="/projects/walkability-index" 
-              element={
-                <Suspense fallback={<RouteLoadingFallback />}>
-                  <WalkabilityIndexDetail />
-                </Suspense>
-              } 
-            />
-            <Route 
-              path="/projects/replacement-trap" 
-              element={
-                <Suspense fallback={<RouteLoadingFallback />}>
-                  <ReplacementTrap />
-                </Suspense>
-              } 
-            />
-            <Route 
-              path="/projects/bantr" 
-              element={
-                <Suspense fallback={<RouteLoadingFallback />}>
-                  <Bantr />
-                </Suspense>
-              } 
-            />
-            <Route 
-              path="/projects/signal-storm" 
-              element={
-                <Suspense fallback={<RouteLoadingFallback />}>
-                  <StormSignal />
-                </Suspense>
-              } 
-            />
+            {projectRoutes.map((route) => (
+              <Route key={route.path} path={route.path} element={route.element} />
+            ))}
           </Routes>
 
           <Footer />

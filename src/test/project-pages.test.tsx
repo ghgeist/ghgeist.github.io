@@ -21,6 +21,37 @@ import { Bantr } from "@/app/projects/Bantr";
 import { ReplacementTrap } from "@/app/projects/ReplacementTrap";
 import { WalkabilityIndexDetail } from "@/app/projects/WalkabilityIndex";
 import { StormSignal } from "@/app/projects/StormSignal";
+import {
+  getNextSelectedWorkProject,
+  getSelectedWorkProjectByRoute,
+  selectedWorkProjects,
+} from "@/app/projects/content/selectedWorkProjects";
+
+describe("Selected Work Registry", () => {
+  it("resolves every selected work project by route", () => {
+    selectedWorkProjects.forEach((project) => {
+      expect(getSelectedWorkProjectByRoute(project.route)).toEqual(project);
+    });
+  });
+
+  it("uses unique routes and keys", () => {
+    expect(new Set(selectedWorkProjects.map((project) => project.route)).size).toBe(
+      selectedWorkProjects.length
+    );
+    expect(new Set(selectedWorkProjects.map((project) => project.key)).size).toBe(
+      selectedWorkProjects.length
+    );
+  });
+
+  it("returns the next project in display order", () => {
+    selectedWorkProjects.forEach((project, index) => {
+      const expectedNextProject =
+        selectedWorkProjects[(index + 1) % selectedWorkProjects.length];
+
+      expect(getNextSelectedWorkProject(project.key)).toEqual(expectedNextProject);
+    });
+  });
+});
 
 describe("Project Pages - Accessibility", () => {
   it("Bantr page has semantic HTML structure", () => {

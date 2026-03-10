@@ -59,7 +59,7 @@ export function Hero() {
             {selectedWorkProjects.map((item) => (
               <Link
                 key={item.key}
-                to={item.to}
+                to={item.route}
                 className="group flex h-full flex-col overflow-hidden rounded-md border border-white/10 bg-[#151921] transition-all duration-300 hover:border-white/20"
               >
                 {/* Technical Mini (Image) */}

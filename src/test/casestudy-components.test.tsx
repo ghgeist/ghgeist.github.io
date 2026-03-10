@@ -22,6 +22,11 @@ import { CaseStudySectionCard } from "@/app/projects/components/CaseStudySection
 import { CaseStudyPill } from "@/app/projects/components/CaseStudyPill";
 import { CaseStudyCtaButton } from "@/app/projects/components/CaseStudyCtaButton";
 import { ProjectPageShell } from "@/app/projects/components/ProjectPageShell";
+import {
+  bantrProject,
+  replacementTrapProject,
+  walkabilityIndexProject,
+} from "@/app/projects/content/selectedWorkProjects";
 
 describe("CaseStudy Components", () => {
   describe("CaseStudyHero", () => {
@@ -187,8 +192,8 @@ describe("CaseStudy Components", () => {
   describe("ProjectPageShell", () => {
     it("renders children", () => {
       render(
-        <MemoryRouter>
-          <ProjectPageShell theme="walkability" projectKey="walkabilityIndex">
+        <MemoryRouter initialEntries={[walkabilityIndexProject.route]}>
+          <ProjectPageShell theme="walkability">
             <div>Test content</div>
           </ProjectPageShell>
         </MemoryRouter>
@@ -199,8 +204,8 @@ describe("CaseStudy Components", () => {
 
     it("renders footer navigation links", () => {
       render(
-        <MemoryRouter>
-          <ProjectPageShell theme="walkability" projectKey="walkabilityIndex">
+        <MemoryRouter initialEntries={[walkabilityIndexProject.route]}>
+          <ProjectPageShell theme="walkability">
             <div>Test content</div>
           </ProjectPageShell>
         </MemoryRouter>
@@ -215,8 +220,8 @@ describe("CaseStudy Components", () => {
       // Test that theme prop is accepted and doesn't crash
       // Don't check CSS classes - those change during design iteration
       const { container: container1 } = render(
-        <MemoryRouter>
-          <ProjectPageShell theme="walkability" projectKey="walkabilityIndex">
+        <MemoryRouter initialEntries={[walkabilityIndexProject.route]}>
+          <ProjectPageShell theme="walkability">
             <div>Test content</div>
           </ProjectPageShell>
         </MemoryRouter>
@@ -224,8 +229,8 @@ describe("CaseStudy Components", () => {
       expect(container1.querySelector("main")).toBeTruthy();
 
       const { container: container2 } = render(
-        <MemoryRouter>
-          <ProjectPageShell theme="replacement" projectKey="replacementTrap">
+        <MemoryRouter initialEntries={[replacementTrapProject.route]}>
+          <ProjectPageShell theme="replacement">
             <div>Test content</div>
           </ProjectPageShell>
         </MemoryRouter>
@@ -233,8 +238,8 @@ describe("CaseStudy Components", () => {
       expect(container2.querySelector("main")).toBeTruthy();
 
       const { container: container3 } = render(
-        <MemoryRouter>
-          <ProjectPageShell theme="bantr" projectKey="bantr">
+        <MemoryRouter initialEntries={[bantrProject.route]}>
+          <ProjectPageShell theme="bantr">
             <div>Test content</div>
           </ProjectPageShell>
         </MemoryRouter>
@@ -244,12 +249,8 @@ describe("CaseStudy Components", () => {
 
     it("applies custom className", () => {
       const { container } = render(
-        <MemoryRouter>
-          <ProjectPageShell
-            theme="walkability"
-            projectKey="walkabilityIndex"
-            className="custom-class"
-          >
+        <MemoryRouter initialEntries={[walkabilityIndexProject.route]}>
+          <ProjectPageShell theme="walkability" className="custom-class">
             <div>Test content</div>
           </ProjectPageShell>
         </MemoryRouter>
@@ -285,8 +286,8 @@ describe("CaseStudy Components", () => {
 
     it("composes ProjectPageShell with CaseStudy components", () => {
       render(
-        <MemoryRouter>
-          <ProjectPageShell theme="walkability" projectKey="walkabilityIndex">
+        <MemoryRouter initialEntries={[walkabilityIndexProject.route]}>
+          <ProjectPageShell theme="walkability">
             <CaseStudyHero
               title="Test Project"
               framing={<p>Test framing</p>}

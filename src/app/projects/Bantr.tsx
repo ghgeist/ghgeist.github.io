@@ -26,6 +26,7 @@ import { CaseStudyHero } from "@/app/projects/components/CaseStudyHero";
 import { CaseStudySectionCard } from "@/app/projects/components/CaseStudySectionCard";
 import { CaseStudySectionHeading } from "@/app/projects/components/CaseStudySectionHeading";
 import { ProjectPageShell } from "@/app/projects/components/ProjectPageShell";
+import { bantrProject } from "@/app/projects/content/selectedWorkProjects";
 
 const ctas = [
   {
@@ -189,7 +190,7 @@ const futureDirections = [
 
 export function Bantr() {
   return (
-    <ProjectPageShell theme="bantr" projectKey="bantr">
+    <ProjectPageShell theme={bantrProject.theme}>
       <CaseStudyHero
         title="Bantr"
         framing={

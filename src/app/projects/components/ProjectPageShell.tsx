@@ -1,13 +1,10 @@
 import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/app/components/ui/utils";
 import { ProjectFooterNav } from "@/app/projects/components/ProjectFooterNav";
-import type { ProjectKey } from "@/app/projects/content/selectedWorkProjects";
-
-export type ProjectThemeName = "walkability" | "replacement" | "bantr" | "storm";
+import type { ProjectThemeName } from "@/app/projects/content/selectedWorkProjects";
 
 type ProjectPageShellProps = {
   theme: ProjectThemeName;
-  projectKey: ProjectKey;
   children: ReactNode;
   className?: string;
   style?: CSSProperties;
@@ -15,7 +12,6 @@ type ProjectPageShellProps = {
 
 export function ProjectPageShell({
   theme,
-  projectKey,
   children,
   className,
   style,
@@ -30,7 +26,7 @@ export function ProjectPageShell({
       style={style}
     >
       {children}
-      <ProjectFooterNav projectKey={projectKey} />
+      <ProjectFooterNav />
     </main>
   );
 }
