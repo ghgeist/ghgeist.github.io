@@ -1,8 +1,8 @@
 # Development Notes
 
-**Last Updated**: 2026-02-26  
-**Total Entries**: 8  
-**Project Status**: Active Development - Design System Established, Portfolio Design Tightening (About, Navbar, CTAs, Case Studies) & Navigation/Performance Refinement
+**Last Updated**: 2026-03-10  
+**Total Entries**: 10  
+**Project Status**: Active Development - Design System Established, Portfolio Design Tightening (About, Navbar, CTAs, Selected Work) & Navigation/Performance Refinement
 
 ## Overview
 
@@ -37,6 +37,8 @@ This directory contains daily development notes that synthesize engineering acti
 | 2026-02-24 | Top-of-Page & Walkability Case Study Tightening | Hero copy/layout improvements, Navbar logo scroll-to-top/menu-state polish, StormSignal width alignment and copy touch-up, Walkability Index layout/copy/icons/images refinement (PR #19) | ✅ Complete |
 | 2026-02-25 | Bantr Case Study Enhancement & Asset Updates | Bantr landing page image, tightened copy, CaseStudy component alignment; StormSignal thumbnail refresh (PR #20) | ✅ Complete |
 | 2026-02-26 | Navigation Smooth Scrolling, Case Study Tightening, WorkWithMe Email Wiring & Performance Playbook Updates | RouteScrollManager and Navbar smooth-scroll behavior, WorkWithMe form wired to Formspree (PR #22), case study copy/layout refinements (PR #21), strengthened verification pipeline with linting, performance documentation and thumbnail updates | ✅ Complete |
+| 2026-03-09 | Copy Tightening & GitHub Icon Consolidation | Copy refinement across case studies and shared sections, standardized GitHub icon usage via reusable component, clearer articulation of limitations and future directions | ✅ Complete |
+| 2026-03-10 | Centralized Project Definitions & “Selected Work” Navigation | Centralized selected work/project metadata and navigation constants, refactored routing and ProjectPageShell, aligned language around “Selected Work” and updated tests | ✅ Complete |
 
 ## Thematic Index
 
@@ -68,6 +70,8 @@ This directory contains daily development notes that synthesize engineering acti
 - **2026-02-24**: Hero copy and layout refined; Navbar logo scroll-to-top behavior and menu-state handling polished; StormSignal layout aligned to shared widths; Walkability Index case study tightened (layout, copy, icons, imagery, list key robustness) and merged via PR #19
 - **2026-02-25**: Bantr case study refreshed with landing page image, tightened copy, and full CaseStudy component usage; StormSignal thumbnail updated; PR #20 merged
 - **2026-02-26**: Case study and homepage copy/layout tightened across Walkability Index, ReplacementTrap, Bantr, StormSignal, About, Approach, and WorkWithMe; navigation behavior centralized via RouteScrollManager and Navbar refinements; WorkWithMe form wired to Formspree for email delivery (PR #22)
+- **2026-03-09**: Refined copy across multiple case studies and shared components, clarified limitations and future directions, and consolidated GitHub icon usage via a reusable `GithubIcon` component.
+- **2026-03-10**: Centralized selected work/project definitions and site navigation constants; refactored project routing, `ProjectPageShell`, and navigation components to use a shared source of truth; aligned portfolio language around “Selected Work.”
 
 ### Security & Form Validation
 - **2026-02-19**: Implemented input sanitization and rate limiting in WorkWithMe form component; enhanced form validation with separate functions for single-line and multi-line inputs; improved security testing coverage
@@ -122,3 +126,5 @@ This directory contains daily development notes that synthesize engineering acti
 6. [2026-02-24: Navbar Scroll Polish, Hero Clarity & Walkability Case Study Tightening](./2026-02-24.md)
 7. [2026-02-25: Bantr Case Study Enhancement & Asset Updates](./2026-02-25.md)
 8. [2026-02-26: Navigation Smooth Scrolling, Case Study Tightening, WorkWithMe Email Wiring & Performance Playbook Updates](./2026-02-26.md)
+9. [2026-03-09: Copy Tightening Across Case Studies & GitHub Icon Consolidation](./2026-03-09.md)
+10. [2026-03-10: Centralized Project Definitions & “Selected Work” Navigation Refinement](./2026-03-10.md)
