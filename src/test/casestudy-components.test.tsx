@@ -16,12 +16,21 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import {
+  backToSelectedWorkLabel,
+  nextProjectLabel,
+} from "@/app/content/siteNavigation";
 
 import { CaseStudyHero } from "@/app/projects/components/CaseStudyHero";
 import { CaseStudySectionCard } from "@/app/projects/components/CaseStudySectionCard";
 import { CaseStudyPill } from "@/app/projects/components/CaseStudyPill";
 import { CaseStudyCtaButton } from "@/app/projects/components/CaseStudyCtaButton";
 import { ProjectPageShell } from "@/app/projects/components/ProjectPageShell";
+import {
+  bantrProject,
+  replacementTrapProject,
+  walkabilityIndexProject,
+} from "@/app/projects/content/selectedWorkProjects";
 
 describe("CaseStudy Components", () => {
   describe("CaseStudyHero", () => {
@@ -52,7 +61,7 @@ describe("CaseStudy Components", () => {
         </MemoryRouter>
       );
 
-      const backLink = screen.getByText("Back to Case Studies");
+      const backLink = screen.getByText(backToSelectedWorkLabel);
       expect(backLink).toBeTruthy();
       expect(backLink.closest("a")).toHaveAttribute("href", "/");
     });
@@ -187,44 +196,68 @@ describe("CaseStudy Components", () => {
   describe("ProjectPageShell", () => {
     it("renders children", () => {
       render(
-        <ProjectPageShell theme="walkability">
-          <div>Test content</div>
-        </ProjectPageShell>
+        <MemoryRouter initialEntries={[walkabilityIndexProject.route]}>
+          <ProjectPageShell theme="walkability">
+            <div>Test content</div>
+          </ProjectPageShell>
+        </MemoryRouter>
       );
 
       expect(screen.getByText("Test content")).toBeTruthy();
+    });
+
+    it("renders footer navigation links", () => {
+      render(
+        <MemoryRouter initialEntries={[walkabilityIndexProject.route]}>
+          <ProjectPageShell theme="walkability">
+            <div>Test content</div>
+          </ProjectPageShell>
+        </MemoryRouter>
+      );
+
+      expect(screen.getByText(backToSelectedWorkLabel)).toBeTruthy();
+      expect(screen.getByText(nextProjectLabel)).toBeTruthy();
+      expect(screen.getByText("Bantr")).toBeTruthy();
     });
 
     it("applies theme prop correctly", () => {
       // Test that theme prop is accepted and doesn't crash
       // Don't check CSS classes - those change during design iteration
       const { container: container1 } = render(
-        <ProjectPageShell theme="walkability">
-          <div>Test content</div>
-        </ProjectPageShell>
+        <MemoryRouter initialEntries={[walkabilityIndexProject.route]}>
+          <ProjectPageShell theme="walkability">
+            <div>Test content</div>
+          </ProjectPageShell>
+        </MemoryRouter>
       );
       expect(container1.querySelector("main")).toBeTruthy();
 
       const { container: container2 } = render(
-        <ProjectPageShell theme="replacement">
-          <div>Test content</div>
-        </ProjectPageShell>
+        <MemoryRouter initialEntries={[replacementTrapProject.route]}>
+          <ProjectPageShell theme="replacement">
+            <div>Test content</div>
+          </ProjectPageShell>
+        </MemoryRouter>
       );
       expect(container2.querySelector("main")).toBeTruthy();
 
       const { container: container3 } = render(
-        <ProjectPageShell theme="bantr">
-          <div>Test content</div>
-        </ProjectPageShell>
+        <MemoryRouter initialEntries={[bantrProject.route]}>
+          <ProjectPageShell theme="bantr">
+            <div>Test content</div>
+          </ProjectPageShell>
+        </MemoryRouter>
       );
       expect(container3.querySelector("main")).toBeTruthy();
     });
 
     it("applies custom className", () => {
       const { container } = render(
-        <ProjectPageShell theme="walkability" className="custom-class">
-          <div>Test content</div>
-        </ProjectPageShell>
+        <MemoryRouter initialEntries={[walkabilityIndexProject.route]}>
+          <ProjectPageShell theme="walkability" className="custom-class">
+            <div>Test content</div>
+          </ProjectPageShell>
+        </MemoryRouter>
       );
 
       const main = container.querySelector("main");
@@ -257,7 +290,7 @@ describe("CaseStudy Components", () => {
 
     it("composes ProjectPageShell with CaseStudy components", () => {
       render(
-        <MemoryRouter>
+        <MemoryRouter initialEntries={[walkabilityIndexProject.route]}>
           <ProjectPageShell theme="walkability">
             <CaseStudyHero
               title="Test Project"

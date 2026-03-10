@@ -20,6 +20,7 @@ import {
 import { ProjectPageShell } from "@/app/projects/components/ProjectPageShell";
 import { CaseStudySectionHeading } from "@/app/projects/components/CaseStudySectionHeading";
 import { CaseStudyStatCard } from "@/app/projects/components/CaseStudyStatCard";
+import { stormSignalProject } from "@/app/projects/content/selectedWorkProjects";
 import {
   architectureTransitions,
   modelComparisons,
@@ -182,7 +183,7 @@ function ModelComparisonChart({ models }: { models: ModelComparison[] }) {
 export function StormSignal() {
   return (
     <ProjectPageShell
-      theme="storm"
+      theme={stormSignalProject.theme}
       className="font-sans selection:bg-[var(--project-accent-soft)]"
     >
       <CaseStudyHero

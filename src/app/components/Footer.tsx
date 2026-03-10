@@ -51,9 +51,9 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-[#0B0E14] text-white border-t border-white/5">
-      <div className="mx-auto w-full max-w-6xl px-6 lg:px-8 py-10">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+    <footer className="bg-[#0B0E14] text-white border-t-0 border-white/5 md:border-t">
+      <div className="mx-auto w-full max-w-6xl px-6 pb-20 pt-8 md:py-10 lg:px-8">
+        <div className="flex flex-col-reverse items-center gap-6 md:flex-row md:justify-between">
           
           {/* Left: Copyright */}
           <p className="text-sm text-gray-500">

@@ -1,42 +1,8 @@
-import React from "react";
 import { motion as Motion } from "motion/react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
+import { selectedWorkLabel } from "@/app/content/siteNavigation";
 import { Link } from "react-router-dom";
-
-const evidenceItems = [
-  {
-    title: "The Replacement Trap",
-    subtext:
-      "A household appliance model showing which upgrades never repay their cost.",
-    tag: "Housing Analytics",
-    image: "/assets/thumbs/the-replacement-trap.webp",
-    link: "/projects/replacement-trap",
-  },
-  {
-    title: "Storm Signal",
-    subtext:
-      "A critical-response message routing pipeline with a 4.5 MB model and sub‑100ms latency.",
-    tag: "Machine Learning",
-    image: "/assets/thumbs/storm-signal.webp",
-    link: "/projects/signal-storm",
-  },
-  {
-    title: "Walkability Index",
-    subtext:
-      "A walkability analysis app for neighborhood-scale comparisons.",
-    tag: "Geospatial Analysis",
-    image: "/assets/thumbs/walkability-index-map-shot.webp",
-    link: "/projects/walkability-index",
-  },
-  {
-    title: "Bantr",
-    subtext:
-      "A mobile-first conversational game engine with an OpenAI-driven prompt pipeline.",
-    tag: "Full-Stack Engineering",
-    image: "/assets/thumbs/bantr-landing-page.webp",
-    link: "/projects/bantr",
-  },
-];
+import { selectedWorkProjects } from "@/app/projects/content/selectedWorkProjects";
 
 export function Hero() {
   return (
@@ -70,7 +36,7 @@ export function Hero() {
               Hi, I&apos;m Grant.
             </h1>
             <p className="text-base md:text-lg leading-relaxed text-gray-300 max-w-xl">
-              I create models, tools, and production-grade systems that help people navigate complex, regulated environments.
+              I create models, tools, and production-grade systems that help organizations navigate complex, regulated environments.
             </p>
           </div>
 
@@ -78,12 +44,12 @@ export function Hero() {
           <div className="mt-12 mb-4 flex w-full max-w-5xl items-center justify-between border-t border-white/5 pt-5">
             <div className="flex items-center gap-2">
               <div className="w-1 h-1 bg-[#0066cc] rounded-full" />
-              <span className="text-xs uppercase tracking-[0.12em] text-gray-300/80 font-mono">
-                Selected Case Studies
+              <span className="text-sm uppercase tracking-[0.12em] text-gray-300/80 font-mono">
+                {selectedWorkLabel}
               </span>
             </div>
-            <span className="text-xs uppercase tracking-[0.12em] text-gray-400/80 font-mono">
-              Index 01 — 04
+            <span className="text-sm uppercase tracking-[0.12em] text-gray-400/80 font-mono">
+                Index 01 — {String(selectedWorkProjects.length).padStart(2, "0")}
             </span>
           </div>
 
@@ -91,10 +57,10 @@ export function Hero() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-5xl">
             {/* Add a tiny metadata label just above the border for extra 'Instrument' flavor */}
 
-            {evidenceItems.map((item) => (
+            {selectedWorkProjects.map((item) => (
               <Link
-                key={item.link}
-                to={item.link}
+                key={item.key}
+                to={item.route}
                 className="group flex h-full flex-col overflow-hidden rounded-md border border-white/10 bg-[#151921] transition-all duration-300 hover:border-white/20"
               >
                 {/* Technical Mini (Image) */}

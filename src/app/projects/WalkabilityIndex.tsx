@@ -12,6 +12,7 @@ import { CaseStudyHero } from "@/app/projects/components/CaseStudyHero";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { CaseStudySectionHeading } from "@/app/projects/components/CaseStudySectionHeading";
 import { ProjectPageShell } from "@/app/projects/components/ProjectPageShell";
+import { walkabilityIndexProject } from "@/app/projects/content/selectedWorkProjects";
 
 const ctas = [
   {
@@ -95,7 +96,7 @@ const nextExperiments = [
 
 export function WalkabilityIndexDetail() {
   return (
-    <ProjectPageShell theme="walkability">
+    <ProjectPageShell theme={walkabilityIndexProject.theme}>
       <CaseStudyHero
         title="Walkability Index"
         framing={

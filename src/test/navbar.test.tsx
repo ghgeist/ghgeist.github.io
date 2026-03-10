@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import {
+  selectedWorkLabel,
+  selectedWorkNavHref,
+  siteNavLinks,
+} from "@/app/content/siteNavigation";
 import { Navbar } from "@/app/components/Navbar";
 
 describe("Navbar", () => {
@@ -12,10 +17,19 @@ describe("Navbar", () => {
     );
 
     expect(screen.getByRole("navigation", { name: "Primary" })).toBeTruthy();
-    expect(screen.getByRole("link", { name: "Case Studies" })).toHaveAttribute("href", "/#page-top");
-    expect(screen.getByRole("link", { name: "Approach" })).toHaveAttribute("href", "/#skills");
-    expect(screen.getByRole("link", { name: "About" })).toHaveAttribute("href", "/about");
-    expect(screen.getByRole("link", { name: "Work with me" })).toHaveAttribute("href", "/#work-with-me");
+    expect(screen.getByRole("link", { name: selectedWorkLabel })).toHaveAttribute(
+      "href",
+      selectedWorkNavHref
+    );
+
+    siteNavLinks
+      .filter((link) => link.name !== selectedWorkLabel)
+      .forEach((link) => {
+        expect(screen.getByRole("link", { name: link.name })).toHaveAttribute(
+          "href",
+          link.to
+        );
+      });
   });
 
   it("opens and closes the mobile menu with accessible state", () => {

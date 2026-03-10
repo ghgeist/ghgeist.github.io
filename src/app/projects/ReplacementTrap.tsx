@@ -7,6 +7,7 @@ import { CaseStudyCtaButton } from "@/app/projects/components/CaseStudyCtaButton
 import { CaseStudyHero } from "@/app/projects/components/CaseStudyHero";
 import { CaseStudySectionHeading } from "@/app/projects/components/CaseStudySectionHeading";
 import { ProjectPageShell } from "@/app/projects/components/ProjectPageShell";
+import { replacementTrapProject } from "@/app/projects/content/selectedWorkProjects";
 import {
   airConditionersBenchmarks,
   CHART_LOSS,
@@ -159,7 +160,7 @@ export function ReplacementTrap() {
 
   return (
     <ProjectPageShell
-      theme="replacement"
+      theme={replacementTrapProject.theme}
       className="font-sans selection:bg-amber-400/20"
     >
       <CaseStudyHero

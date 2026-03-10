@@ -11,7 +11,7 @@ const methodology = [
     step: "STEP 01",
     title: "Map the System",
     description:
-      "I make the system explicit: actors, incentives, data flows, constraints, ownership boundaries, and failure modes. Ambiguity becomes tractable structure.",
+      "I make the system explicit: actors, incentives, data flows, constraints, ownership boundaries, and failure modes. Hidden structure becomes visible.",
     icon: <Map className="w-5 h-5" />,
   },
   {
