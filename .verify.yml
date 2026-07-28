@@ -29,6 +29,16 @@ steps:
     required: true
     description: "Vite production build to dist/"
 
+  - name: "Install Playwright Chromium"
+    command: "npx playwright install chromium"
+    required: true
+    description: "Install Chromium for the prerender step (CI uses --with-deps)"
+
+  - name: "Prerender"
+    command: "npm run prerender"
+    required: true
+    description: "Snapshot routes into dist/ HTML via Playwright (self-asserts)"
+
 dev:
   command: "npm run dev"
   port: 5173
@@ -37,4 +47,6 @@ dev:
 agent_notes: |
   - Run script/verify for full verification
   - npm run build must produce dist/ with index.html, 404.html, CNAME
+  - npm run build:static = build + prerender (requires Playwright Chromium)
   - npm run test:ci runs Vitest with CI-friendly verbose output
+  - Adding a route: update siteRoutes registry and public/sitemap.xml (llms.txt too)

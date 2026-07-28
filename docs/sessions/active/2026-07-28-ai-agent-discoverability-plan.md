@@ -6,8 +6,8 @@
 |----|-------|--------|
 | 1 | Discovery files (`sitemap.xml`, `llms.txt`, `siteRoutes`, drift test) | **Merged** (#27) |
 | 2 | Per-route document metadata | **Merged** (#28) |
-| 3 | Prerender script | **Done** on `feat/prerender-script` — open as #29; not yet merged |
-| 4 | Wire prerender into CI / verify contract | Not started |
+| 3 | Prerender script | **Merged** (#29) |
+| 4 | Wire prerender into CI / verify contract | In progress on `feat/wire-prerender-ci` |
 | 5 | Retire SPA redirect hack | Not started |
 
 ---
@@ -99,11 +99,11 @@ JSON-LD: `Person` + `WebSite` on `/`, `Person` on `/about`, `CreativeWork` + `Br
 
 ---
 
-## PR 3 — The prerender script ✅ (not yet wired into CI)
+## PR 3 — The prerender script ✅
 
 Ships alone, changes nothing in production until PR 4. All the risk lives here, isolated.
 
-**Branch:** `feat/prerender-script` → open as #29.
+**Branch:** `feat/prerender-script` → merged via #29.
 
 **Added**
 - `script/prerender.js` — sits beside the existing `script/dev` and `script/verify`.
@@ -143,15 +143,17 @@ Results buffer in a `Map` and write only after **all** routes pass. Output is di
 
 **Risk:** Highest-complexity PR, but zero production impact until PR 4. Review focus: wait ladder, idempotency guard, `close()` ordering.
 
-**Next:** merge #29, then PR 4 (wire into CI / verify).
+**Next:** PR 4 (wire into CI / verify) — in progress on `feat/wire-prerender-ci`.
 
 ---
 
 ## PR 4 — Wire into CI and update the verification contract
 
+**Branch:** `feat/wire-prerender-ci`
+
 **Modified**
 - [deploy.yml](.github/workflows/deploy.yml) — after `npm run build`, add `npx playwright install --with-deps chromium` then `npm run prerender`, before `upload-pages-artifact`. Adds roughly 45-90s per run. Runs on PRs too (the build job has no branch guard), so **this PR verifies itself in its own Actions log**.
-- `.verify.yml`, `script/verify` — add the prerender step. These plus `deploy.yml` hand-duplicate the same pipeline in three places, and `.cursor/rules/iteration-workflow.mdc` requires keeping them in sync.
+- `.verify.yml`, `script/verify` — add Chromium install + prerender steps. These plus `deploy.yml` hand-duplicate the same pipeline in three places, and `.cursor/rules/iteration-workflow.mdc` requires keeping them in sync.
 - `CLAUDE.md`, `AGENTS.md`, `.cursor/rules/iteration-workflow.mdc` — document `build:static`, the Chromium prerequisite, and that adding a route means updating the registry *and* `public/sitemap.xml`.
 
 Skip Playwright browser caching for now — a stale cache key is a confusing failure mode, and it's an optimization for after the pipeline is proven.

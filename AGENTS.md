@@ -21,7 +21,7 @@ This repository is a React 18 + Vite 6 + Tailwind CSS v4 single-page portfolio a
 **When executing commands:**
 
 - **If bash scripts are unavailable** (e.g., PowerShell environment): Execute the underlying Node/Vite commands directly:
-    - Instead of `./script/verify`, run: `npm ci` then `npx tsc --noEmit` then `npm run build`
+    - Instead of `./script/verify`, run: `npm ci` then `npx tsc --noEmit` then `npm run lint` then `npm run test:ci` then `npm run build` then `npx playwright install chromium` then `npm run prerender`
     - Instead of `./script/dev`, run: `npm run dev`
 - **Read the scripts** (`script/verify`, `script/dev`) to understand what commands they execute, then run those commands directly in the available shell.
 - **Core Node/npm commands work in all shells** - the scripts are convenience wrappers, not requirements.
@@ -36,14 +36,18 @@ This repository is a React 18 + Vite 6 + Tailwind CSS v4 single-page portfolio a
 **`.verify.yml` is the single source of truth** for verification requirements. This declarative config file defines:
 
 - Required Node version (>= 18.0.0)
-- Verification steps (dependency installation, TypeScript type checking, production build)
+- Verification steps (dependency installation, TypeScript type checking, lint, tests, production build, Playwright Chromium install, prerender)
 - Development server configuration
+
+Keep `.verify.yml`, `script/verify`, and `.github/workflows/deploy.yml` in sync when the pipeline changes.
 
 **Verification Execution:**
 
 - **Local development**: Run `./script/verify` to execute all verification steps
+- **Fast build loop**: `npm run build` only (no Chromium). Use `npm run build:static` when you need prerendered HTML in `dist/`
+- **Prerender prerequisite**: Playwright Chromium (`npx playwright install chromium`; CI uses `--with-deps`)
 - **CI**: Secondary verification layer, treated as final correctness signal on push/PR
-- **Agent sandboxes**: May not be capable of running full builds/tests and should not block changes solely due to environment limitations
+- **Agent sandboxes**: May not be capable of running full builds/tests/prerender (Chromium + network) and should not block changes solely due to environment limitations
 
 ### Expected Agent Behavior
 
@@ -57,7 +61,8 @@ When making changes:
    - After editing TypeScript/JavaScript files: Run `npm run lint:js`
    - Use `npm run lint:fix` to auto-fix issues, but always review changes
    - If npm is unavailable, note linting verification in output
-5. If tests/build cannot be run due to environment restrictions:
+5. **Adding a route:** update `src/app/content/siteRoutes.ts` (or project registry) **and** `public/sitemap.xml` / `public/llms.txt`. Prerender derives paths from `dist/sitemap.xml`.
+6. If tests/build cannot be run due to environment restrictions:
    - Read `.verify.yml` to understand verification requirements
    - Provide the patch and note: "Verify locally with: ./script/verify"
    - Reference the verification steps from `.verify.yml` in your output

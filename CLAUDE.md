@@ -25,8 +25,15 @@ npm ci
 npx tsc --noEmit
 npm run test:ci
 npm run build
+npx playwright install chromium   # once per machine / CI image
+npm run prerender
 # or
 ./script/verify
+```
+
+For a production-like static snapshot without the full verify pipeline:
+```bash
+npm run build:static   # build + prerender (requires Playwright Chromium)
 ```
 
 ### Preview production build
@@ -42,6 +49,7 @@ npm run preview
 - Router: `BrowserRouter`
 - Routes:
   - `/`
+  - `/about`
   - `/projects/walkability-index`
   - `/projects/replacement-trap`
   - `/projects/bantr`
@@ -63,9 +71,12 @@ npm run preview
 Project content is route-component based.
 
 - Each project is implemented as a React component in `src/app/projects/`
+- Canonical route list: `src/app/content/siteRoutes.ts` (feeds sitemap / prerender via `public/sitemap.xml`)
 - Additions require:
   - New component file in `src/app/projects/`
   - Route registration in `src/app/App.tsx`
+  - Entry in `siteRoutes` / `selectedWorkProjects` as appropriate
+  - Updates to `public/sitemap.xml` and `public/llms.txt` (drift-tested)
   - Any card/link surface updates in homepage components
 
 ## Testing
@@ -83,9 +94,12 @@ GitHub Actions workflow: `.github/workflows/deploy.yml`
 Build job:
 1. `npm ci`
 2. `npx tsc --noEmit`
-3. `npm run test:ci`
-4. `npm run build`
-5. Upload `dist/` artifact
+3. `npm run lint`
+4. `npm run test:ci`
+5. `npm run build`
+6. `npx playwright install --with-deps chromium`
+7. `npm run prerender`
+8. Upload `dist/` artifact
 
 Deploy job:
 - Runs only on push to `main`
@@ -96,6 +110,8 @@ Static deploy-critical files:
 - `public/404.html`
 - `public/favicon.ico`
 - `public/robots.txt`
+- `public/sitemap.xml`
+- `public/llms.txt`
 
 ## Conventions
 
@@ -103,6 +119,8 @@ Static deploy-critical files:
 - Do not change dependency versions unless requested.
 - Preserve root-deploy assumptions (no base path/basename).
 - If SPA routing behavior changes, update both `public/404.html` and `index.html` decoder logic together.
+- Prefer `npm run build` for the fast inner loop; use `npm run build:static` (or `./script/verify`) when you need prerendered HTML. Prerender requires Playwright Chromium (`npx playwright install chromium`).
+- Adding a route: update the `siteRoutes` registry **and** `public/sitemap.xml` (and `llms.txt`). Prerender reads routes from `dist/sitemap.xml` — no hardcoded route list in the script.
 
 ## Related Documentation
 

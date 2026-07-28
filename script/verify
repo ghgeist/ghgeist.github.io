@@ -52,5 +52,21 @@ else
     exit 1
 fi
 
+echo -e "\n${BLUE}Step 6: Installing Playwright Chromium...${NC}"
+if npx playwright install chromium; then
+    echo -e "${GREEN}Chromium installed${NC}"
+else
+    echo -e "${RED}Failed to install Playwright Chromium${NC}"
+    exit 1
+fi
+
+echo -e "\n${BLUE}Step 7: Prerendering routes...${NC}"
+if npm run prerender; then
+    echo -e "${GREEN}Prerender succeeded${NC}"
+else
+    echo -e "${RED}Prerender failed${NC}"
+    exit 1
+fi
+
 echo -e "\n${GREEN}All verification steps passed!${NC}"
 exit 0

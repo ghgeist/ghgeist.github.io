@@ -47,6 +47,12 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Prerender routes
+        run: npm run prerender
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

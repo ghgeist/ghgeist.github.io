@@ -7,17 +7,21 @@ alwaysApply: false
 
 Commands and shell notes: see `CLAUDE.md` and `AGENTS.md`. Verification steps: `.verify.yml` (or `./script/verify`).
 
+Keep `.verify.yml`, `script/verify`, and `.github/workflows/deploy.yml` aligned when the pipeline changes.
+
 ## Quick vs thorough
 
 **Fast path** (content/UI tweaks): edit → `npm run dev` → visual check → `npm run build` before commit.
 
-**Thorough path** (routes, config, deps, app shell): plan → edit → `npx tsc --noEmit` → `npm run test:ci` → `npm run build` → visual check on affected routes.
+**Thorough path** (routes, config, deps, app shell, metadata): plan → edit → `npx tsc --noEmit` → `npm run test:ci` → `npm run build:static` → visual check on affected routes.
+
+`npm run build:static` = `npm run build` + `npm run prerender`. Prerender needs Playwright Chromium (`npx playwright install chromium`). Prefer plain `npm run build` for the fast inner loop; use `build:static` or `./script/verify` when you need no-JS HTML snapshots in `dist/`.
 
 ## When to run full verification
 
 - Before pushing to main or opening a PR
 - After changing dependencies, `tsconfig`, or Vite config
-- After changing routing or app shell
+- After changing routing, app shell, or the prerender script
 
 Light check (visual + build) is enough for copy-only, styling tweaks, or small UI prop changes.
 
@@ -25,6 +29,10 @@ Light check (visual + build) is enough for copy-only, styling tweaks, or small U
 
 - CSS: `npm run lint:css` · TS/JS: `npm run lint:js` (or `npm run lint`)
 - If the environment cannot run verify: note "Verify locally with: ./script/verify"
+
+## Routes and discoverability
+
+Adding a route requires updating the `siteRoutes` registry **and** `public/sitemap.xml` (and `public/llms.txt`). Prerender reads paths from `dist/sitemap.xml` — do not hardcode a second route list.
 
 ## SPA routing
 
@@ -34,4 +42,5 @@ If routing behavior changes, update **both** `public/404.html` and the redirect 
 
 - Build/type errors: fix reported files; re-run `npx tsc --noEmit` and `npm run build`
 - Test failures: check `src/test/`; fix assertions or component behavior
+- Prerender failures: check `script/prerender.js` assertions; ensure Chromium is installed
 - Keep `CLAUDE.md` / `AGENTS.md` in sync if stack or verification steps change
