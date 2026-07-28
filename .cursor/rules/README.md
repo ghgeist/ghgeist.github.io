@@ -54,7 +54,7 @@ Canonical overview and verification live in `CLAUDE.md`, `AGENTS.md`, and `.veri
 - Components, routes, content model, app architecture
 
 ### `iteration-workflow.mdc`
-- When to run full vs light verification; SPA routing sync notes
+- When to run full vs light verification; routing / prerender / 404 notes
 
 ### `file-naming.mdc`
 - PascalCase components, kebab UI primitives, snake_case assets/docs

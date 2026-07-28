@@ -7,8 +7,8 @@
 | 1 | Discovery files (`sitemap.xml`, `llms.txt`, `siteRoutes`, drift test) | **Merged** (#27) |
 | 2 | Per-route document metadata | **Merged** (#28) |
 | 3 | Prerender script | **Merged** (#29) |
-| 4 | Wire prerender into CI / verify contract | **Done** on `feat/wire-prerender-ci` — open as #30; not yet merged |
-| 5 | Retire SPA redirect hack | Not started |
+| 4 | Wire prerender into CI / verify contract | **Merged** (#30) |
+| 5 | Retire SPA redirect hack | **In progress** on `feat/retire-spa-redirect-404` |
 
 
 ---
@@ -148,9 +148,9 @@ Results buffer in a `Map` and write only after **all** routes pass. Output is di
 
 ---
 
-## PR 4 — Wire into CI and update the verification contract ✅ (not yet merged)
+## PR 4 — Wire into CI and update the verification contract ✅
 
-**Branch:** `feat/wire-prerender-ci` → open as #30.
+**Branch:** `feat/wire-prerender-ci` → merged via #30.
 
 **Goal:** ship prerendered HTML in the Pages artifact, and stop hand-duplicating the verify pipeline across three files.
 
@@ -171,22 +171,24 @@ Results buffer in a `Map` and write only after **all** routes pass. Output is di
 
 Skip Playwright browser caching for now — a stale cache key is a confusing failure mode, and it's an optimization for after the pipeline is proven.
 
-**Verify (done on #30 Actions):** build job ~1m20s; `script/verify --skip-install` prerendered 6 routes; `assert:prerendered` passed; deploy skipped on PR (expected). Production impact still gated on merge to `main`.
+**Verify (done on #30 Actions + live):** build job ~1m20s; `script/verify --skip-install` prerendered 6 routes; `assert:prerendered` passed. After merge to `main`, live curl confirmed all six routes return `data-prerendered` HTML with unique titles and matching canonicals; `sitemap.xml` resolves 200.
 
-**Risk:** First production deploy of prerendered HTML. Mitigated by the PR run proving the pipeline pre-merge.
+**Risk:** First production deploy of prerendered HTML. Mitigated by the PR run proving the pipeline pre-merge; live smoke cleared the gate for PR 5.
 
-**Next:** merge #30 → live smoke of all six routes → PR 5.
+**Next:** PR 5 (retire SPA redirect).
 
 ---
 
 ## PR 5 — Retire the SPA redirect hack (must land last)
 
+**Branch:** `feat/retire-spa-redirect-404`
+
 Every route in this app is a literal — no dynamic params — so once six real files exist, the `sessionStorage` redirect serves *only* genuinely unknown paths, where bouncing to home is a textbook soft 404 that Google flags and that makes a typo'd URL indistinguishable from the homepage.
 
 **Modified**
 - [public/404.html](public/404.html) — replace the redirect script with a real static page: `<h1>Page not found</h1>`, `<meta name="robots" content="noindex">`, links to `/`, `/about`, and the four projects. Inline `<style>` only, since `public/` files bypass the Tailwind bundle.
-- [index.html:24-33](index.html#L24-L33) — delete the decoder script. `CLAUDE.md:105` requires these two to change together; removing both satisfies it.
-- `CLAUDE.md`, `.cursor/rules/iteration-workflow.mdc` — replace the redirect-decoder convention with the prerender-based model.
+- [index.html](index.html) — delete the decoder script. Keep `<title>` / description / favicon as pre-JS defaults.
+- `CLAUDE.md`, `.cursor/rules/iteration-workflow.mdc` — replace the redirect-decoder convention with the prerender-based model. Also aligned `README.md`, `asset-management.mdc`, and `react-structure.mdc`.
 
 **Verify — on the live site, not locally.** `vite preview` does not emulate GitHub Pages' extensionless→directory 301. After PR 4 deploys: `curl -sL https://grantgeist.com/projects/bantr` and the other five routes, confirming real HTML with no JS; then fetch a bogus path and confirm a genuine 404 with links and no redirect.
 

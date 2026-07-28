@@ -195,7 +195,7 @@ Linters are configured to ignore minified files and vendor libraries. Configurat
 │   │   └── smoke.test.tsx
 │   └── main.tsx         # Entry point
 ├── public/              # Static assets
-│   ├── 404.html         # SPA routing fallback
+│   ├── 404.html         # Static not-found page
 │   ├── CNAME            # Custom domain
 │   ├── favicon.ico
 │   ├── robots.txt
@@ -238,12 +238,9 @@ The app uses React Router's `BrowserRouter` for client-side routing. Routes are 
 - `/projects/bantr` - Bantr project
 - `/projects/signal-storm` - Storm Signal project
 
-### GitHub Pages SPA Support
+### Deep links and 404s
 
-Since GitHub Pages doesn't natively support SPAs, the project includes:
-
-- `public/404.html` - Fallback page that redirects to the SPA
-- Redirect decoder in `index.html` - Handles deep links correctly
+Known routes are prerendered into `dist/` as directory-form HTML (`/projects/bantr` → `dist/projects/bantr/index.html`), so GitHub Pages serves them as real files. `public/404.html` is a static not-found page (`noindex` + site links) for unknown paths — not an SPA redirect.
 
 ### Component Structure
 
@@ -262,7 +259,7 @@ The site is deployed to GitHub Pages via GitHub Actions (`.github/workflows/depl
 Static deploy-critical files in `public/`:
 
 - `CNAME` - Custom domain configuration
-- `404.html` - SPA routing fallback
+- `404.html` - Static not-found page for unknown paths
 - `favicon.ico` - Site favicon
 - `robots.txt` - Search engine directives
 - `sitemap.xml` / `llms.txt` - Discovery files (copied into `dist/`)
