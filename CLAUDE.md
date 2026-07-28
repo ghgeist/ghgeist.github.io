@@ -78,7 +78,8 @@ Project content is route-component based.
 carries a mechanism/result summary and external evidence URLs, and there's a work-history
 section sourced from the About timeline. Editing a project's external links (GitHub/demo/essay)
 or the About timeline requires a matching update to `public/llms.txt` — enforced by
-`src/test/discovery-files.test.ts`.
+`src/test/discovery-files.test.ts` — and its `Last reviewed:` date should be bumped whenever
+its content changes (not enforced by tests; a manual convention).
 
 ## Testing
 

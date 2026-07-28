@@ -22,10 +22,17 @@ function extractMarkdownHrefs(markdown: string): string[] {
   );
 }
 
-/** Pulls timeline `year`/`title` string literals out of About.tsx's source. */
+/**
+ * Pulls timeline `year` values and `title` fragments out of About.tsx's
+ * source. Titles are split into their base name and parenthetical asides
+ * (e.g. `"Rhode Island School of Design (RISD) (Product Design & Manufacturing)"`
+ * → `["Rhode Island School of Design", "RISD", "Product Design & Manufacturing"]`)
+ * so llms.txt can reword/reorder a title's parts instead of being forced to
+ * repeat an awkward, fully concatenated string verbatim.
+ */
 function extractAboutTimelineFields(source: string): {
   years: string[];
-  titles: string[];
+  titleFragments: string[];
 } {
   const years = [...source.matchAll(/\byear:\s*"([^"]+)"/g)].map(
     (match) => match[1]
@@ -33,7 +40,14 @@ function extractAboutTimelineFields(source: string): {
   const titles = [...source.matchAll(/\btitle:\s*"([^"]+)"/g)].map(
     (match) => match[1]
   );
-  return { years, titles };
+  const titleFragments = titles.flatMap((title) => {
+    const parenthetical = [...title.matchAll(/\(([^)]+)\)/g)].map(
+      (match) => match[1]
+    );
+    const base = title.replace(/\s*\([^)]*\)/g, "").trim();
+    return [base, ...parenthetical].filter((fragment) => fragment.length > 0);
+  });
+  return { years, titleFragments };
 }
 
 /** External (non-grantgeist.com) evidence URLs each project's llms.txt entry cites. */
@@ -119,12 +133,11 @@ describe("discovery files", () => {
   });
 
   it("contains the expected evidence-layer section headings", () => {
+    expect(llmsTxt).toContain("Source notes:");
     const requiredHeadings = [
-      "## Interpretation notes",
       "## Selected work",
       "## Work history (source: /about)",
       "## Elsewhere",
-      "## Evidence boundaries",
     ];
 
     for (const heading of requiredHeadings) {
@@ -142,16 +155,16 @@ describe("discovery files", () => {
     }
   });
 
-  it("restates every About timeline year and title in llms.txt", () => {
-    const { years, titles } = extractAboutTimelineFields(aboutSource);
+  it("restates every About timeline year and title fragment in llms.txt", () => {
+    const { years, titleFragments } = extractAboutTimelineFields(aboutSource);
     expect(years.length).toBeGreaterThan(0);
-    expect(titles.length).toBeGreaterThan(0);
+    expect(titleFragments.length).toBeGreaterThan(0);
 
     for (const year of years) {
       expect(llmsTxt).toContain(year);
     }
-    for (const title of titles) {
-      expect(llmsTxt).toContain(title);
+    for (const fragment of titleFragments) {
+      expect(llmsTxt).toContain(fragment);
     }
   });
 

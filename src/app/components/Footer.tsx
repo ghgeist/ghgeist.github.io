@@ -67,6 +67,11 @@ export function Footer() {
               title="A machine-readable version of this site, for AI agents and evaluators."
             >
               llms.txt
+              <span className="sr-only">
+                {" "}
+                — a machine-readable version of this site, for AI agents and
+                evaluators
+              </span>
             </a>
           </p>
 
