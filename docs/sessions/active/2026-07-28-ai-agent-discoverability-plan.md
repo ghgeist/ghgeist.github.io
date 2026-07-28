@@ -1,5 +1,17 @@
 # Make grantgeist.com legible to AI agents (prerender + metadata)
 
+## Status (2026-07-28)
+
+| PR | Scope | Status |
+|----|-------|--------|
+| 1 | Discovery files (`sitemap.xml`, `llms.txt`, `siteRoutes`, drift test) | **Done locally** on `feat/discovery-files-sitemap-llms` — uncommitted; not yet pushed/merged |
+| 2 | Per-route document metadata | Not started |
+| 3 | Prerender script | Not started |
+| 4 | Wire prerender into CI / verify contract | Not started |
+| 5 | Retire SPA redirect hack | Not started |
+
+---
+
 ## Context
 
 The site is a pure client-side-rendered SPA. `index.html` ships `<div id="root"></div>` and nothing else, so anything that reads HTML without executing JavaScript — most AI agent fetch tools, social preview scrapers, `curl`-based lookups — sees zero body text and zero `<a href>` links on every route. Additionally, all six routes currently serve the identical `<title>`/description/OG block from `index.html:6-20`; there is no `document.title` management, no canonical tag, and no JSON-LD anywhere in `src/`.
@@ -12,31 +24,40 @@ Deliberately rejected: an Astro migration (multi-week rewrite of working, tested
 
 These were verified against the repo and drive several non-obvious choices:
 
-- **`tsconfig.json` is `include: ["src"]`, and `@types/node` is not installed.** A script outside `src/` is not typechecked and cannot be `.ts` without adding a dependency — which `AGENTS.md:52-54` forbids unrequested.
+- **`tsconfig.json` is `include: ["src"]`, and `@types/node` is not installed.** A script outside `src/` is not typechecked and cannot be `.ts` without adding a dependency — which `AGENTS.md:52-54` forbids unrequested. Same constraint blocked `node:fs` in the PR 1 drift test (see below).
 - **ESLint is a CI gate** (`eslint . --max-warnings=0`) and grants `globals.node` only to `files: ["**/*.{ts,tsx,js,jsx}"]` ([eslint.config.mjs:14-21](eslint.config.mjs#L14-L21)). A `.mjs` script using `process`/`fs` would fail `no-undef`; a `.js` script gets Node globals free and is an ES module via `"type": "module"`. **So the prerender script must be `.js`.**
 - **Tests run before build** in [deploy.yml](.github/workflows/deploy.yml) and `script/verify`. A Vitest test asserting on `dist/` output would pass vacuously on a clean checkout. The prerender script must therefore self-assert and exit non-zero.
 - **`vite preview` serves extensionless paths from the pristine `dist/index.html`** (sirv runs with `extensions: []`), so prerendering is naturally idempotent per project route. `/` is the exception since we overwrite `dist/index.html` — needs an explicit guard.
-- `public/robots.txt:4` advertises `/sitemap.xml`, which **does not exist**. There is also a stray duplicate [robots.txt](robots.txt) at the repo root that Vite never copies — a dead file.
+- `public/robots.txt` advertises `/sitemap.xml`. **PR 1 added `public/sitemap.xml`** (and removed the dead root `robots.txt`). Live 404 clears once that branch deploys.
 - Only `Hero.tsx:35` and `CaseStudyHero.tsx:93` render an `<h1>`. [About.tsx:118](src/app/components/About.tsx#L118) renders `<h2>About</h2>`, so `/about` has no `h1`.
 
 ---
 
-## PR 1 — Discovery files: `sitemap.xml`, `llms.txt`, dead-file cleanup
+## PR 1 — Discovery files: `sitemap.xml`, `llms.txt`, dead-file cleanup ✅
 
 Smallest, zero-risk, fixes a live 404. Ships first and independently.
 
+**Branch:** `feat/discovery-files-sitemap-llms` (local; not committed/pushed as of 2026-07-28).
+
 **Added**
 - `public/sitemap.xml` — six `<loc>` entries, absolute `https://grantgeist.com` URLs. No `<lastmod>` (keeps builds reproducible; the field is optional).
-- `public/llms.txt` — markdown index per [llmstxt.org](https://llmstxt.org): site summary, then one line per project linking its route with the one-line description.
-- `src/app/content/siteRoutes.ts` — the canonical route list: static routes (`/`, `/about`) plus the four project routes derived from `selectedWorkProjects`. Exports `siteRoutes` and `SITE_URL`. Becomes the single source of truth consumed by PRs 2 and 3.
-- `src/test/discovery-files.test.tsx` — reads `public/sitemap.xml` and `public/llms.txt` from disk via `node:fs` (works fine under the global `jsdom` environment) and asserts every route in `siteRoutes` appears in both, and that neither file lists a route absent from the registry. **This drift test is what makes hand-written static files safe.**
+- `public/llms.txt` — markdown index per [llmstxt.org](https://llmstxt.org): site summary, Pages + Selected Work sections, one line per route with title link and (for projects) `subtext` as the one-line description.
+- `src/app/content/siteRoutes.ts` — canonical route list: static routes (`/`, `/about`) plus the four project routes derived from `selectedWorkProjects`. Exports `siteRoutes` (`{ path, title }` only) and `SITE_URL`. **Intentionally no `description` field** — SEO copy stays for PR 2's `routeMetadata` / `metaDescription`, so the registry does not bake in Hero `subtext` as meta copy.
+- `src/test/discovery-files.test.ts` — drift test via Vite `?raw` imports of `public/sitemap.xml` and `public/llms.txt`. Asserts every `siteRoutes` URL appears in both files (llms.txt as `[title](url)`), every project's `title` + `subtext` appear on its llms.txt line, and neither file lists a grantgeist.com route absent from the registry.
 
 **Deleted**
 - `robots.txt` at repo root — never served, since Vite only copies `public/`.
 
-**Verify:** `npm run test:ci && npm run build`, then confirm `dist/sitemap.xml` and `dist/llms.txt` exist.
+**Deviations from the original PR 1 sketch**
+- Drift test uses `*?raw` instead of `node:fs`: `tsconfig` has `types: ["vite/client"]` only; importing `node:fs` fails `tsc` without adding `@types/node`.
+- Test file is `.ts` (no JSX), not `.tsx`.
+- `siteRoutes` is path+title only after review — thinner than first draft, cleaner handoff to PR 2.
+
+**Verify (done):** `npx tsc --noEmit && npm run lint:js && npm run test:ci && npm run build`; confirmed `dist/sitemap.xml` and `dist/llms.txt` exist.
 
 **Risk:** Near zero. Note honestly that `llms.txt` is a speculative convention with no confirmed major consumer; it's included because it's nearly free and directly on-goal.
+
+**Next for PR 1:** commit, open PR, merge.
 
 ---
 
