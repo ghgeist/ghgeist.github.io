@@ -7,16 +7,20 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { DocumentMeta } from "@/app/components/DocumentMeta";
-import { SITE_URL } from "@/app/content/siteRoutes";
 import {
+  absoluteUrl,
   DEFAULT_OG_IMAGE,
   getRouteMeta,
   TITLE_SUFFIX,
 } from "@/app/content/routeMetadata";
+import { siteRoutes } from "@/app/content/siteRoutes";
 import {
   bantrProject,
   stormSignalProject,
 } from "@/app/projects/content/selectedWorkProjects";
+// Prefer Vite ?raw over node:fs — tsconfig has types: ["vite/client"] only.
+import sitemap from "../../public/sitemap.xml?raw";
+import llmsTxt from "../../public/llms.txt?raw";
 
 function ensureDescriptionMeta() {
   let description = document.querySelector<HTMLMetaElement>(
@@ -104,6 +108,19 @@ describe("getRouteMeta", () => {
     expect(meta.title).toBe("Grant Geist | Data Product Strategist");
     expect(meta.path).toBe("/does-not-exist");
   });
+
+  it("emits home absolute URLs that match sitemap.xml and llms.txt", () => {
+    const homeUrl = absoluteUrl("/");
+    expect(homeUrl).toBe("https://grantgeist.com/");
+    expect(sitemap).toContain(`<loc>${homeUrl}</loc>`);
+    expect(llmsTxt).toContain(`[Home](${homeUrl})`);
+
+    for (const route of siteRoutes) {
+      const url = absoluteUrl(route.path);
+      expect(sitemap).toContain(`<loc>${url}</loc>`);
+      expect(llmsTxt).toContain(`[${route.title}](${url})`);
+    }
+  });
 });
 
 describe("DocumentMeta", () => {
@@ -120,7 +137,10 @@ describe("DocumentMeta", () => {
     ).toBe(expected.description);
     expect(
       document.querySelector('link[rel="canonical"]')?.getAttribute("href")
-    ).toBe(SITE_URL);
+    ).toBe(absoluteUrl("/"));
+    expect(
+      document.querySelector('meta[property="og:url"]')?.getAttribute("content")
+    ).toBe(absoluteUrl("/"));
     expect(
       document.querySelector('meta[property="og:title"]')?.getAttribute("content")
     ).toBe(expected.title);
@@ -154,7 +174,7 @@ describe("DocumentMeta", () => {
     expect(document.querySelectorAll('link[rel="canonical"]')).toHaveLength(1);
     expect(
       document.querySelector('link[rel="canonical"]')?.getAttribute("href")
-    ).toBe(`${SITE_URL}${bantrProject.route}`);
+    ).toBe(absoluteUrl(bantrProject.route));
 
     fireEvent.click(getByRole("button", { name: "To Storm" }));
 
@@ -165,7 +185,7 @@ describe("DocumentMeta", () => {
     expect(document.querySelectorAll('link[rel="canonical"]')).toHaveLength(1);
     expect(
       document.querySelector('link[rel="canonical"]')?.getAttribute("href")
-    ).toBe(`${SITE_URL}${stormSignalProject.route}`);
+    ).toBe(absoluteUrl(stormSignalProject.route));
     expect(
       document.querySelectorAll("[data-managed-meta]")
     ).not.toHaveLength(0);
@@ -185,6 +205,6 @@ describe("DocumentMeta", () => {
     expect(document.querySelectorAll('link[rel="canonical"]')).toHaveLength(1);
     expect(
       document.querySelector('link[rel="canonical"]')?.getAttribute("href")
-    ).toBe(`${SITE_URL}${bantrProject.route}`);
+    ).toBe(absoluteUrl(bantrProject.route));
   });
 });

@@ -1,14 +1,11 @@
 import { describe, it, expect } from "vitest";
 import { selectedWorkProjects } from "@/app/projects/content/selectedWorkProjects";
+import { absoluteUrl } from "@/app/content/routeMetadata";
 import { SITE_URL, siteRoutes } from "@/app/content/siteRoutes";
 // Prefer Vite ?raw over node:fs — tsconfig has types: ["vite/client"] only,
 // and adding @types/node is an unrequested dependency change (AGENTS.md).
 import sitemap from "../../public/sitemap.xml?raw";
 import llmsTxt from "../../public/llms.txt?raw";
-
-function absoluteUrl(path: string): string {
-  return path === "/" ? `${SITE_URL}/` : `${SITE_URL}${path}`;
-}
 
 function extractSitemapLocs(xml: string): string[] {
   return [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);

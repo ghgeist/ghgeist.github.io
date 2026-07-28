@@ -19,12 +19,23 @@ export type RouteMeta = {
   jsonLd: Record<string, unknown> | Record<string, unknown>[];
 };
 
+/**
+ * Absolute URL for a site path.
+ * Home is `${SITE_URL}/` (trailing slash) to match sitemap.xml and llms.txt.
+ */
+export function absoluteUrl(path: string): string {
+  if (path === "/") {
+    return `${SITE_URL}/`;
+  }
+  return `${SITE_URL}${path}`;
+}
+
 const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: PERSON_NAME,
   jobTitle: PERSON_JOB_TITLE,
-  url: SITE_URL,
+  url: absoluteUrl("/"),
   sameAs: ["https://www.linkedin.com/in/grantgeist/"],
 } as const;
 
@@ -32,18 +43,10 @@ const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: PERSON_NAME,
-  url: SITE_URL,
+  url: absoluteUrl("/"),
   description:
     "Portfolio of Grant Geist — data product strategist, designer, and technologist.",
 } as const;
-
-/** Absolute URL for a site path (`/` → origin with no trailing slash). */
-export function absoluteUrl(path: string): string {
-  if (path === "/") {
-    return SITE_URL;
-  }
-  return `${SITE_URL}${path}`;
-}
 
 const homeMeta: RouteMeta = {
   path: "/",
@@ -87,7 +90,7 @@ function projectJsonLd(project: SelectedWorkProject): Record<string, unknown>[] 
       author: {
         "@type": "Person",
         name: PERSON_NAME,
-        url: SITE_URL,
+        url: absoluteUrl("/"),
       },
     },
     {
@@ -98,7 +101,7 @@ function projectJsonLd(project: SelectedWorkProject): Record<string, unknown>[] 
           "@type": "ListItem",
           position: 1,
           name: "Home",
-          item: SITE_URL,
+          item: absoluteUrl("/"),
         },
         {
           "@type": "ListItem",
