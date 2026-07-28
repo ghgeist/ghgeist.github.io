@@ -7,8 +7,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:static": "npm run build && npm run prerender",
+    "build:static": "npm run build && npm run prerender && npm run assert:prerendered",
     "prerender": "node script/prerender.js",
+    "assert:prerendered": "node script/assert-prerendered.js",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
