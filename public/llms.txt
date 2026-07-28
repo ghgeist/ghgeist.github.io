@@ -1,0 +1,17 @@
+# Grant Geist
+
+> Data product strategist, designer, and technologist. Portfolio of selected work in data visualization, product design, machine learning, and urban analytics.
+
+Personal site at https://grantgeist.com. Selected work covers emergency message routing, household appliance economics, neighborhood walkability, and creativity-driven conversation games.
+
+## Pages
+
+- [Home](https://grantgeist.com/): Portfolio overview, approach, and contact.
+- [About](https://grantgeist.com/about): Background and career timeline.
+
+## Selected Work
+
+- [The Replacement Trap](https://grantgeist.com/projects/replacement-trap): A household appliance model showing which upgrades never repay their cost.
+- [Storm Signal](https://grantgeist.com/projects/signal-storm): An emergency message routing system using a 4.5 MB machine learning model with sub-100 ms latency.
+- [Walkability Index](https://grantgeist.com/projects/walkability-index): A walkability analysis app for neighborhood-scale comparisons.
+- [Bantr](https://grantgeist.com/projects/bantr): A mobile-first platform for creativity-driven conversation games.
