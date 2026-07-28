@@ -161,12 +161,10 @@ async function waitForRouteReady(page, pathname) {
 }
 
 /**
- * @param {import('playwright').Page} page
- * @param {string} siteOrigin
  * @param {string} pathname
  * @param {{ pageErrors: Error[], consoleErrors: string[] }} collected
  */
-async function assertRoute(page, siteOrigin, pathname, collected) {
+function assertNoCollectedErrors(pathname, collected) {
   if (collected.pageErrors.length > 0) {
     throw new Error(
       `${pathname}: pageerror — ${collected.pageErrors.map((e) => e.message).join("; ")}`
@@ -177,6 +175,16 @@ async function assertRoute(page, siteOrigin, pathname, collected) {
       `${pathname}: console.error — ${collected.consoleErrors.join("; ")}`
     );
   }
+}
+
+/**
+ * @param {import('playwright').Page} page
+ * @param {string} siteOrigin
+ * @param {string} pathname
+ * @param {{ pageErrors: Error[], consoleErrors: string[] }} collected
+ */
+async function assertRoute(page, siteOrigin, pathname, collected) {
+  assertNoCollectedErrors(pathname, collected);
 
   const snapshot = await page.evaluate(() => {
     const h1s = [...document.querySelectorAll("h1")]
@@ -262,9 +270,13 @@ async function assertRoute(page, siteOrigin, pathname, collected) {
     document.documentElement.setAttribute("data-prerendered", "");
   });
 
+  const html = await page.content();
+  // Re-check after evaluate/content — listeners can append during those awaits.
+  assertNoCollectedErrors(pathname, collected);
+
   return {
     title: snapshot.title,
-    html: await page.content(),
+    html,
     h1: snapshot.h1Text,
   };
 }
