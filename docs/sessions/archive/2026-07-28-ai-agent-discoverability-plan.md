@@ -1,6 +1,6 @@
 # Make grantgeist.com legible to AI agents (prerender + metadata)
 
-## Status (2026-07-28)
+## Status (2026-07-28) — complete, all PRs merged and live-verified
 
 | PR | Scope | Status |
 |----|-------|--------|
@@ -8,7 +8,11 @@
 | 2 | Per-route document metadata | **Merged** (#28) |
 | 3 | Prerender script | **Merged** (#29) |
 | 4 | Wire prerender into CI / verify contract | **Merged** (#30) |
-| 5 | Retire SPA redirect hack | **Done** on `feat/retire-spa-redirect-404` — open as #31; not yet merged |
+| 5 | Retire SPA redirect hack | **Merged** (#31) |
+
+**Post-merge live verification (2026-07-28):** all six routes serve `data-prerendered` HTML with a unique `<title>`, matching `<link rel=canonical>`, JSON-LD, and internal links, with zero JS execution. A bogus path returns HTTP 404 with `noindex`, `Page not found`, and links to all six routes — no `sessionStorage`/`Redirecting`. `sitemap.xml`, `llms.txt`, `robots.txt` all resolve 200. Local gate (`tsc --noEmit`, `lint:js`, `test:ci`) green: 79 tests / 10 files.
+
+**Found during close-out review, not part of this plan's original scope:** GitHub Pages was still configured with `build_type: legacy` (Settings → Pages → Source → "Deploy from a branch"), so the stock `pages-build-deployment` workflow raced `deploy.yml` on every push to `main`. On the #31 merge, the legacy build won the race and was briefly live — serving the unbuilt repo-root `index.html` (`/src/main.tsx`, no prerendering), during which every deep link 404'd. The Actions deploy finished ~37s later and marked the legacy deployment inactive. Fix: flip Pages source to "GitHub Actions" in Settings — no code change, but required for this effort's guarantees to hold on every future push.
 
 
 ---
@@ -179,9 +183,9 @@ Skip Playwright browser caching for now — a stale cache key is a confusing fai
 
 ---
 
-## PR 5 — Retire the SPA redirect hack ✅ (not yet merged)
+## PR 5 — Retire the SPA redirect hack ✅
 
-**Branch:** `feat/retire-spa-redirect-404` → open as #31.
+**Branch:** `feat/retire-spa-redirect-404` → merged via #31.
 
 Must land last. Every route in this app is a literal — no dynamic params — so once six real files exist, the `sessionStorage` redirect serves *only* genuinely unknown paths, where bouncing to home is a textbook soft 404 that Google flags and that makes a typo'd URL indistinguishable from the homepage.
 
@@ -201,14 +205,14 @@ Must land last. Every route in this app is a literal — no dynamic params — s
 **Deviations / review hardening (same PR)**
 - First pass only retired the static redirect. Review follow-up added: font load (Montserrat was named but not fetched), `siteRoutes` drift test for 404 links, in-app `NotFound` catch-all, and DocumentMeta `noindex` for unknown paths (closes the PR 2 residual).
 
-**Verify (pre-merge gate done; post-merge live check pending)**
-- After #30 deployed: live curl of all six routes returned `data-prerendered` HTML with unique titles + matching canonicals; `sitemap.xml` → 200. Bogus path still served the old `Redirecting...` page (expected until #31 merges).
+**Verify (done)**
+- After #30 deployed: live curl of all six routes returned `data-prerendered` HTML with unique titles + matching canonicals; `sitemap.xml` → 200. Bogus path still served the old `Redirecting...` page (expected until #31 merged).
 - Local: `npm run lint:js && npm run test:ci` (79 tests, including `not-found-page` + unknown-path DocumentMeta + app-routing NotFound).
-- After #31 merges + Pages deploy: confirm bogus path returns custom 404 (`noindex` + links, no `sessionStorage`) and known deep links still prerender.
+- After #31 merged + Pages deployed: live curl of a bogus path returned HTTP 404, `noindex`, `Page not found`, and links to all six routes — no `sessionStorage`/`Redirecting`. All six known routes still prerender correctly post-merge.
 
-**Risk:** Highest of the five. If any prerendered file is missing, that deep link degrades from "works via redirect" to "hard 404." Mitigated by PR 3's all-or-nothing write and live verification of all six routes before opening #31.
+**Risk:** Highest of the five. If any prerendered file is missing, that deep link degrades from "works via redirect" to "hard 404." Mitigated by PR 3's all-or-nothing write and live verification of all six routes before opening #31. (See "Found during close-out review" above for the one gap this didn't cover: the legacy Pages build racing the Actions deploy on merge.)
 
-**Next:** merge #31 → live bogus-path curl → mark this effort complete.
+**Next:** none — effort complete pending the Pages source setting fix noted above.
 
 ---
 
@@ -223,12 +227,12 @@ for r in / /about /projects/bantr /projects/signal-storm \
 done
 ```
 
-**After PR 5 deploy (pending #31 merge):**
+**After PR 5 deploy (done):**
 
 ```bash
 curl -sL "https://grantgeist.com/this-path-does-not-exist-xyz" \
   | grep -E 'noindex|Page not found|sessionStorage|Redirecting'
-# Expect: noindex + Page not found; no sessionStorage / Redirecting
+# Confirmed: noindex + Page not found; no sessionStorage / Redirecting
 ```
 
 ## Explicitly not doing
