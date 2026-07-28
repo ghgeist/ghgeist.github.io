@@ -7,8 +7,9 @@
 | 1 | Discovery files (`sitemap.xml`, `llms.txt`, `siteRoutes`, drift test) | **Merged** (#27) |
 | 2 | Per-route document metadata | **Merged** (#28) |
 | 3 | Prerender script | **Merged** (#29) |
-| 4 | Wire prerender into CI / verify contract | In progress on `feat/wire-prerender-ci` (#30) |
+| 4 | Wire prerender into CI / verify contract | **Done** on `feat/wire-prerender-ci` — open as #30; not yet merged |
 | 5 | Retire SPA redirect hack | Not started |
+
 
 ---
 
@@ -26,7 +27,7 @@ These were verified against the repo and drive several non-obvious choices:
 
 - **`tsconfig.json` is `include: ["src"]`, and `@types/node` is not installed.** A script outside `src/` is not typechecked and cannot be `.ts` without adding a dependency — which `AGENTS.md:52-54` forbids unrequested. Same constraint blocked `node:fs` in the PR 1 drift test (see below).
 - **ESLint is a CI gate** (`eslint . --max-warnings=0`) and grants `globals.node` only to `files: ["**/*.{ts,tsx,js,jsx}"]` ([eslint.config.mjs:14-21](eslint.config.mjs#L14-L21)). A `.mjs` script using `process`/`fs` would fail `no-undef`; a `.js` script gets Node globals free and is an ES module via `"type": "module"`. **So the prerender script must be `.js`.**
-- **Tests run before build** in [deploy.yml](.github/workflows/deploy.yml) and `script/verify`. A Vitest test asserting on `dist/` output would pass vacuously on a clean checkout. The prerender script must therefore self-assert and exit non-zero.
+- **Tests run before build** in `script/verify` (and therefore CI). A Vitest test asserting on `dist/` output would pass vacuously on a clean checkout. The prerender script must therefore self-assert and exit non-zero; PR 4 also adds a post-write `assert:prerendered` gate.
 - **`vite preview` serves extensionless paths from the pristine `dist/index.html`** (sirv runs with `extensions: []`), so prerendering is naturally idempotent per project route. `/` is the exception since we overwrite `dist/index.html` — needs an explicit guard.
 - `public/robots.txt` advertises `/sitemap.xml`. **PR 1 added `public/sitemap.xml`** (and removed the dead root `robots.txt`). Live 404 clears once that branch deploys.
 - Every indexable route now has exactly one `<h1>` (PR 2 promoted About's heading). Hero + CaseStudyHero remain the other `h1` sources.
@@ -89,8 +90,8 @@ JSON-LD: `Person` + `WebSite` on `/`, `Person` on `/about`, `CreativeWork` + `Br
 - Stopped pointing `og:image` at project `.webp` thumbnails.
 - Deduplicated `absoluteUrl` into a single export from `routeMetadata.ts`.
 
-**Known residual (closes with PR 4 deploy)**
-- Until prerender is wired into CI and deployed, no-JS social scrapers still miss OG tags on first paint (static `og:*` removed from `index.html` by design). Google executes JS; PR 3's snapshots close the gap once PR 4 ships them.
+**Known residual (closes when PR 4 deploys to main)**
+- Until #30 merges and Pages deploys, production still serves pre-prerender HTML — no-JS social scrapers miss OG tags on first paint (static `og:*` removed from `index.html` by design). Google executes JS; prerendered snapshots close the gap once #30 lands on `main`.
 - Unknown paths reuse home title/description with a pathname-specific canonical; PR 5's real 404 should add `noindex` + distinct copy.
 
 **Verify (done):** `npx tsc --noEmit && npm run lint:js && npm run test:ci` (document-meta + full suite green after review fixes).
@@ -111,7 +112,7 @@ Ships alone, changes nothing in production until PR 4. All the risk lives here, 
 - `src/test/local-assets.test.ts` — drift test: noise SVG exists (`?raw`) and Hero references `/assets/noise.svg`, not an external host.
 
 **Modified**
-- `package.json` — add `"prerender": "node script/prerender.js"` and `"build:static": "npm run build && npm run prerender"`. No dependency changes.
+- `package.json` — add `"prerender": "node script/prerender.js"` and `"build:static": "npm run build && npm run prerender"` (PR 4 later appends `assert:prerendered`). No dependency changes.
 - [Hero.tsx](src/app/components/Hero.tsx) — card overlay `bg-[url('/assets/noise.svg')]`.
 
 **Deliberately not a `postbuild` hook:** that would require Chromium binaries for every local `npm run build`, slow the documented fast inner loop, and break the restricted-network agent sandbox contract in `AGENTS.md:9-11`.
@@ -143,25 +144,38 @@ Results buffer in a `Map` and write only after **all** routes pass. Output is di
 
 **Risk:** Highest-complexity PR, but zero production impact until PR 4. Review focus: wait ladder, idempotency guard, `close()` ordering.
 
-**Next:** PR 4 (wire into CI / verify) — in progress on `feat/wire-prerender-ci`.
+**Next:** merge #30, then PR 5 (retire SPA redirect) after live curl checks.
 
 ---
 
-## PR 4 — Wire into CI and update the verification contract
+## PR 4 — Wire into CI and update the verification contract ✅ (not yet merged)
 
-**Branch:** `feat/wire-prerender-ci`
+**Branch:** `feat/wire-prerender-ci` → open as #30.
+
+**Goal:** ship prerendered HTML in the Pages artifact, and stop hand-duplicating the verify pipeline across three files.
+
+**Added**
+- `script/assert-prerendered.js` + `npm run assert:prerendered` — parses `dist/sitemap.xml`, asserts every route’s directory-form HTML exists under `dist/` and carries `data-prerendered`. Fail-loud for CI / `build:static`.
 
 **Modified**
-- [deploy.yml](.github/workflows/deploy.yml) — after `npm ci`, run `bash script/verify --skip-install` (same pipeline as local; `CI=true` adds Chromium `--with-deps`), then upload artifact. No duplicated typecheck/lint/test/build/prerender steps in the workflow.
-- `script/verify` — single executable pipeline; supports `--skip-install` for CI.
-- `script/assert-prerendered.js` + `npm run assert:prerendered` — every sitemap route must have `data-prerendered` HTML under `dist/`.
-- `.verify.yml`, `README.md`, `CLAUDE.md`, `AGENTS.md`, `.cursor/rules/iteration-workflow.mdc`, `CONTRIBUTING.md` — document shared pipeline, `build:static`, Chromium, and route/sitemap update path.
+- [deploy.yml](.github/workflows/deploy.yml) — after `npm ci`, run `bash script/verify --skip-install`, then upload artifact. No duplicated typecheck/lint/test/build/prerender steps in the workflow. `CI=true` makes the script install Chromium with `--with-deps`.
+- `script/verify` — single executable pipeline for local + CI; supports `--skip-install`; Chromium / prerender / assert steps included.
+- `package.json` — `build:static` is now `build && prerender && assert:prerendered`.
+- `.verify.yml` — documents the contract and points at `./script/verify` as the implementation (`implementation:` field; CI note for `--skip-install`).
+- `README.md`, `CLAUDE.md`, `AGENTS.md`, `.cursor/rules/iteration-workflow.mdc`, `CONTRIBUTING.md` — document shared pipeline, `build:static`, Chromium prerequisite, and that adding a route updates the registry *and* `public/sitemap.xml` / `llms.txt`.
+
+**Deviations / review hardening (same PR)**
+- First pass duplicated Chromium + prerender into `deploy.yml`, `.verify.yml`, and `script/verify`. Follow-up collapsed CI onto `script/verify --skip-install` so steps cannot drift.
+- Added automated artifact gate (`assert:prerendered`) instead of relying on manual Actions log inspection alone.
+- Updated user-facing `README.md` (was still describing the pre-prerender verify/CI story, including an incorrect “tests non-blocking” claim).
 
 Skip Playwright browser caching for now — a stale cache key is a confusing failure mode, and it's an optimization for after the pipeline is proven.
 
-**Verify:** read the PR's Actions log; confirm prerender + assert steps pass and the uploaded artifact contains six prerendered HTML files; note wall-clock time.
+**Verify (done on #30 Actions):** build job ~1m20s; `script/verify --skip-install` prerendered 6 routes; `assert:prerendered` passed; deploy skipped on PR (expected). Production impact still gated on merge to `main`.
 
-**Risk:** First production deploy of prerendered HTML. Mitigated by the PR run proving it pre-merge.
+**Risk:** First production deploy of prerendered HTML. Mitigated by the PR run proving the pipeline pre-merge.
+
+**Next:** merge #30 → live smoke of all six routes → PR 5.
 
 ---
 
