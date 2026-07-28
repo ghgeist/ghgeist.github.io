@@ -6,7 +6,7 @@
 |----|-------|--------|
 | 1 | Discovery files (`sitemap.xml`, `llms.txt`, `siteRoutes`, drift test) | **Merged** (#27) |
 | 2 | Per-route document metadata | **Merged** (#28) |
-| 3 | Prerender script | **In progress** on `feat/prerender-script` |
+| 3 | Prerender script | **Done** on `feat/prerender-script` — open as #29; not yet merged |
 | 4 | Wire prerender into CI / verify contract | Not started |
 | 5 | Retire SPA redirect hack | Not started |
 
@@ -16,7 +16,7 @@
 
 The site is a pure client-side-rendered SPA. `index.html` ships `<div id="root"></div>` and nothing else, so anything that reads HTML without executing JavaScript — most AI agent fetch tools, social preview scrapers, `curl`-based lookups — sees zero body text and zero `<a href>` links on every route. Additionally, before PR 2 all six routes served the identical `<title>`/description/OG block from `index.html`; there was no `document.title` management, no canonical tag, and no JSON-LD anywhere in `src/`.
 
-Goal: every route returns real, self-describing HTML on a no-JS fetch. Approach chosen by the user: snapshot the built SPA with Playwright (already a devDependency, currently unused) as a post-build step. GitHub Pages serves the resulting static files natively — no host change, no framework migration.
+Goal: every route returns real, self-describing HTML on a no-JS fetch. Approach chosen by the user: snapshot the built SPA with Playwright (already a devDependency; used by `script/prerender.js` after PR 3) as an explicit post-build step (`npm run build:static`, not a `postbuild` hook). GitHub Pages serves the resulting static files natively — no host change, no framework migration.
 
 Deliberately rejected: an Astro migration (multi-week rewrite of working, tested code for six routes), `react-snap` (unmaintained since 2020, breaks on React 18 `createRoot`), and a `react-dom/server` refactor (requires restructuring routing and misses post-effect DOM).
 
@@ -63,7 +63,7 @@ Smallest, zero-risk, fixes a live 404. Ships first and independently.
 
 Valuable standalone (Google executes JS, so this improves real SEO immediately) **and** a prerequisite: the Playwright snapshot in PR 3 captures whatever this hook writes to `<head>`.
 
-**Branch:** `feat/per-route-document-metadata` (local; not committed/pushed as of 2026-07-28).
+**Branch:** `feat/per-route-document-metadata` → merged via #28.
 
 **Added**
 - `src/app/content/routeMetadata.ts` — `TITLE_SUFFIX`, `DEFAULT_OG_IMAGE`, exported `absoluteUrl()`, `type RouteMeta = { path, title, description, ogType, ogImage, jsonLd }`, project entries derived from `selectedWorkProjects`, and `getRouteMeta(pathname): RouteMeta` with an unknown-path fallback.
@@ -89,57 +89,61 @@ JSON-LD: `Person` + `WebSite` on `/`, `Person` on `/about`, `CreativeWork` + `Br
 - Stopped pointing `og:image` at project `.webp` thumbnails.
 - Deduplicated `absoluteUrl` into a single export from `routeMetadata.ts`.
 
-**Known residual (acceptable until PR 3/4)**
-- Until prerender ships, no-JS social scrapers still miss OG tags on first paint (static `og:*` removed from `index.html` by design). Google executes JS; prerender closes the gap for everyone else.
+**Known residual (closes with PR 4 deploy)**
+- Until prerender is wired into CI and deployed, no-JS social scrapers still miss OG tags on first paint (static `og:*` removed from `index.html` by design). Google executes JS; PR 3's snapshots close the gap once PR 4 ships them.
 - Unknown paths reuse home title/description with a pathname-specific canonical; PR 5's real 404 should add `noindex` + distinct copy.
 
 **Verify (done):** `npx tsc --noEmit && npm run lint:js && npm run test:ci` (document-meta + full suite green after review fixes).
 
 **Risk:** Low. Worst case is wrong copy. The duplicate-tag bug was the review focus and is covered by the successive-navigation test.
 
-**Next for PR 2:** commit, open PR, merge.
-
 ---
 
-## PR 3 — The prerender script (not yet wired into CI)
+## PR 3 — The prerender script ✅ (not yet wired into CI)
 
-Ships alone, changes nothing in production, consumed by nothing. All the risk lives here, isolated.
+Ships alone, changes nothing in production until PR 4. All the risk lives here, isolated.
 
-**Branch:** `feat/prerender-script`
+**Branch:** `feat/prerender-script` → open as #29.
 
 **Added**
 - `script/prerender.js` — sits beside the existing `script/dev` and `script/verify`.
+- `public/assets/noise.svg` — local fractal-noise texture (replaces a dead third-party Hero URL that 404'd and would fail strict console checks).
+- `src/test/local-assets.test.ts` — drift test: noise SVG exists (`?raw`) and Hero references `/assets/noise.svg`, not an external host.
 
 **Modified**
 - `package.json` — add `"prerender": "node script/prerender.js"` and `"build:static": "npm run build && npm run prerender"`. No dependency changes.
+- [Hero.tsx](src/app/components/Hero.tsx) — card overlay `bg-[url('/assets/noise.svg')]`.
 
 **Deliberately not a `postbuild` hook:** that would require Chromium binaries for every local `npm run build`, slow the documented fast inner loop, and break the restricted-network agent sandbox contract in `AGENTS.md:9-11`.
 
-**Route list — no hardcoding.** The script parses `dist/sitemap.xml` (a regex over `<loc>` elements; no XML parser dependency) and strips the origin to get pathnames. Chain of custody: registry → PR 1's drift test → `sitemap.xml` → prerender. Adding a route to the registry without updating the sitemap fails PR 1's test; the sitemap then automatically drives prerendering. There is no second list to forget.
+**Route list — no hardcoding.** The script parses `dist/sitemap.xml` (a regex over `<loc>` elements; no XML parser dependency), derives `siteOrigin` from the first `<loc>`, and strips origins to get pathnames. Chain of custody: registry → PR 1's drift test → `sitemap.xml` → prerender. No second list to forget; no hardcoded `https://grantgeist.com` in the script.
 
 **Serving `dist/`:** import Vite's programmatic `preview()` rather than spawning `vite preview` — no cross-platform process kill, and `server.resolvedUrls.local[0]` gives the real port. Pass `configFile: false` so it doesn't boot the Tailwind/React plugins for a static file server, and pin `preview.host` to `127.0.0.1` (the repo sets `server.host: '0.0.0.0'`, which preview would otherwise inherit).
 
-**Wait ladder per route** — `waitUntil: 'load'`, never `networkidle` (About loads seven remote Unsplash images and Hero references an external noise SVG; a slow third party would hang the build):
+**Wait ladder per route** — `waitUntil: 'load'`, never `networkidle` (About still loads remote Unsplash images; a slow third party would hang the build). Each step has a 30s timeout and fails as `${pathname}: timed out waiting for …`:
 1. `#root` has children — React mounted.
 2. Exactly one non-empty `<h1>` is attached — the real Suspense-completion signal, since all non-home routes are `lazy()`.
-3. `link[rel=canonical][data-managed-meta]` present (or `document.title` differs from the `index.html` default) — proves `DocumentMeta` ran. Home title matches the static default by design, so canonical is the reliable signal there.
+3. `link[rel=canonical][data-managed-meta]` present — proves `DocumentMeta` ran. Home title matches the `index.html` default by design, so title alone is not a signal.
 4. Scroll pass through full page height, then back to top, to trigger every `whileInView` and let the Navbar's scroll state settle.
 
-Browser context uses `reducedMotion: 'reduce'` and a 1280×900 viewport. That first setting matters: [CaseStudyFlowDiagram.tsx:135-137](src/app/projects/components/CaseStudyFlowDiagram.tsx#L135-L137) short-circuits to a plain `div` under reduced motion, which eliminates the only `opacity: 0` initial state in the app. I verified no component conditionally *renders* on in-view state — everything animates but is present in the DOM — so no content can be missing from the snapshot.
+Browser context uses `reducedMotion: 'reduce'` and a 1280×900 viewport. That first setting matters: [CaseStudyFlowDiagram.tsx:135-137](src/app/projects/components/CaseStudyFlowDiagram.tsx#L135-L137) short-circuits to a plain `div` under reduced motion, which eliminates the only `opacity: 0` initial state in the app. No component conditionally *renders* on in-view state — everything animates but is present in the DOM — so no content can be missing from the snapshot.
 
-**Fail-loud assertions, evaluated before anything is written:** exactly one non-empty `h1`; no `"Loading..."` (the Suspense fallback at `App.tsx:72`); no `"Something went wrong while loading this page."` (the `ErrorBoundary` fallback — it *swallows* render errors, so without this check you'd ship an error page happily); `body.innerText.length >= 800`; at least four internal `a[href^="/"]`; `link[rel=canonical]` matches the expected URL for that route; description present and 50-200 chars; the `script[type="module"]` tag survives so the SPA still boots; zero `pageerror` and zero `console.error` events. Site origin is derived from the first sitemap `<loc>` (no hardcoded `grantgeist.com`). Wait failures are labeled by route + step; Chromium launch failures suggest `npx playwright install chromium`. Plus one cross-route check: **all six titles must be distinct** — that directly catches the "every route shares one title" bug this work exists to fix, without hardcoding expected strings.
+**Fail-loud assertions, evaluated before anything is written:** exactly one non-empty `h1`; no `"Loading..."` (Suspense fallback); no `"Something went wrong while loading this page."` (ErrorBoundary fallback); `body.innerText.length >= 800`; at least four internal `a[href^="/"]`; canonical matches `${siteOrigin}${path}`; description 50–200 chars; `script[type="module"]` survives; zero `pageerror` and zero `console.error`. Chromium launch failures suggest `npx playwright install chromium`. Cross-route: **all titles must be distinct**.
 
-**Post-implementation hardening (same branch)**
-- Replaced Hero's dead `grainy-gradients.vercel.app/noise.svg` with `public/assets/noise.svg`; restored strict zero-`console.error` (no off-origin filter).
-- Drift test `src/test/local-assets.test.ts` asserts the SVG exists and Hero references the local path.
+Results buffer in a `Map` and write only after **all** routes pass. Output is directory-form (`/projects/bantr` → `dist/projects/bantr/index.html`) via `page.content()`, with `data-prerendered` on `<html>` — also the idempotency guard against re-running on already-prerendered `dist/index.html`. `finally` closes browser and server, then `process.exit(code)`.
 
-Results buffer in a `Map` and write only after **all** routes pass. Partial output is worse than none. Output is directory-form (`/projects/bantr` → `dist/projects/bantr/index.html`) captured via `page.content()`, with a `data-prerendered` attribute stamped on `<html>` — which doubles as the guard against re-running prerender on already-prerendered output. `finally` closes browser and server, then an explicit `process.exit(code)` (Vite's preview server keeps the event loop alive).
+`createRoot` in [main.tsx](src/main.tsx) stays as-is. React discards the prerendered DOM and re-renders on mount. `hydrateRoot` would be wrong against a post-effects snapshot.
 
-`createRoot` in [main.tsx](src/main.tsx) stays as-is. React discards the prerendered DOM and re-renders on mount — a sub-frame flash of identical markup. Switching to `hydrateRoot` would be actively wrong: hydrating against a post-effects browser snapshot guarantees a mismatch, and a mismatch degrades to full client render anyway.
+**Deviations / review hardening (same PR)**
+- First draft filtered off-origin resource `console.error`s because Hero's grainy-gradients noise URL 404'd. Fixed properly: local asset + strict console checks.
+- Dropped hardcoded `SITE_ORIGIN` / `DEFAULT_TITLE`; origin from sitemap, DocumentMeta wait is canonical-only.
+- Wait/launch errors are route- and step-labeled.
 
-**Verify (done):** `npm run lint:js && npm run build:static`; curl/`findstr` of `http://127.0.0.1:4173/projects/bantr/` (trailing slash) shows real `<h1>Bantr`, prose, canonical, JSON-LD, and internal links; re-running `npm run prerender` without rebuild exits non-zero on the `data-prerendered` guard.
+**Verify (done):** `npm run lint:js && npm run test:ci` (including `local-assets`) && `npm run build:static`; preview fetch of `/projects/bantr/` shows real `<h1>Bantr`, prose, canonical, JSON-LD, internal links; re-running `npm run prerender` without rebuild exits non-zero on the `data-prerendered` guard.
 
-**Risk:** Highest-complexity PR, but zero production impact. Review focus: the wait ladder, the idempotency guard, and `close()` ordering (a leaked preview server hangs CI).
+**Risk:** Highest-complexity PR, but zero production impact until PR 4. Review focus: wait ladder, idempotency guard, `close()` ordering.
+
+**Next:** merge #29, then PR 4 (wire into CI / verify).
 
 ---
 
