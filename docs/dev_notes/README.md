@@ -1,8 +1,8 @@
 # Development Notes
 
-**Last Updated**: 2026-03-10  
-**Total Entries**: 10  
-**Project Status**: Active Development - Design System Established, Portfolio Design Tightening (About, Navbar, CTAs, Selected Work) & Navigation/Performance Refinement
+**Last Updated**: 2026-07-28  
+**Total Entries**: 11  
+**Project Status**: Active Development - AI-Agent Discoverability Live (Prerendered Routes, Per-Route Metadata, Evidence-Layer llms.txt)
 
 ## Overview
 
@@ -40,11 +40,18 @@ This directory contains daily development notes that synthesize engineering acti
 | 2026-03-09 | Copy Tightening & GitHub Icon Consolidation | Copy refinement across case studies and shared sections, standardized GitHub icon usage via reusable component, clearer articulation of limitations and future directions | ✅ Complete |
 | 2026-03-10 | Centralized Project Definitions & “Selected Work” Navigation | Centralized selected work/project metadata and navigation constants, refactored routing and ProjectPageShell, aligned language around “Selected Work” and updated tests | ✅ Complete |
 
+### Phase 4: AI Agent Discoverability & Static Prerender (2026-07-28)
+
+| Date | Achievement | Focus | Status |
+|------|-------------|-------|--------|
+| 2026-07-28 | AI Agent Discoverability Stack Shipped | Discovery files, per-route DocumentMeta, Playwright prerender, unified verify/CI, real static 404, llms.txt evidence layer (PRs #26–#33) | ✅ Complete (confirm Pages → GitHub Actions) |
+
 ## Thematic Index
 
 ### Infrastructure & DevOps
 - **2026-02-09**: Established comprehensive development infrastructure with testing suite, linting framework, and CI/CD improvements
 - **2026-02-12**: Complete migration from Jekyll/Ruby to React/Vite/Node.js stack with GitHub Actions deployment workflow
+- **2026-07-28**: Unified local/CI verify on `script/verify`; wired Playwright prerender + `assert:prerendered` into the deploy artifact path (PRs #29–#30)
 
 ### Code Quality & Testing
 - **2026-02-09**: Implemented testing suite foundation with HTML validation and build verification
@@ -52,17 +59,20 @@ This directory contains daily development notes that synthesize engineering acti
 - **2026-02-18**: Added ErrorBoundary component for comprehensive error handling and graceful error recovery
 - **2026-02-19**: Added Playwright dependency for future end-to-end testing capabilities; comprehensive unit tests for CaseStudy components (278 lines) and project pages (364 lines); enhanced form validation and security testing
 - **2026-02-26**: Strengthened verification pipeline with linting integrated into `.verify.yml`, `script/verify`, and CI workflow; expanded tests for Navbar, RouteScrollManager, app routing, and WorkWithMe form behavior
+- **2026-07-28**: Discovery-file / DocumentMeta / 404 / local-asset drift tests; prerender self-asserts before writing HTML; leaner Cursor rules context (PRs #26–#33)
 
 ### Performance & Accessibility
 - **2026-02-09**: Performance quick wins including accessibility improvements and preconnect links
 - **2026-02-18**: Implemented lazy loading with retry logic for project pages, reducing initial bundle size and improving page load performance
 - **2026-02-19**: Enhanced image lazy loading support across all project pages; improved ImageWithFallback component with proper lazy loading behavior
 - **2026-02-26**: Introduced RouteScrollManager and motion-aware smooth scrolling (respecting `prefers-reduced-motion`), updated thumbnails to WebP variants, and expanded performance documentation and shipping criteria
+- **2026-07-28**: No-JS route snapshots via Playwright; real static `404.html` with `noindex`; per-route titles/canonicals/JSON-LD for scrapers and AI agents
 
 ### Architecture & Migration
 - **2026-02-12**: Complete platform transformation from Jekyll static site to React SPA with SPA routing solution for GitHub Pages
 - **2026-02-18**: Implemented code splitting with lazy loading and ErrorBoundary for improved performance and error handling
 - **2026-02-19**: Established design system foundation with component architecture, CaseStudy component library, and ProjectPageShell theming system
+- **2026-07-28**: Retire SPA redirect hack; known routes are prerendered directory-form HTML; unknown paths hard-404; `llms.txt` evidence layer drift-tested to project CTAs and About timeline
 
 ### Design System & Component Architecture
 - **2026-02-19**: Created comprehensive design system documentation with contracts, playbooks, and agent templates; refactored all project pages to use shared CaseStudy components for consistency; expanded component library with CaseStudyFlowDiagram, CaseStudySectionHeading, CaseStudyStatCard; fully integrated StormSignal with CaseStudy components; created useBackToCaseStudies navigation hook
@@ -80,10 +90,10 @@ This directory contains daily development notes that synthesize engineering acti
 ## Current State & Architecture
 
 ### Development Infrastructure
-- **Testing**: Vitest test suite with jsdom environment, smoke tests for routes and components, comprehensive unit tests for CaseStudy components (278 lines), project page tests (364 lines)
+- **Testing**: Vitest test suite with jsdom environment, smoke tests for routes and components, comprehensive unit tests for CaseStudy components, project pages, discovery files, DocumentMeta, and 404 drift guards
 - **Linting**: ESLint (TypeScript/JavaScript) and Stylelint (CSS/Tailwind v4) configured with appropriate rules
-- **CI/CD**: GitHub Actions workflow using Node.js 20 with Vite build pipeline, TypeScript type checking, and automated deployment
-- **Build System**: Vite 6 with React 18, TypeScript, and Tailwind CSS v4
+- **CI/CD**: GitHub Actions runs `script/verify --skip-install` (typecheck, lint, test, build, Chromium, prerender, assert prerendered) then deploys `dist/`
+- **Build System**: Vite 6 with React 18, TypeScript, and Tailwind CSS v4; `npm run build:static` for prerendered snapshots
 - **Cross-Platform**: Enhanced scripts with shell-agnostic guidance and consistent line endings (LF)
 
 ### Code Quality
@@ -93,12 +103,14 @@ This directory contains daily development notes that synthesize engineering acti
 - Consistent formatting and structure across configuration files
 
 ### Architecture
-- **Frontend**: React 18 SPA with BrowserRouter for client-side routing
+- **Frontend**: React 18 SPA with BrowserRouter for client-side routing; known routes also shipped as prerendered static HTML for no-JS clients
 - **Styling**: Tailwind CSS v4 with PostCSS pipeline
-- **Deployment**: GitHub Pages user site (root deploy) with SPA routing via `404.html` redirect handler
+- **Deployment**: GitHub Pages user site (root deploy) via Actions artifact; `public/404.html` is a real `noindex` not-found page (no SPA redirect)
+- **Discoverability**: `public/sitemap.xml`, evidence-oriented `public/llms.txt`, `siteRoutes` registry, and `DocumentMeta` / `routeMetadata` for per-route head tags + JSON-LD
+- **Prerender**: `script/prerender.js` snapshots sitemap routes into directory-form `dist/.../index.html` with `data-prerendered`; CI asserts artifacts before upload
 - **Asset Management**: Static assets in `public/` directory, optimized for production builds
 - **Code Splitting**: Lazy loading for all project pages with retry logic for chunk load failures
-- **Error Handling**: ErrorBoundary component wraps entire app for graceful error recovery
+- **Error Handling**: ErrorBoundary component wraps entire app for graceful error recovery; in-app `NotFound` for client-side unknown paths
 - **Component Library**: CaseStudy component library (CaseStudyHero, CaseStudySectionCard, CaseStudyPill, CaseStudyCtaButton, CaseStudyFlowDiagram, CaseStudySectionHeading, CaseStudyStatCard) for consistent project page structure
 - **Theming**: ProjectPageShell component provides consistent theming across all project pages
 - **Design System**: Comprehensive design system documentation with design language contracts, page composition contracts, project page authoring checklist, and visual QA playbook
@@ -128,3 +140,4 @@ This directory contains daily development notes that synthesize engineering acti
 8. [2026-02-26: Navigation Smooth Scrolling, Case Study Tightening, WorkWithMe Email Wiring & Performance Playbook Updates](./2026-02-26.md)
 9. [2026-03-09: Copy Tightening Across Case Studies & GitHub Icon Consolidation](./2026-03-09.md)
 10. [2026-03-10: Centralized Project Definitions & “Selected Work” Navigation Refinement](./2026-03-10.md)
+11. [2026-07-28: AI Agent Discoverability — Prerender, Metadata & Evidence Layer](./2026-07-28.md)
