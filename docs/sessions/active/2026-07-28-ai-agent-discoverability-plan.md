@@ -8,7 +8,7 @@
 | 2 | Per-route document metadata | **Merged** (#28) |
 | 3 | Prerender script | **Merged** (#29) |
 | 4 | Wire prerender into CI / verify contract | **Merged** (#30) |
-| 5 | Retire SPA redirect hack | **In progress** on `feat/retire-spa-redirect-404` → open as #31 |
+| 5 | Retire SPA redirect hack | **Done** on `feat/retire-spa-redirect-404` — open as #31; not yet merged |
 
 
 ---
@@ -90,9 +90,9 @@ JSON-LD: `Person` + `WebSite` on `/`, `Person` on `/about`, `CreativeWork` + `Br
 - Stopped pointing `og:image` at project `.webp` thumbnails.
 - Deduplicated `absoluteUrl` into a single export from `routeMetadata.ts`.
 
-**Known residual (closes when PR 4 deploys to main)**
-- Until #30 merges and Pages deploys, production still serves pre-prerender HTML — no-JS social scrapers miss OG tags on first paint (static `og:*` removed from `index.html` by design). Google executes JS; prerendered snapshots close the gap once #30 lands on `main`.
-- Unknown paths reuse home title/description with a pathname-specific canonical; PR 5's real 404 should add `noindex` + distinct copy.
+**Known residual (closed by later PRs)**
+- ~~Until #30 merges and Pages deploys, production still serves pre-prerender HTML~~ — closed when #30 deployed; live curl confirmed prerendered HTML + `sitemap.xml` 200.
+- ~~Unknown paths reuse home title/description~~ — closed in PR 5: static `404.html` + in-app `NotFound` + `DocumentMeta` `noindex` with distinct copy.
 
 **Verify (done):** `npx tsc --noEmit && npm run lint:js && npm run test:ci` (document-meta + full suite green after review fixes).
 
@@ -144,7 +144,7 @@ Results buffer in a `Map` and write only after **all** routes pass. Output is di
 
 **Risk:** Highest-complexity PR, but zero production impact until PR 4. Review focus: wait ladder, idempotency guard, `close()` ordering.
 
-**Next:** merge #30, then PR 5 (retire SPA redirect) after live curl checks.
+**Next:** ~~merge #30, then PR 5~~ — done; see PR 4 / PR 5.
 
 ---
 
@@ -175,32 +175,46 @@ Skip Playwright browser caching for now — a stale cache key is a confusing fai
 
 **Risk:** First production deploy of prerendered HTML. Mitigated by the PR run proving the pipeline pre-merge; live smoke cleared the gate for PR 5.
 
-**Next:** PR 5 (retire SPA redirect).
+**Next:** ~~PR 5~~ — open as #31.
 
 ---
 
-## PR 5 — Retire the SPA redirect hack (must land last)
+## PR 5 — Retire the SPA redirect hack ✅ (not yet merged)
 
-**Branch:** `feat/retire-spa-redirect-404`
+**Branch:** `feat/retire-spa-redirect-404` → open as #31.
 
-Every route in this app is a literal — no dynamic params — so once six real files exist, the `sessionStorage` redirect serves *only* genuinely unknown paths, where bouncing to home is a textbook soft 404 that Google flags and that makes a typo'd URL indistinguishable from the homepage.
+Must land last. Every route in this app is a literal — no dynamic params — so once six real files exist, the `sessionStorage` redirect serves *only* genuinely unknown paths, where bouncing to home is a textbook soft 404 that Google flags and that makes a typo'd URL indistinguishable from the homepage.
+
+**Added**
+- `src/app/components/NotFound.tsx` — in-app not-found page (brand, `h1`, site links from `selectedWorkProjects`) for client-side navigation to unknown paths.
+- `src/test/not-found-page.test.ts` — drift guard via `?raw` import of `public/404.html`: `noindex`, no `sessionStorage` / `Redirecting`, Montserrat loaded from Google Fonts, every `siteRoutes` path + title linked.
 
 **Modified**
-- [public/404.html](public/404.html) — replace the redirect script with a real static page: `<h1>Page not found</h1>`, `<meta name="robots" content="noindex">`, Montserrat via Google Fonts, links to `/`, `/about`, and the four projects. Inline `<style>` only, since `public/` files bypass the Tailwind bundle.
+- [public/404.html](public/404.html) — real static page: `<h1>Page not found</h1>`, `<meta name="robots" content="noindex">`, Montserrat via Google Fonts, links to `/`, `/about`, and the four projects. Inline `<style>` only (Guidelines palette); “Selected work” is an `<h2>`.
 - [index.html](index.html) — delete the decoder script. Keep `<title>` / description / favicon as pre-JS defaults.
-- `NotFound` catch-all route + unknown-path `DocumentMeta` (`noindex` + distinct title/description) so in-SPA unknown URLs match the static 404 behavior.
-- `src/test/not-found-page.test.ts` — drift guard: no `sessionStorage` redirect, `noindex`, font load, every `siteRoutes` path/title linked.
+- [App.tsx](src/app/App.tsx) — catch-all `<Route path="*" element={<NotFound />} />`.
+- [routeMetadata.ts](src/app/content/routeMetadata.ts) — unknown paths get distinct title (`Page not found | Grant Geist`), description, empty JSON-LD, and optional `robots: "noindex"`.
+- [DocumentMeta.tsx](src/app/components/DocumentMeta.tsx) — writes managed `meta[name=robots]` when `meta.robots` is set; cleared on navigation to known routes.
+- `src/test/document-meta.test.tsx`, `src/test/app-routing.test.tsx` — cover unknown-path noindex + NotFound route render.
 - `CLAUDE.md`, `.cursor/rules/iteration-workflow.mdc` — replace the redirect-decoder convention with the prerender-based model. Also aligned `README.md`, `asset-management.mdc`, and `react-structure.mdc`.
 
-**Verify — on the live site, not locally.** `vite preview` does not emulate GitHub Pages' extensionless→directory 301. After PR 4 deploys: `curl -sL https://grantgeist.com/projects/bantr` and the other five routes, confirming real HTML with no JS; then fetch a bogus path and confirm a genuine 404 with links and no redirect.
+**Deviations / review hardening (same PR)**
+- First pass only retired the static redirect. Review follow-up added: font load (Montserrat was named but not fetched), `siteRoutes` drift test for 404 links, in-app `NotFound` catch-all, and DocumentMeta `noindex` for unknown paths (closes the PR 2 residual).
 
-**Risk:** Highest of the five. If any prerendered file is missing, that deep link degrades from "works via redirect" to "hard 404." Gated by PR 3's all-or-nothing write and live verification of all six routes before merge.
+**Verify (pre-merge gate done; post-merge live check pending)**
+- After #30 deployed: live curl of all six routes returned `data-prerendered` HTML with unique titles + matching canonicals; `sitemap.xml` → 200. Bogus path still served the old `Redirecting...` page (expected until #31 merges).
+- Local: `npm run lint:js && npm run test:ci` (79 tests, including `not-found-page` + unknown-path DocumentMeta + app-routing NotFound).
+- After #31 merges + Pages deploy: confirm bogus path returns custom 404 (`noindex` + links, no `sessionStorage`) and known deep links still prerender.
+
+**Risk:** Highest of the five. If any prerendered file is missing, that deep link degrades from "works via redirect" to "hard 404." Mitigated by PR 3's all-or-nothing write and live verification of all six routes before opening #31.
+
+**Next:** merge #31 → live bogus-path curl → mark this effort complete.
 
 ---
 
 ## End-to-end verification
 
-After PR 4 deploys, the acceptance test for the whole effort:
+**After PR 4 deploy (done):** all six routes return real prose, a unique `<title>`, a matching `<link rel=canonical>`, JSON-LD, and internal `<a href>` links — with JavaScript never executing. `https://grantgeist.com/sitemap.xml` resolves 200.
 
 ```bash
 for r in / /about /projects/bantr /projects/signal-storm \
@@ -209,7 +223,13 @@ for r in / /about /projects/bantr /projects/signal-storm \
 done
 ```
 
-Every route should return real prose, a unique `<title>`, a matching `<link rel=canonical>`, JSON-LD, and internal `<a href>` links — with JavaScript never executing. `https://grantgeist.com/sitemap.xml` should resolve instead of 404.
+**After PR 5 deploy (pending #31 merge):**
+
+```bash
+curl -sL "https://grantgeist.com/this-path-does-not-exist-xyz" \
+  | grep -E 'noindex|Page not found|sessionStorage|Redirecting'
+# Expect: noindex + Page not found; no sessionStorage / Redirecting
+```
 
 ## Explicitly not doing
 
