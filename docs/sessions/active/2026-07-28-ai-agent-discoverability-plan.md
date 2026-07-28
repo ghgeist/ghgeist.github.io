@@ -5,8 +5,8 @@
 | PR | Scope | Status |
 |----|-------|--------|
 | 1 | Discovery files (`sitemap.xml`, `llms.txt`, `siteRoutes`, drift test) | **Merged** (#27) |
-| 2 | Per-route document metadata | **Done locally** on `feat/per-route-document-metadata` — uncommitted; not yet pushed/merged |
-| 3 | Prerender script | Not started |
+| 2 | Per-route document metadata | **Merged** (#28) |
+| 3 | Prerender script | **In progress** on `feat/prerender-script` |
 | 4 | Wire prerender into CI / verify contract | Not started |
 | 5 | Retire SPA redirect hack | Not started |
 
@@ -105,6 +105,8 @@ JSON-LD: `Person` + `WebSite` on `/`, `Person` on `/about`, `CreativeWork` + `Br
 
 Ships alone, changes nothing in production, consumed by nothing. All the risk lives here, isolated.
 
+**Branch:** `feat/prerender-script`
+
 **Added**
 - `script/prerender.js` — sits beside the existing `script/dev` and `script/verify`.
 
@@ -120,18 +122,18 @@ Ships alone, changes nothing in production, consumed by nothing. All the risk li
 **Wait ladder per route** — `waitUntil: 'load'`, never `networkidle` (About loads seven remote Unsplash images and Hero references an external noise SVG; a slow third party would hang the build):
 1. `#root` has children — React mounted.
 2. Exactly one non-empty `<h1>` is attached — the real Suspense-completion signal, since all non-home routes are `lazy()`.
-3. `document.title` differs from the `index.html` default — proves `DocumentMeta` ran.
+3. `link[rel=canonical][data-managed-meta]` present (or `document.title` differs from the `index.html` default) — proves `DocumentMeta` ran. Home title matches the static default by design, so canonical is the reliable signal there.
 4. Scroll pass through full page height, then back to top, to trigger every `whileInView` and let the Navbar's scroll state settle.
 
 Browser context uses `reducedMotion: 'reduce'` and a 1280×900 viewport. That first setting matters: [CaseStudyFlowDiagram.tsx:135-137](src/app/projects/components/CaseStudyFlowDiagram.tsx#L135-L137) short-circuits to a plain `div` under reduced motion, which eliminates the only `opacity: 0` initial state in the app. I verified no component conditionally *renders* on in-view state — everything animates but is present in the DOM — so no content can be missing from the snapshot.
 
-**Fail-loud assertions, evaluated before anything is written:** exactly one non-empty `h1`; no `"Loading..."` (the Suspense fallback at `App.tsx:72`); no `"Something went wrong while loading this page."` (the `ErrorBoundary` fallback — it *swallows* render errors, so without this check you'd ship an error page happily); `body.innerText.length >= 800`; at least four internal `a[href^="/"]`; `link[rel=canonical]` matches the expected URL for that route; description present and 50-200 chars; the `script[type="module"]` tag survives so the SPA still boots; zero `pageerror` and zero `console.error` events. Plus one cross-route check: **all six titles must be distinct** — that directly catches the "every route shares one title" bug this work exists to fix, without hardcoding expected strings.
+**Fail-loud assertions, evaluated before anything is written:** exactly one non-empty `h1`; no `"Loading..."` (the Suspense fallback at `App.tsx:72`); no `"Something went wrong while loading this page."` (the `ErrorBoundary` fallback — it *swallows* render errors, so without this check you'd ship an error page happily); `body.innerText.length >= 800`; at least four internal `a[href^="/"]`; `link[rel=canonical]` matches the expected URL for that route; description present and 50-200 chars; the `script[type="module"]` tag survives so the SPA still boots; zero `pageerror` and zero same-origin `console.error` events. Off-origin `"Failed to load resource"` console errors are ignored — Hero's `grainy-gradients.vercel.app/noise.svg` currently 404s and would otherwise fail every run. Plus one cross-route check: **all six titles must be distinct** — that directly catches the "every route shares one title" bug this work exists to fix, without hardcoding expected strings.
 
 Results buffer in a `Map` and write only after **all** routes pass. Partial output is worse than none. Output is directory-form (`/projects/bantr` → `dist/projects/bantr/index.html`) captured via `page.content()`, with a `data-prerendered` attribute stamped on `<html>` — which doubles as the guard against re-running prerender on already-prerendered output. `finally` closes browser and server, then an explicit `process.exit(code)` (Vite's preview server keeps the event loop alive).
 
 `createRoot` in [main.tsx](src/main.tsx) stays as-is. React discards the prerendered DOM and re-renders on mount — a sub-frame flash of identical markup. Switching to `hydrateRoot` would be actively wrong: hydrating against a post-effects browser snapshot guarantees a mismatch, and a mismatch degrades to full client render anyway.
 
-**Verify:** `npm run build:static`, then `npm run preview` and `curl -s http://localhost:4173/projects/bantr/` — **trailing slash matters**, since without it preview serves the pristine index. Confirm real `<h1>Bantr`, prose text, and `<a href="/projects/...">` links in the raw bytes. Also confirm the script exits non-zero if you deliberately break a route.
+**Verify (done):** `npm run lint:js && npm run build:static`; curl/`findstr` of `http://127.0.0.1:4173/projects/bantr/` (trailing slash) shows real `<h1>Bantr`, prose, canonical, JSON-LD, and internal links; re-running `npm run prerender` without rebuild exits non-zero on the `data-prerendered` guard.
 
 **Risk:** Highest-complexity PR, but zero production impact. Review focus: the wait ladder, the idempotency guard, and `close()` ordering (a leaked preview server hangs CI).
 
