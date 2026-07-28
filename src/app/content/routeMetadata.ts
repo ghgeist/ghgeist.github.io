@@ -38,7 +38,11 @@ const personJsonLd = {
   name: PERSON_NAME,
   jobTitle: PERSON_JOB_TITLE,
   url: absoluteUrl("/"),
-  sameAs: ["https://www.linkedin.com/in/grantgeist/"],
+  sameAs: [
+    "https://www.linkedin.com/in/grantgeist/",
+    "https://github.com/ghgeist",
+    "https://thedonkeyaxiom.substack.com/",
+  ],
 } as const;
 
 const websiteJsonLd = {

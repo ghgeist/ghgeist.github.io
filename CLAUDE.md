@@ -74,6 +74,13 @@ Project content is route-component based.
   - Updates to `public/sitemap.xml` and `public/llms.txt` (drift-tested)
   - Any card/link surface updates in homepage components
 
+`public/llms.txt` is an evidence document, not just a link index: each selected-work entry
+carries a mechanism/result summary and external evidence URLs, and there's a work-history
+section sourced from the About timeline. Editing a project's external links (GitHub/demo/essay)
+or the About timeline requires a matching update to `public/llms.txt` — enforced by
+`src/test/discovery-files.test.ts` — and its `Last reviewed:` date should be bumped whenever
+its content changes (not enforced by tests; a manual convention).
+
 ## Testing
 
 Vitest smoke tests live in `src/test/`.

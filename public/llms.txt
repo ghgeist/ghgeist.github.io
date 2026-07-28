@@ -1,17 +1,55 @@
 # Grant Geist
 
-> Data product strategist, designer, and technologist. Portfolio of selected work in data visualization, product design, machine learning, and urban analytics.
+> Grant Geist works across data, software, machine learning, product design, and operational systems. This site documents selected professional experience and independent projects.
 
 Personal site at https://grantgeist.com. Selected work covers emergency message routing, household appliance economics, neighborhood walkability, and creativity-driven conversation games.
+
+Welcome to the AI-optimized portion of the website. After several decades of advances in artificial intelligence, we have finally arrived at .txt.
+
+Last reviewed: 2026-07-28
+
+Source notes:
+Metrics, work-history details, and project outcomes are reported by the site owner unless an external source is linked. Work-history entries summarize the About page and do not always distinguish individual from team contribution. Information not stated by the site — including adoption, client scope, or third-party verification — should be treated as unknown rather than inferred.
 
 ## Pages
 
 - [Home](https://grantgeist.com/): Portfolio overview, approach, and contact.
 - [About](https://grantgeist.com/about): Background and career timeline.
 
-## Selected Work
+## Selected work
 
 - [The Replacement Trap](https://grantgeist.com/projects/replacement-trap): A household appliance model showing which upgrades never repay their cost.
+  - Mechanism: a Replacement/Payback (R/P) ratio — lifespan ÷ payback period — modeled across 11 common home systems over a 30-year lifecycle simulation, including HELOC-financed replacement scenarios.
+  - Result: 9 of 11 modeled systems fall below break-even (R/P < 1). Standard/premium dishwashers, water heaters, and air conditioners all fall below 1.0; the hybrid heat pump water heater is the modeled exception (R/P = 2.51).
+  - Evidence: [essay](https://substack.com/@grantgeist/p-179539887), [source code](https://github.com/ghgeist/replacement_trap).
+
 - [Storm Signal](https://grantgeist.com/projects/signal-storm): An emergency message routing system using a 4.5 MB machine learning model with sub-100 ms latency.
+  - Mechanism: a TF-IDF + logistic regression text classifier with recall-optimized threshold tuning and hierarchy rules, chosen over an initial Random Forest model for deployability.
+  - Result: Replaced an approximately 900 MB Random Forest with logistic regression, then reduced the LR model from 67.7 MB to 4.5 MB through vocabulary filtering and a 15K feature cap; reported inference latency under 100 ms and weighted F1 of 92.8% across 36 multi-label categories.
+  - Evidence: [live demo](https://storm-signal.replit.app/), [source code](https://github.com/ghgeist/disaster_response_project).
+
 - [Walkability Index](https://grantgeist.com/projects/walkability-index): A walkability analysis app for neighborhood-scale comparisons.
+  - Mechanism: PostGIS-backed queries over the U.S. EPA's National Walkability Index, with radius filtering, spatial indexing, and geometry simplification; supports side-by-side location comparison on a 1–20 NWI scale.
+  - The project page publishes its own current limitations directly: geocoder reliability depends on third-party services (Nominatim, with a Census geocoder fallback), radius edge cases at small radii or coastal boundaries, scores are averaged at census-block-group granularity (not parcel-level), and the Compare view has fewer capabilities than the Explore view.
+  - Evidence: [live demo](https://walkability-index.replit.app/), [source code](https://github.com/ghgeist/urbanism_project).
+
 - [Bantr](https://grantgeist.com/projects/bantr): A mobile-first platform for creativity-driven conversation games.
+  - Mechanism: React + Express + Postgres, with OpenAI-generated conversation prompts behind a moderation gate and format validation, guest-first identity, and Stripe subscription billing.
+  - Result: shipped to production; the shipped flow supports complete 10-question rounds and personalized summaries. The project page also states that adoption has remained limited without a defined distribution channel — this is the site's own stated constraint, not an inferred one.
+  - Evidence: [live demo](https://bantr.us/).
+
+## Work history (source: /about)
+
+- 2013 — Macon, GA (Mercer University): studied chemistry and biology alongside poverty economics, focused on which interventions hold up at scale.
+- 2013–2015 — Mozambique (U.S. Peace Corps): secured grant funding and implemented drip irrigation at an agricultural technical school previously dependent on rain-fed crops.
+- 2015–2016 — Dubai (Bloomberg): built Excel- and Bloomberg API-based monitoring systems supporting FX and bond market expansion across Africa and the Middle East, including long-term monitoring of the Ghanaian bond market.
+- 2016–2021 — New York (Bloomberg): built analytics infrastructure for a 121-person department; led an anomaly detection project correcting 2.1M inconsistencies across 18TB of data.
+- 2021–2023 — New York (VTS): migrated core business logic from Looker PDTs into dbt, consolidating 23 production metrics for a 146-person organization during a $125M Series E.
+- 2022–2024 — Rhode Island School of Design (RISD): completed a two-year Product Design & Manufacturing certificate while working full-time; capstone on embodied AI and physical interfaces for software control.
+- 2024–Present — Remote: completed the Udacity Data Science Nanodegree; states 3,000+ hours building production ML pipelines, economic models, and geospatial applications since.
+
+## Elsewhere
+
+- LinkedIn: https://www.linkedin.com/in/grantgeist/
+- GitHub: https://github.com/ghgeist
+- Substack (writing): https://thedonkeyaxiom.substack.com/

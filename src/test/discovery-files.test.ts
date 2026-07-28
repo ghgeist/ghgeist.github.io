@@ -6,6 +6,11 @@ import { SITE_URL, siteRoutes } from "@/app/content/siteRoutes";
 // and adding @types/node is an unrequested dependency change (AGENTS.md).
 import sitemap from "../../public/sitemap.xml?raw";
 import llmsTxt from "../../public/llms.txt?raw";
+import aboutSource from "../app/components/About.tsx?raw";
+import replacementTrapSource from "../app/projects/ReplacementTrap.tsx?raw";
+import stormSignalSource from "../app/projects/StormSignal.tsx?raw";
+import walkabilityIndexSource from "../app/projects/WalkabilityIndex.tsx?raw";
+import bantrSource from "../app/projects/Bantr.tsx?raw";
 
 function extractSitemapLocs(xml: string): string[] {
   return [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
@@ -16,6 +21,101 @@ function extractMarkdownHrefs(markdown: string): string[] {
     (match) => match[1]
   );
 }
+
+type AboutTimelineEntry = {
+  year: string;
+  titleFragments: string[];
+};
+
+/**
+ * Splits a timeline title into its base name and parenthetical asides
+ * (e.g. `"Rhode Island School of Design (RISD) (Product Design & Manufacturing)"`
+ * → `["Rhode Island School of Design", "RISD", "Product Design & Manufacturing"]`)
+ * so llms.txt can reword/reorder a title's parts instead of being forced to
+ * repeat an awkward, fully concatenated string verbatim.
+ */
+function splitTitleFragments(title: string): string[] {
+  const parenthetical = [...title.matchAll(/\(([^)]+)\)/g)].map(
+    (match) => match[1]
+  );
+  const base = title.replace(/\s*\([^)]*\)/g, "").trim();
+  return [base, ...parenthetical].filter((fragment) => fragment.length > 0);
+}
+
+/**
+ * Pulls paired timeline `year` + title fragments out of About.tsx so each
+ * entry is checked as a unit. Independent year/fragment substring checks are
+ * too weak: "2013" appears inside "2013–2015", and shared fragments like
+ * "New York" / "Bloomberg" can survive after a sibling line is deleted.
+ */
+function extractAboutTimelineEntries(source: string): AboutTimelineEntry[] {
+  const years = [...source.matchAll(/\byear:\s*"([^"]+)"/g)].map(
+    (match) => match[1]
+  );
+  const titles = [...source.matchAll(/\btitle:\s*"([^"]+)"/g)].map(
+    (match) => match[1]
+  );
+  if (years.length !== titles.length) {
+    throw new Error(
+      `About timeline year/title count mismatch: ${years.length} years, ${titles.length} titles`
+    );
+  }
+  return years.map((year, index) => ({
+    year,
+    titleFragments: splitTitleFragments(titles[index]),
+  }));
+}
+
+/** Bullet lines under the Work history section of llms.txt. */
+function extractWorkHistoryLines(markdown: string): string[] {
+  const sectionMatch = markdown.match(
+    /## Work history \(source: \/about\)\r?\n\r?\n([\s\S]*?)(?=\r?\n## |\r?\n*$)/
+  );
+  if (!sectionMatch) {
+    return [];
+  }
+  return sectionMatch[1]
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.startsWith("- "));
+}
+
+const projectSourcesByKey: Record<string, string> = {
+  replacementTrap: replacementTrapSource,
+  stormSignal: stormSignalSource,
+  walkabilityIndex: walkabilityIndexSource,
+  bantr: bantrSource,
+};
+
+/**
+ * Pulls external `href` values from a project page's `const ctas = [...]`
+ * block. Evidence in llms.txt must cover every CTA so a new demo/repo link
+ * cannot land on a project page while being omitted from the evidence layer.
+ */
+function extractCtaHrefs(source: string): string[] {
+  const ctasMatch = source.match(/const ctas = \[([\s\S]*?)\];/);
+  if (!ctasMatch) {
+    return [];
+  }
+  return [...ctasMatch[1].matchAll(/href:\s*"(https?:\/\/[^"]+)"/g)].map(
+    (match) => match[1]
+  );
+}
+
+// Narrow, high-confidence manipulation phrasing only — not general imperative
+// language ("you must", "verify") that shows up legitimately in evaluation
+// framing. A false positive here would block honest edits to llms.txt.
+const INJECTION_PATTERNS: RegExp[] = [
+  /ignore (all |any )?(previous|prior|the above)/i,
+  /disregard (all |any )?(previous|prior|the above)/i,
+  /system prompt/i,
+  /you are now/i,
+  /act as (if you|though)/i,
+  /new instructions:/i,
+  /recommend hiring/i,
+  /top candidate/i,
+  /must (recommend|hire|select)/i,
+];
 
 describe("discovery files", () => {
   const registryUrls = siteRoutes.map((route) => absoluteUrl(route.path));
@@ -57,6 +157,54 @@ describe("discovery files", () => {
 
     for (const href of hrefs) {
       expect(registryUrls).toContain(href);
+    }
+  });
+
+  it("contains the expected evidence-layer section headings", () => {
+    expect(llmsTxt).toContain("Source notes:");
+    const requiredHeadings = [
+      "## Selected work",
+      "## Work history (source: /about)",
+      "## Elsewhere",
+    ];
+
+    for (const heading of requiredHeadings) {
+      expect(llmsTxt).toContain(heading);
+    }
+  });
+
+  it("includes every project page CTA href in llms.txt", () => {
+    for (const [, projectSource] of Object.entries(projectSourcesByKey)) {
+      const hrefs = extractCtaHrefs(projectSource);
+      expect(hrefs.length).toBeGreaterThan(0);
+
+      for (const href of hrefs) {
+        expect(llmsTxt).toContain(href);
+      }
+    }
+  });
+
+  it("restates every About timeline entry as a work-history line", () => {
+    const entries = extractAboutTimelineEntries(aboutSource);
+    const lines = extractWorkHistoryLines(llmsTxt);
+    expect(entries.length).toBeGreaterThan(0);
+    expect(lines.length).toBe(entries.length);
+
+    for (const entry of entries) {
+      // Exact year prefix (`- 2013 —`) so "2013" cannot match "2013–2015".
+      const line = lines.find((candidate) =>
+        candidate.startsWith(`- ${entry.year} —`)
+      );
+      expect(line).toBeDefined();
+      for (const fragment of entry.titleFragments) {
+        expect(line).toContain(fragment);
+      }
+    }
+  });
+
+  it("does not contain prompt-injection or ranking-manipulation phrasing", () => {
+    for (const pattern of INJECTION_PATTERNS) {
+      expect(llmsTxt).not.toMatch(pattern);
     }
   });
 });

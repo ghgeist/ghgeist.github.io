@@ -57,7 +57,22 @@ export function Footer() {
           
           {/* Left: Copyright */}
           <p className="text-sm text-gray-500">
-            © {year} Grant Geist. All rights reserved.
+            © {year} Grant Geist. All rights reserved.{" "}
+            <span className="text-gray-700" aria-hidden="true">
+              ·
+            </span>{" "}
+            <a
+              href="/llms.txt"
+              className="text-gray-600 transition-colors hover:text-gray-400"
+              title="A machine-readable version of this site, for AI agents and evaluators."
+            >
+              llms.txt
+              <span className="sr-only">
+                {" "}
+                — a machine-readable version of this site, for AI agents and
+                evaluators
+              </span>
+            </a>
           </p>
 
           {/* Right: Social Links */}
