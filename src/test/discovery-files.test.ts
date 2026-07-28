@@ -22,32 +22,62 @@ function extractMarkdownHrefs(markdown: string): string[] {
   );
 }
 
+type AboutTimelineEntry = {
+  year: string;
+  titleFragments: string[];
+};
+
 /**
- * Pulls timeline `year` values and `title` fragments out of About.tsx's
- * source. Titles are split into their base name and parenthetical asides
+ * Splits a timeline title into its base name and parenthetical asides
  * (e.g. `"Rhode Island School of Design (RISD) (Product Design & Manufacturing)"`
  * → `["Rhode Island School of Design", "RISD", "Product Design & Manufacturing"]`)
  * so llms.txt can reword/reorder a title's parts instead of being forced to
  * repeat an awkward, fully concatenated string verbatim.
  */
-function extractAboutTimelineFields(source: string): {
-  years: string[];
-  titleFragments: string[];
-} {
+function splitTitleFragments(title: string): string[] {
+  const parenthetical = [...title.matchAll(/\(([^)]+)\)/g)].map(
+    (match) => match[1]
+  );
+  const base = title.replace(/\s*\([^)]*\)/g, "").trim();
+  return [base, ...parenthetical].filter((fragment) => fragment.length > 0);
+}
+
+/**
+ * Pulls paired timeline `year` + title fragments out of About.tsx so each
+ * entry is checked as a unit. Independent year/fragment substring checks are
+ * too weak: "2013" appears inside "2013–2015", and shared fragments like
+ * "New York" / "Bloomberg" can survive after a sibling line is deleted.
+ */
+function extractAboutTimelineEntries(source: string): AboutTimelineEntry[] {
   const years = [...source.matchAll(/\byear:\s*"([^"]+)"/g)].map(
     (match) => match[1]
   );
   const titles = [...source.matchAll(/\btitle:\s*"([^"]+)"/g)].map(
     (match) => match[1]
   );
-  const titleFragments = titles.flatMap((title) => {
-    const parenthetical = [...title.matchAll(/\(([^)]+)\)/g)].map(
-      (match) => match[1]
+  if (years.length !== titles.length) {
+    throw new Error(
+      `About timeline year/title count mismatch: ${years.length} years, ${titles.length} titles`
     );
-    const base = title.replace(/\s*\([^)]*\)/g, "").trim();
-    return [base, ...parenthetical].filter((fragment) => fragment.length > 0);
-  });
-  return { years, titleFragments };
+  }
+  return years.map((year, index) => ({
+    year,
+    titleFragments: splitTitleFragments(titles[index]),
+  }));
+}
+
+/** Bullet lines under the Work history section of llms.txt. */
+function extractWorkHistoryLines(markdown: string): string[] {
+  const sectionMatch = markdown.match(
+    /## Work history \(source: \/about\)\r?\n\r?\n([\s\S]*?)(?=\r?\n## |\r?\n*$)/
+  );
+  if (!sectionMatch) {
+    return [];
+  }
+  return sectionMatch[1]
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.startsWith("- "));
 }
 
 const projectSourcesByKey: Record<string, string> = {
@@ -154,16 +184,21 @@ describe("discovery files", () => {
     }
   });
 
-  it("restates every About timeline year and title fragment in llms.txt", () => {
-    const { years, titleFragments } = extractAboutTimelineFields(aboutSource);
-    expect(years.length).toBeGreaterThan(0);
-    expect(titleFragments.length).toBeGreaterThan(0);
+  it("restates every About timeline entry as a work-history line", () => {
+    const entries = extractAboutTimelineEntries(aboutSource);
+    const lines = extractWorkHistoryLines(llmsTxt);
+    expect(entries.length).toBeGreaterThan(0);
+    expect(lines.length).toBe(entries.length);
 
-    for (const year of years) {
-      expect(llmsTxt).toContain(year);
-    }
-    for (const fragment of titleFragments) {
-      expect(llmsTxt).toContain(fragment);
+    for (const entry of entries) {
+      // Exact year prefix (`- 2013 —`) so "2013" cannot match "2013–2015".
+      const line = lines.find((candidate) =>
+        candidate.startsWith(`- ${entry.year} —`)
+      );
+      expect(line).toBeDefined();
+      for (const fragment of entry.titleFragments) {
+        expect(line).toContain(fragment);
+      }
     }
   });
 
