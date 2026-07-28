@@ -21,7 +21,7 @@ This repository is a React 18 + Vite 6 + Tailwind CSS v4 single-page portfolio a
 **When executing commands:**
 
 - **If bash scripts are unavailable** (e.g., PowerShell environment): Execute the underlying Node/Vite commands directly:
-    - Instead of `./script/verify`, run: `npm ci` then `npx tsc --noEmit` then `npm run lint` then `npm run test:ci` then `npm run build` then `npx playwright install chromium` then `npm run prerender`
+    - Instead of `./script/verify`, run the steps listed in `.verify.yml` (see `script/verify` for the exact sequence, including Chromium install + prerender + `npm run assert:prerendered`)
     - Instead of `./script/dev`, run: `npm run dev`
 - **Read the scripts** (`script/verify`, `script/dev`) to understand what commands they execute, then run those commands directly in the available shell.
 - **Core Node/npm commands work in all shells** - the scripts are convenience wrappers, not requirements.
@@ -33,20 +33,20 @@ This repository is a React 18 + Vite 6 + Tailwind CSS v4 single-page portfolio a
 
 ### Source of Truth for Verification
 
-**`.verify.yml` is the single source of truth** for verification requirements. This declarative config file defines:
+**`.verify.yml` documents the contract; `./script/verify` is the executable implementation.** Local and CI both run that script (CI: `bash script/verify --skip-install` after `npm ci`). Do not re-list the same commands in `deploy.yml`.
+
+The config declares:
 
 - Required Node version (>= 18.0.0)
-- Verification steps (dependency installation, TypeScript type checking, lint, tests, production build, Playwright Chromium install, prerender)
+- Verification steps (dependency installation, TypeScript type checking, lint, tests, production build, Playwright Chromium install, prerender, prerender artifact assert)
 - Development server configuration
-
-Keep `.verify.yml`, `script/verify`, and `.github/workflows/deploy.yml` in sync when the pipeline changes.
 
 **Verification Execution:**
 
 - **Local development**: Run `./script/verify` to execute all verification steps
 - **Fast build loop**: `npm run build` only (no Chromium). Use `npm run build:static` when you need prerendered HTML in `dist/`
-- **Prerender prerequisite**: Playwright Chromium (`npx playwright install chromium`; CI uses `--with-deps`)
-- **CI**: Secondary verification layer, treated as final correctness signal on push/PR
+- **Prerender prerequisite**: Playwright Chromium (`npx playwright install chromium`; CI uses `--with-deps` via `CI=true`)
+- **CI**: Same pipeline as local via `script/verify --skip-install`
 - **Agent sandboxes**: May not be capable of running full builds/tests/prerender (Chromium + network) and should not block changes solely due to environment limitations
 
 ### Expected Agent Behavior

@@ -1,13 +1,17 @@
 # Verification Configuration
-# Single source of truth for verification requirements.
+# Human/agent-readable contract. Executable implementation: ./script/verify
+# CI runs the same script after npm ci: bash script/verify --skip-install
 
 node_version: ">= 18.0.0"
+
+implementation: "./script/verify"
 
 steps:
   - name: "Install dependencies"
     command: "npm ci"
     required: true
-    description: "Install Node dependencies from lockfile"
+    skip_in_ci: true
+    description: "Install Node dependencies from lockfile (CI runs this before the script)"
 
   - name: "Type check"
     command: "npx tsc --noEmit"
@@ -32,12 +36,17 @@ steps:
   - name: "Install Playwright Chromium"
     command: "npx playwright install chromium"
     required: true
-    description: "Install Chromium for the prerender step (CI uses --with-deps)"
+    description: "Install Chromium for prerender (script adds --with-deps when CI=true)"
 
   - name: "Prerender"
     command: "npm run prerender"
     required: true
     description: "Snapshot routes into dist/ HTML via Playwright (self-asserts)"
+
+  - name: "Assert prerendered artifacts"
+    command: "npm run assert:prerendered"
+    required: true
+    description: "Every sitemap route has dist HTML with data-prerendered"
 
 dev:
   command: "npm run dev"
@@ -45,8 +54,9 @@ dev:
   url: "http://localhost:5173"
 
 agent_notes: |
-  - Run script/verify for full verification
+  - Run ./script/verify for full verification (do not re-list steps in deploy.yml)
+  - CI: npm ci then bash script/verify --skip-install
   - npm run build must produce dist/ with index.html, 404.html, CNAME
-  - npm run build:static = build + prerender (requires Playwright Chromium)
+  - npm run build:static = build + prerender + assert:prerendered (requires Playwright Chromium)
   - npm run test:ci runs Vitest with CI-friendly verbose output
   - Adding a route: update siteRoutes registry and public/sitemap.xml (llms.txt too)

@@ -21,19 +21,14 @@ npm run dev
 
 ### Verification
 ```bash
-npm ci
-npx tsc --noEmit
-npm run test:ci
-npm run build
-npx playwright install chromium   # once per machine / CI image
-npm run prerender
-# or
 ./script/verify
+# or (after npm ci, same pipeline CI uses):
+bash script/verify --skip-install
 ```
 
 For a production-like static snapshot without the full verify pipeline:
 ```bash
-npm run build:static   # build + prerender (requires Playwright Chromium)
+npm run build:static   # build + prerender + assert:prerendered (requires Playwright Chromium)
 ```
 
 ### Preview production build
@@ -93,13 +88,8 @@ GitHub Actions workflow: `.github/workflows/deploy.yml`
 
 Build job:
 1. `npm ci`
-2. `npx tsc --noEmit`
-3. `npm run lint`
-4. `npm run test:ci`
-5. `npm run build`
-6. `npx playwright install --with-deps chromium`
-7. `npm run prerender`
-8. Upload `dist/` artifact
+2. `bash script/verify --skip-install` (typecheck, lint, test, build, Chromium, prerender, assert prerendered)
+3. Upload `dist/` artifact
 
 Deploy job:
 - Runs only on push to `main`
@@ -121,6 +111,7 @@ Static deploy-critical files:
 - If SPA routing behavior changes, update both `public/404.html` and `index.html` decoder logic together.
 - Prefer `npm run build` for the fast inner loop; use `npm run build:static` (or `./script/verify`) when you need prerendered HTML. Prerender requires Playwright Chromium (`npx playwright install chromium`).
 - Adding a route: update the `siteRoutes` registry **and** `public/sitemap.xml` (and `llms.txt`). Prerender reads routes from `dist/sitemap.xml` — no hardcoded route list in the script.
+- Verification pipeline lives in `./script/verify`; `.github/workflows/deploy.yml` calls it — do not duplicate steps in the workflow.
 
 ## Related Documentation
 

@@ -7,7 +7,7 @@
 | 1 | Discovery files (`sitemap.xml`, `llms.txt`, `siteRoutes`, drift test) | **Merged** (#27) |
 | 2 | Per-route document metadata | **Merged** (#28) |
 | 3 | Prerender script | **Merged** (#29) |
-| 4 | Wire prerender into CI / verify contract | In progress on `feat/wire-prerender-ci` |
+| 4 | Wire prerender into CI / verify contract | In progress on `feat/wire-prerender-ci` (#30) |
 | 5 | Retire SPA redirect hack | Not started |
 
 ---
@@ -152,13 +152,14 @@ Results buffer in a `Map` and write only after **all** routes pass. Output is di
 **Branch:** `feat/wire-prerender-ci`
 
 **Modified**
-- [deploy.yml](.github/workflows/deploy.yml) — after `npm run build`, add `npx playwright install --with-deps chromium` then `npm run prerender`, before `upload-pages-artifact`. Adds roughly 45-90s per run. Runs on PRs too (the build job has no branch guard), so **this PR verifies itself in its own Actions log**.
-- `.verify.yml`, `script/verify` — add Chromium install + prerender steps. These plus `deploy.yml` hand-duplicate the same pipeline in three places, and `.cursor/rules/iteration-workflow.mdc` requires keeping them in sync.
-- `CLAUDE.md`, `AGENTS.md`, `.cursor/rules/iteration-workflow.mdc` — document `build:static`, the Chromium prerequisite, and that adding a route means updating the registry *and* `public/sitemap.xml`.
+- [deploy.yml](.github/workflows/deploy.yml) — after `npm ci`, run `bash script/verify --skip-install` (same pipeline as local; `CI=true` adds Chromium `--with-deps`), then upload artifact. No duplicated typecheck/lint/test/build/prerender steps in the workflow.
+- `script/verify` — single executable pipeline; supports `--skip-install` for CI.
+- `script/assert-prerendered.js` + `npm run assert:prerendered` — every sitemap route must have `data-prerendered` HTML under `dist/`.
+- `.verify.yml`, `README.md`, `CLAUDE.md`, `AGENTS.md`, `.cursor/rules/iteration-workflow.mdc`, `CONTRIBUTING.md` — document shared pipeline, `build:static`, Chromium, and route/sitemap update path.
 
 Skip Playwright browser caching for now — a stale cache key is a confusing failure mode, and it's an optimization for after the pipeline is proven.
 
-**Verify:** read the PR's Actions log; confirm the uploaded artifact contains six prerendered HTML files and note the added wall-clock time.
+**Verify:** read the PR's Actions log; confirm prerender + assert steps pass and the uploaded artifact contains six prerendered HTML files; note wall-clock time.
 
 **Risk:** First production deploy of prerendered HTML. Mitigated by the PR run proving it pre-merge.
 

@@ -81,26 +81,31 @@ Before pushing changes, run the verification script:
 ./script/verify
 ```
 
-This script:
+This is the single executable pipeline (local and CI). It:
 
 - Installs dependencies (`npm ci`)
-- Runs TypeScript type checking (`npx tsc --noEmit`)
-- Runs tests (`npm run test:ci`)
+- Type-checks, lints, and runs tests
 - Builds the production bundle (`npm run build`)
+- Installs Playwright Chromium and prerenders every sitemap route
+- Asserts each route’s HTML under `dist/` has `data-prerendered`
+
+For a production-like static snapshot without the full verify suite:
+
+```bash
+npm run build:static   # build + prerender + assert (requires Playwright Chromium)
+```
 
 **Verification Configuration:**
 
-See `.verify.yml` for the complete verification contract. This file serves as the single source of truth for what needs to be verified, readable by both humans and AI agents.
+See `.verify.yml` for the human/agent-readable contract. `./script/verify` is the implementation — CI calls the same script so steps cannot drift from `deploy.yml`.
 
 **CI/CD:**
 
-GitHub Actions runs full verification on push/PR to catch issues automatically. The workflow:
+GitHub Actions (`.github/workflows/deploy.yml`) on push/PR:
 
-1. Installs dependencies
-2. Runs type checking
-3. Runs tests (non-blocking)
-4. Builds the production bundle
-5. Deploys to GitHub Pages (on push to `main`)
+1. Installs dependencies (`npm ci`)
+2. Runs `bash script/verify --skip-install` (same pipeline as local)
+3. Uploads `dist/` and deploys to GitHub Pages (on push to `main` only)
 
 ### Testing
 
@@ -164,9 +169,11 @@ Linters are configured to ignore minified files and vendor libraries. Configurat
 
 ```text
 .
-├── .verify.yml          # Verification configuration (single source of truth)
+├── .verify.yml          # Verification contract (agents/humans); implemented by script/verify
 ├── script/              # Development scripts
-│   ├── verify           # Verification script
+│   ├── verify           # Verification pipeline (local + CI)
+│   ├── prerender.js     # Post-build Playwright route snapshots
+│   ├── assert-prerendered.js  # Post-prerender dist/ gate
 │   └── dev              # Development server script
 ├── src/                 # Source code
 │   ├── app/             # Application code
@@ -222,9 +229,10 @@ Linters are configured to ignore minified files and vendor libraries. Configurat
 
 ### Routing
 
-The app uses React Router's `BrowserRouter` for client-side routing. Routes are defined in `src/app/App.tsx`:
+The app uses React Router's `BrowserRouter` for client-side routing. Routes are defined in `src/app/App.tsx` (canonical list in `src/app/content/siteRoutes.ts`):
 
 - `/` - Homepage
+- `/about` - About
 - `/projects/walkability-index` - Walkability Index project
 - `/projects/replacement-trap` - Replacement Trap project
 - `/projects/bantr` - Bantr project
@@ -248,8 +256,8 @@ Since GitHub Pages doesn't natively support SPAs, the project includes:
 
 The site is deployed to GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`). The workflow:
 
-1. Builds the production bundle to `dist/`
-2. Deploys to GitHub Pages on push to `main`
+1. Runs the shared verification pipeline (build + prerender into `dist/`)
+2. Deploys the artifact to GitHub Pages on push to `main`
 
 Static deploy-critical files in `public/`:
 
@@ -257,6 +265,7 @@ Static deploy-critical files in `public/`:
 - `404.html` - SPA routing fallback
 - `favicon.ico` - Site favicon
 - `robots.txt` - Search engine directives
+- `sitemap.xml` / `llms.txt` - Discovery files (copied into `dist/`)
 
 ## Contact
 - **Website:** [grantgeist.com](https://grantgeist.com)

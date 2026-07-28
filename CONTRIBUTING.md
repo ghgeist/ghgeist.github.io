@@ -6,7 +6,7 @@ This project is optimized for small, targeted changes with strong local verifica
 
 - Read `CLAUDE.md` for architecture and route/content conventions.
 - Read `AGENTS.md` for environment constraints and verification expectations.
-- Use `.verify.yml` as the source of truth for required checks.
+- Use `.verify.yml` as the readable contract; run `./script/verify` (CI uses the same script).
 - Review focused guidance in `.cursor/rules/`.
 
 ## Development Workflow
@@ -14,10 +14,8 @@ This project is optimized for small, targeted changes with strong local verifica
 1. Create a focused branch.
 2. Make the smallest change that solves the problem.
 3. Run local verification:
-   - `npm run lint`
-   - `npx tsc --noEmit`
-   - `npm run test:ci`
-   - `npm run build`
+   - Prefer `./script/verify` (full pipeline including prerender)
+   - Or the fast path: `npm run lint`, `npx tsc --noEmit`, `npm run test:ci`, `npm run build`
 4. Open a PR with a concise summary and test notes.
 
 If you cannot run bash scripts in your shell, run the npm commands directly instead of `./script/*`.

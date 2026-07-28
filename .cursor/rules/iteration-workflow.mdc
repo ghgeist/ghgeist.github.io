@@ -5,9 +5,7 @@ alwaysApply: false
 
 # Iteration Workflow for Portfolio Site
 
-Commands and shell notes: see `CLAUDE.md` and `AGENTS.md`. Verification steps: `.verify.yml` (or `./script/verify`).
-
-Keep `.verify.yml`, `script/verify`, and `.github/workflows/deploy.yml` aligned when the pipeline changes.
+Commands and shell notes: see `CLAUDE.md` and `AGENTS.md`. Verification contract: `.verify.yml`. Implementation: `./script/verify` (CI: `bash script/verify --skip-install` after `npm ci`).
 
 ## Quick vs thorough
 
@@ -15,7 +13,7 @@ Keep `.verify.yml`, `script/verify`, and `.github/workflows/deploy.yml` aligned 
 
 **Thorough path** (routes, config, deps, app shell, metadata): plan → edit → `npx tsc --noEmit` → `npm run test:ci` → `npm run build:static` → visual check on affected routes.
 
-`npm run build:static` = `npm run build` + `npm run prerender`. Prerender needs Playwright Chromium (`npx playwright install chromium`). Prefer plain `npm run build` for the fast inner loop; use `build:static` or `./script/verify` when you need no-JS HTML snapshots in `dist/`.
+`npm run build:static` = `npm run build` + `npm run prerender` + `npm run assert:prerendered`. Prerender needs Playwright Chromium (`npx playwright install chromium`). Prefer plain `npm run build` for the fast inner loop; use `build:static` or `./script/verify` when you need no-JS HTML snapshots in `dist/`.
 
 ## When to run full verification
 
@@ -43,4 +41,5 @@ If routing behavior changes, update **both** `public/404.html` and the redirect 
 - Build/type errors: fix reported files; re-run `npx tsc --noEmit` and `npm run build`
 - Test failures: check `src/test/`; fix assertions or component behavior
 - Prerender failures: check `script/prerender.js` assertions; ensure Chromium is installed
-- Keep `CLAUDE.md` / `AGENTS.md` in sync if stack or verification steps change
+- Artifact check failures: `npm run assert:prerendered` — every sitemap route needs `data-prerendered` HTML under `dist/`
+- Keep `CLAUDE.md` / `AGENTS.md` / `.verify.yml` in sync if stack or verification steps change; edit `script/verify` (not `deploy.yml`) when the pipeline changes

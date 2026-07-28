@@ -35,23 +35,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Type check
-        run: npx tsc --noEmit
-
-      - name: Run lint
-        run: npm run lint
-
-      - name: Run tests
-        run: npm run test:ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
-
-      - name: Prerender routes
-        run: npm run prerender
+      # Single pipeline shared with local ./script/verify (CI=true → Chromium --with-deps).
+      - name: Run verification pipeline
+        run: bash script/verify --skip-install
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
