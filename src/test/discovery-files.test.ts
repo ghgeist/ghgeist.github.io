@@ -50,29 +50,27 @@ function extractAboutTimelineFields(source: string): {
   return { years, titleFragments };
 }
 
-/** External (non-grantgeist.com) evidence URLs each project's llms.txt entry cites. */
-const projectEvidenceUrls: Record<string, string[]> = {
-  replacementTrap: [
-    "https://substack.com/@grantgeist/p-179539887",
-    "https://github.com/ghgeist/replacement_trap",
-  ],
-  stormSignal: [
-    "https://storm-signal.replit.app/",
-    "https://github.com/ghgeist/disaster_response_project",
-  ],
-  walkabilityIndex: [
-    "https://walkability-index.replit.app/",
-    "https://github.com/ghgeist/urbanism_project",
-  ],
-  bantr: ["https://bantr.us/"],
-};
-
 const projectSourcesByKey: Record<string, string> = {
   replacementTrap: replacementTrapSource,
   stormSignal: stormSignalSource,
   walkabilityIndex: walkabilityIndexSource,
   bantr: bantrSource,
 };
+
+/**
+ * Pulls external `href` values from a project page's `const ctas = [...]`
+ * block. Evidence in llms.txt must cover every CTA so a new demo/repo link
+ * cannot land on a project page while being omitted from the evidence layer.
+ */
+function extractCtaHrefs(source: string): string[] {
+  const ctasMatch = source.match(/const ctas = \[([\s\S]*?)\];/);
+  if (!ctasMatch) {
+    return [];
+  }
+  return [...ctasMatch[1].matchAll(/href:\s*"(https?:\/\/[^"]+)"/g)].map(
+    (match) => match[1]
+  );
+}
 
 // Narrow, high-confidence manipulation phrasing only — not general imperative
 // language ("you must", "verify") that shows up legitimately in evaluation
@@ -145,12 +143,13 @@ describe("discovery files", () => {
     }
   });
 
-  it("cites external evidence URLs that also appear on the corresponding project page", () => {
-    for (const [key, urls] of Object.entries(projectEvidenceUrls)) {
-      const projectSource = projectSourcesByKey[key];
-      for (const url of urls) {
-        expect(llmsTxt).toContain(url);
-        expect(projectSource).toContain(url);
+  it("includes every project page CTA href in llms.txt", () => {
+    for (const [, projectSource] of Object.entries(projectSourcesByKey)) {
+      const hrefs = extractCtaHrefs(projectSource);
+      expect(hrefs.length).toBeGreaterThan(0);
+
+      for (const href of hrefs) {
+        expect(llmsTxt).toContain(href);
       }
     }
   });
