@@ -7,7 +7,7 @@
  * Exits non-zero on assertion failure; always closes browser + preview server.
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import { preview } from "vite";
@@ -18,17 +18,16 @@ const DIST = join(ROOT, "dist");
 const SITEMAP_PATH = join(DIST, "sitemap.xml");
 const INDEX_PATH = join(DIST, "index.html");
 
-const SITE_ORIGIN = "https://grantgeist.com";
-const DEFAULT_TITLE = "Grant Geist | Data Product Strategist";
 const MIN_BODY_TEXT = 800;
 const MIN_INTERNAL_LINKS = 4;
 const MIN_DESCRIPTION_LEN = 50;
 const MAX_DESCRIPTION_LEN = 200;
+const WAIT_TIMEOUT_MS = 30_000;
 const VIEWPORT = { width: 1280, height: 900 };
 
 /**
  * @param {string} sitemapXml
- * @returns {string[]} pathnames including "/"
+ * @returns {{ siteOrigin: string, paths: string[] }}
  */
 function pathsFromSitemap(sitemapXml) {
   const locs = [...sitemapXml.matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/g)].map(
@@ -39,26 +38,35 @@ function pathsFromSitemap(sitemapXml) {
     throw new Error(`No <loc> entries found in ${SITEMAP_PATH}`);
   }
 
-  return locs.map((loc) => {
+  /** @type {string | undefined} */
+  let siteOrigin;
+
+  const paths = locs.map((loc) => {
     let url;
     try {
       url = new URL(loc);
     } catch {
       throw new Error(`Invalid <loc> URL in sitemap: ${loc}`);
     }
-    if (url.origin !== SITE_ORIGIN) {
+
+    if (!siteOrigin) {
+      siteOrigin = url.origin;
+    } else if (url.origin !== siteOrigin) {
       throw new Error(
-        `Sitemap loc origin must be ${SITE_ORIGIN}, got ${url.origin}`
+        `Sitemap loc origins must match; expected ${siteOrigin}, got ${url.origin}`
       );
     }
+
     const path = url.pathname || "/";
     return path.endsWith("/") && path !== "/" ? path.slice(0, -1) : path;
   });
+
+  return { siteOrigin: /** @type {string} */ (siteOrigin), paths };
 }
 
 /** Absolute canonical URL matching DocumentMeta / absoluteUrl(). */
-function expectedCanonical(pathname) {
-  return pathname === "/" ? `${SITE_ORIGIN}/` : `${SITE_ORIGIN}${pathname}`;
+function expectedCanonical(siteOrigin, pathname) {
+  return pathname === "/" ? `${siteOrigin}/` : `${siteOrigin}${pathname}`;
 }
 
 /** dist output path for a route (directory-form except root → index.html). */
@@ -83,29 +91,58 @@ function assertPristineIndex() {
   }
 }
 
-/** @param {import('playwright').Page} page */
-async function waitForRouteReady(page) {
-  await page.waitForFunction(() => {
-    const root = document.querySelector("#root");
-    return Boolean(root && root.childElementCount > 0);
-  });
+/**
+ * @param {import('playwright').Page} page
+ * @param {string} pathname
+ * @param {string} step
+ * @param {() => Promise<unknown>} fn
+ */
+async function waitStep(page, pathname, step, fn) {
+  try {
+    await fn();
+  } catch (err) {
+    const detail = err instanceof Error ? err.message : String(err);
+    throw new Error(`${pathname}: timed out waiting for ${step} — ${detail}`);
+  }
+}
 
-  await page.waitForFunction(() => {
-    const headings = [...document.querySelectorAll("h1")].filter(
-      (h) => h.textContent && h.textContent.trim().length > 0
-    );
-    return headings.length === 1;
-  });
+/**
+ * @param {import('playwright').Page} page
+ * @param {string} pathname
+ */
+async function waitForRouteReady(page, pathname) {
+  await waitStep(page, pathname, "#root to mount", () =>
+    page.waitForFunction(
+      () => {
+        const root = document.querySelector("#root");
+        return Boolean(root && root.childElementCount > 0);
+      },
+      { timeout: WAIT_TIMEOUT_MS }
+    )
+  );
 
-  // Home title matches index.html by design; canonical proves DocumentMeta ran.
-  await page.waitForFunction(
-    (defaultTitle) => {
-      const hasCanonical = Boolean(
-        document.querySelector('link[rel="canonical"][data-managed-meta]')
-      );
-      return document.title !== defaultTitle || hasCanonical;
-    },
-    DEFAULT_TITLE
+  await waitStep(page, pathname, "exactly one non-empty <h1>", () =>
+    page.waitForFunction(
+      () => {
+        const headings = [...document.querySelectorAll("h1")].filter(
+          (h) => h.textContent && h.textContent.trim().length > 0
+        );
+        return headings.length === 1;
+      },
+      { timeout: WAIT_TIMEOUT_MS }
+    )
+  );
+
+  // Canonical with data-managed-meta proves DocumentMeta ran (home title
+  // matches the index.html default, so title alone is not a signal).
+  await waitStep(page, pathname, "DocumentMeta canonical", () =>
+    page.waitForFunction(
+      () =>
+        Boolean(
+          document.querySelector('link[rel="canonical"][data-managed-meta]')
+        ),
+      { timeout: WAIT_TIMEOUT_MS }
+    )
   );
 
   await page.evaluate(async () => {
@@ -125,10 +162,11 @@ async function waitForRouteReady(page) {
 
 /**
  * @param {import('playwright').Page} page
+ * @param {string} siteOrigin
  * @param {string} pathname
  * @param {{ pageErrors: Error[], consoleErrors: string[] }} collected
  */
-async function assertRoute(page, pathname, collected) {
+async function assertRoute(page, siteOrigin, pathname, collected) {
   if (collected.pageErrors.length > 0) {
     throw new Error(
       `${pathname}: pageerror — ${collected.pageErrors.map((e) => e.message).join("; ")}`
@@ -200,7 +238,7 @@ async function assertRoute(page, pathname, collected) {
     );
   }
 
-  const expected = expectedCanonical(pathname);
+  const expected = expectedCanonical(siteOrigin, pathname);
   if (snapshot.canonical !== expected) {
     throw new Error(
       `${pathname}: canonical "${snapshot.canonical}" !== "${expected}"`
@@ -247,8 +285,12 @@ async function main() {
       );
     }
 
-    const paths = pathsFromSitemap(readFileSync(SITEMAP_PATH, "utf8"));
-    console.log(`Prerendering ${paths.length} routes from sitemap.xml…`);
+    const { siteOrigin, paths } = pathsFromSitemap(
+      readFileSync(SITEMAP_PATH, "utf8")
+    );
+    console.log(
+      `Prerendering ${paths.length} routes from sitemap.xml (${siteOrigin})…`
+    );
 
     server = await preview({
       configFile: false,
@@ -268,11 +310,20 @@ async function main() {
       throw new Error("Vite preview did not expose a local URL");
     }
 
-    browser = await chromium.launch();
+    try {
+      browser = await chromium.launch();
+    } catch (err) {
+      const detail = err instanceof Error ? err.message : String(err);
+      throw new Error(
+        `Failed to launch Chromium. Install it with: npx playwright install chromium\n${detail}`
+      );
+    }
+
     const context = await browser.newContext({
       reducedMotion: "reduce",
       viewport: VIEWPORT,
     });
+    context.setDefaultTimeout(WAIT_TIMEOUT_MS);
 
     /** @type {Map<string, { title: string, html: string, h1: string }>} */
     const results = new Map();
@@ -286,29 +337,18 @@ async function main() {
         collected.pageErrors.push(err);
       });
       page.on("console", (msg) => {
-        if (msg.type() !== "error") {
-          return;
+        if (msg.type() === "error") {
+          collected.consoleErrors.push(msg.text());
         }
-        const text = msg.text();
-        // Hero's grainy-gradients noise.svg (and similar) can 404 without
-        // affecting content; same-origin resource failures still fail the run.
-        const locUrl = msg.location().url || "";
-        const isOffOriginResourceFail =
-          text.includes("Failed to load resource") &&
-          locUrl.length > 0 &&
-          !locUrl.startsWith(baseUrl);
-        if (isOffOriginResourceFail) {
-          return;
-        }
-        collected.consoleErrors.push(text);
       });
 
       const url = new URL(pathname === "/" ? "/" : pathname, baseUrl).href;
       console.log(`  → ${pathname}`);
       await page.goto(url, { waitUntil: "load" });
-      await waitForRouteReady(page);
-      const result = await assertRoute(page, pathname, collected);
+      await waitForRouteReady(page, pathname);
+      const result = await assertRoute(page, siteOrigin, pathname, collected);
       results.set(pathname, result);
+      console.log(`     h1="${result.h1}" title="${result.title}"`);
       await page.close();
     }
 
@@ -324,8 +364,7 @@ async function main() {
       const outPath = outputPathFor(pathname);
       mkdirSync(dirname(outPath), { recursive: true });
       writeFileSync(outPath, result.html, "utf8");
-      const relative = outPath.slice(ROOT.length + 1).replaceAll("\\", "/");
-      console.log(`  wrote ${relative}`);
+      console.log(`  wrote ${relative(ROOT, outPath).replaceAll("\\", "/")}`);
     }
 
     console.log(`Prerender complete: ${results.size} routes.`);

@@ -73,7 +73,7 @@ export function Hero() {
                       lazy={true}
                     />
                   </div>
-                  <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
+                  <div className="absolute inset-0 bg-[url('/assets/noise.svg')] opacity-20 mix-blend-overlay"></div>
                   <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
                 </div>
 
