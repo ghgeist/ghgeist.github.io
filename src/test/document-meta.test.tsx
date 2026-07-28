@@ -103,10 +103,13 @@ describe("getRouteMeta", () => {
     expect(bantr.ogImage.endsWith(".jpg")).toBe(true);
   });
 
-  it("falls back for unknown paths without inventing a known title", () => {
+  it("uses distinct noindex copy for unknown paths", () => {
     const meta = getRouteMeta("/does-not-exist");
-    expect(meta.title).toBe("Grant Geist | Data Product Strategist");
+    expect(meta.title).toBe(`Page not found${TITLE_SUFFIX}`);
     expect(meta.path).toBe("/does-not-exist");
+    expect(meta.robots).toBe("noindex");
+    expect(meta.description).toMatch(/does not exist/i);
+    expect(meta.jsonLd).toEqual([]);
   });
 
   it("emits home absolute URLs that match sitemap.xml and llms.txt", () => {
@@ -206,5 +209,41 @@ describe("DocumentMeta", () => {
     expect(
       document.querySelector('link[rel="canonical"]')?.getAttribute("href")
     ).toBe(absoluteUrl(bantrProject.route));
+  });
+
+  it("writes noindex for unknown paths and clears it on known navigation", async () => {
+    ensureDescriptionMeta();
+    const { getByRole } = render(
+      <MemoryRouter initialEntries={["/does-not-exist"]}>
+        <DocumentMeta />
+        <Routes>
+          <Route path="/" element={<div>Home</div>} />
+          <Route
+            path="*"
+            element={<NavigateButton to="/" label="To Home" />}
+          />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await waitFor(() => {
+      expect(document.title).toBe(`Page not found${TITLE_SUFFIX}`);
+    });
+
+    expect(
+      document
+        .querySelector('meta[name="robots"][data-managed-meta]')
+        ?.getAttribute("content")
+    ).toBe("noindex");
+
+    fireEvent.click(getByRole("button", { name: "To Home" }));
+
+    await waitFor(() => {
+      expect(document.title).toBe(getRouteMeta("/").title);
+    });
+
+    expect(
+      document.querySelector('meta[name="robots"][data-managed-meta]')
+    ).toBeNull();
   });
 });

@@ -8,7 +8,7 @@ This is a React 18 + Vite 6 + Tailwind CSS v4 single-page portfolio app deployed
 
 - Root deploy (no `base` in `vite.config.ts`)
 - BrowserRouter routes (no React Router basename)
-- GitHub Pages deep-link support via `public/404.html` + redirect decoder in `index.html`
+- Deep links are real prerendered HTML under `dist/` (directory-form `…/index.html`); `public/404.html` is a static not-found page for unknown paths (no SPA redirect)
 
 ## Commands
 
@@ -108,7 +108,7 @@ Static deploy-critical files:
 - Keep edits small and targeted.
 - Do not change dependency versions unless requested.
 - Preserve root-deploy assumptions (no base path/basename).
-- If SPA routing behavior changes, update both `public/404.html` and `index.html` decoder logic together.
+- Known routes must exist as prerendered files in `dist/` after `build:static`; `public/404.html` is only for genuinely unknown paths (keep it a real `noindex` page with site links — do not restore the old `sessionStorage` redirect hack).
 - Prefer `npm run build` for the fast inner loop; use `npm run build:static` (or `./script/verify`) when you need prerendered HTML. Prerender requires Playwright Chromium (`npx playwright install chromium`).
 - Adding a route: update the `siteRoutes` registry **and** `public/sitemap.xml` (and `llms.txt`). Prerender reads routes from `dist/sitemap.xml` — no hardcoded route list in the script.
 - Verification pipeline lives in `./script/verify`; `.github/workflows/deploy.yml` calls it — do not duplicate steps in the workflow.

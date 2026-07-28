@@ -41,7 +41,7 @@ Projects are route-based React components, not markdown or CMS.
 
 - Use `BrowserRouter`; no basename (root deploy).
 - Project paths: `/projects/walkability-index`, `/projects/bantr`, etc. (kebab-case).
-- Deep links work via `public/404.html` + redirect decoder in `index.html`.
+- Deep links are prerendered HTML under `dist/`; `public/404.html` is a static not-found page for unknown paths.
 
 ### Component Organization
 

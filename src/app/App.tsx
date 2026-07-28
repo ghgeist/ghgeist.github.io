@@ -9,6 +9,7 @@ import { WorkWithMe } from "@/app/components/WorkWithMe";
 import { Footer } from "@/app/components/Footer";
 import { ErrorBoundary } from "@/app/components/ErrorBoundary";
 import { DocumentMeta } from "@/app/components/DocumentMeta";
+import { NotFound } from "@/app/components/NotFound";
 import { RouteScrollManager } from "@/app/components/RouteScrollManager";
 import {
   bantrProject,
@@ -143,6 +144,7 @@ export default function App() {
             {projectRoutes.map((route) => (
               <Route key={route.path} path={route.path} element={route.element} />
             ))}
+            <Route path="*" element={<NotFound />} />
           </Routes>
 
           <Footer />

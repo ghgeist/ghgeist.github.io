@@ -32,9 +32,9 @@ Light check (visual + build) is enough for copy-only, styling tweaks, or small U
 
 Adding a route requires updating the `siteRoutes` registry **and** `public/sitemap.xml` (and `public/llms.txt`). Prerender reads paths from `dist/sitemap.xml` — do not hardcode a second route list.
 
-## SPA routing
+## Routing and 404s
 
-If routing behavior changes, update **both** `public/404.html` and the redirect decoder in `index.html`.
+Known routes are prerendered into `dist/` as directory-form HTML. `public/404.html` is a static not-found page (with `noindex`) for unknown paths — do not reintroduce a SPA `sessionStorage` redirect. Adding or renaming a route still requires the registry + `sitemap.xml` / `llms.txt` updates above so prerender emits the new file.
 
 ## Error handling
 
