@@ -1,26 +1,34 @@
 ---
 title: "Jekyll to React Migration Plan"
 date: "2026-02-12"
-status: "active"
+status: "archived"
 session_type: "plan"
 priority: "high"
-tags: ["migration", "react", "jekyll", "github-pages"]
+tags: ["migration", "react", "jekyll", "github-pages", "archived"]
+archived_date: "2026-07-28"
+canonical_record: "docs/dev_notes/2026-02-12.md"
 ---
 
 # Jekyll to React Migration Plan
 
+> **ARCHIVED — do not treat as active work.**  
+> This was the working checklist for the Feb 2026 Jekyll → React migration (`react-overhaul` / PR #11). The migration is complete; the site is React/Vite.  
+> **Canonical historical write-up:** [`docs/dev_notes/2026-02-12.md`](../../dev_notes/2026-02-12.md).  
+> Unchecked boxes below (especially “post-deploy production verification”) are stale leftovers from migration day — not open tasks. Do not resume this plan or re-run Commit 1–3 steps.
+
 ## Context
 
-The portfolio site at grantgeist.com was migrated from Jekyll 4.3.0 (Bootstrap 3 + jQuery) to a React/Vite SPA exported from Figma Make. This document tracks what has been executed and what remains.
+The portfolio site at grantgeist.com was migrated from Jekyll 4.3.0 (Bootstrap 3 + jQuery) to a React/Vite SPA exported from Figma Make. This document was the execution checklist during that migration; it is retained only for historical reference.
 
-Branch context: `react-overhaul`
+Branch context: `react-overhaul` (merged)
 
 GitHub Pages context: user site root deploy (no Vite base path, no React Router basename).
 
-## Current Status (Updated 2026-02-12)
+## Current Status (Updated 2026-07-28)
 
+- **Archived.** Migration complete; see `docs/dev_notes/2026-02-12.md`.
 - Commit 1: Done and locally verified.
-- Commit 2: Implemented locally; remote Actions/Pages validation still pending.
+- Commit 2: Done (workflow shipped; production is live React).
 - Commit 3: Done (Jekyll infrastructure removed, docs rewritten).
 - Follow-up: Linting restored (`npm run lint` now configured and passing).
 
@@ -178,7 +186,9 @@ Migration is performed in 3 commit phases. Do not delete Jekyll before confirmin
 5. [x] `npm run test` passes (6/6)
 6. [x] `npm run lint` passes
 
-### Post-deploy production verification (pending)
+### Post-deploy production verification (stale — not open work)
+
+> Left unchecked at archival time. Production has long been the React site; do not treat these as remaining tasks.
 
 7. [ ] Home route renders correctly at `https://grantgeist.com`
 8. [ ] Deep-link in fresh incognito window: `https://grantgeist.com/projects/bantr`
