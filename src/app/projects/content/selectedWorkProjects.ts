@@ -9,6 +9,8 @@ type ProjectDefinition = {
   theme: ProjectThemeName;
   title: string;
   subtext: string;
+  /** Optional SEO meta description (140–160 chars); leaves Hero card `subtext` untouched. */
+  metaDescription?: string;
   tag: string;
   image: string;
   route: string;
@@ -20,6 +22,8 @@ export const replacementTrapProject = {
   title: "The Replacement Trap",
   subtext:
     "A household appliance model showing which upgrades never repay their cost.",
+  metaDescription:
+    "A replacement-cycle model for 11 common home systems showing which appliance upgrades never repay their cost before end-of-life failure.",
   tag: "Housing Analytics",
   image: "/assets/thumbs/the-replacement-trap.webp",
   route: "/projects/replacement-trap",
@@ -31,6 +35,8 @@ export const stormSignalProject = {
   title: "Storm Signal",
   subtext:
     "An emergency message routing system using a 4.5 MB machine learning model with sub-100 ms latency.",
+  metaDescription:
+    "A disaster-response monitoring dashboard that routes high-volume messages into actionable categories using a compact, auditable ML pipeline.",
   tag: "Machine Learning",
   image: "/assets/thumbs/storm-signal.webp",
   route: "/projects/signal-storm",
@@ -41,6 +47,8 @@ export const walkabilityIndexProject = {
   theme: "walkability",
   title: "Walkability Index",
   subtext: "A walkability analysis app for neighborhood-scale comparisons.",
+  metaDescription:
+    "Explore neighborhood walkability at a human scale with side-by-side comparisons built on the U.S. EPA’s National Walkability Index (NWI).",
   tag: "Geospatial Analysis",
   image: "/assets/thumbs/walkability-index-map-shot.webp",
   route: "/projects/walkability-index",
@@ -51,6 +59,8 @@ export const bantrProject = {
   theme: "bantr",
   title: "Bantr",
   subtext: "A mobile-first platform for creativity-driven conversation games.",
+  metaDescription:
+    "Bantr is a mobile-first conversational game engine that helps people skip small talk and reach better conversations through structured creative prompts.",
   tag: "Full-Stack Engineering",
   image: "/assets/thumbs/bantr-landing-page.webp",
   route: "/projects/bantr",

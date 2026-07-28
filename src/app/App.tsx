@@ -8,6 +8,7 @@ import { Approach } from "@/app/components/Approach";
 import { WorkWithMe } from "@/app/components/WorkWithMe";
 import { Footer } from "@/app/components/Footer";
 import { ErrorBoundary } from "@/app/components/ErrorBoundary";
+import { DocumentMeta } from "@/app/components/DocumentMeta";
 import { RouteScrollManager } from "@/app/components/RouteScrollManager";
 import {
   bantrProject,
@@ -124,6 +125,7 @@ export default function App() {
   return (
     <ErrorBoundary>
       <BrowserRouter>
+        <DocumentMeta />
         <RouteScrollManager />
         <div className="font-sans text-gray-300 bg-[#0B0E14] min-h-screen selection:bg-[#0066cc] selection:text-white">
           <Navbar />

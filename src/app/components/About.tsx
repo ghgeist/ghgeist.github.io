@@ -115,9 +115,9 @@ export function About() {
 
           {/* Header */}
           <div className="mb-8">
-            <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">
+            <h1 className="text-3xl font-bold text-white mb-2 tracking-tight">
               About
-            </h2>
+            </h1>
             <p className="max-w-2xl text-base leading-relaxed text-gray-300/90">
               My work has moved across countries and disciplines, but the
               throughline has been steady: systems that must work despite
