@@ -1,6 +1,6 @@
 ---
 description: Design component patterns and project page structure (SectionHeading, Card, CTA, motion, sections order)
-globs: ["src/app/projects/**/*.tsx", "src/app/components/**/*.tsx"]
+globs: src/app/projects/**/*.tsx, src/app/components/**/*.tsx
 alwaysApply: false
 ---
 

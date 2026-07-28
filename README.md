@@ -211,11 +211,10 @@ Linters are configured to ignore minified files and vendor libraries. Configurat
 
 - **`CLAUDE.md`** – Project overview, commands, architecture, content model
 - **`AGENTS.md`** – Environment constraints, verification model, agent behavior guidance
-- **`.cursor/rules/`** – Focused, scoped rules for components, design, workflow, and naming
-- **`.cursor/rules/QUICK_START.mdc`** – Quick reference guide for common tasks
+- **`.cursor/rules/`** – Scoped rules; see [Rules README](.cursor/rules/README.md) for activation and task → doc map
 
 **Quick links:**
-- [Quick Start Guide](.cursor/rules/QUICK_START.mdc) – Find information fast
+- [Rules README](.cursor/rules/README.md) – Task map and rule activation
 - [Project Overview](CLAUDE.md) – Architecture and conventions
 - [Agent Guidance](AGENTS.md) – Verification and workflow
 

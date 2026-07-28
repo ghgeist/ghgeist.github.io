@@ -1,6 +1,6 @@
 ---
 description: Static asset organization and references for React/Vite portfolio
-globs: ["public/**/*", "src/**/*.css", "src/**/*.svg", "src/**/*.png", "src/**/*.jpg", "src/**/*.jpeg", "src/**/*.webp", "src/**/*.gif"]
+globs: public/**/*, src/**/*.css, src/**/*.svg, src/**/*.png, src/**/*.jpg, src/**/*.jpeg, src/**/*.webp, src/**/*.gif
 alwaysApply: false
 ---
 

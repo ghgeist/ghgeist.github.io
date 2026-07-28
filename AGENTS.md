@@ -104,8 +104,7 @@ Agents should optimize for correctness of edits and minimal surface area rather 
 
 ## Related Documentation
 
-- **`.cursor/rules/QUICK_START.mdc`** – Quick reference guide for common tasks (start here!)
-- **`.cursor/rules/`** – Focused, scoped rules for components, design tokens, workflow, file naming, and asset management
+- **`.cursor/rules/`** – Scoped rules (naming always-on; design/React/assets by glob; workflow on demand). See `.cursor/rules/README.md` for the task → doc map
 - **`CLAUDE.md`** – Project overview, commands, architecture, and content model
 - **`.verify.yml`** – Single source of truth for verification steps
 - **`README.md`** – User-facing project documentation

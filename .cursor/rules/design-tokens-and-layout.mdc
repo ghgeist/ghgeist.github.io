@@ -1,6 +1,6 @@
 ---
 description: Design tokens and layout (containers, color palette, typography, spacing) for project and landing components
-globs: ["src/app/projects/**/*.tsx", "src/app/components/**/*.tsx"]
+globs: src/app/projects/**/*.tsx, src/app/components/**/*.tsx
 alwaysApply: false
 ---
 
