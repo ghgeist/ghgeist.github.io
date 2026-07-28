@@ -106,8 +106,7 @@ Static deploy-critical files:
 
 ## Related Documentation
 
-- **`.cursor/rules/QUICK_START.mdc`** – Quick reference guide for common tasks (start here!)
-- **`.cursor/rules/`** – Focused, scoped rules for components, design, workflow, and naming conventions
+- **`.cursor/rules/`** – Scoped rules (naming always-on; design/React/assets by glob; workflow on demand). See `.cursor/rules/README.md` for the task → doc map
 - **`AGENTS.md`** – Environment constraints, verification model, and agent behavior guidance
 - **`.verify.yml`** – Single source of truth for verification steps
 - **`README.md`** – User-facing project documentation

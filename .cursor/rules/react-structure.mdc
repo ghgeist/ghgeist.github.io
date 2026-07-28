@@ -1,6 +1,6 @@
 ---
 description: React/Vite app structure, components, routes, and content model
-globs: ["src/app/**/*", "src/styles/**/*", "vite.config.*", "index.html"]
+globs: src/app/**/*, src/styles/**/*, vite.config.*, index.html
 alwaysApply: false
 ---
 

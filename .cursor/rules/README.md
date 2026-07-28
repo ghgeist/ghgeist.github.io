@@ -1,72 +1,88 @@
 # Cursor Rules for Portfolio Site
 
-This directory contains focused, scoped rules for working with this **React 18 + Vite 6 + Tailwind CSS v4** portfolio app. Rules are applied based on file patterns and context.
+Focused, scoped rules for this **React 18 + Vite 6 + Tailwind CSS v4** portfolio. Activation modes keep always-on context small; task-specific rules attach by glob or agent relevance.
 
-## Rule Files
+## Activation matrix
+
+| File | Mode | When it loads |
+|------|------|---------------|
+| `file-naming.mdc` | Always Apply | Every chat |
+| `design-tokens-and-layout.mdc` | Globs | `src/app/projects/**/*.tsx`, `src/app/components/**/*.tsx` |
+| `design-components-and-pages.mdc` | Globs | Same as above |
+| `react-structure.mdc` | Globs | `src/app/**/*`, `src/styles/**/*`, `vite.config.*`, `index.html` |
+| `asset-management.mdc` | Globs | `public/**/*`, CSS/image assets under `src/` |
+| `typescript-best-practices.mdc` | Globs | `**/*.ts`, `**/*.tsx` |
+| `iteration-workflow.mdc` | Agent Requested | When verifying, committing, linting, or fixing build/type errors |
+
+Canonical overview and verification live in `CLAUDE.md`, `AGENTS.md`, and `.verify.yml` — rules point there instead of duplicating command lists.
+
+## Task → documentation map
+
+### Add a new project page
+→ `CLAUDE.md` (Content Model) + `react-structure.mdc`  
+→ Example: `src/app/projects/StormSignal.tsx`  
+→ Naming: `file-naming.mdc` (PascalCase components)
+
+### Style a component
+→ `design-tokens-and-layout.mdc` + `design-components-and-pages.mdc`  
+→ `guidelines/Guidelines.md`
+
+### Add an image or asset
+→ `asset-management.mdc` + `file-naming.mdc` (snake_case assets)
+
+### Verify changes
+→ `AGENTS.md` + `iteration-workflow.mdc`  
+→ Run `./script/verify` or steps in `.verify.yml`
+
+### Fix a build/type error
+→ `AGENTS.md` + `iteration-workflow.mdc` + `typescript-best-practices.mdc`  
+→ `npx tsc --noEmit`, `npm run build`
+
+### Understand app structure
+→ `CLAUDE.md` + `react-structure.mdc`  
+→ `src/app/App.tsx`, `src/app/components/`
+
+## Rule files (detail)
 
 ### `design-tokens-and-layout.mdc`
-
-- **Scope**: Project pages (`src/app/projects/**/*.tsx`) and components (`src/app/components/**/*.tsx`)
-- **Purpose**: Design tokens and layout (containers, color palette, typography, spacing)
-- **Key Topics**: Container structure, color palette, typography patterns, spacing rhythm
+- Containers, color palette, typography, spacing
 
 ### `design-components-and-pages.mdc`
-
-- **Scope**: Project pages and components (same globs as above)
-- **Purpose**: Component patterns and project page structure
-- **Key Topics**: SectionHeading, Card, Stat Card, CTA, motion, section order, reference components
+- SectionHeading, Card, Stat Card, CTA, motion, section order
 
 ### `react-structure.mdc`
-
-- **Scope**: App structure (`src/app/**/*`, `src/styles/**/*`, `vite.config.*`)
-- **Purpose**: Conventions for components, routes, and project architecture
-- **Key Topics**: Component patterns, routing, styling, content model
+- Components, routes, content model, app architecture
 
 ### `iteration-workflow.mdc`
-
-- **Scope**: Content and config files (`*.md`, `*.html`, `*.yml`, `*.yaml`)
-- **Purpose**: Development workflow and verification
-- **Key Topics**: npm scripts, testing strategy, git workflow, .verify.yml
+- When to run full vs light verification; SPA routing sync notes
 
 ### `file-naming.mdc`
-
-- **Scope**: All files (always applied)
-- **Purpose**: Naming conventions by context (React vs assets vs docs)
-- **Key Topics**: PascalCase for components, snake_case for assets/docs, consistency
+- PascalCase components, kebab UI primitives, snake_case assets/docs
 
 ### `asset-management.mdc`
+- `public/` layout, references, optimization
 
-- **Scope**: Static assets (`public/**/*`, `src/**/*.{css,svg,png,jpg}`)
-- **Purpose**: Asset organization and references in a Vite/React app
-- **Key Topics**: public/, image naming, optimization
-
-## How Rules Work
-
-- **Glob patterns**: Rules activate when editing files matching the pattern
-- **Always apply**: File naming applies to all files with context-aware conventions
-- **Single source of truth**: CLAUDE.md and AGENTS.md define stack and verification; rules stay aligned
+### `typescript-best-practices.mdc`
+- Repo-specific TS patterns (props, `import type`, `lazyWithRetry`)
 
 ## Philosophy
 
 - **Focused** – One concern per rule file
-- **Aligned** – Match actual stack (React/Vite) and .verify.yml
+- **Lean always-on** – Only hard naming conventions are Always Apply
+- **Aligned** – Match stack and `.verify.yml`; point to `CLAUDE.md` / `AGENTS.md` for commands
 - **Practical** – Concrete examples; no Jekyll/Liquid references
 
-## Quick Start
+## Related documentation
 
-**New to this codebase?** Start with **`QUICK_START.mdc`** – it maps common tasks to the right documentation.
-
-## Related Documentation
-
-- **`QUICK_START.mdc`** – Quick reference guide for common tasks
 - **`CLAUDE.md`** – Project overview, commands, architecture
 - **`AGENTS.md`** – Environment constraints and agent behavior
 - **`.verify.yml`** – Verification steps (npm ci, tsc, test, build)
-- **`README.md`** – User-facing project documentation
+- **`README.md`** (repo root) – User-facing project documentation
 
-## Updating Rules
+## Updating rules
 
-1. Keep rules focused and under ~500 lines
-2. Use concrete examples from this repo
-3. Ensure commands match `.verify.yml` and `package.json`
-4. Do not reference Jekyll, _posts, _includes, or Liquid
+1. Prefer globs or Agent Requested over Always Apply
+2. Keep each rule under ~500 lines; aim much shorter for always-on
+3. Point at canonical docs instead of copying command tables
+4. Use concrete examples from this repo
+5. Do not reference Jekyll, `_posts`, `_includes`, or Liquid
