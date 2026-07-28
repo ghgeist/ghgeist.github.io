@@ -17,6 +17,8 @@ export type RouteMeta = {
   ogType: "website" | "article";
   ogImage: string;
   jsonLd: Record<string, unknown> | Record<string, unknown>[];
+  /** When set, DocumentMeta writes a matching robots meta tag. */
+  robots?: "noindex";
 };
 
 /**
@@ -136,14 +138,16 @@ const routeMetaByPath = new Map<string, RouteMeta>([
 
 const unknownPathFallback: RouteMeta = {
   path: "/",
-  title: homeMeta.title,
-  description: homeMeta.description,
+  title: `Page not found${TITLE_SUFFIX}`,
+  description:
+    "This page does not exist. Browse Grant Geist’s portfolio home, about, and selected work.",
   ogType: "website",
   ogImage: DEFAULT_OG_IMAGE,
-  jsonLd: personJsonLd,
+  jsonLd: [],
+  robots: "noindex",
 };
 
-/** Resolve document metadata for a pathname, with home fallback for unknown paths. */
+/** Resolve document metadata for a pathname; unknown paths get distinct noindex copy. */
 export function getRouteMeta(pathname: string): RouteMeta {
   return routeMetaByPath.get(pathname) ?? {
     ...unknownPathFallback,

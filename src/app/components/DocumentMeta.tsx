@@ -38,6 +38,13 @@ function applyRouteMeta(pathname: string) {
 
   clearManagedMeta();
 
+  if (meta.robots) {
+    const robots = document.createElement("meta");
+    robots.setAttribute("name", "robots");
+    robots.setAttribute("content", meta.robots);
+    appendManagedMeta(robots);
+  }
+
   const link = document.createElement("link");
   link.setAttribute("rel", "canonical");
   link.setAttribute("href", pageUrl);

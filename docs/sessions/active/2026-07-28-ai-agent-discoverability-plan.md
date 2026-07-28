@@ -8,7 +8,7 @@
 | 2 | Per-route document metadata | **Merged** (#28) |
 | 3 | Prerender script | **Merged** (#29) |
 | 4 | Wire prerender into CI / verify contract | **Merged** (#30) |
-| 5 | Retire SPA redirect hack | **In progress** on `feat/retire-spa-redirect-404` |
+| 5 | Retire SPA redirect hack | **In progress** on `feat/retire-spa-redirect-404` → open as #31 |
 
 
 ---
@@ -186,8 +186,10 @@ Skip Playwright browser caching for now — a stale cache key is a confusing fai
 Every route in this app is a literal — no dynamic params — so once six real files exist, the `sessionStorage` redirect serves *only* genuinely unknown paths, where bouncing to home is a textbook soft 404 that Google flags and that makes a typo'd URL indistinguishable from the homepage.
 
 **Modified**
-- [public/404.html](public/404.html) — replace the redirect script with a real static page: `<h1>Page not found</h1>`, `<meta name="robots" content="noindex">`, links to `/`, `/about`, and the four projects. Inline `<style>` only, since `public/` files bypass the Tailwind bundle.
+- [public/404.html](public/404.html) — replace the redirect script with a real static page: `<h1>Page not found</h1>`, `<meta name="robots" content="noindex">`, Montserrat via Google Fonts, links to `/`, `/about`, and the four projects. Inline `<style>` only, since `public/` files bypass the Tailwind bundle.
 - [index.html](index.html) — delete the decoder script. Keep `<title>` / description / favicon as pre-JS defaults.
+- `NotFound` catch-all route + unknown-path `DocumentMeta` (`noindex` + distinct title/description) so in-SPA unknown URLs match the static 404 behavior.
+- `src/test/not-found-page.test.ts` — drift guard: no `sessionStorage` redirect, `noindex`, font load, every `siteRoutes` path/title linked.
 - `CLAUDE.md`, `.cursor/rules/iteration-workflow.mdc` — replace the redirect-decoder convention with the prerender-based model. Also aligned `README.md`, `asset-management.mdc`, and `react-structure.mdc`.
 
 **Verify — on the live site, not locally.** `vite preview` does not emulate GitHub Pages' extensionless→directory 301. After PR 4 deploys: `curl -sL https://grantgeist.com/projects/bantr` and the other five routes, confirming real HTML with no JS; then fetch a bogus path and confirm a genuine 404 with links and no redirect.
