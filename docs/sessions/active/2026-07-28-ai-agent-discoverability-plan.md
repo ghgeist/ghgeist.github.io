@@ -4,8 +4,8 @@
 
 | PR | Scope | Status |
 |----|-------|--------|
-| 1 | Discovery files (`sitemap.xml`, `llms.txt`, `siteRoutes`, drift test) | **Done locally** on `feat/discovery-files-sitemap-llms` — uncommitted; not yet pushed/merged |
-| 2 | Per-route document metadata | Not started |
+| 1 | Discovery files (`sitemap.xml`, `llms.txt`, `siteRoutes`, drift test) | **Merged** (#27) |
+| 2 | Per-route document metadata | **Done locally** on `feat/per-route-document-metadata` — uncommitted; not yet pushed/merged |
 | 3 | Prerender script | Not started |
 | 4 | Wire prerender into CI / verify contract | Not started |
 | 5 | Retire SPA redirect hack | Not started |
@@ -14,7 +14,7 @@
 
 ## Context
 
-The site is a pure client-side-rendered SPA. `index.html` ships `<div id="root"></div>` and nothing else, so anything that reads HTML without executing JavaScript — most AI agent fetch tools, social preview scrapers, `curl`-based lookups — sees zero body text and zero `<a href>` links on every route. Additionally, all six routes currently serve the identical `<title>`/description/OG block from `index.html:6-20`; there is no `document.title` management, no canonical tag, and no JSON-LD anywhere in `src/`.
+The site is a pure client-side-rendered SPA. `index.html` ships `<div id="root"></div>` and nothing else, so anything that reads HTML without executing JavaScript — most AI agent fetch tools, social preview scrapers, `curl`-based lookups — sees zero body text and zero `<a href>` links on every route. Additionally, before PR 2 all six routes served the identical `<title>`/description/OG block from `index.html`; there was no `document.title` management, no canonical tag, and no JSON-LD anywhere in `src/`.
 
 Goal: every route returns real, self-describing HTML on a no-JS fetch. Approach chosen by the user: snapshot the built SPA with Playwright (already a devDependency, currently unused) as a post-build step. GitHub Pages serves the resulting static files natively — no host change, no framework migration.
 
@@ -29,7 +29,7 @@ These were verified against the repo and drive several non-obvious choices:
 - **Tests run before build** in [deploy.yml](.github/workflows/deploy.yml) and `script/verify`. A Vitest test asserting on `dist/` output would pass vacuously on a clean checkout. The prerender script must therefore self-assert and exit non-zero.
 - **`vite preview` serves extensionless paths from the pristine `dist/index.html`** (sirv runs with `extensions: []`), so prerendering is naturally idempotent per project route. `/` is the exception since we overwrite `dist/index.html` — needs an explicit guard.
 - `public/robots.txt` advertises `/sitemap.xml`. **PR 1 added `public/sitemap.xml`** (and removed the dead root `robots.txt`). Live 404 clears once that branch deploys.
-- Only `Hero.tsx:35` and `CaseStudyHero.tsx:93` render an `<h1>`. [About.tsx:118](src/app/components/About.tsx#L118) renders `<h2>About</h2>`, so `/about` has no `h1`.
+- Every indexable route now has exactly one `<h1>` (PR 2 promoted About's heading). Hero + CaseStudyHero remain the other `h1` sources.
 
 ---
 
@@ -37,7 +37,7 @@ These were verified against the repo and drive several non-obvious choices:
 
 Smallest, zero-risk, fixes a live 404. Ships first and independently.
 
-**Branch:** `feat/discovery-files-sitemap-llms` (local; not committed/pushed as of 2026-07-28).
+**Branch:** `feat/discovery-files-sitemap-llms` → merged via #27.
 
 **Added**
 - `public/sitemap.xml` — six `<loc>` entries, absolute `https://grantgeist.com` URLs. No `<lastmod>` (keeps builds reproducible; the field is optional).
@@ -57,23 +57,24 @@ Smallest, zero-risk, fixes a live 404. Ships first and independently.
 
 **Risk:** Near zero. Note honestly that `llms.txt` is a speculative convention with no confirmed major consumer; it's included because it's nearly free and directly on-goal.
 
-**Next for PR 1:** commit, open PR, merge.
-
 ---
 
-## PR 2 — Per-route document metadata
+## PR 2 — Per-route document metadata ✅
 
 Valuable standalone (Google executes JS, so this improves real SEO immediately) **and** a prerequisite: the Playwright snapshot in PR 3 captures whatever this hook writes to `<head>`.
 
+**Branch:** `feat/per-route-document-metadata` (local; not committed/pushed as of 2026-07-28).
+
 **Added**
-- `src/app/content/routeMetadata.ts` — `TITLE_SUFFIX`, `DEFAULT_OG_IMAGE`, `type RouteMeta = { path, title, description, ogType, ogImage, jsonLd }`, project entries derived from `selectedWorkProjects`, and `getRouteMeta(pathname): RouteMeta` with an unknown-path fallback.
-- `src/app/components/DocumentMeta.tsx` — named export, returns `null`, `useLocation()`, single `useEffect` with deps `[location.pathname]`. Mirrors the existing route-effect pattern in [RouteScrollManager.tsx](src/app/components/RouteScrollManager.tsx).
-- `src/test/document-meta.test.tsx`
+- `src/app/content/routeMetadata.ts` — `TITLE_SUFFIX`, `DEFAULT_OG_IMAGE`, exported `absoluteUrl()`, `type RouteMeta = { path, title, description, ogType, ogImage, jsonLd }`, project entries derived from `selectedWorkProjects`, and `getRouteMeta(pathname): RouteMeta` with an unknown-path fallback.
+- `src/app/components/DocumentMeta.tsx` — named export, returns `null`, `useLocation()`, single `useEffect` with deps `[location.pathname]`. Mirrors the existing route-effect pattern in [RouteScrollManager.tsx](src/app/components/RouteScrollManager.tsx). Imports `absoluteUrl` / `getRouteMeta` from `routeMetadata` (no duplicated URL helper).
+- `src/test/document-meta.test.tsx` — asserts home head tags / JSON-LD / OG+Twitter image URLs, project routes use `DEFAULT_OG_IMAGE` (JPG, not webp thumbs), and exactly one canonical across two successive project navigations.
+- `public/assets/og/og-default.jpg` — real 1200×630 branded JPG (replaced a 0-byte placeholder). Matches site palette: `#0B0E14` background, Hero-style 40px grid, small `#0066cc` accent dot only, white / gray-300 / mono copy.
 
 **Modified**
-- [selectedWorkProjects.ts](src/app/projects/content/selectedWorkProjects.ts) — add **optional** `metaDescription?: string` to `ProjectDefinition`. Because the four literals use `as const satisfies ProjectDefinition` rather than `:`, optional fields need no changes to them. I'll draft 140-160 char descriptions drawing on the richer `framing` prose already inline in each case-study page (e.g. StormSignal's "disaster-response monitoring dashboard that routes high-volume messages into actionable categories"). Leaves the existing `subtext` field untouched — it renders in the Hero card grid and shouldn't be repurposed.
-- [App.tsx:127](src/app/App.tsx#L127) — mount `<DocumentMeta />` beside `<RouteScrollManager />`, inside `BrowserRouter`, outside `Routes`.
-- [About.tsx:118](src/app/components/About.tsx#L118) — `<h2>About</h2>` → `<h1>`. Gives every route exactly one `h1`, which PR 3 asserts on. Existing `app-routing.test.tsx:26` queries by name without level, so it still passes.
+- [selectedWorkProjects.ts](src/app/projects/content/selectedWorkProjects.ts) — add **optional** `metaDescription?: string` to `ProjectDefinition`. Drafted ~140–150 char descriptions from each case-study's `framing` prose. Leaves the existing `subtext` field untouched — it renders in the Hero card grid and shouldn't be repurposed.
+- [App.tsx](src/app/App.tsx) — mount `<DocumentMeta />` beside `<RouteScrollManager />`, inside `BrowserRouter`, outside `Routes`.
+- [About.tsx](src/app/components/About.tsx) — `<h2>About</h2>` → `<h1>`. Gives every route exactly one `h1`, which PR 3 asserts on. Existing `app-routing.test.tsx` queries by name without level, so it still passes.
 - [index.html](index.html) — delete the `og:*` and `twitter:*` blocks so `DocumentMeta` is sole owner. Keep `<title>` and `<meta name="description">` as pre-JS defaults.
 
 **Core approach — tag ownership.** This is the one detail to get right, since the effect reruns on every client-side navigation:
@@ -81,11 +82,22 @@ Valuable standalone (Google executes JS, so this improves real SEO immediately) 
 - `meta[name="description"]`: update in place (it exists in `index.html`); create if absent.
 - canonical, `og:*`, `twitter:*`, JSON-LD `<script>`: every managed node carries `data-managed-meta`. Each run removes all `[data-managed-meta]` nodes first, then reinserts. Prevents duplicate accumulation across navigations and across prerender re-runs.
 
-JSON-LD: `Person` + `WebSite` on `/`, `Person` on `/about`, `CreativeWork` + `BreadcrumbList` on project pages.
+JSON-LD: `Person` + `WebSite` on `/`, `Person` on `/about`, `CreativeWork` + `BreadcrumbList` on project pages. CreativeWork `image` and all route `ogImage` / `twitter:image` values use `DEFAULT_OG_IMAGE` until dedicated per-project OG assets exist (webp card thumbs are unreliable for social scrapers).
 
-**Verify:** `npx tsc --noEmit && npm run lint && npm run test:ci`, then `npm run dev` and check `<head>` on each route — including a client-side nav between two projects, asserting exactly one canonical tag. The test must cover two successive navigations.
+**Post-implementation review fixes (same branch)**
+- Replaced empty `og-default.jpg` with a real asset matching Guidelines palette (no large accent fills).
+- Stopped pointing `og:image` at project `.webp` thumbnails.
+- Deduplicated `absoluteUrl` into a single export from `routeMetadata.ts`.
 
-**Risk:** Low. Worst case is wrong copy. The duplicate-tag bug is the review focus.
+**Known residual (acceptable until PR 3/4)**
+- Until prerender ships, no-JS social scrapers still miss OG tags on first paint (static `og:*` removed from `index.html` by design). Google executes JS; prerender closes the gap for everyone else.
+- Unknown paths reuse home title/description with a pathname-specific canonical; PR 5's real 404 should add `noindex` + distinct copy.
+
+**Verify (done):** `npx tsc --noEmit && npm run lint:js && npm run test:ci` (document-meta + full suite green after review fixes).
+
+**Risk:** Low. Worst case is wrong copy. The duplicate-tag bug was the review focus and is covered by the successive-navigation test.
+
+**Next for PR 2:** commit, open PR, merge.
 
 ---
 
