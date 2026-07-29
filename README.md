@@ -272,7 +272,10 @@ Static deploy-critical files in `public/`:
 
 ## Attributions
 
-This project uses components from [shadcn/ui](https://ui.shadcn.com/) under the [MIT license](https://github.com/shadcn-ui/ui/blob/main/LICENSE.md), and photos from [Unsplash](https://unsplash.com) under the [Unsplash license](https://unsplash.com/license).
+Third-party materials retain their original licenses; they are not covered by this project's All Rights Reserved notice:
+
+- UI primitives adapted from [shadcn/ui](https://ui.shadcn.com/) ([MIT](https://github.com/shadcn-ui/ui/blob/main/LICENSE.md))
+- About-page timeline photos from [Unsplash](https://unsplash.com) ([Unsplash License](https://unsplash.com/license))
 
 ## License
 
