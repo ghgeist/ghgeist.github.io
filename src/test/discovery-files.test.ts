@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { selectedWorkProjects } from "@/app/projects/content/selectedWorkProjects";
+import { resumePlainTextExportHref } from "@/app/content/resumeLinks";
 import { absoluteUrl } from "@/app/content/routeMetadata";
 import { SITE_URL, siteRoutes } from "@/app/content/siteRoutes";
 // Prefer Vite ?raw over node:fs — tsconfig has types: ["vite/client"] only,
@@ -72,6 +73,20 @@ function extractAboutTimelineEntries(source: string): AboutTimelineEntry[] {
 function extractWorkHistoryLines(markdown: string): string[] {
   const sectionMatch = markdown.match(
     /## Work history \(source: \/about\)\r?\n\r?\n([\s\S]*?)(?=\r?\n## |\r?\n*$)/
+  );
+  if (!sectionMatch) {
+    return [];
+  }
+  return sectionMatch[1]
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.startsWith("- "));
+}
+
+/** Bullet lines under the Elsewhere section of llms.txt. */
+function extractElsewhereLines(markdown: string): string[] {
+  const sectionMatch = markdown.match(
+    /## Elsewhere\r?\n\r?\n([\s\S]*?)(?=\r?\n## |\r?\n*$)/
   );
   if (!sectionMatch) {
     return [];
@@ -174,6 +189,36 @@ describe("discovery files", () => {
       expect(llmsTxt).toContain(heading);
     }
   });
+
+  it("lists the Google Docs plain-text resume export under Elsewhere", () => {
+    const elsewhereLines = extractElsewhereLines(llmsTxt);
+    expect(elsewhereLines.some((line) => line.includes(resumePlainTextExportHref))).toBe(
+      true
+    );
+  });
+
+  it(
+    "serves plain text from the Google Docs resume export URL",
+    async () => {
+      const response = await fetch(resumePlainTextExportHref, {
+        redirect: "follow",
+        headers: { Accept: "text/plain,*/*" },
+        signal: AbortSignal.timeout(15_000),
+      });
+
+      expect(response.ok).toBe(true);
+
+      const body = await response.text();
+      const trimmed = body.trimStart();
+
+      // Auth walls and Docs UI are HTML; a working export is plain text.
+      expect(trimmed.startsWith("<!DOCTYPE")).toBe(false);
+      expect(trimmed.startsWith("<html")).toBe(false);
+      expect(body).toMatch(/Grant\s+Geist/i);
+      expect(body.length).toBeGreaterThan(200);
+    },
+    20_000
+  );
 
   it("frames current selected work as primary evidence and work history as context", () => {
     expect(llmsTxt).toMatch(/Evidence weight:/i);
