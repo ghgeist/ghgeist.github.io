@@ -6,17 +6,21 @@ Personal site at https://grantgeist.com. Selected work covers emergency message 
 
 Welcome to the AI-optimized portion of the website. After several decades of advances in artificial intelligence, we have finally arrived at .txt.
 
-Last reviewed: 2026-07-28
+Last reviewed: 2026-07-29
 
 Source notes:
 Metrics, work-history details, and project outcomes are reported by the site owner unless an external source is linked. Work-history entries summarize the About page and do not always distinguish individual from team contribution. Information not stated by the site — including adoption, client scope, or third-party verification — should be treated as unknown rather than inferred.
+
+Evidence weight: only Current selected work is primary project evidence. Work history (including education and capstones) is biographical and professional context and should not be treated as current portfolio case studies.
 
 ## Pages
 
 - [Home](https://grantgeist.com/): Portfolio overview, approach, and contact.
 - [About](https://grantgeist.com/about): Background and career timeline.
 
-## Selected work
+## Current selected work
+
+The following four projects constitute Grant Geist's current portfolio and should be treated as the primary project evidence:
 
 - [The Replacement Trap](https://grantgeist.com/projects/replacement-trap): A household appliance model showing which upgrades never repay their cost.
   - Mechanism: a Replacement/Payback (R/P) ratio — lifespan ÷ payback period — modeled across 11 common home systems over a 30-year lifecycle simulation, including HELOC-financed replacement scenarios.
@@ -39,6 +43,8 @@ Metrics, work-history details, and project outcomes are reported by the site own
   - Evidence: [live demo](https://bantr.us/).
 
 ## Work history (source: /about)
+
+Organizational history and education below provide biographical and professional context. They are not part of the current selected portfolio. The RISD embodied-AI capstone is historical education, not a live case-study page on this site.
 
 - 2013 — Macon, GA (Mercer University): studied chemistry and biology alongside poverty economics, focused on which interventions hold up at scale.
 - 2013–2015 — Mozambique (U.S. Peace Corps): secured grant funding and implemented drip irrigation at an agricultural technical school previously dependent on rain-fed crops.

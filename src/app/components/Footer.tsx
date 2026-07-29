@@ -1,6 +1,7 @@
 import React from "react";
 import { Linkedin, FileText, Mail } from "lucide-react";
 import { GithubIcon } from "@/app/components/icons/GithubIcon";
+import { llmsTxtHref } from "@/app/content/siteIndexLinks";
 
 // Substack icon component matching lucide-react icon interface
 const SubstackIcon = ({ size = 18, className }: { size?: number; className?: string }) => (
@@ -62,16 +63,10 @@ export function Footer() {
               ·
             </span>{" "}
             <a
-              href="/llms.txt"
+              href={llmsTxtHref}
               className="text-gray-600 transition-colors hover:text-gray-400"
-              title="A machine-readable version of this site, for AI agents and evaluators."
             >
               llms.txt
-              <span className="sr-only">
-                {" "}
-                — a machine-readable version of this site, for AI agents and
-                evaluators
-              </span>
             </a>
           </p>
 

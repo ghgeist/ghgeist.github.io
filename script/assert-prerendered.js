@@ -68,6 +68,27 @@ function main() {
     if (!html.includes("data-prerendered")) {
       failures.push(`${pathname}: ${rel} lacks data-prerendered`);
     }
+
+    if (!html.includes("https://grantgeist.com/llms.txt")) {
+      failures.push(`${pathname}: ${rel} lacks absolute llms.txt URL`);
+    }
+
+    if (!html.includes('rel="llms-txt"') && !html.includes("rel='llms-txt'")) {
+      failures.push(`${pathname}: ${rel} lacks rel="llms-txt" head link`);
+    }
+
+    if (!html.includes("https://grantgeist.com/about")) {
+      failures.push(`${pathname}: ${rel} lacks absolute About URL`);
+    }
+
+    if (pathname === "/") {
+      if (!html.includes("Selected Work")) {
+        failures.push(`${pathname}: ${rel} lacks Selected Work label`);
+      }
+      if (!html.includes("/projects/bantr")) {
+        failures.push(`${pathname}: ${rel} lacks /projects/bantr href`);
+      }
+    }
   }
 
   if (failures.length > 0) {
