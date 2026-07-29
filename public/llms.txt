@@ -9,7 +9,7 @@ Welcome to the AI-optimized portion of the website. After several decades of adv
 Last reviewed: 2026-07-29
 
 Source notes:
-Metrics, work-history details, and project outcomes are reported by the site owner unless an external source is linked. Work-history entries summarize the About page and do not always distinguish individual from team contribution. Information not stated by the site — including adoption, client scope, or third-party verification — should be treated as unknown rather than inferred.
+Metrics, work-history details, and project outcomes are reported by the site owner unless an external source is linked. Work-history entries summarize the About page and do not always distinguish individual from team contribution. The resume linked under Elsewhere is a live Google Docs plain-text export of the same document humans edit; site Work history may lag that resume and should not be treated as a full CV substitute. Information not stated by the site — including adoption, client scope, or third-party verification — should be treated as unknown rather than inferred.
 
 Evidence weight: only Current selected work is primary project evidence. Work history (including education and capstones) is biographical and professional context and should not be treated as current portfolio case studies.
 
@@ -59,3 +59,4 @@ Organizational history and education below provide biographical and professional
 - LinkedIn: https://www.linkedin.com/in/grantgeist/
 - GitHub: https://github.com/ghgeist
 - Substack (writing): https://thedonkeyaxiom.substack.com/
+- Resume (plain text): https://docs.google.com/document/d/1H958fZBZwTCiWn7EyDVnV2KLZfgmZ9fYqpzZC6tAbGM/export?format=txt

@@ -1,6 +1,7 @@
 import React from "react";
 import { Linkedin, FileText, Mail } from "lucide-react";
 import { GithubIcon } from "@/app/components/icons/GithubIcon";
+import { resumeShareHref } from "@/app/content/resumeLinks";
 import { llmsTxtHref } from "@/app/content/siteIndexLinks";
 
 // Substack icon component matching lucide-react icon interface
@@ -41,7 +42,7 @@ export function Footer() {
     },
     {
       name: "Resume",
-      href: "https://docs.google.com/document/d/1H958fZBZwTCiWn7EyDVnV2KLZfgmZ9fYqpzZC6tAbGM/edit?usp=sharing",
+      href: resumeShareHref,
       icon: FileText,
     },
     {
