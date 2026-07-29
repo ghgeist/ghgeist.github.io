@@ -208,7 +208,7 @@ Linters are configured to ignore minified files and vendor libraries. Configurat
 ├── tsconfig.json        # TypeScript configuration
 ├── package.json         # Node dependencies
 ├── package-lock.json    # Locked dependency versions
-├── LICENSE              # MIT License
+├── LICENSE              # All Rights Reserved
 └── README.md            # This file
 ```
 
@@ -276,7 +276,7 @@ This project uses components from [shadcn/ui](https://ui.shadcn.com/) under the 
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+Copyright (c) 2026 Grant Geist. All Rights Reserved. See [LICENSE](LICENSE).
 
 ## Open Graph Image
 
