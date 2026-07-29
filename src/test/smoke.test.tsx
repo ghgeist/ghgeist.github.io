@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent, waitFor, within } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 
@@ -74,7 +74,7 @@ describe("Home route", () => {
   });
 
   it("exposes absolute first-hop hrefs for agents without visible chrome", () => {
-    render(
+    const { container } = render(
       <MemoryRouter initialEntries={["/"]}>
         <AppShell>
           <Routes>
@@ -88,27 +88,36 @@ describe("Home route", () => {
     const aboutHref = absoluteUrl("/about");
     const bantrHref = absoluteUrl(bantrProject.route);
 
-    const sitePagesNav = screen.getByRole("navigation", {
-      name: "Site pages",
-    });
-    expect(sitePagesNav).toHaveClass("sr-only");
+    const siteIndex = container.querySelector("[data-agent-site-index]");
+    expect(siteIndex).not.toBeNull();
+    expect(siteIndex).toHaveAttribute("hidden");
+    expect(
+      screen.queryByRole("navigation", { name: "Site pages" })
+    ).toBeNull();
 
-    const llmsLinks = screen.getAllByRole("link", { name: /llms\.txt/i });
-    expect(llmsLinks.some((link) => link.getAttribute("href") === llmsHref)).toBe(
-      true
-    );
+    if (!siteIndex) {
+      throw new Error("Missing agent site index");
+    }
+
+    const links = Array.from(siteIndex.querySelectorAll("a"));
+    expect(links.every((link) => link.tabIndex === -1)).toBe(true);
 
     expect(
-      within(sitePagesNav)
-        .getByRole("link", { name: "About" })
-        .getAttribute("href")
-    ).toBe(aboutHref);
-
+      links.some(
+        (link) => link.textContent === "llms.txt" && link.href === llmsHref
+      )
+    ).toBe(true);
     expect(
-      within(sitePagesNav)
-        .getByRole("link", { name: bantrProject.title })
-        .getAttribute("href")
-    ).toBe(bantrHref);
+      links.some(
+        (link) => link.textContent === "About" && link.href === aboutHref
+      )
+    ).toBe(true);
+    expect(
+      links.some(
+        (link) =>
+          link.textContent === bantrProject.title && link.href === bantrHref
+      )
+    ).toBe(true);
   });
 });
 
