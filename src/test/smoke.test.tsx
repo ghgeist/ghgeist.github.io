@@ -8,7 +8,11 @@ import { Hero } from "@/app/components/Hero";
 import { Approach } from "@/app/components/Approach";
 import { WorkWithMe } from "@/app/components/WorkWithMe";
 import { Footer } from "@/app/components/Footer";
+import { SiteIndexNav } from "@/app/components/SiteIndexNav";
 import { Toaster } from "@/app/components/ui/sonner";
+import { SITE_URL } from "@/app/content/siteRoutes";
+import { absoluteUrl } from "@/app/content/routeMetadata";
+import { bantrProject } from "@/app/projects/content/selectedWorkProjects";
 
 import { WalkabilityIndexDetail } from "@/app/projects/WalkabilityIndex";
 import { StormSignal } from "@/app/projects/StormSignal";
@@ -18,6 +22,7 @@ import { ReplacementTrap } from "@/app/projects/ReplacementTrap";
 function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="font-sans text-gray-300 bg-[#0B0E14] min-h-screen">
+      <SiteIndexNav />
       <Navbar />
       {children}
       <Footer />
@@ -66,6 +71,53 @@ describe("Home route", () => {
 
     const emailLink = screen.getByRole("link", { name: /email/i });
     expect(emailLink).toHaveAttribute("href", "mailto:hello@grantgeist.com");
+  });
+
+  it("exposes absolute first-hop hrefs for agents without visible chrome", () => {
+    const { container } = render(
+      <MemoryRouter initialEntries={["/"]}>
+        <AppShell>
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </AppShell>
+      </MemoryRouter>
+    );
+
+    const llmsHref = `${SITE_URL}/llms.txt`;
+    const aboutHref = absoluteUrl("/about");
+    const bantrHref = absoluteUrl(bantrProject.route);
+
+    const siteIndex = container.querySelector("[data-agent-site-index]");
+    expect(siteIndex).not.toBeNull();
+    expect(siteIndex).toHaveAttribute("hidden");
+    expect(
+      screen.queryByRole("navigation", { name: "Site pages" })
+    ).toBeNull();
+
+    if (!siteIndex) {
+      throw new Error("Missing agent site index");
+    }
+
+    const links = Array.from(siteIndex.querySelectorAll("a"));
+    expect(links.every((link) => link.tabIndex === -1)).toBe(true);
+
+    expect(
+      links.some(
+        (link) => link.textContent === "llms.txt" && link.href === llmsHref
+      )
+    ).toBe(true);
+    expect(
+      links.some(
+        (link) => link.textContent === "About" && link.href === aboutHref
+      )
+    ).toBe(true);
+    expect(
+      links.some(
+        (link) =>
+          link.textContent === bantrProject.title && link.href === bantrHref
+      )
+    ).toBe(true);
   });
 });
 

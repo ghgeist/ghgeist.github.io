@@ -6,6 +6,8 @@ import { SITE_URL, siteRoutes } from "@/app/content/siteRoutes";
 // and adding @types/node is an unrequested dependency change (AGENTS.md).
 import sitemap from "../../public/sitemap.xml?raw";
 import llmsTxt from "../../public/llms.txt?raw";
+import robotsTxt from "../../public/robots.txt?raw";
+import indexHtml from "../../index.html?raw";
 import aboutSource from "../app/components/About.tsx?raw";
 import replacementTrapSource from "../app/projects/ReplacementTrap.tsx?raw";
 import stormSignalSource from "../app/projects/StormSignal.tsx?raw";
@@ -163,7 +165,7 @@ describe("discovery files", () => {
   it("contains the expected evidence-layer section headings", () => {
     expect(llmsTxt).toContain("Source notes:");
     const requiredHeadings = [
-      "## Selected work",
+      "## Current selected work",
       "## Work history (source: /about)",
       "## Elsewhere",
     ];
@@ -171,6 +173,28 @@ describe("discovery files", () => {
     for (const heading of requiredHeadings) {
       expect(llmsTxt).toContain(heading);
     }
+  });
+
+  it("frames current selected work as primary evidence and work history as context", () => {
+    expect(llmsTxt).toMatch(/Evidence weight:/i);
+    expect(llmsTxt).toMatch(/primary project evidence/i);
+    expect(llmsTxt).toMatch(/current portfolio/i);
+    expect(llmsTxt).toMatch(/not part of the current selected portfolio/i);
+    expect(llmsTxt).toMatch(/historical education/i);
+    expect(llmsTxt).toMatch(
+      /should not be treated as current portfolio case studies/i
+    );
+  });
+
+  it("advertises llms.txt from robots.txt without abusing Sitemap", () => {
+    expect(robotsTxt).toContain("https://grantgeist.com/llms.txt");
+    expect(robotsTxt).toContain("Sitemap: https://grantgeist.com/sitemap.xml");
+    expect(robotsTxt).not.toMatch(/Sitemap:\s*https:\/\/grantgeist\.com\/llms\.txt/);
+  });
+
+  it("declares an absolute llms-txt head link in index.html", () => {
+    expect(indexHtml).toContain('rel="llms-txt"');
+    expect(indexHtml).toContain('href="https://grantgeist.com/llms.txt"');
   });
 
   it("includes every project page CTA href in llms.txt", () => {

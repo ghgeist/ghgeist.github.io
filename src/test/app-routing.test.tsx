@@ -49,9 +49,10 @@ describe("App routing integration", () => {
       await screen.findByRole("heading", { level: 1, name: "Page not found" })
     ).toBeTruthy();
     expect(screen.getByRole("link", { name: "Home" })).toHaveAttribute("href", "/");
-    expect(screen.getByRole("link", { name: "Bantr" })).toHaveAttribute(
-      "href",
-      "/projects/bantr"
-    );
+    expect(
+      screen
+        .getAllByRole("link", { name: "Bantr" })
+        .some((link) => link.getAttribute("href") === "/projects/bantr")
+    ).toBe(true);
   });
 });

@@ -7,6 +7,7 @@ import { Hero } from "@/app/components/Hero";
 import { Approach } from "@/app/components/Approach";
 import { WorkWithMe } from "@/app/components/WorkWithMe";
 import { Footer } from "@/app/components/Footer";
+import { SiteIndexNav } from "@/app/components/SiteIndexNav";
 import { ErrorBoundary } from "@/app/components/ErrorBoundary";
 import { DocumentMeta } from "@/app/components/DocumentMeta";
 import { NotFound } from "@/app/components/NotFound";
@@ -129,6 +130,7 @@ export default function App() {
         <DocumentMeta />
         <RouteScrollManager />
         <div className="font-sans text-gray-300 bg-[#0B0E14] min-h-screen selection:bg-[#0066cc] selection:text-white">
+          <SiteIndexNav />
           <Navbar />
 
           <Routes>

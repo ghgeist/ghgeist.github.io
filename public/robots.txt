@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
+# Machine-readable site summary for AI agents:
+# https://grantgeist.com/llms.txt
+
 Sitemap: https://grantgeist.com/sitemap.xml
