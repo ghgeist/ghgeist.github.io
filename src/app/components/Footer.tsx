@@ -1,6 +1,7 @@
 import React from "react";
 import { Linkedin, FileText, Mail } from "lucide-react";
 import { GithubIcon } from "@/app/components/icons/GithubIcon";
+import { CONTACT_FORM_HREF } from "@/app/content/routeMetadata";
 import { resumeShareHref } from "@/app/content/resumeLinks";
 import { llmsTxtHref } from "@/app/content/siteIndexLinks";
 
@@ -46,8 +47,8 @@ export function Footer() {
       icon: FileText,
     },
     {
-      name: "Email",
-      href: "mailto:hello@grantgeist.com",
+      name: "Contact",
+      href: CONTACT_FORM_HREF,
       icon: Mail,
     },
   ];

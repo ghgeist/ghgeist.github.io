@@ -38,7 +38,7 @@ describe("App routing integration", () => {
       ).toBeTruthy();
       expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
       expect(screen.getByRole("link", { name: "Save Contact" })).toBeTruthy();
-      expect(screen.getByRole("link", { name: /Email/ })).toBeTruthy();
+      expect(screen.getByRole("link", { name: /Get in touch/i })).toBeTruthy();
       expect(screen.getByRole("link", { name: "LinkedIn" })).toBeTruthy();
       expect(screen.getByRole("link", { name: "Website" })).toBeTruthy();
       expect(screen.queryByRole("navigation", { name: "Primary" })).toBeNull();

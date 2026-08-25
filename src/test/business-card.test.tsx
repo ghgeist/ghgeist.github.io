@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { BusinessCard } from "@/app/components/BusinessCard";
+import { CONTACT_FORM_HREF } from "@/app/content/routeMetadata";
 // Prefer Vite ?raw over node:fs — tsconfig has types: ["vite/client"] only.
 import vCard from "../../public/grant_geist.vcf?raw";
 
@@ -12,9 +13,9 @@ describe("BusinessCard", () => {
     expect(saveContact).toHaveAttribute("href", "/grant_geist.vcf");
     expect(saveContact).not.toHaveAttribute("download");
 
-    expect(screen.getByRole("link", { name: /Email/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Get in touch/i })).toHaveAttribute(
       "href",
-      "mailto:hello@grantgeist.com"
+      CONTACT_FORM_HREF
     );
     expect(screen.getByRole("link", { name: "LinkedIn" })).toHaveAttribute(
       "href",
@@ -48,8 +49,8 @@ describe("grant_geist.vcf", () => {
     expect(vCard).toContain("N:Geist;Grant;;;");
     expect(vCard).toContain("ORG:G. H. Geist Studio LLC");
     expect(vCard).toContain("TITLE:Tech Strategy and AI Consulting");
-    expect(vCard).toContain("EMAIL;TYPE=INTERNET,WORK:hello@grantgeist.com");
-    expect(vCard).toContain("URL;TYPE=WORK:https://grantgeist.com");
+    expect(vCard).not.toMatch(/^EMAIL[:;]/m);
+    expect(vCard).toContain("URL;TYPE=WORK:https://grantgeist.com/#work-with-me");
     expect(vCard).toContain("PHOTO;ENCODING=b;TYPE=JPEG:");
     expect(vCard).toContain("/9j/");
     expect(vCard).toContain("END:VCARD");
