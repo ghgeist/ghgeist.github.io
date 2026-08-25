@@ -12,6 +12,7 @@ import { ErrorBoundary } from "@/app/components/ErrorBoundary";
 import { DocumentMeta } from "@/app/components/DocumentMeta";
 import { NotFound } from "@/app/components/NotFound";
 import { RouteScrollManager } from "@/app/components/RouteScrollManager";
+import { normalizePathname } from "@/app/content/siteRoutes";
 import {
   bantrProject,
   replacementTrapProject,
@@ -130,7 +131,7 @@ const projectRoutes = [
 
 function AppLayout() {
   const { pathname } = useLocation();
-  const hideSiteChrome = pathname === "/card";
+  const hideSiteChrome = normalizePathname(pathname) === "/card";
 
   return (
     <>

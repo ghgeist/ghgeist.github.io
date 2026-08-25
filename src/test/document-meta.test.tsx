@@ -117,6 +117,13 @@ describe("getRouteMeta", () => {
     expect(absoluteUrl("/card")).toBe("https://grantgeist.com/card");
   });
 
+  it("treats GitHub Pages trailing-slash URLs as the slash-free route", () => {
+    expect(getRouteMeta("/card/")).toEqual(getRouteMeta("/card"));
+    expect(getRouteMeta("/about/")).toEqual(getRouteMeta("/about"));
+    expect(getRouteMeta("/card/").robots).toBeUndefined();
+    expect(getRouteMeta("/card/not-a-page").robots).toBe("noindex");
+  });
+
   it("uses distinct noindex copy for unknown paths", () => {
     const meta = getRouteMeta("/does-not-exist");
     expect(meta.title).toBe(`Page not found${TITLE_SUFFIX}`);
@@ -273,6 +280,22 @@ describe("DocumentMeta", () => {
     expect(jsonLd.sameAs).toEqual(["https://www.linkedin.com/in/grantgeist/"]);
     expect(jsonLdText).not.toContain("https://github.com/ghgeist");
     expect(jsonLdText).not.toContain("https://thedonkeyaxiom.substack.com/");
+  });
+
+  it("writes card metadata for the GitHub Pages /card/ URL instead of noindex", async () => {
+    renderDocumentMeta("/card/");
+    const expected = getRouteMeta("/card");
+
+    await waitFor(() => {
+      expect(document.title).toBe(expected.title);
+    });
+
+    expect(
+      document.querySelector('link[rel="canonical"]')?.getAttribute("href")
+    ).toBe("https://grantgeist.com/card");
+    expect(
+      document.querySelector('meta[name="robots"][data-managed-meta]')
+    ).toBeNull();
   });
 
   it("writes noindex for unknown paths and clears it on known navigation", async () => {
