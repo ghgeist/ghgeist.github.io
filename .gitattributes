@@ -16,6 +16,9 @@ script/* text eol=lf
 *.xml text
 *.json text
 
+# vCard must stay CRLF for contact-app import
+public/*.vcf text eol=crlf
+
 # Binary files
 *.png binary
 *.jpg binary

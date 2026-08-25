@@ -29,6 +29,12 @@ export function NotFound() {
         >
           About
         </Link>
+        <Link
+          to="/card"
+          className="font-bold text-[#0066cc] hover:text-[#0052a3] hover:underline focus-visible:text-[#0052a3]"
+        >
+          Digital Business Card
+        </Link>
         <h2 className="mt-4 text-xs font-bold uppercase tracking-widest text-gray-500">
           Selected work
         </h2>

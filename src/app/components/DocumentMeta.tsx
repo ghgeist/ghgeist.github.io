@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { absoluteUrl, getRouteMeta } from "@/app/content/routeMetadata";
+import { normalizePathname } from "@/app/content/siteRoutes";
 
 const MANAGED_META_ATTR = "data-managed-meta";
 
@@ -30,8 +31,9 @@ function appendManagedMeta(el: HTMLElement) {
 }
 
 function applyRouteMeta(pathname: string) {
-  const meta = getRouteMeta(pathname);
-  const pageUrl = absoluteUrl(pathname);
+  const canonicalPath = normalizePathname(pathname);
+  const meta = getRouteMeta(canonicalPath);
+  const pageUrl = absoluteUrl(canonicalPath);
 
   document.title = meta.title;
   setMetaDescription(meta.description);

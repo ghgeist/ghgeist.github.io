@@ -63,6 +63,7 @@ function renderDocumentMeta(initialPath: string) {
       <Routes>
         <Route path="/" element={<div>Home</div>} />
         <Route path="/about" element={<div>About</div>} />
+        <Route path="/card" element={<div>Card</div>} />
         <Route
           path={bantrProject.route}
           element={<NavigateButton to={stormSignalProject.route} label="To Storm" />}
@@ -101,6 +102,26 @@ describe("getRouteMeta", () => {
     expect(bantr.ogImage).toBe(DEFAULT_OG_IMAGE);
     expect(storm.ogImage).toBe(DEFAULT_OG_IMAGE);
     expect(bantr.ogImage.endsWith(".jpg")).toBe(true);
+  });
+
+  it("returns dedicated card metadata without noindex or personJsonLd extras", () => {
+    const card = getRouteMeta("/card");
+
+    expect(card.title).toBe(`Digital Business Card${TITLE_SUFFIX}`);
+    expect(card.description).toBe(
+      "Contact Grant Geist, Tech Strategy and AI Consulting at G. H. Geist Studio LLC, and save his digital business card."
+    );
+    expect(card.ogType).toBe("website");
+    expect(card.ogImage).toBe(DEFAULT_OG_IMAGE);
+    expect(card.robots).toBeUndefined();
+    expect(absoluteUrl("/card")).toBe("https://grantgeist.com/card");
+  });
+
+  it("treats GitHub Pages trailing-slash URLs as the slash-free route", () => {
+    expect(getRouteMeta("/card/")).toEqual(getRouteMeta("/card"));
+    expect(getRouteMeta("/about/")).toEqual(getRouteMeta("/about"));
+    expect(getRouteMeta("/card/").robots).toBeUndefined();
+    expect(getRouteMeta("/card/not-a-page").robots).toBe("noindex");
   });
 
   it("uses distinct noindex copy for unknown paths", () => {
@@ -209,6 +230,72 @@ describe("DocumentMeta", () => {
     expect(
       document.querySelector('link[rel="canonical"]')?.getAttribute("href")
     ).toBe(absoluteUrl(bantrProject.route));
+  });
+
+  it("writes card title, description, canonical, and card-only JSON-LD", async () => {
+    renderDocumentMeta("/card");
+    const expected = getRouteMeta("/card");
+
+    await waitFor(() => {
+      expect(document.title).toBe(expected.title);
+    });
+
+    expect(document.title).toBe("Digital Business Card | Grant Geist");
+    expect(
+      document.querySelector('meta[name="description"]')?.getAttribute("content")
+    ).toBe(expected.description);
+    expect(
+      document.querySelector('link[rel="canonical"]')?.getAttribute("href")
+    ).toBe("https://grantgeist.com/card");
+    expect(
+      document.querySelector('meta[property="og:url"]')?.getAttribute("content")
+    ).toBe("https://grantgeist.com/card");
+    expect(
+      document.querySelector('meta[name="robots"][data-managed-meta]')
+    ).toBeNull();
+
+    const jsonLdScripts = document.querySelectorAll(
+      'script[type="application/ld+json"][data-managed-meta]'
+    );
+    expect(jsonLdScripts).toHaveLength(1);
+    const jsonLdText = jsonLdScripts[0]?.textContent ?? "";
+    const jsonLd = JSON.parse(jsonLdText) as {
+      "@type": string;
+      name: string;
+      jobTitle: string;
+      worksFor: { "@type": string; name: string };
+      email: string;
+      url: string;
+      sameAs: string[];
+    };
+    expect(jsonLd["@type"]).toBe("Person");
+    expect(jsonLd.name).toBe("Grant Geist");
+    expect(jsonLd.jobTitle).toBe("Tech Strategy and AI Consulting");
+    expect(jsonLd.worksFor).toEqual({
+      "@type": "Organization",
+      name: "G. H. Geist Studio LLC",
+    });
+    expect(jsonLd.email).toBe("hello@grantgeist.com");
+    expect(jsonLd.url).toBe("https://grantgeist.com");
+    expect(jsonLd.sameAs).toEqual(["https://www.linkedin.com/in/grantgeist/"]);
+    expect(jsonLdText).not.toContain("https://github.com/ghgeist");
+    expect(jsonLdText).not.toContain("https://thedonkeyaxiom.substack.com/");
+  });
+
+  it("writes card metadata for the GitHub Pages /card/ URL instead of noindex", async () => {
+    renderDocumentMeta("/card/");
+    const expected = getRouteMeta("/card");
+
+    await waitFor(() => {
+      expect(document.title).toBe(expected.title);
+    });
+
+    expect(
+      document.querySelector('link[rel="canonical"]')?.getAttribute("href")
+    ).toBe("https://grantgeist.com/card");
+    expect(
+      document.querySelector('meta[name="robots"][data-managed-meta]')
+    ).toBeNull();
   });
 
   it("writes noindex for unknown paths and clears it on known navigation", async () => {
