@@ -266,6 +266,7 @@ describe("DocumentMeta", () => {
       worksFor: { "@type": string; name: string };
       email: string;
       url: string;
+      image: string;
       sameAs: string[];
     };
     expect(jsonLd["@type"]).toBe("Person");
@@ -277,6 +278,7 @@ describe("DocumentMeta", () => {
     });
     expect(jsonLd.email).toBe("hello@grantgeist.com");
     expect(jsonLd.url).toBe("https://grantgeist.com");
+    expect(jsonLd.image).toBe("https://grantgeist.com/assets/headshot.jpg");
     expect(jsonLd.sameAs).toEqual(["https://www.linkedin.com/in/grantgeist/"]);
     expect(jsonLdText).not.toContain("https://github.com/ghgeist");
     expect(jsonLdText).not.toContain("https://thedonkeyaxiom.substack.com/");

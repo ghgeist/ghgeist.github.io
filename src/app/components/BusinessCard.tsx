@@ -9,6 +9,13 @@ export function BusinessCard() {
   return (
     <main className="flex min-h-[100dvh] items-center justify-center bg-[#0B0E14] px-6 py-12">
       <div className="w-full max-w-md rounded-lg border border-white/5 bg-[#151921] p-6">
+        <img
+          src="/assets/headshot.jpg"
+          alt="Grant Geist"
+          width={80}
+          height={80}
+          className="mb-5 h-20 w-20 rounded-full object-cover object-center ring-1 ring-white/10"
+        />
         <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
           Grant Geist
         </h1>

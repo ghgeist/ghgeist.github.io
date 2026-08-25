@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import { isSubmissionError } from "@formspree/core";
+import { useSubmit } from "@formspree/react";
 import { useForm } from "react-hook-form";
 import { motion as Motion } from "motion/react";
 import { toast } from "sonner";
@@ -25,7 +27,7 @@ const MAX_LENGTHS = {
 const SUBMISSION_COOLDOWN_MS = 5000;
 // UX timing: auto-hide success state after a short confirmation window
 const SUCCESS_MESSAGE_DURATION_MS = 5000;
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/mreajoaw";
+const FORMSPREE_FORM_ID = "mreajoaw";
 
 // Basic email validation regex (RFC 5322 compliant subset)
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -67,6 +69,7 @@ const fieldBaseStyles =
   "!bg-[#131A23] !border-white/20 hover:!border-white/25 focus:!border-[#0066cc] focus:!ring-2 focus:!ring-[#0066cc]/20 text-white text-base placeholder:text-gray-600 transition-all duration-300";
 
 export function WorkWithMe() {
+  const submitToFormspree = useSubmit(FORMSPREE_FORM_ID);
   const lastSubmissionTime = useRef<number>(0);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -132,23 +135,20 @@ export function WorkWithMe() {
         toast.error("Problem description cannot be empty.");
         return;
       }
-      const response = await fetch(FORMSPREE_ENDPOINT, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: sanitizedData.name,
-          email: sanitizedData.email,
-          message: sanitizedData.message,
-          _replyto: sanitizedData.email,
-          _gotcha: sanitizedData._gotcha,
-        }),
+      const result = await submitToFormspree({
+        name: sanitizedData.name,
+        email: sanitizedData.email,
+        message: sanitizedData.message,
+        _replyto: sanitizedData.email,
+        _gotcha: sanitizedData._gotcha,
       });
 
-      if (!response.ok) {
-        throw new Error(`Formspree submission failed with status ${response.status}`);
+      if (isSubmissionError(result)) {
+        const formErrors = result.getFormErrors();
+        const errorMessage =
+          formErrors[0]?.message ??
+          "Failed to send message. Please try again later.";
+        throw new Error(errorMessage);
       }
 
       // Update last submission time on success
