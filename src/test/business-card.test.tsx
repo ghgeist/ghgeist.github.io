@@ -24,6 +24,10 @@ describe("BusinessCard", () => {
       "href",
       "https://grantgeist.com"
     );
+    expect(screen.getByRole("img", { name: "Grant Geist" })).toHaveAttribute(
+      "src",
+      "/assets/headshot.jpg"
+    );
   });
 
   it("has no phone number or tel: link", () => {
@@ -46,8 +50,12 @@ describe("grant_geist.vcf", () => {
     expect(vCard).toContain("TITLE:Tech Strategy and AI Consulting");
     expect(vCard).toContain("EMAIL;TYPE=INTERNET,WORK:hello@grantgeist.com");
     expect(vCard).toContain("URL;TYPE=WORK:https://grantgeist.com");
+    expect(vCard).toContain("PHOTO;ENCODING=b;TYPE=JPEG:");
+    expect(vCard).toContain("/9j/");
     expect(vCard).toContain("END:VCARD");
-    expect(vCard).not.toMatch(/TEL/i);
+    expect(vCard.split(/\r\n/).some((line) => /^TEL[:;]/i.test(line))).toBe(
+      false
+    );
 
     const withoutCrlf = vCard.replace(/\r\n/g, "");
     expect(withoutCrlf).not.toContain("\n");

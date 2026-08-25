@@ -82,6 +82,7 @@ const cardJsonLd = {
   worksFor: { "@type": "Organization", name: "G. H. Geist Studio LLC" },
   email: "hello@grantgeist.com",
   url: "https://grantgeist.com",
+  image: `${SITE_URL}/assets/headshot.jpg`,
   sameAs: ["https://www.linkedin.com/in/grantgeist/"],
 } as const;
 
