@@ -1,4 +1,4 @@
-import { SITE_URL } from "@/app/content/siteRoutes";
+import { SITE_URL, normalizePathname } from "@/app/content/siteRoutes";
 import {
   selectedWorkProjects,
   type SelectedWorkProject,
@@ -176,7 +176,8 @@ const unknownPathFallback: RouteMeta = {
 
 /** Resolve document metadata for a pathname; unknown paths get distinct noindex copy. */
 export function getRouteMeta(pathname: string): RouteMeta {
-  return routeMetaByPath.get(pathname) ?? {
+  const normalized = normalizePathname(pathname);
+  return routeMetaByPath.get(normalized) ?? {
     ...unknownPathFallback,
     path: pathname,
   };

@@ -27,19 +27,23 @@ describe("App routing integration", () => {
     expect(screen.getByRole("link", { name: "Back to Home" })).toHaveAttribute("href", "/");
   });
 
-  it("renders the digital business card without site chrome", async () => {
-    renderAt("/card");
+  const cardPaths = ["/card", "/card/"] as const;
 
-    expect(
-      await screen.findByRole("heading", { level: 1, name: "Grant Geist" })
-    ).toBeTruthy();
-    expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
-    expect(screen.getByRole("link", { name: "Save Contact" })).toBeTruthy();
-    expect(screen.getByRole("link", { name: /Email/ })).toBeTruthy();
-    expect(screen.getByRole("link", { name: "LinkedIn" })).toBeTruthy();
-    expect(screen.getByRole("link", { name: "Website" })).toBeTruthy();
-    expect(screen.queryByRole("navigation", { name: "Primary" })).toBeNull();
-    expect(document.querySelector("footer")).toBeNull();
+  cardPaths.forEach((path) => {
+    it(`renders the digital business card without site chrome at ${path}`, async () => {
+      renderAt(path);
+
+      expect(
+        await screen.findByRole("heading", { level: 1, name: "Grant Geist" })
+      ).toBeTruthy();
+      expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
+      expect(screen.getByRole("link", { name: "Save Contact" })).toBeTruthy();
+      expect(screen.getByRole("link", { name: /Email/ })).toBeTruthy();
+      expect(screen.getByRole("link", { name: "LinkedIn" })).toBeTruthy();
+      expect(screen.getByRole("link", { name: "Website" })).toBeTruthy();
+      expect(screen.queryByRole("navigation", { name: "Primary" })).toBeNull();
+      expect(document.querySelector("footer")).toBeNull();
+    });
   });
 
   const projectRoutes: Array<{ path: string; title: string }> = [
