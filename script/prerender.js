@@ -20,6 +20,9 @@ const INDEX_PATH = join(DIST, "index.html");
 
 const MIN_BODY_TEXT = 800;
 const MIN_INTERNAL_LINKS = 4;
+const ROUTE_ASSERTION_OVERRIDES = {
+  "/card": { minBodyText: 50, minInternalLinks: 1 },
+};
 const MIN_DESCRIPTION_LEN = 50;
 const MAX_DESCRIPTION_LEN = 200;
 const WAIT_TIMEOUT_MS = 30_000;
@@ -235,14 +238,18 @@ async function assertRoute(page, siteOrigin, pathname, collected) {
       `${pathname}: ErrorBoundary fallback text found in body`
     );
   }
-  if (snapshot.bodyTextLength < MIN_BODY_TEXT) {
+  const override = ROUTE_ASSERTION_OVERRIDES[pathname];
+  const minBodyText = override?.minBodyText ?? MIN_BODY_TEXT;
+  const minInternalLinks = override?.minInternalLinks ?? MIN_INTERNAL_LINKS;
+
+  if (snapshot.bodyTextLength < minBodyText) {
     throw new Error(
-      `${pathname}: body.innerText length ${snapshot.bodyTextLength} < ${MIN_BODY_TEXT}`
+      `${pathname}: body.innerText length ${snapshot.bodyTextLength} < ${minBodyText}`
     );
   }
-  if (snapshot.internalLinks < MIN_INTERNAL_LINKS) {
+  if (snapshot.internalLinks < minInternalLinks) {
     throw new Error(
-      `${pathname}: expected >= ${MIN_INTERNAL_LINKS} internal links, got ${snapshot.internalLinks}`
+      `${pathname}: expected >= ${minInternalLinks} internal links, got ${snapshot.internalLinks}`
     );
   }
 

@@ -74,6 +74,27 @@ const aboutMeta: RouteMeta = {
   jsonLd: personJsonLd,
 };
 
+const cardJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: PERSON_NAME,
+  jobTitle: "Tech Strategy and AI Consulting",
+  worksFor: { "@type": "Organization", name: "G. H. Geist Studio LLC" },
+  email: "hello@grantgeist.com",
+  url: "https://grantgeist.com",
+  sameAs: ["https://www.linkedin.com/in/grantgeist/"],
+} as const;
+
+const cardMeta: RouteMeta = {
+  path: "/card",
+  title: `Digital Business Card${TITLE_SUFFIX}`,
+  description:
+    "Contact Grant Geist, Tech Strategy and AI Consulting at G. H. Geist Studio LLC, and save his digital business card.",
+  ogType: "website",
+  ogImage: DEFAULT_OG_IMAGE,
+  jsonLd: cardJsonLd,
+};
+
 function resolveMetaDescription(project: {
   subtext: string;
   metaDescription?: string;
@@ -135,6 +156,7 @@ function projectToRouteMeta(project: SelectedWorkProject): RouteMeta {
 const routeMetaByPath = new Map<string, RouteMeta>([
   [homeMeta.path, homeMeta],
   [aboutMeta.path, aboutMeta],
+  [cardMeta.path, cardMeta],
   ...selectedWorkProjects.map(
     (project) => [project.route, projectToRouteMeta(project)] as const
   ),

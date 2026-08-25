@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 // Prefer Vite ?raw over node:fs — tsconfig has types: ["vite/client"] only,
 // and adding @types/node is an unrequested dependency change (AGENTS.md).
 import noiseSvg from "../../public/assets/noise.svg?raw";
+import cardQrSvg from "../../public/assets/grant_geist_card_qr.svg?raw";
 import heroSource from "../app/components/Hero.tsx?raw";
 
 describe("local texture assets", () => {
@@ -9,6 +10,11 @@ describe("local texture assets", () => {
     expect(noiseSvg).toMatch(/<svg\b/i);
     expect(noiseSvg).toMatch(/feTurbulence/i);
     expect(noiseSvg.length).toBeGreaterThan(80);
+  });
+
+  it("ships an SVG QR code for the digital business card", () => {
+    expect(cardQrSvg).toMatch(/<svg\b/i);
+    expect(cardQrSvg.length).toBeGreaterThan(80);
   });
 
   it("Hero references the local noise asset, not an external host", () => {

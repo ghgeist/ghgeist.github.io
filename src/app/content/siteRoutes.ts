@@ -10,6 +10,7 @@ export type SiteRoute = {
 const staticRoutes: readonly SiteRoute[] = [
   { path: "/", title: "Home" },
   { path: "/about", title: "About" },
+  { path: "/card", title: "Digital Business Card" },
 ];
 
 const projectRoutes: readonly SiteRoute[] = selectedWorkProjects.map(

@@ -45,6 +45,7 @@ npm run preview
 - Routes:
   - `/`
   - `/about`
+  - `/card`
   - `/projects/walkability-index`
   - `/projects/replacement-trap`
   - `/projects/bantr`

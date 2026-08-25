@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Suspense, lazy, ComponentType } from "react";
 import { Toaster } from "@/app/components/ui/sonner";
 
@@ -67,6 +67,11 @@ const StormSignal = lazyWithRetry(() => import("./projects/StormSignal").then(mo
 const Bantr = lazyWithRetry(() => import("./projects/Bantr").then(module => ({ default: module.Bantr })));
 const ReplacementTrap = lazyWithRetry(() => import("./projects/ReplacementTrap").then(module => ({ default: module.ReplacementTrap })));
 const About = lazyWithRetry(() => import("./components/About").then(module => ({ default: module.About })));
+const BusinessCard = lazyWithRetry(() =>
+  import("./components/BusinessCard").then((module) => ({
+    default: module.BusinessCard,
+  }))
+);
 
 // Loading fallback for lazy-loaded routes
 function RouteLoadingFallback() {
@@ -123,35 +128,58 @@ const projectRoutes = [
   },
 ] as const;
 
+function AppLayout() {
+  const { pathname } = useLocation();
+  const hideSiteChrome = pathname === "/card";
+
+  return (
+    <>
+      <DocumentMeta />
+      <RouteScrollManager />
+      <div className="font-sans text-gray-300 bg-[#0B0E14] min-h-screen selection:bg-[#0066cc] selection:text-white">
+        <SiteIndexNav />
+        {hideSiteChrome ? null : <Navbar />}
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/about"
+            element={
+              <Suspense fallback={<RouteLoadingFallback />}>
+                <About />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/card"
+            element={
+              <Suspense fallback={<RouteLoadingFallback />}>
+                <BusinessCard />
+              </Suspense>
+            }
+          />
+          {projectRoutes.map((route) => (
+            <Route key={route.path} path={route.path} element={route.element} />
+          ))}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+
+        {hideSiteChrome ? null : (
+          <>
+            <Footer />
+            <Toaster />
+          </>
+        )}
+      </div>
+    </>
+  );
+}
+
 export default function App() {
   return (
     <ErrorBoundary>
       <BrowserRouter>
-        <DocumentMeta />
-        <RouteScrollManager />
-        <div className="font-sans text-gray-300 bg-[#0B0E14] min-h-screen selection:bg-[#0066cc] selection:text-white">
-          <SiteIndexNav />
-          <Navbar />
-
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route
-              path="/about"
-              element={
-                <Suspense fallback={<RouteLoadingFallback />}>
-                  <About />
-                </Suspense>
-              }
-            />
-            {projectRoutes.map((route) => (
-              <Route key={route.path} path={route.path} element={route.element} />
-            ))}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-
-          <Footer />
-          <Toaster />
-        </div>
+        <AppLayout />
       </BrowserRouter>
     </ErrorBoundary>
   );
