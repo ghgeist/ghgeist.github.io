@@ -10,6 +10,9 @@ export const DEFAULT_OG_IMAGE = `${SITE_URL}/assets/og/og-default.jpg` as const;
 const PERSON_NAME = "Grant Geist";
 const PERSON_JOB_TITLE = "Data Product Strategist";
 
+export const CONTACT_EMAIL = "hello@grantgeist.com" as const;
+export const CONTACT_FORM_HREF = `${SITE_URL}/#work-with-me` as const;
+
 export type RouteMeta = {
   path: string;
   title: string;
@@ -80,7 +83,7 @@ const cardJsonLd = {
   name: PERSON_NAME,
   jobTitle: "Tech Strategy and AI Consulting",
   worksFor: { "@type": "Organization", name: "G. H. Geist Studio LLC" },
-  email: "hello@grantgeist.com",
+  email: CONTACT_EMAIL,
   url: "https://grantgeist.com",
   image: `${SITE_URL}/assets/headshot.jpg`,
   sameAs: ["https://www.linkedin.com/in/grantgeist/"],

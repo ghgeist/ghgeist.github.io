@@ -11,7 +11,7 @@ import { Footer } from "@/app/components/Footer";
 import { SiteIndexNav } from "@/app/components/SiteIndexNav";
 import { Toaster } from "@/app/components/ui/sonner";
 import { SITE_URL } from "@/app/content/siteRoutes";
-import { absoluteUrl } from "@/app/content/routeMetadata";
+import { absoluteUrl, CONTACT_FORM_HREF } from "@/app/content/routeMetadata";
 import { bantrProject } from "@/app/projects/content/selectedWorkProjects";
 
 import { WalkabilityIndexDetail } from "@/app/projects/WalkabilityIndex";
@@ -58,7 +58,7 @@ describe("Home route", () => {
     expect(screen.getByText("Work With Me")).toBeTruthy();
   });
 
-  it("renders footer email link with masked address", () => {
+  it("renders footer contact link to the work-with-me form", () => {
     render(
       <MemoryRouter initialEntries={["/"]}>
         <AppShell>
@@ -69,8 +69,8 @@ describe("Home route", () => {
       </MemoryRouter>
     );
 
-    const emailLink = screen.getByRole("link", { name: /email/i });
-    expect(emailLink).toHaveAttribute("href", "mailto:hello@grantgeist.com");
+    const contactLink = screen.getByRole("link", { name: /contact/i });
+    expect(contactLink).toHaveAttribute("href", CONTACT_FORM_HREF);
   });
 
   it("exposes absolute first-hop hrefs for agents without visible chrome", () => {

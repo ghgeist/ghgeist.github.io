@@ -9,6 +9,7 @@ import {
 import { DocumentMeta } from "@/app/components/DocumentMeta";
 import {
   absoluteUrl,
+  CONTACT_EMAIL,
   DEFAULT_OG_IMAGE,
   getRouteMeta,
   TITLE_SUFFIX,
@@ -276,7 +277,7 @@ describe("DocumentMeta", () => {
       "@type": "Organization",
       name: "G. H. Geist Studio LLC",
     });
-    expect(jsonLd.email).toBe("hello@grantgeist.com");
+    expect(jsonLd.email).toBe(CONTACT_EMAIL);
     expect(jsonLd.url).toBe("https://grantgeist.com");
     expect(jsonLd.image).toBe("https://grantgeist.com/assets/headshot.jpg");
     expect(jsonLd.sameAs).toEqual(["https://www.linkedin.com/in/grantgeist/"]);

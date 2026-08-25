@@ -1,4 +1,5 @@
 import { Contact, Globe, Linkedin, Mail } from "lucide-react";
+import { CONTACT_FORM_HREF } from "@/app/content/routeMetadata";
 
 const actionLinkClass =
   "inline-flex min-h-14 w-full items-center gap-3 rounded-md px-4 text-left font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#151921]";
@@ -31,12 +32,12 @@ export function BusinessCard() {
             Save Contact
           </a>
 
-          <a href="mailto:hello@grantgeist.com" className={secondaryActionClass}>
+          <a href={CONTACT_FORM_HREF} className={secondaryActionClass}>
             <Mail className="h-5 w-5 shrink-0 text-[#0066cc]" aria-hidden="true" />
             <span className="flex min-w-0 flex-col">
-              <span>Email</span>
+              <span>Get in touch</span>
               <span className="break-all text-sm font-normal text-gray-400">
-                hello@grantgeist.com
+                Contact form
               </span>
             </span>
           </a>
