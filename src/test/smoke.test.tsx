@@ -185,8 +185,9 @@ describe("WorkWithMe form", () => {
 
   it("submits and calls the handler", async () => {
     const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(null, {
+      new Response(JSON.stringify({ ok: true, next: "/thanks" }), {
         status: 200,
+        headers: { "Content-Type": "application/json" },
       })
     );
 
