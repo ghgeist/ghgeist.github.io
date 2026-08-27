@@ -15,6 +15,7 @@ import {
   ROUTE_ASSERTION_OVERRIDES,
   UNLISTED_PRERENDER_PATHS,
 } from "./unlisted-prerender-paths.js";
+import { CLOUDFLARE_WEB_ANALYTICS_BEACON_SRC } from "./cloudflare-web-analytics.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -348,6 +349,18 @@ async function main() {
       viewport: VIEWPORT,
     });
     context.setDefaultTimeout(WAIT_TIMEOUT_MS);
+
+    // Stub Cloudflare beacon: prerender runs on 127.0.0.1; live beacon would
+    // console.error on hostname mismatch and contaminate analytics.
+    await context.route(
+      `${CLOUDFLARE_WEB_ANALYTICS_BEACON_SRC}*`,
+      (route) =>
+        route.fulfill({
+          status: 200,
+          contentType: "application/javascript",
+          body: "",
+        })
+    );
 
     /** @type {Map<string, { title: string, html: string, h1: string }>} */
     const results = new Map();
