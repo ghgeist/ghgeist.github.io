@@ -9,7 +9,6 @@ import {
 import { DocumentMeta } from "@/app/components/DocumentMeta";
 import {
   absoluteUrl,
-  CONTACT_EMAIL,
   DEFAULT_OG_IMAGE,
   getRouteMeta,
   TITLE_SUFFIX,
@@ -110,7 +109,7 @@ describe("getRouteMeta", () => {
 
     expect(card.title).toBe(`Digital Business Card${TITLE_SUFFIX}`);
     expect(card.description).toBe(
-      "Contact Grant Geist, Tech Strategy and AI Consulting at G. H. Geist Studio LLC, and save his digital business card."
+      "Contact Grant Geist, Tech Strategy and AI Adoption at G. H. Geist Studio LLC, and save his digital business card."
     );
     expect(card.ogType).toBe("website");
     expect(card.ogImage).toBe(DEFAULT_OG_IMAGE);
@@ -265,19 +264,22 @@ describe("DocumentMeta", () => {
       name: string;
       jobTitle: string;
       worksFor: { "@type": string; name: string };
-      email: string;
+      telephone?: string;
+      email?: string;
       url: string;
       image: string;
       sameAs: string[];
     };
     expect(jsonLd["@type"]).toBe("Person");
     expect(jsonLd.name).toBe("Grant Geist");
-    expect(jsonLd.jobTitle).toBe("Tech Strategy and AI Consulting");
+    expect(jsonLd.jobTitle).toBe("Tech Strategy and AI Adoption");
     expect(jsonLd.worksFor).toEqual({
       "@type": "Organization",
       name: "G. H. Geist Studio LLC",
     });
-    expect(jsonLd.email).toBe(CONTACT_EMAIL);
+    expect(jsonLd.telephone).toBe("+1 786-539-4140");
+    expect(jsonLd.email).toBeUndefined();
+    expect(jsonLdText).not.toContain("hello@grantgeist.com");
     expect(jsonLd.url).toBe("https://grantgeist.com");
     expect(jsonLd.image).toBe("https://grantgeist.com/assets/headshot.jpg");
     expect(jsonLd.sameAs).toEqual(["https://www.linkedin.com/in/grantgeist/"]);
