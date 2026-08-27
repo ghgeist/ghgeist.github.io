@@ -101,6 +101,17 @@ const cardMeta: RouteMeta = {
   robots: "noindex",
 };
 
+const qrMeta: RouteMeta = {
+  path: "/qr",
+  title: `QR Code${TITLE_SUFFIX}`,
+  description:
+    "Scan Grant Geist's QR code to open his digital business card and save his contact details.",
+  ogType: "website",
+  ogImage: DEFAULT_OG_IMAGE,
+  jsonLd: [],
+  robots: "noindex",
+};
+
 function resolveMetaDescription(project: {
   subtext: string;
   metaDescription?: string;
@@ -163,6 +174,7 @@ const routeMetaByPath = new Map<string, RouteMeta>([
   [homeMeta.path, homeMeta],
   [aboutMeta.path, aboutMeta],
   [cardMeta.path, cardMeta],
+  [qrMeta.path, qrMeta],
   ...selectedWorkProjects.map(
     (project) => [project.route, projectToRouteMeta(project)] as const
   ),

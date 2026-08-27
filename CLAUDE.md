@@ -45,7 +45,8 @@ npm run preview
 - Routes:
   - `/`
   - `/about`
-  - `/card` (unlisted: direct/QR only — not in `siteRoutes`, sitemap, or llms.txt; `noindex`)
+  - `/card` (unlisted: direct/QR scan destination — not in `siteRoutes`, sitemap, or llms.txt; `noindex`)
+  - `/qr` (unlisted: full-screen QR display for in-person scanning — encodes `/card`; same discoverability rules)
   - `/projects/walkability-index`
   - `/projects/replacement-trap`
   - `/projects/bantr`
@@ -118,7 +119,7 @@ Static deploy-critical files:
 - Preserve root-deploy assumptions (no base path/basename).
 - Known routes must exist as prerendered files in `dist/` after `build:static`; `public/404.html` is only for genuinely unknown paths (keep it a real `noindex` page with site links — do not restore the old `sessionStorage` redirect hack).
 - Prefer `npm run build` for the fast inner loop; use `npm run build:static` (or `./script/verify`) when you need prerendered HTML. Prerender requires Playwright Chromium (`npx playwright install chromium`).
-- Adding a route: update the `siteRoutes` registry **and** `public/sitemap.xml` (and `llms.txt`). Prerender reads routes from `dist/sitemap.xml`, plus any path in `script/unlisted-prerender-paths.js` (reachable but deliberately kept out of sitemap/llms.txt/siteRoutes for discoverability — e.g. `/card`).
+- Adding a route: update the `siteRoutes` registry **and** `public/sitemap.xml` (and `llms.txt`). Prerender reads routes from `dist/sitemap.xml`, plus any path in `script/unlisted-prerender-paths.js` (reachable but deliberately kept out of sitemap/llms.txt/siteRoutes for discoverability — e.g. `/card`, `/qr`).
 - Verification pipeline lives in `./script/verify`; `.github/workflows/deploy.yml` calls it — do not duplicate steps in the workflow.
 
 ## Related Documentation

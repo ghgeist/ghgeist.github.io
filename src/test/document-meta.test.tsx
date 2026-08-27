@@ -64,6 +64,7 @@ function renderDocumentMeta(initialPath: string) {
         <Route path="/" element={<div>Home</div>} />
         <Route path="/about" element={<div>About</div>} />
         <Route path="/card" element={<div>Card</div>} />
+        <Route path="/qr" element={<div>QR</div>} />
         <Route
           path={bantrProject.route}
           element={<NavigateButton to={stormSignalProject.route} label="To Storm" />}
@@ -117,11 +118,28 @@ describe("getRouteMeta", () => {
     expect(absoluteUrl("/card")).toBe("https://grantgeist.com/card");
   });
 
+  it("returns dedicated qr metadata with noindex and without JSON-LD", () => {
+    const qr = getRouteMeta("/qr");
+
+    expect(qr.title).toBe(`QR Code${TITLE_SUFFIX}`);
+    expect(qr.description).toBe(
+      "Scan Grant Geist's QR code to open his digital business card and save his contact details."
+    );
+    expect(qr.ogType).toBe("website");
+    expect(qr.ogImage).toBe(DEFAULT_OG_IMAGE);
+    expect(qr.robots).toBe("noindex");
+    expect(qr.jsonLd).toEqual([]);
+    expect(absoluteUrl("/qr")).toBe("https://grantgeist.com/qr");
+  });
+
   it("treats GitHub Pages trailing-slash URLs as the slash-free route", () => {
     expect(getRouteMeta("/card/")).toEqual(getRouteMeta("/card"));
+    expect(getRouteMeta("/qr/")).toEqual(getRouteMeta("/qr"));
     expect(getRouteMeta("/about/")).toEqual(getRouteMeta("/about"));
     expect(getRouteMeta("/card/").robots).toBe("noindex");
+    expect(getRouteMeta("/qr/").robots).toBe("noindex");
     expect(getRouteMeta("/card/not-a-page").robots).toBe("noindex");
+    expect(getRouteMeta("/qr/not-a-page").robots).toBe("noindex");
   });
 
   it("uses distinct noindex copy for unknown paths", () => {
@@ -300,6 +318,54 @@ describe("DocumentMeta", () => {
     expect(
       document.querySelector('link[rel="canonical"]')?.getAttribute("href")
     ).toBe("https://grantgeist.com/card");
+    expect(
+      document
+        .querySelector('meta[name="robots"][data-managed-meta]')
+        ?.getAttribute("content")
+    ).toBe("noindex");
+  });
+
+  it("writes qr title, description, canonical, and noindex without JSON-LD", async () => {
+    renderDocumentMeta("/qr");
+    const expected = getRouteMeta("/qr");
+
+    await waitFor(() => {
+      expect(document.title).toBe(expected.title);
+    });
+
+    expect(document.title).toBe("QR Code | Grant Geist");
+    expect(
+      document.querySelector('meta[name="description"]')?.getAttribute("content")
+    ).toBe(expected.description);
+    expect(
+      document.querySelector('link[rel="canonical"]')?.getAttribute("href")
+    ).toBe("https://grantgeist.com/qr");
+    expect(
+      document.querySelector('meta[property="og:url"]')?.getAttribute("content")
+    ).toBe("https://grantgeist.com/qr");
+    expect(
+      document
+        .querySelector('meta[name="robots"][data-managed-meta]')
+        ?.getAttribute("content")
+    ).toBe("noindex");
+    expect(
+      document.querySelectorAll(
+        'script[type="application/ld+json"][data-managed-meta]'
+      )
+    ).toHaveLength(0);
+  });
+
+  it("writes qr metadata with noindex for the GitHub Pages /qr/ URL", async () => {
+    renderDocumentMeta("/qr/");
+    const expected = getRouteMeta("/qr");
+
+    await waitFor(() => {
+      expect(document.title).toBe(expected.title);
+    });
+
+    expect(
+      document.querySelector('link[rel="canonical"]')?.getAttribute("href")
+    ).toBe("https://grantgeist.com/qr");
     expect(
       document
         .querySelector('meta[name="robots"][data-managed-meta]')

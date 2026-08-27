@@ -47,6 +47,30 @@ describe("App routing integration", () => {
     });
   });
 
+  const qrPaths = ["/qr", "/qr/"] as const;
+
+  qrPaths.forEach((path) => {
+    it(`renders the QR display page without site chrome at ${path}`, async () => {
+      renderAt(path);
+
+      expect(
+        await screen.findByRole("heading", { level: 1, name: "Scan to connect" })
+      ).toBeTruthy();
+      expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
+      expect(
+        screen.getByRole("img", {
+          name: "QR code linking to Grant Geist's digital business card",
+        })
+      ).toHaveAttribute("src", "/assets/grant_geist_card_qr.png");
+      expect(screen.getByRole("link", { name: "Open card" })).toHaveAttribute(
+        "href",
+        "/card"
+      );
+      expect(screen.queryByRole("navigation", { name: "Primary" })).toBeNull();
+      expect(document.querySelector("footer")).toBeNull();
+    });
+  });
+
   const projectRoutes: Array<{ path: string; title: string }> = [
     { path: "/projects/walkability-index", title: "Walkability Index" },
     { path: "/projects/replacement-trap", title: "The Replacement Trap" },

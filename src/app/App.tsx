@@ -12,7 +12,7 @@ import { ErrorBoundary } from "@/app/components/ErrorBoundary";
 import { DocumentMeta } from "@/app/components/DocumentMeta";
 import { NotFound } from "@/app/components/NotFound";
 import { RouteScrollManager } from "@/app/components/RouteScrollManager";
-import { normalizePathname } from "@/app/content/siteRoutes";
+import { isUnlistedUtilityPath } from "@/app/content/siteRoutes";
 import {
   bantrProject,
   replacementTrapProject,
@@ -73,6 +73,11 @@ const BusinessCard = lazyWithRetry(() =>
     default: module.BusinessCard,
   }))
 );
+const QrCodePage = lazyWithRetry(() =>
+  import("./components/QrCodePage").then((module) => ({
+    default: module.QrCodePage,
+  }))
+);
 
 // Loading fallback for lazy-loaded routes
 function RouteLoadingFallback() {
@@ -131,7 +136,7 @@ const projectRoutes = [
 
 function AppLayout() {
   const { pathname } = useLocation();
-  const hideSiteChrome = normalizePathname(pathname) === "/card";
+  const hideSiteChrome = isUnlistedUtilityPath(pathname);
 
   return (
     <>
@@ -156,6 +161,14 @@ function AppLayout() {
             element={
               <Suspense fallback={<RouteLoadingFallback />}>
                 <BusinessCard />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/qr"
+            element={
+              <Suspense fallback={<RouteLoadingFallback />}>
+                <QrCodePage />
               </Suspense>
             }
           />
