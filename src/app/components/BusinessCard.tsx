@@ -1,61 +1,125 @@
-import { Contact, Globe, Linkedin, Mail } from "lucide-react";
+import {
+  Contact,
+  Globe,
+  Linkedin,
+  Mail,
+  Phone,
+  type LucideIcon,
+} from "lucide-react";
+import type { ReactNode } from "react";
 import { CONTACT_FORM_HREF } from "@/app/content/routeMetadata";
 
+/**
+ * Action rows with a shared leading-icon column (Material / Primer list
+ * pattern). Labels share one x-position; primary differs by color only.
+ */
 const actionLinkClass =
-  "inline-flex min-h-14 w-full items-center gap-3 rounded-md px-4 text-left font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#151921]";
+  "grid min-h-14 w-full grid-cols-[1.25rem_minmax(0,1fr)] items-center gap-3 rounded-md px-5 text-left font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#151921]";
+
+const primaryActionClass = `${actionLinkClass} bg-[#0066cc] text-white hover:bg-[#0052a3]`;
 
 const secondaryActionClass = `${actionLinkClass} border border-white/10 bg-white/5 text-white hover:border-white/20 hover:bg-white/10`;
+
+function CardAction({
+  href,
+  icon: Icon,
+  children,
+  variant,
+  external = false,
+  type,
+}: {
+  href: string;
+  icon: LucideIcon;
+  children: ReactNode;
+  variant: "primary" | "secondary";
+  external?: boolean;
+  type?: string;
+}) {
+  const iconClass =
+    variant === "primary"
+      ? "h-5 w-5"
+      : "h-5 w-5 text-[#0066cc]";
+
+  return (
+    <a
+      href={href}
+      type={type}
+      className={
+        variant === "primary" ? primaryActionClass : secondaryActionClass
+      }
+      {...(external
+        ? { target: "_blank", rel: "noopener noreferrer" }
+        : {})}
+    >
+      <Icon className={iconClass} aria-hidden="true" />
+      <span className="min-w-0">{children}</span>
+    </a>
+  );
+}
 
 export function BusinessCard() {
   return (
     <main className="flex min-h-[100dvh] items-center justify-center bg-[#0B0E14] px-6 py-12">
-      <div className="w-full max-w-md rounded-lg border border-white/5 bg-[#151921] p-6">
+      <div className="w-full max-w-md rounded-lg border border-white/5 bg-[#151921] p-6 text-center">
         <img
           src="/assets/headshot.jpg"
           alt="Grant Geist"
           width={80}
           height={80}
-          className="mb-5 h-20 w-20 rounded-full object-cover object-center ring-1 ring-white/10"
+          className="mx-auto mb-5 h-20 w-20 rounded-full object-cover object-center ring-1 ring-white/10"
         />
         <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
           Grant Geist
         </h1>
-        <p className="mt-2 text-base text-gray-400">Tech Strategy and AI Consulting</p>
+        <p className="mt-2 text-base text-gray-400">Tech Strategy and AI Adoption</p>
 
-        <div className="mt-8 flex flex-col gap-3">
-          <a
+        <div className="mx-auto mt-8 flex w-full max-w-xs flex-col gap-3">
+          <CardAction
             href="/grant_geist.vcf"
             type="text/vcard"
-            className={`${actionLinkClass} justify-center bg-[#0066cc] text-white hover:bg-[#0052a3]`}
+            icon={Contact}
+            variant="primary"
           >
-            <Contact className="h-5 w-5 shrink-0" aria-hidden="true" />
             Save Contact
-          </a>
+          </CardAction>
 
-          <a href={CONTACT_FORM_HREF} className={secondaryActionClass}>
-            <Mail className="h-5 w-5 shrink-0 text-[#0066cc]" aria-hidden="true" />
-            <span className="flex min-w-0 flex-col">
-              <span>Get in touch</span>
-              <span className="break-all text-sm font-normal text-gray-400">
-                Contact form
+          <CardAction
+            href="https://www.linkedin.com/in/grantgeist/"
+            icon={Linkedin}
+            variant="secondary"
+            external
+          >
+            LinkedIn
+          </CardAction>
+
+          <CardAction
+            href="https://grantgeist.com"
+            icon={Globe}
+            variant="secondary"
+          >
+            Website
+          </CardAction>
+
+          <CardAction
+            href="tel:+17865394140"
+            icon={Phone}
+            variant="secondary"
+          >
+            <span className="flex flex-col">
+              <span>Call</span>
+              <span className="text-sm font-normal text-gray-400">
+                +1 786-539-4140
               </span>
             </span>
-          </a>
+          </CardAction>
 
-          <a
-            href="https://www.linkedin.com/in/grantgeist/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={secondaryActionClass}
+          <CardAction
+            href={CONTACT_FORM_HREF}
+            icon={Mail}
+            variant="secondary"
           >
-            <Linkedin className="h-5 w-5 shrink-0 text-[#0066cc]" aria-hidden="true" />
-            LinkedIn
-          </a>
-
-          <a href="https://grantgeist.com" className={secondaryActionClass}>
-            <Globe className="h-5 w-5 shrink-0 text-[#0066cc]" aria-hidden="true" />
-            Website
-          </a>
+            Send a message
+          </CardAction>
         </div>
       </div>
     </main>

@@ -13,10 +13,6 @@ describe("BusinessCard", () => {
     expect(saveContact).toHaveAttribute("href", "/grant_geist.vcf");
     expect(saveContact).not.toHaveAttribute("download");
 
-    expect(screen.getByRole("link", { name: /Get in touch/i })).toHaveAttribute(
-      "href",
-      CONTACT_FORM_HREF
-    );
     expect(screen.getByRole("link", { name: "LinkedIn" })).toHaveAttribute(
       "href",
       "https://www.linkedin.com/in/grantgeist/"
@@ -25,38 +21,58 @@ describe("BusinessCard", () => {
       "href",
       "https://grantgeist.com"
     );
+    expect(screen.getByRole("link", { name: /Call/i })).toHaveAttribute(
+      "href",
+      "tel:+17865394140"
+    );
+    expect(screen.getByRole("link", { name: "Send a message" })).toHaveAttribute(
+      "href",
+      CONTACT_FORM_HREF
+    );
     expect(screen.getByRole("img", { name: "Grant Geist" })).toHaveAttribute(
       "src",
       "/assets/headshot.jpg"
     );
   });
 
-  it("has no phone number or tel: link", () => {
-    const { container } = render(<BusinessCard />);
+  it("orders actions and shows the public title and phone", () => {
+    render(<BusinessCard />);
 
-    expect(container.querySelector('a[href^="tel:"]')).toBeNull();
-    expect(container.textContent ?? "").not.toMatch(
-      /\d{3}[-.\s]?\d{3}[-.\s]?\d{4}/
-    );
+    expect(
+      screen.getByText("Tech Strategy and AI Adoption")
+    ).toBeInTheDocument();
+    expect(screen.getByText("+1 786-539-4140")).toBeInTheDocument();
+    expect(screen.queryByText("hello@grantgeist.com")).not.toBeInTheDocument();
+
+    const labels = screen
+      .getAllByRole("link")
+      .map((link) => link.textContent?.replace(/\s+/g, " ").trim());
+    expect(labels).toEqual([
+      "Save Contact",
+      "LinkedIn",
+      "Website",
+      "Call+1 786-539-4140",
+      "Send a message",
+    ]);
   });
 });
 
 describe("grant_geist.vcf", () => {
-  it("is a VERSION 3.0 vCard with CRLF line endings and no TEL", () => {
+  it("is a VERSION 3.0 vCard with CRLF line endings, phone, and no email", () => {
     expect(vCard).toContain("BEGIN:VCARD");
     expect(vCard).toContain("VERSION:3.0");
     expect(vCard).toContain("FN:Grant Geist");
     expect(vCard).toContain("N:Geist;Grant;;;");
     expect(vCard).toContain("ORG:G. H. Geist Studio LLC");
-    expect(vCard).toContain("TITLE:Tech Strategy and AI Consulting");
+    expect(vCard).toContain("TITLE:Tech Strategy and AI Adoption");
+    expect(vCard).toContain("TEL;TYPE=CELL,WORK:+17865394140");
     expect(vCard).not.toMatch(/^EMAIL[:;]/m);
-    expect(vCard).toContain("URL;TYPE=WORK:https://grantgeist.com/#work-with-me");
+    expect(vCard).not.toContain("hello@grantgeist.com");
+    expect(vCard).toContain("URL;TYPE=WORK:https://grantgeist.com");
+    expect(vCard).not.toContain("https://grantgeist.com/#work-with-me");
     expect(vCard).toContain("PHOTO;ENCODING=b;TYPE=JPEG:");
     expect(vCard).toContain("/9j/");
     expect(vCard).toContain("END:VCARD");
-    expect(vCard.split(/\r\n/).some((line) => /^TEL[:;]/i.test(line))).toBe(
-      false
-    );
 
     const withoutCrlf = vCard.replace(/\r\n/g, "");
     expect(withoutCrlf).not.toContain("\n");
