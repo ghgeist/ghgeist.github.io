@@ -104,7 +104,7 @@ describe("getRouteMeta", () => {
     expect(bantr.ogImage.endsWith(".jpg")).toBe(true);
   });
 
-  it("returns dedicated card metadata without noindex or personJsonLd extras", () => {
+  it("returns dedicated card metadata with noindex and without personJsonLd extras", () => {
     const card = getRouteMeta("/card");
 
     expect(card.title).toBe(`Digital Business Card${TITLE_SUFFIX}`);
@@ -113,14 +113,14 @@ describe("getRouteMeta", () => {
     );
     expect(card.ogType).toBe("website");
     expect(card.ogImage).toBe(DEFAULT_OG_IMAGE);
-    expect(card.robots).toBeUndefined();
+    expect(card.robots).toBe("noindex");
     expect(absoluteUrl("/card")).toBe("https://grantgeist.com/card");
   });
 
   it("treats GitHub Pages trailing-slash URLs as the slash-free route", () => {
     expect(getRouteMeta("/card/")).toEqual(getRouteMeta("/card"));
     expect(getRouteMeta("/about/")).toEqual(getRouteMeta("/about"));
-    expect(getRouteMeta("/card/").robots).toBeUndefined();
+    expect(getRouteMeta("/card/").robots).toBe("noindex");
     expect(getRouteMeta("/card/not-a-page").robots).toBe("noindex");
   });
 
@@ -251,8 +251,10 @@ describe("DocumentMeta", () => {
       document.querySelector('meta[property="og:url"]')?.getAttribute("content")
     ).toBe("https://grantgeist.com/card");
     expect(
-      document.querySelector('meta[name="robots"][data-managed-meta]')
-    ).toBeNull();
+      document
+        .querySelector('meta[name="robots"][data-managed-meta]')
+        ?.getAttribute("content")
+    ).toBe("noindex");
 
     const jsonLdScripts = document.querySelectorAll(
       'script[type="application/ld+json"][data-managed-meta]'
@@ -287,7 +289,7 @@ describe("DocumentMeta", () => {
     expect(jsonLdText).not.toContain("https://thedonkeyaxiom.substack.com/");
   });
 
-  it("writes card metadata for the GitHub Pages /card/ URL instead of noindex", async () => {
+  it("writes card metadata with noindex for the GitHub Pages /card/ URL", async () => {
     renderDocumentMeta("/card/");
     const expected = getRouteMeta("/card");
 
@@ -299,8 +301,10 @@ describe("DocumentMeta", () => {
       document.querySelector('link[rel="canonical"]')?.getAttribute("href")
     ).toBe("https://grantgeist.com/card");
     expect(
-      document.querySelector('meta[name="robots"][data-managed-meta]')
-    ).toBeNull();
+      document
+        .querySelector('meta[name="robots"][data-managed-meta]')
+        ?.getAttribute("content")
+    ).toBe("noindex");
   });
 
   it("writes noindex for unknown paths and clears it on known navigation", async () => {

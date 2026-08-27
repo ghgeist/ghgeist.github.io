@@ -10,6 +10,10 @@ export type SiteRoute = {
 /**
  * GitHub Pages 301s directory routes (`/card` → `/card/`). Site route keys and
  * DocumentMeta lookups are slash-free except for home (`/`).
+ *
+ * `/card` is intentionally excluded from this registry (and therefore from
+ * sitemap.xml, llms.txt, and SiteIndexNav): it stays reachable directly via
+ * QR/link, but should not surface in crawler/agent discovery.
  */
 export function normalizePathname(pathname: string): string {
   if (pathname.length > 1 && pathname.endsWith("/")) {
@@ -21,7 +25,6 @@ export function normalizePathname(pathname: string): string {
 const staticRoutes: readonly SiteRoute[] = [
   { path: "/", title: "Home" },
   { path: "/about", title: "About" },
-  { path: "/card", title: "Digital Business Card" },
 ];
 
 const projectRoutes: readonly SiteRoute[] = selectedWorkProjects.map(

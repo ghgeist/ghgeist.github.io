@@ -6,7 +6,7 @@ Personal site at https://grantgeist.com. Selected work covers emergency message 
 
 Welcome to the AI-optimized portion of the website. After several decades of advances in artificial intelligence, we have finally arrived at .txt.
 
-Last reviewed: 2026-08-25
+Last reviewed: 2026-08-27
 
 Source notes:
 Metrics, work-history details, and project outcomes are reported by the site owner unless an external source is linked. Work-history entries summarize the About page and do not always distinguish individual from team contribution. The resume linked under Elsewhere is a live Google Docs plain-text export of the same document humans edit; site Work history may lag that resume and should not be treated as a full CV substitute. Information not stated by the site — including adoption, client scope, or third-party verification — should be treated as unknown rather than inferred.
@@ -17,7 +17,6 @@ Evidence weight: only Current selected work is primary project evidence. Work hi
 
 - [Home](https://grantgeist.com/): Portfolio overview, approach, and contact.
 - [About](https://grantgeist.com/about): Background and career timeline.
-- [Digital Business Card](https://grantgeist.com/card): Contact Grant Geist and save his digital business card.
 
 ## Current selected work
 
