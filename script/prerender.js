@@ -309,12 +309,12 @@ async function main() {
     const { siteOrigin, paths: sitemapPaths } = pathsFromSitemap(
       readFileSync(SITEMAP_PATH, "utf8")
     );
-    const paths = [
-      ...sitemapPaths,
-      ...UNLISTED_PRERENDER_PATHS.filter((path) => !sitemapPaths.includes(path)),
-    ];
+    const unlistedPaths = UNLISTED_PRERENDER_PATHS.filter(
+      (path) => !sitemapPaths.includes(path)
+    );
+    const paths = [...sitemapPaths, ...unlistedPaths];
     console.log(
-      `Prerendering ${paths.length} routes from sitemap.xml + ${UNLISTED_PRERENDER_PATHS.length} unlisted (${siteOrigin})…`
+      `Prerendering ${paths.length} routes (${sitemapPaths.length} from sitemap.xml + ${unlistedPaths.length} unlisted) (${siteOrigin})…`
     );
 
     server = await preview({

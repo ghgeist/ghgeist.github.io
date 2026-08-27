@@ -61,7 +61,7 @@ When making changes:
    - After editing TypeScript/JavaScript files: Run `npm run lint:js`
    - Use `npm run lint:fix` to auto-fix issues, but always review changes
    - If npm is unavailable, note linting verification in output
-5. **Adding a route:** update `src/app/content/siteRoutes.ts` (or project registry) **and** `public/sitemap.xml` / `public/llms.txt`. Prerender derives paths from `dist/sitemap.xml`, plus any path in `script/unlisted-prerender-paths.js` (reachable but deliberately omitted from discovery — e.g. `/card`).
+5. **Adding a route:** update `src/app/content/siteRoutes.ts` (or project registry) **and** `public/sitemap.xml` / `public/llms.txt`. Prerender derives paths from `dist/sitemap.xml`, plus any path in `script/unlisted-prerender-paths.js` (reachable but deliberately omitted from discovery — e.g. `/card`, `/qr`).
 6. **Editing a project's external links (GitHub/demo/essay) or the About timeline:** also update the matching entry in `public/llms.txt` — it restates mechanism/result/evidence per project and the work-history timeline, and `src/test/discovery-files.test.ts` drift-tests both against source. Bump its `Last reviewed:` date too (not test-enforced).
 7. If tests/build cannot be run due to environment restrictions:
    - Read `.verify.yml` to understand verification requirements

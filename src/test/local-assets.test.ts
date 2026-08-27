@@ -4,6 +4,8 @@ import { describe, it, expect } from "vitest";
 import noiseSvg from "../../public/assets/noise.svg?raw";
 import cardQrSvg from "../../public/assets/grant_geist_card_qr.svg?raw";
 import heroSource from "../app/components/Hero.tsx?raw";
+import qrCodePageSource from "../app/components/QrCodePage.tsx?raw";
+import { absoluteUrl } from "@/app/content/routeMetadata";
 
 describe("local texture assets", () => {
   it("ships a real SVG noise texture for Hero overlays", () => {
@@ -24,5 +26,17 @@ describe("local texture assets", () => {
     expect(heroSource).toMatch(/url\(\s*['"]\/assets\/noise\.svg['"]\s*\)/);
     expect(heroSource).not.toMatch(/grainy-gradients/i);
     expect(heroSource).not.toMatch(/https?:\/\/[^"'`\s]*noise\.svg/i);
+  });
+
+  it("QrCodePage references the local card QR PNG, not an external host", () => {
+    // grant_geist_card_qr.png encodes absoluteUrl("/card") — regenerate asset if that URL changes.
+    const cardScanTarget = absoluteUrl("/card");
+
+    expect(qrCodePageSource).toContain("/assets/grant_geist_card_qr.png");
+    expect(qrCodePageSource).toContain("/card");
+    expect(qrCodePageSource).toContain(cardScanTarget);
+    expect(qrCodePageSource).not.toMatch(
+      /https?:\/\/[^"'`\s]*grant_geist_card_qr\.png/i
+    );
   });
 });
