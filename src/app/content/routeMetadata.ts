@@ -97,6 +97,8 @@ const cardMeta: RouteMeta = {
   ogType: "website",
   ogImage: DEFAULT_OG_IMAGE,
   jsonLd: cardJsonLd,
+  // Reachable directly via QR/link only; not part of sitemap.xml or crawler discovery.
+  robots: "noindex",
 };
 
 function resolveMetaDescription(project: {

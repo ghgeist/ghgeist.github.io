@@ -5,6 +5,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { UNLISTED_PRERENDER_PATHS } from "./unlisted-prerender-paths.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -51,7 +52,11 @@ function main() {
     );
   }
 
-  const paths = pathsFromSitemap(readFileSync(SITEMAP_PATH, "utf8"));
+  const sitemapPaths = pathsFromSitemap(readFileSync(SITEMAP_PATH, "utf8"));
+  const paths = [
+    ...sitemapPaths,
+    ...UNLISTED_PRERENDER_PATHS.filter((path) => !sitemapPaths.includes(path)),
+  ];
   /** @type {string[]} */
   const failures = [];
 

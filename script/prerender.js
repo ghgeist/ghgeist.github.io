@@ -11,6 +11,10 @@ import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
 import { preview } from "vite";
+import {
+  ROUTE_ASSERTION_OVERRIDES,
+  UNLISTED_PRERENDER_PATHS,
+} from "./unlisted-prerender-paths.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -20,9 +24,6 @@ const INDEX_PATH = join(DIST, "index.html");
 
 const MIN_BODY_TEXT = 800;
 const MIN_INTERNAL_LINKS = 4;
-const ROUTE_ASSERTION_OVERRIDES = {
-  "/card": { minBodyText: 50, minInternalLinks: 1 },
-};
 const MIN_DESCRIPTION_LEN = 50;
 const MAX_DESCRIPTION_LEN = 200;
 const WAIT_TIMEOUT_MS = 30_000;
@@ -304,11 +305,15 @@ async function main() {
       );
     }
 
-    const { siteOrigin, paths } = pathsFromSitemap(
+    const { siteOrigin, paths: sitemapPaths } = pathsFromSitemap(
       readFileSync(SITEMAP_PATH, "utf8")
     );
+    const paths = [
+      ...sitemapPaths,
+      ...UNLISTED_PRERENDER_PATHS.filter((path) => !sitemapPaths.includes(path)),
+    ];
     console.log(
-      `Prerendering ${paths.length} routes from sitemap.xml (${siteOrigin})…`
+      `Prerendering ${paths.length} routes from sitemap.xml + ${UNLISTED_PRERENDER_PATHS.length} unlisted (${siteOrigin})…`
     );
 
     server = await preview({
