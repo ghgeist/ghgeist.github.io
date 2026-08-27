@@ -6,6 +6,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { UNLISTED_PRERENDER_PATHS } from "./unlisted-prerender-paths.js";
+import { assertCloudflareWebAnalyticsInHtml } from "./cloudflare-web-analytics.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -93,6 +94,12 @@ function main() {
       if (!html.includes("/projects/bantr")) {
         failures.push(`${pathname}: ${rel} lacks /projects/bantr href`);
       }
+    }
+
+    try {
+      assertCloudflareWebAnalyticsInHtml(html, `${pathname}: ${rel}`);
+    } catch (err) {
+      failures.push(err instanceof Error ? err.message : String(err));
     }
   }
 

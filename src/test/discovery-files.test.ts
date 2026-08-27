@@ -9,6 +9,11 @@ import sitemap from "../../public/sitemap.xml?raw";
 import llmsTxt from "../../public/llms.txt?raw";
 import robotsTxt from "../../public/robots.txt?raw";
 import indexHtml from "../../index.html?raw";
+import {
+  CLOUDFLARE_WEB_ANALYTICS_BEACON_SRC,
+  CLOUDFLARE_WEB_ANALYTICS_TOKEN,
+  cloudflareWebAnalyticsSnippet,
+} from "../../script/cloudflare-web-analytics.js";
 import aboutSource from "../app/components/About.tsx?raw";
 import replacementTrapSource from "../app/projects/ReplacementTrap.tsx?raw";
 import stormSignalSource from "../app/projects/StormSignal.tsx?raw";
@@ -240,6 +245,40 @@ describe("discovery files", () => {
   it("declares an absolute llms-txt head link in index.html", () => {
     expect(indexHtml).toContain('rel="llms-txt"');
     expect(indexHtml).toContain('href="https://grantgeist.com/llms.txt"');
+  });
+
+  it("keeps Cloudflare Web Analytics out of source index.html (production build injects it)", () => {
+    expect(indexHtml).not.toContain(CLOUDFLARE_WEB_ANALYTICS_BEACON_SRC);
+    expect(indexHtml).not.toContain("data-cf-beacon");
+  });
+
+  it("defines a valid Cloudflare Web Analytics production snippet", () => {
+    expect(typeof CLOUDFLARE_WEB_ANALYTICS_TOKEN).toBe("string");
+    expect(CLOUDFLARE_WEB_ANALYTICS_TOKEN.length).toBeGreaterThan(0);
+
+    const snippet = cloudflareWebAnalyticsSnippet();
+    const beaconScripts = [
+      ...snippet.matchAll(
+        new RegExp(
+          `<script[^>]*src=["']${CLOUDFLARE_WEB_ANALYTICS_BEACON_SRC.replace(
+            /\./g,
+            "\\."
+          )}["'][^>]*>`,
+          "gi"
+        )
+      ),
+    ];
+    expect(beaconScripts).toHaveLength(1);
+
+    const beaconAttr =
+      snippet.match(/data-cf-beacon='(\{[^']+\})'/) ??
+      snippet.match(/data-cf-beacon="(\{[^"]+\})"/);
+    expect(beaconAttr).not.toBeNull();
+
+    const beaconConfig = JSON.parse(beaconAttr![1]);
+    expect(typeof beaconConfig.token).toBe("string");
+    expect(beaconConfig.token.length).toBeGreaterThan(0);
+    expect(beaconConfig.token).toBe(CLOUDFLARE_WEB_ANALYTICS_TOKEN);
   });
 
   it("includes every project page CTA href in llms.txt", () => {
