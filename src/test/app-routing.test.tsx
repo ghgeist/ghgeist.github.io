@@ -62,7 +62,7 @@ describe("App routing integration", () => {
           name: "QR code linking to Grant Geist's digital business card",
         })
       ).toHaveAttribute("src", "/assets/grant_geist_card_qr.png");
-      expect(screen.getByRole("link", { name: "Open card" })).toHaveAttribute(
+      expect(screen.getByRole("link", { name: "View Card" })).toHaveAttribute(
         "href",
         "/card"
       );
