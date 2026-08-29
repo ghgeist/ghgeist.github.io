@@ -7,7 +7,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import type { ReactNode } from "react";
-import { CONTACT_FORM_HREF } from "@/app/content/routeMetadata";
 
 /**
  * Action rows with a shared leading-icon column (Material / Primer list
@@ -114,11 +113,16 @@ export function BusinessCard() {
           </CardAction>
 
           <CardAction
-            href={CONTACT_FORM_HREF}
+            href="mailto:hello@grantgeist.com"
             icon={Mail}
             variant="secondary"
           >
-            Send a message
+            <span className="flex flex-col">
+              <span>Email</span>
+              <span className="text-sm font-normal text-gray-400">
+                hello@grantgeist.com
+              </span>
+            </span>
           </CardAction>
         </div>
       </div>

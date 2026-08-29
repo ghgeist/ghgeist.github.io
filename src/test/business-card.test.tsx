@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { BusinessCard } from "@/app/components/BusinessCard";
-import { CONTACT_FORM_HREF } from "@/app/content/routeMetadata";
 // Prefer Vite ?raw over node:fs — tsconfig has types: ["vite/client"] only.
 import vCard from "../../public/grant_geist.vcf?raw";
 
@@ -25,9 +24,9 @@ describe("BusinessCard", () => {
       "href",
       "tel:+17865394140"
     );
-    expect(screen.getByRole("link", { name: "Send a message" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Email/i })).toHaveAttribute(
       "href",
-      CONTACT_FORM_HREF
+      "mailto:hello@grantgeist.com"
     );
     expect(screen.getByRole("img", { name: "Grant Geist" })).toHaveAttribute(
       "src",
@@ -35,14 +34,14 @@ describe("BusinessCard", () => {
     );
   });
 
-  it("orders actions and shows the public title and phone", () => {
+  it("orders actions and shows the public title, phone, and email", () => {
     render(<BusinessCard />);
 
     expect(
       screen.getByText("Tech Strategy and AI Adoption")
     ).toBeInTheDocument();
     expect(screen.getByText("+1 786-539-4140")).toBeInTheDocument();
-    expect(screen.queryByText("hello@grantgeist.com")).not.toBeInTheDocument();
+    expect(screen.getByText("hello@grantgeist.com")).toBeInTheDocument();
 
     const labels = screen
       .getAllByRole("link")
@@ -52,13 +51,13 @@ describe("BusinessCard", () => {
       "LinkedIn",
       "Website",
       "Call+1 786-539-4140",
-      "Send a message",
+      "Emailhello@grantgeist.com",
     ]);
   });
 });
 
 describe("grant_geist.vcf", () => {
-  it("is a VERSION 3.0 vCard with CRLF line endings, phone, and no email", () => {
+  it("is a VERSION 3.0 vCard with CRLF line endings, phone, and work email", () => {
     expect(vCard).toContain("BEGIN:VCARD");
     expect(vCard).toContain("VERSION:3.0");
     expect(vCard).toContain("FN:Grant Geist");
@@ -66,8 +65,9 @@ describe("grant_geist.vcf", () => {
     expect(vCard).toContain("ORG:G. H. Geist Studio LLC");
     expect(vCard).toContain("TITLE:Tech Strategy and AI Adoption");
     expect(vCard).toContain("TEL;TYPE=CELL,WORK:+17865394140");
-    expect(vCard).not.toMatch(/^EMAIL[:;]/m);
-    expect(vCard).not.toContain("hello@grantgeist.com");
+    expect(vCard).toContain(
+      "EMAIL;TYPE=INTERNET,WORK:hello@grantgeist.com"
+    );
     expect(vCard).toContain("URL;TYPE=WORK:https://grantgeist.com");
     expect(vCard).not.toContain("https://grantgeist.com/#work-with-me");
     expect(vCard).toContain("PHOTO;ENCODING=b;TYPE=JPEG:");
