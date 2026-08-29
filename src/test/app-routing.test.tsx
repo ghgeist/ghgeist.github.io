@@ -41,7 +41,7 @@ describe("App routing integration", () => {
       expect(screen.getByRole("link", { name: "LinkedIn" })).toBeTruthy();
       expect(screen.getByRole("link", { name: "Website" })).toBeTruthy();
       expect(screen.getByRole("link", { name: /Call/i })).toBeTruthy();
-      expect(screen.getByRole("link", { name: "Send a message" })).toBeTruthy();
+      expect(screen.getByRole("link", { name: /Email/i })).toBeTruthy();
       expect(screen.queryByRole("navigation", { name: "Primary" })).toBeNull();
       expect(document.querySelector("footer")).toBeNull();
     });
@@ -62,7 +62,7 @@ describe("App routing integration", () => {
           name: "QR code linking to Grant Geist's digital business card",
         })
       ).toHaveAttribute("src", "/assets/grant_geist_card_qr.png");
-      expect(screen.getByRole("link", { name: "Open card" })).toHaveAttribute(
+      expect(screen.getByRole("link", { name: "View Card" })).toHaveAttribute(
         "href",
         "/card"
       );

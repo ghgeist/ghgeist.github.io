@@ -25,14 +25,14 @@ export function QrCodePage() {
           Scan to connect
         </h1>
         <p className="mt-1 text-xs text-gray-500 sm:text-sm">
-          Opens my digital business card
+          Save my contact info
         </p>
 
         <a
           href="/card"
           className="mt-4 text-xs font-medium text-[#0066cc] transition-colors hover:text-[#0052a3] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0E14] sm:text-sm"
         >
-          Open card
+          View Card
         </a>
       </div>
     </main>
